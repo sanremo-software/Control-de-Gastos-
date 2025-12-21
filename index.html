@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
@@ -9,6 +10,7 @@
     <!-- PWA Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="ControloGastos">
     
     <title>ControloGastos PRO</title>
     
@@ -71,15 +73,6 @@
             --font-size-xl: 1.25rem;
             --font-size-2xl: 1.5rem;
             --font-size-3xl: 1.875rem;
-            
-            /* Z-index */
-            --z-dropdown: 100;
-            --z-sticky: 200;
-            --z-fixed: 300;
-            --z-modal-backdrop: 400;
-            --z-modal: 500;
-            --z-popover: 600;
-            --z-tooltip: 700;
         }
 
         html {
@@ -168,6 +161,44 @@
             display: none !important;
         }
 
+        /* ===== INSTALL BUTTON ===== */
+        #install-button {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 24px;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            animation: pulse 2s infinite;
+            transition: all 0.3s ease;
+        }
+
+        #install-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        #install-button.installed {
+            background: var(--secondary-color);
+            animation: none;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
         /* ===== APP HEADER ===== */
         .app-header {
             height: 60px;
@@ -179,7 +210,7 @@
             padding: 0 var(--space-md);
             position: sticky;
             top: 0;
-            z-index: var(--z-sticky);
+            z-index: 100;
             box-shadow: var(--shadow-sm);
         }
 
@@ -258,7 +289,7 @@
             align-items: center;
             position: sticky;
             bottom: 0;
-            z-index: var(--z-sticky);
+            z-index: 100;
             box-shadow: var(--shadow-lg);
         }
 
@@ -302,7 +333,7 @@
             width: 300px;
             height: 100%;
             background-color: white;
-            z-index: var(--z-modal);
+            z-index: 1000;
             box-shadow: var(--shadow-xl);
             transition: left 0.3s ease;
             display: flex;
@@ -451,7 +482,7 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
-            z-index: var(--z-modal-backdrop);
+            z-index: 999;
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
@@ -479,7 +510,7 @@
             font-size: 1.5rem;
             box-shadow: var(--shadow-lg);
             cursor: pointer;
-            z-index: var(--z-fixed);
+            z-index: 100;
             transition: all 0.3s ease;
         }
 
@@ -500,7 +531,7 @@
             padding: var(--space-md);
             border-radius: var(--radius-lg);
             box-shadow: var(--shadow-xl);
-            z-index: var(--z-tooltip);
+            z-index: 1000;
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
@@ -539,6 +570,11 @@
             color: var(--warning-color);
         }
 
+        #toast.info .toast-icon::before {
+            content: "i";
+            color: var(--info-color);
+        }
+
         .toast-message {
             font-size: var(--font-size-sm);
         }
@@ -554,7 +590,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: var(--z-modal);
+            z-index: 2000;
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
@@ -915,35 +951,58 @@
             color: var(--gray-900);
         }
 
-        /* ===== BADGES ===== */
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: var(--font-size-xs);
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+        /* ===== INSTALL GUIDE ===== */
+        .install-guide {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+            padding: var(--space-md);
         }
 
-        .badge-primary {
-            background-color: rgba(79, 70, 229, 0.1);
-            color: var(--primary-color);
+        .install-guide-content {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
         }
 
-        .badge-success {
-            background-color: rgba(16, 185, 129, 0.1);
-            color: var(--secondary-color);
+        .install-guide-icon {
+            font-size: 4rem;
+            margin-bottom: var(--space-lg);
         }
 
-        .badge-warning {
-            background-color: rgba(245, 158, 11, 0.1);
-            color: var(--warning-color);
+        .install-steps {
+            text-align: left;
+            margin: var(--space-xl) 0;
         }
 
-        .badge-danger {
-            background-color: rgba(239, 68, 68, 0.1);
-            color: var(--danger-color);
+        .install-step {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+        }
+
+        .install-step-number {
+            background: var(--primary-color);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
         }
 
         /* ===== UTILITIES ===== */
@@ -955,6 +1014,7 @@
         .text-success { color: var(--secondary-color); }
         .text-warning { color: var(--warning-color); }
         .text-danger { color: var(--danger-color); }
+        .text-info { color: var(--info-color); }
         .text-muted { color: var(--gray-500); }
 
         .font-bold { font-weight: 700; }
@@ -1000,52 +1060,6 @@
         .shadow-lg { box-shadow: var(--shadow-lg); }
         .shadow-none { box-shadow: none; }
 
-        /* ===== SCROLLBAR ===== */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--gray-100);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--gray-400);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--gray-500);
-        }
-
-        /* ===== PRINT STYLES ===== */
-        @media print {
-            .app-header,
-            .bottom-nav,
-            .fab,
-            .side-menu,
-            .menu-overlay {
-                display: none !important;
-            }
-            
-            .main-content {
-                padding: 0;
-                overflow: visible;
-            }
-            
-            body {
-                background-color: white;
-            }
-            
-            .card {
-                box-shadow: none;
-                border: 1px solid var(--gray-300);
-                page-break-inside: avoid;
-            }
-        }
-
         /* ===== RESPONSIVE ===== */
         @media (min-width: 768px) {
             :root {
@@ -1074,65 +1088,38 @@
                 font-size: var(--font-size-sm);
             }
             
-            .fab {
+            .fab, #install-button {
                 bottom: 90px;
                 right: var(--space-lg);
+            }
+            
+            .fab {
                 width: 70px;
                 height: 70px;
                 font-size: 1.75rem;
             }
             
-            .stats-grid {
-                grid-template-columns: repeat(4, 1fr);
+            #install-button {
+                padding: 14px 28px;
+                font-size: 16px;
             }
             
-            .modal-content {
-                max-width: 600px;
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
             }
         }
 
         @media (min-width: 1024px) {
-            .app-container {
-                max-width: 1024px;
-                margin: 0 auto;
-                box-shadow: var(--shadow-lg);
-            }
-            
             .bottom-nav {
                 display: none;
-            }
-            
-            .side-menu {
-                position: static;
-                width: 250px;
-                height: 100vh;
-                box-shadow: none;
-                border-right: 1px solid var(--gray-200);
-            }
-            
-            .app-header .menu-btn {
-                display: none;
-            }
-            
-            .header-left {
-                margin-left: 250px;
-            }
-            
-            #app {
-                flex-direction: row;
-            }
-            
-            .main-content {
-                flex: 1;
-                margin-left: 250px;
             }
             
             .fab {
                 display: none;
             }
             
-            .menu-overlay {
-                display: none;
+            #install-button {
+                bottom: 30px;
             }
         }
 
@@ -1175,7 +1162,45 @@
                 <h1>ControloGastos</h1>
             </div>
             <div class="loading-spinner"></div>
-            <p class="loading-text">A carregar dados...</p>
+            <p class="loading-text">A preparar aplicativo...</p>
+        </div>
+    </div>
+
+    <!-- Install Guide (shown on first visit) -->
+    <div id="install-guide" class="install-guide hidden">
+        <div class="install-guide-content">
+            <div class="install-guide-icon">📱</div>
+            <h2>Instalar no Telemóvel</h2>
+            <p>Para uma experiência completa, instale o app na sua tela inicial:</p>
+            
+            <div class="install-steps">
+                <div class="install-step">
+                    <div class="install-step-number">1</div>
+                    <div>
+                        <h4>Toque no botão "Instalar App"</h4>
+                        <p class="text-muted">Aparece em baixo à direita</p>
+                    </div>
+                </div>
+                <div class="install-step">
+                    <div class="install-step-number">2</div>
+                    <div>
+                        <h4>Siga as instruções</h4>
+                        <p class="text-muted">Android: Chrome → Instalar app<br>
+                           iPhone: Safari → Adicionar à tela</p>
+                    </div>
+                </div>
+                <div class="install-step">
+                    <div class="install-step-number">3</div>
+                    <div>
+                        <h4>Use como app nativo</h4>
+                        <p class="text-muted">Funciona offline e aparece na tela inicial</p>
+                    </div>
+                </div>
+            </div>
+            
+            <button id="close-install-guide" class="btn btn-primary btn-block">
+                <i class="fas fa-play"></i> Começar a Usar
+            </button>
         </div>
     </div>
 
@@ -1222,6 +1247,11 @@
             </a>
         </nav>
 
+        <!-- Install Button (shown when PWA is available) -->
+        <button id="install-button" class="hidden">
+            <i class="fas fa-download"></i> Instalar App
+        </button>
+
         <!-- Side Menu -->
         <div class="side-menu" id="side-menu">
             <div class="menu-header">
@@ -1261,10 +1291,6 @@
                     <a href="#print" class="menu-item">
                         <i class="fas fa-print"></i>
                         <span>Imprimir</span>
-                    </a>
-                    <a href="#export" class="menu-item">
-                        <i class="fas fa-file-export"></i>
-                        <span>Exportar</span>
                     </a>
                 </div>
                 
@@ -1322,8 +1348,8 @@
                 <p id="modal-message">Tem a certeza que deseja prosseguir?</p>
             </div>
             <div class="modal-footer">
-                <button class="btn-secondary" id="modal-cancel">Cancelar</button>
-                <button class="btn-primary" id="modal-confirm">Confirmar</button>
+                <button class="btn btn-secondary" id="modal-cancel">Cancelar</button>
+                <button class="btn btn-primary" id="modal-confirm">Confirmar</button>
             </div>
         </div>
     </div>
@@ -1333,7 +1359,7 @@
         // APLICATIVO CONTROLGASTOS EUROPA PRO
         // ============================================
         
-        // Base de dados em memória (localStorage)
+        // Base de dados em localStorage
         const database = {
             getExpenses: () => {
                 const data = localStorage.getItem('contrologastos_expenses');
@@ -1377,6 +1403,18 @@
             saveSettings: (settings) => {
                 localStorage.setItem('contrologastos_settings', JSON.stringify(settings));
                 return settings;
+            },
+            
+            getPrintHistory: () => {
+                const data = localStorage.getItem('contrologastos_prints');
+                return data ? JSON.parse(data) : [];
+            },
+            
+            savePrint: (printData) => {
+                const prints = database.getPrintHistory();
+                prints.push(printData);
+                localStorage.setItem('contrologastos_prints', JSON.stringify(prints.slice(-50))); // Guardar últimos 50
+                return printData;
             }
         };
 
@@ -1408,37 +1446,110 @@
                     { id: 'saude', name: 'Saúde', icon: '💊' },
                     { id: 'vestuario', name: 'Vestuário', icon: '👕' },
                     { id: 'outros', name: 'Outros', icon: '📦' }
-                ]
+                ],
+                user: {
+                    name: 'Utilizador',
+                    email: 'user@example.com'
+                }
             },
 
-            // Inicialização
+            // ===== INICIALIZAÇÃO =====
             init() {
                 this.loadData();
                 this.setupEventListeners();
                 this.setupRouting();
+                this.setupPWA();
                 this.updatePageTitle();
                 
-                // Esconder loading após 1.5 segundos
+                // Mostrar loading por 2 segundos
                 setTimeout(() => {
                     document.getElementById('loading-screen').classList.add('hidden');
                     document.getElementById('app').classList.remove('hidden');
-                }, 1500);
+                    
+                    // Mostrar guia de instalação na primeira visita
+                    this.showInstallGuide();
+                }, 2000);
             },
 
-            // Carregar dados
-            loadData() {
-                this.state.expenses = database.getExpenses();
-                this.updateDashboard();
+            // ===== PWA E INSTALAÇÃO =====
+            setupPWA() {
+                let deferredPrompt;
+                const installButton = document.getElementById('install-button');
+                
+                // Evento para instalação PWA
+                window.addEventListener('beforeinstallprompt', (e) => {
+                    e.preventDefault();
+                    deferredPrompt = e;
+                    
+                    // Mostrar botão de instalação após 3 segundos
+                    setTimeout(() => {
+                        installButton.classList.remove('hidden');
+                        
+                        installButton.addEventListener('click', async () => {
+                            if (!deferredPrompt) return;
+                            
+                            installButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> A instalar...';
+                            installButton.disabled = true;
+                            
+                            deferredPrompt.prompt();
+                            const { outcome } = await deferredPrompt.userChoice;
+                            
+                            if (outcome === 'accepted') {
+                                installButton.innerHTML = '<i class="fas fa-check"></i> Instalado!';
+                                installButton.classList.add('installed');
+                                this.showToast('App instalado com sucesso!', 'success');
+                                
+                                // Esconder botão após 3 segundos
+                                setTimeout(() => {
+                                    installButton.classList.add('hidden');
+                                }, 3000);
+                            } else {
+                                installButton.innerHTML = '<i class="fas fa-download"></i> Instalar App';
+                                installButton.disabled = false;
+                            }
+                            
+                            deferredPrompt = null;
+                        });
+                    }, 3000);
+                });
+                
+                // Verificar se já está instalado como PWA
+                if (window.matchMedia('(display-mode: standalone)').matches) {
+                    console.log('App já instalado como PWA');
+                    installButton.classList.add('hidden');
+                }
+                
+                // Service Worker para funcionar offline
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.register('sw.js').catch(err => {
+                        console.log('Service Worker não registado:', err);
+                    });
+                }
             },
 
-            // Configurar event listeners
+            showInstallGuide() {
+                // Mostrar apenas na primeira visita
+                const hasSeenGuide = localStorage.getItem('hasSeenInstallGuide');
+                if (!hasSeenGuide) {
+                    setTimeout(() => {
+                        document.getElementById('install-guide').classList.remove('hidden');
+                        
+                        document.getElementById('close-install-guide').addEventListener('click', () => {
+                            document.getElementById('install-guide').classList.add('hidden');
+                            localStorage.setItem('hasSeenInstallGuide', 'true');
+                        });
+                    }, 1000);
+                }
+            },
+
+            // ===== CONFIGURAÇÃO =====
             setupEventListeners() {
                 // Menu
                 document.getElementById('menu-btn').addEventListener('click', () => this.toggleMenu(true));
                 document.getElementById('close-menu').addEventListener('click', () => this.toggleMenu(false));
                 document.getElementById('menu-overlay').addEventListener('click', () => this.toggleMenu(false));
                 
-                // Botão de adicionar
+                // Botões
                 document.getElementById('add-btn').addEventListener('click', () => this.navigateTo('#add'));
                 document.getElementById('quick-add-fab').addEventListener('click', () => this.navigateTo('#add'));
                 
@@ -1474,7 +1585,6 @@
                 document.getElementById('modal-cancel').addEventListener('click', () => this.hideModal());
             },
 
-            // Sistema de routing
             setupRouting() {
                 window.addEventListener('hashchange', () => this.handleRoute());
                 window.addEventListener('popstate', () => this.handleRoute());
@@ -1491,7 +1601,7 @@
                 this.updatePageTitle();
             },
 
-            // Carregar página
+            // ===== PÁGINAS =====
             loadPage(page) {
                 const content = document.getElementById('page-content');
                 
@@ -1505,30 +1615,29 @@
                     settings: this.getSettingsHTML()
                 };
                 
-                content.innerHTML = templates[page] || '<div class="text-center p-4"><h3>Página não encontrada</h3></div>';
+                content.innerHTML = templates[page] || this.getNotFoundHTML();
                 
                 // Inicializar scripts da página
                 this.initPageScripts(page);
             },
 
-            // Templates HTML das páginas
+            initPageScripts(page) {
+                switch(page) {
+                    case 'add':
+                        this.initExpenseForm();
+                        break;
+                    case 'print':
+                        this.initPrintPage();
+                        break;
+                    case 'settings':
+                        this.initSettingsPage();
+                        break;
+                }
+            },
+
+            // ===== TEMPLATES HTML =====
             getDashboardHTML() {
-                const today = new Date().toISOString().split('T')[0];
-                const currentMonth = new Date().getMonth();
-                const currentYear = new Date().getFullYear();
-                
-                const totalMonth = this.state.expenses
-                    .filter(exp => {
-                        const expDate = new Date(exp.date);
-                        return expDate.getMonth() === currentMonth && expDate.getFullYear() === currentYear;
-                    })
-                    .reduce((sum, exp) => sum + exp.amount, 0);
-                
-                const totalToday = this.state.expenses
-                    .filter(exp => exp.date.startsWith(today))
-                    .reduce((sum, exp) => sum + exp.amount, 0);
-                
-                const countries = [...new Set(this.state.expenses.map(exp => exp.country))];
+                const stats = this.calculateStats();
                 
                 return `
                     <div class="dashboard-page">
@@ -1538,7 +1647,7 @@
                                 <div class="stat-icon primary">
                                     <i class="fas fa-euro-sign"></i>
                                 </div>
-                                <div class="stat-value">${this.formatCurrency(totalMonth)}</div>
+                                <div class="stat-value">${this.formatCurrency(stats.monthTotal)}</div>
                                 <div class="stat-label">Este Mês</div>
                             </div>
                             
@@ -1546,7 +1655,7 @@
                                 <div class="stat-icon success">
                                     <i class="fas fa-calendar-day"></i>
                                 </div>
-                                <div class="stat-value">${this.formatCurrency(totalToday)}</div>
+                                <div class="stat-value">${this.formatCurrency(stats.todayTotal)}</div>
                                 <div class="stat-label">Hoje</div>
                             </div>
                             
@@ -1554,7 +1663,7 @@
                                 <div class="stat-icon warning">
                                     <i class="fas fa-globe-europe"></i>
                                 </div>
-                                <div class="stat-value">${countries.length}</div>
+                                <div class="stat-value">${stats.countriesCount}</div>
                                 <div class="stat-label">Países</div>
                             </div>
                             
@@ -1567,13 +1676,26 @@
                             </div>
                         </div>
                         
+                        <!-- Quick Actions -->
+                        <div class="card">
+                            <h3 class="card-title">Ações Rápidas</h3>
+                            <div class="d-flex flex-column gap-2">
+                                <button class="btn btn-primary" onclick="app.navigateTo('#add')">
+                                    <i class="fas fa-plus"></i> Adicionar Gasto
+                                </button>
+                                <button class="btn btn-secondary" onclick="app.quickPrint()">
+                                    <i class="fas fa-print"></i> Imprimir Este Mês
+                                </button>
+                            </div>
+                        </div>
+                        
                         <!-- Últimos Gastos -->
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Últimos Gastos</h3>
                                 <a href="#list" class="text-primary font-medium">Ver todos</a>
                             </div>
-                            <div class="list" id="recent-expenses">
+                            <div class="list">
                                 ${this.getRecentExpensesHTML()}
                             </div>
                         </div>
@@ -1581,7 +1703,7 @@
                         <!-- Distribuição por País -->
                         <div class="card">
                             <h3 class="card-title">Gastos por País</h3>
-                            <div class="country-distribution" id="country-distribution">
+                            <div class="country-distribution">
                                 ${this.getCountryDistributionHTML()}
                             </div>
                         </div>
@@ -1607,7 +1729,7 @@
                                            min="0.01" 
                                            max="10000"
                                            required>
-                                    <div class="quick-amounts mt-2">
+                                    <div class="quick-amounts mt-2 d-flex gap-1 flex-wrap">
                                         <button type="button" class="btn btn-sm btn-secondary" data-amount="5">€5</button>
                                         <button type="button" class="btn btn-sm btn-secondary" data-amount="10">€10</button>
                                         <button type="button" class="btn btn-sm btn-secondary" data-amount="20">€20</button>
@@ -1678,7 +1800,7 @@
                                 </div>
                                 
                                 <!-- Botões -->
-                                <div class="form-actions d-flex justify-content-between">
+                                <div class="d-flex justify-content-between">
                                     <button type="button" class="btn btn-secondary" onclick="app.navigateTo('#dashboard')">
                                         Cancelar
                                     </button>
@@ -1695,10 +1817,10 @@
             getExpensesListHTML() {
                 if (this.state.expenses.length === 0) {
                     return `
-                        <div class="text-center p-4">
+                        <div class="text-center p-5">
                             <i class="fas fa-receipt fa-3x text-muted mb-3"></i>
                             <h3>Nenhum gasto registado</h3>
-                            <p class="text-muted mb-3">Adicione o seu primeiro gasto</p>
+                            <p class="text-muted mb-4">Adicione o seu primeiro gasto</p>
                             <button class="btn btn-primary" onclick="app.navigateTo('#add')">
                                 <i class="fas fa-plus"></i> Adicionar Primeiro Gasto
                             </button>
@@ -1706,53 +1828,59 @@
                     `;
                 }
                 
-                const groupedExpenses = this.groupExpensesByDate(this.state.expenses);
+                const grouped = this.groupExpensesByDate(this.state.expenses);
+                const total = this.state.expenses.reduce((sum, exp) => sum + exp.amount, 0);
                 
                 return `
                     <div class="expenses-list-page">
                         <div class="card">
                             <h3 class="card-title">Todos os Gastos</h3>
-                            <p class="card-subtitle">Total: ${this.formatCurrency(this.state.expenses.reduce((sum, exp) => sum + exp.amount, 0))}</p>
+                            <p class="card-subtitle">Total: ${this.formatCurrency(total)} • ${this.state.expenses.length} registos</p>
                         </div>
                         
-                        ${Object.entries(groupedExpenses).map(([date, expenses]) => `
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4 class="card-title">${this.formatDate(date)}</h4>
-                                    <span class="text-muted">${expenses.length} gastos • ${this.formatCurrency(expenses.reduce((sum, exp) => sum + exp.amount, 0))}</span>
-                                </div>
-                                <div class="list">
-                                    ${expenses.map(exp => `
-                                        <div class="list-item">
-                                            <div class="list-item-content">
-                                                <div class="list-item-title">
-                                                    ${this.formatCurrency(exp.amount)}
-                                                    <span class="badge ${exp.category}">${this.getCategoryName(exp.category)}</span>
+                        ${Object.entries(grouped).map(([date, expenses]) => {
+                            const dayTotal = expenses.reduce((sum, exp) => sum + exp.amount, 0);
+                            return `
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title">${this.formatDate(date)}</h4>
+                                        <span class="text-muted">${expenses.length} gastos • ${this.formatCurrency(dayTotal)}</span>
+                                    </div>
+                                    <div class="list">
+                                        ${expenses.map(exp => `
+                                            <div class="list-item">
+                                                <div class="list-item-content">
+                                                    <div class="list-item-title">
+                                                        ${this.formatCurrency(exp.amount)}
+                                                        <span class="badge badge-primary ml-2">${this.getCategoryName(exp.category)}</span>
+                                                    </div>
+                                                    <div class="list-item-subtitle">
+                                                        <span class="flag-icon flag-${exp.country.toLowerCase()}"></span>
+                                                        ${exp.location}
+                                                        ${exp.description ? '• ' + exp.description : ''}
+                                                    </div>
                                                 </div>
-                                                <div class="list-item-subtitle">
-                                                    <span class="flag-icon flag-${exp.country.toLowerCase()}"></span>
-                                                    ${exp.location}
-                                                    ${exp.description ? '• ' + exp.description : ''}
+                                                <div class="list-item-actions">
+                                                    <button class="list-item-action" onclick="app.editExpense('${exp.id}')" title="Editar">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="list-item-action" onclick="app.deleteExpense('${exp.id}')" title="Eliminar">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
                                                 </div>
                                             </div>
-                                            <div class="list-item-actions">
-                                                <button class="list-item-action" onclick="app.editExpense('${exp.id}')" title="Editar">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                <button class="list-item-action" onclick="app.deleteExpense('${exp.id}')" title="Eliminar">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    `).join('')}
+                                        `).join('')}
+                                    </div>
                                 </div>
-                            </div>
-                        `).join('')}
+                            `;
+                        }).join('')}
                     </div>
                 `;
             },
 
             getPrintHTML() {
+                const prints = database.getPrintHistory();
+                
                 return `
                     <div class="print-page">
                         <div class="card">
@@ -1781,26 +1909,26 @@
                                     </select>
                                 </div>
                                 
-                                <!-- Formato de Saída -->
+                                <!-- Formato -->
                                 <div class="form-group">
                                     <label class="form-label">Formato de Saída</label>
-                                    <div>
-                                        <label class="mr-3">
-                                            <input type="radio" name="output-format" value="print" checked> Imprimir
+                                    <div class="d-flex gap-3">
+                                        <label class="d-flex align-items-center">
+                                            <input type="radio" name="output-format" value="print" checked class="mr-2"> Imprimir
                                         </label>
-                                        <label class="mr-3">
-                                            <input type="radio" name="output-format" value="pdf"> PDF
+                                        <label class="d-flex align-items-center">
+                                            <input type="radio" name="output-format" value="pdf" class="mr-2"> PDF
                                         </label>
-                                        <label>
-                                            <input type="radio" name="output-format" value="text"> Texto
+                                        <label class="d-flex align-items-center">
+                                            <input type="radio" name="output-format" value="text" class="mr-2"> Texto
                                         </label>
                                     </div>
                                 </div>
                                 
                                 <!-- Botões -->
-                                <div class="form-actions">
+                                <div class="d-flex gap-2">
                                     <button type="button" class="btn btn-secondary" onclick="app.previewReport()">
-                                        <i class="fas fa-eye"></i> Visualizar Prévia
+                                        <i class="fas fa-eye"></i> Visualizar
                                     </button>
                                     <button type="button" class="btn btn-primary" onclick="app.generateReport()">
                                         <i class="fas fa-print"></i> Gerar Relatório
@@ -1819,11 +1947,32 @@
                                 <button class="btn btn-secondary" onclick="app.quickPrint('countries')">
                                     <i class="fas fa-globe-europe"></i> Por Países
                                 </button>
-                                <button class="btn btn-secondary" onclick="app.quickPrint('categories')">
-                                    <i class="fas fa-tags"></i> Por Categorias
-                                </button>
                             </div>
                         </div>
+                        
+                        <!-- Histórico -->
+                        ${prints.length > 0 ? `
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Histórico de Impressões</h3>
+                                    <button class="btn btn-sm btn-secondary" onclick="app.clearPrintHistory()">
+                                        <i class="fas fa-trash"></i> Limpar
+                                    </button>
+                                </div>
+                                <div class="list">
+                                    ${prints.slice(-5).reverse().map(print => `
+                                        <div class="list-item">
+                                            <div class="list-item-content">
+                                                <div class="list-item-title">${print.name}</div>
+                                                <div class="list-item-subtitle">
+                                                    ${this.formatDate(print.date)} • ${print.type}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
                     </div>
                 `;
             },
@@ -1833,6 +1982,7 @@
                     <div class="countries-page">
                         <div class="card">
                             <h3 class="card-title">Países Suportados</h3>
+                            <p class="card-subtitle">12 países europeus com bandeiras e moedas</p>
                             <div class="list">
                                 ${this.state.countries.map(country => `
                                     <div class="list-item">
@@ -1854,6 +2004,7 @@
 
             getSettingsHTML() {
                 const settings = database.getSettings();
+                
                 return `
                     <div class="settings-page">
                         <div class="card">
@@ -1880,15 +2031,6 @@
                                            min="0">
                                 </div>
                                 
-                                <div class="form-group">
-                                    <label class="form-label">Moeda Principal</label>
-                                    <select id="currency" class="form-control form-select">
-                                        <option value="EUR" ${settings.currency === 'EUR' ? 'selected' : ''}>Euro (€)</option>
-                                        <option value="GBP" ${settings.currency === 'GBP' ? 'selected' : ''}>Libra (£)</option>
-                                        <option value="CHF" ${settings.currency === 'CHF' ? 'selected' : ''}>Franco Suíço (CHF)</option>
-                                    </select>
-                                </div>
-                                
                                 <div class="form-actions">
                                     <button type="button" class="btn btn-primary" onclick="app.saveSettings()">
                                         <i class="fas fa-save"></i> Guardar Configurações
@@ -1912,7 +2054,20 @@
                 `;
             },
 
-            // Funções auxiliares para templates
+            getNotFoundHTML() {
+                return `
+                    <div class="text-center p-5">
+                        <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+                        <h3>Página não encontrada</h3>
+                        <p class="text-muted mb-4">A página que procura não existe.</p>
+                        <button class="btn btn-primary" onclick="app.navigateTo('#dashboard')">
+                            <i class="fas fa-home"></i> Voltar ao Início
+                        </button>
+                    </div>
+                `;
+            },
+
+            // ===== FUNÇÕES AUXILIARES =====
             getRecentExpensesHTML() {
                 const recent = this.state.expenses
                     .sort((a, b) => new Date(b.date) - new Date(a.date))
@@ -1940,7 +2095,8 @@
                             <div class="list-item-title">${this.formatCurrency(exp.amount)}</div>
                             <div class="list-item-subtitle">
                                 <span class="flag-icon flag-${exp.country.toLowerCase()}"></span>
-                                ${exp.location} • ${exp.description || ''}
+                                ${exp.location}
+                                ${exp.description ? '• ' + exp.description : ''}
                             </div>
                         </div>
                         <div class="list-item-actions">
@@ -1990,7 +2146,6 @@
                             </div>
                             <div class="progress" style="height: 8px;">
                                 <div class="progress-bar" 
-                                     role="progressbar" 
                                      style="width: ${percentage}%; background-color: ${this.getCountryColor(country)}">
                                 </div>
                             </div>
@@ -2000,6 +2155,33 @@
                         </div>
                     `;
                 }).join('');
+            },
+
+            // ===== FUNCIONALIDADES PRINCIPAIS =====
+            loadData() {
+                this.state.expenses = database.getExpenses();
+            },
+
+            calculateStats() {
+                const today = new Date().toISOString().split('T')[0];
+                const currentMonth = new Date().getMonth();
+                const currentYear = new Date().getFullYear();
+                
+                const monthTotal = this.state.expenses
+                    .filter(exp => {
+                        const expDate = new Date(exp.date);
+                        return expDate.getMonth() === currentMonth && 
+                               expDate.getFullYear() === currentYear;
+                    })
+                    .reduce((sum, exp) => sum + exp.amount, 0);
+                
+                const todayTotal = this.state.expenses
+                    .filter(exp => exp.date.startsWith(today))
+                    .reduce((sum, exp) => sum + exp.amount, 0);
+                
+                const countriesCount = [...new Set(this.state.expenses.map(exp => exp.country))].length;
+                
+                return { monthTotal, todayTotal, countriesCount };
             },
 
             groupExpensesByDate(expenses) {
@@ -2013,22 +2195,6 @@
                 }, {});
             },
 
-            // Inicializar scripts das páginas
-            initPageScripts(page) {
-                switch(page) {
-                    case 'add':
-                        this.initExpenseForm();
-                        break;
-                    case 'print':
-                        this.initPrintPage();
-                        break;
-                    case 'settings':
-                        this.initSettingsPage();
-                        break;
-                }
-            },
-
-            // Formulário de gasto
             initExpenseForm() {
                 const form = document.getElementById('expense-form');
                 if (!form) return;
@@ -2041,7 +2207,7 @@
                     });
                 });
                 
-                // Submissão do formulário
+                // Submissão
                 form.addEventListener('submit', (e) => {
                     e.preventDefault();
                     this.saveExpense();
@@ -2049,24 +2215,26 @@
             },
 
             saveExpense() {
-                const form = document.getElementById('expense-form');
+                const amount = parseFloat(document.getElementById('amount').value) || 0;
+                const country = document.getElementById('country').value;
+                const location = document.getElementById('location').value;
+                
+                if (!country || !location || amount <= 0) {
+                    this.showToast('Preencha todos os campos obrigatórios', 'error');
+                    return;
+                }
                 
                 const expense = {
                     id: Date.now().toString(),
-                    amount: parseFloat(document.getElementById('amount').value) || 0,
-                    country: document.getElementById('country').value,
-                    location: document.getElementById('location').value,
+                    amount: amount,
+                    country: country,
+                    location: location,
                     description: document.getElementById('description').value,
                     category: document.getElementById('category').value,
                     date: document.getElementById('date').value,
                     notes: document.getElementById('notes').value,
                     createdAt: new Date().toISOString()
                 };
-                
-                if (!expense.country || !expense.location || expense.amount <= 0) {
-                    this.showToast('Preencha todos os campos obrigatórios', 'error');
-                    return;
-                }
                 
                 database.saveExpense(expense);
                 this.state.expenses.push(expense);
@@ -2075,24 +2243,32 @@
                 this.navigateTo('#dashboard');
             },
 
-            // Editar gasto
             editExpense(id) {
                 const expense = this.state.expenses.find(exp => exp.id === id);
                 if (!expense) return;
                 
-                // Preencher formulário de edição (simplificado)
                 this.showConfirm(
                     'Editar Gasto',
                     `Deseja editar o gasto de ${this.formatCurrency(expense.amount)} em ${expense.location}?`,
                     () => {
-                        // Navegar para página de edição (simplificado)
-                        this.navigateTo(`#edit?id=${id}`);
-                        this.showToast('Funcionalidade de edição em desenvolvimento', 'info');
+                        // Implementação simplificada
+                        document.getElementById('amount').value = expense.amount;
+                        document.getElementById('country').value = expense.country;
+                        document.getElementById('location').value = expense.location;
+                        document.getElementById('description').value = expense.description || '';
+                        document.getElementById('category').value = expense.category;
+                        document.getElementById('date').value = expense.date;
+                        document.getElementById('notes').value = expense.notes || '';
+                        
+                        // Atualizar ID para update
+                        const form = document.getElementById('expense-form');
+                        form.dataset.editId = id;
+                        
+                        this.showToast('Preencha os campos e guarde para atualizar', 'info');
                     }
                 );
             },
 
-            // Eliminar gasto
             deleteExpense(id) {
                 this.showConfirm(
                     'Eliminar Gasto',
@@ -2106,16 +2282,8 @@
                 );
             },
 
-            // Página de impressão
             initPrintPage() {
-                // Configurar eventos de impressão
-                const form = document.getElementById('print-form');
-                if (form) {
-                    form.addEventListener('submit', (e) => {
-                        e.preventDefault();
-                        this.generateReport();
-                    });
-                }
+                // Configurações de impressão
             },
 
             previewReport() {
@@ -2125,9 +2293,8 @@
             generateReport() {
                 const period = document.getElementById('print-period')?.value || 'month';
                 const type = document.getElementById('report-type')?.value || 'detailed';
-                const format = document.querySelector('input[name="output-format"]:checked')?.value || 'print';
                 
-                // Filtrar gastos pelo período
+                // Filtrar gastos
                 let filteredExpenses = [];
                 const now = new Date();
                 
@@ -2158,29 +2325,33 @@
                     return;
                 }
                 
+                // Guardar no histórico
+                const printData = {
+                    id: Date.now().toString(),
+                    name: `Relatório ${period}`,
+                    date: new Date().toISOString(),
+                    type: type,
+                    count: filteredExpenses.length,
+                    total: filteredExpenses.reduce((sum, exp) => sum + exp.amount, 0)
+                };
+                
+                database.savePrint(printData);
+                
                 // Gerar relatório
                 const reportHTML = this.generateReportHTML(filteredExpenses, type);
-                
-                if (format === 'print') {
-                    const printWindow = window.open('', '_blank');
-                    printWindow.document.write(reportHTML);
-                    printWindow.document.close();
-                    printWindow.focus();
-                    printWindow.print();
-                } else if (format === 'pdf') {
-                    this.showToast('Exportação para PDF em desenvolvimento', 'info');
-                } else {
-                    // Texto simples
-                    const text = this.generateTextReport(filteredExpenses);
-                    const blob = new Blob([text], { type: 'text/plain' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = `relatorio_gastos_${new Date().toISOString().split('T')[0]}.txt`;
-                    a.click();
-                }
+                const printWindow = window.open('', '_blank');
+                printWindow.document.write(reportHTML);
+                printWindow.document.close();
+                printWindow.focus();
+                printWindow.print();
                 
                 this.showToast('Relatório gerado com sucesso', 'success');
+            },
+
+            quickPrint(type = 'month') {
+                document.getElementById('print-period').value = type;
+                document.getElementById('report-type').value = 'summary';
+                this.generateReport();
             },
 
             generateReportHTML(expenses, type) {
@@ -2191,21 +2362,27 @@
                     <html>
                     <head>
                         <title>Relatório de Gastos</title>
+                        <meta charset="UTF-8">
                         <style>
                             body { font-family: Arial, sans-serif; margin: 20px; }
-                            h1 { color: #333; }
+                            h1 { color: #333; border-bottom: 2px solid #4F46E5; padding-bottom: 10px; }
+                            .header { text-align: center; margin-bottom: 30px; }
                             table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-                            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                            th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
                             th { background-color: #4F46E5; color: white; }
-                            .total { font-weight: bold; font-size: 1.2em; }
-                            .footer { margin-top: 40px; font-size: 0.9em; color: #666; }
+                            .total { font-weight: bold; font-size: 1.2em; background-color: #f8f9fa; }
+                            .footer { margin-top: 40px; font-size: 0.9em; color: #666; text-align: center; }
+                            .flag { display: inline-block; width: 20px; text-align: center; }
                         </style>
                     </head>
                     <body>
-                        <h1>Relatório de Gastos - ControloGastos PRO</h1>
-                        <p>Gerado em: ${new Date().toLocaleDateString('pt-PT')}</p>
-                        <p>Total de gastos: ${expenses.length}</p>
-                        <p>Valor total: ${this.formatCurrency(total)}</p>
+                        <div class="header">
+                            <h1>ControloGastos Europa PRO</h1>
+                            <p>Relatório de Gastos • ${new Date().toLocaleDateString('pt-PT')}</p>
+                        </div>
+                        
+                        <p><strong>Período:</strong> ${expenses.length} gastos</p>
+                        <p><strong>Total:</strong> ${this.formatCurrency(total)}</p>
                         
                         <table>
                             <thead>
@@ -2215,14 +2392,14 @@
                                     <th>Local</th>
                                     <th>Descrição</th>
                                     <th>Categoria</th>
-                                    <th>Valor</th>
+                                    <th>Valor (€)</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 ${expenses.map(exp => `
                                     <tr>
                                         <td>${this.formatDate(exp.date)}</td>
-                                        <td>${this.getCountryName(exp.country)}</td>
+                                        <td>${this.getCountryFlag(exp.country)} ${this.getCountryName(exp.country)}</td>
                                         <td>${exp.location}</td>
                                         <td>${exp.description || '-'}</td>
                                         <td>${this.getCategoryName(exp.category)}</td>
@@ -2230,69 +2407,47 @@
                                     </tr>
                                 `).join('')}
                             </tbody>
+                            <tfoot>
+                                <tr class="total">
+                                    <td colspan="5">TOTAL</td>
+                                    <td>${this.formatCurrency(total)}</td>
+                                </tr>
+                            </tfoot>
                         </table>
                         
                         <div class="footer">
-                            Documento gerado automaticamente pelo ControloGastos Europa PRO
+                            <p>Documento gerado automaticamente pelo ControloGastos Europa PRO</p>
+                            <p>Para questões: visite a aplicação</p>
                         </div>
                     </body>
                     </html>
                 `;
             },
 
-            generateTextReport(expenses) {
-                const total = expenses.reduce((sum, exp) => sum + exp.amount, 0);
-                
-                let text = `RELATÓRIO DE GASTOS\n`;
-                text += `===================\n\n`;
-                text += `Gerado em: ${new Date().toLocaleDateString('pt-PT')}\n`;
-                text += `Total de gastos: ${expenses.length}\n`;
-                text += `Valor total: ${this.formatCurrency(total)}\n\n`;
-                
-                text += `LISTA DE GASTOS:\n`;
-                text += `---------------\n\n`;
-                
-                expenses.forEach(exp => {
-                    text += `${this.formatDate(exp.date)} | ${this.getCountryName(exp.country)} | ${exp.location} | ${exp.description || '-'} | ${this.formatCurrency(exp.amount)}\n`;
-                });
-                
-                text += `\n---\nControloGastos Europa PRO\n`;
-                
-                return text;
+            clearPrintHistory() {
+                this.showConfirm(
+                    'Limpar Histórico',
+                    'Tem a certeza que deseja eliminar todo o histórico de impressões?',
+                    () => {
+                        localStorage.removeItem('contrologastos_prints');
+                        this.showToast('Histórico limpo com sucesso', 'success');
+                        this.loadPage('print');
+                    }
+                );
             },
 
-            quickPrint(type) {
-                switch(type) {
-                    case 'month':
-                        document.getElementById('print-period').value = 'month';
-                        document.getElementById('report-type').value = 'summary';
-                        break;
-                    case 'countries':
-                        document.getElementById('print-period').value = 'all';
-                        document.getElementById('report-type').value = 'detailed';
-                        break;
-                    case 'categories':
-                        document.getElementById('print-period').value = 'all';
-                        document.getElementById('report-type').value = 'detailed';
-                        break;
-                }
-                this.generateReport();
-            },
-
-            // Configurações
             initSettingsPage() {
-                // Configurar eventos da página de configurações
+                // Configurações
             },
 
             saveSettings() {
                 const monthlyBudget = parseFloat(document.getElementById('monthly-budget').value) || 1500;
                 const dailyBudget = parseFloat(document.getElementById('daily-budget').value) || 50;
-                const currency = document.getElementById('currency').value;
                 
                 const settings = {
                     monthlyBudget,
                     dailyBudget,
-                    currency
+                    currency: 'EUR'
                 };
                 
                 database.saveSettings(settings);
@@ -2303,6 +2458,7 @@
                 const data = {
                     expenses: this.state.expenses,
                     settings: database.getSettings(),
+                    prints: database.getPrintHistory(),
                     exportDate: new Date().toISOString(),
                     version: '2.1.0'
                 };
@@ -2321,7 +2477,7 @@
             clearData() {
                 this.showConfirm(
                     'Limpar Todos os Dados',
-                    'Tem a certeza ABSOLUTA? Esta ação eliminará TODOS os seus gastos e configurações. Não pode ser revertida!',
+                    'ATENÇÃO: Esta ação eliminará TODOS os seus gastos, configurações e histórico. Não pode ser revertida!',
                     () => {
                         localStorage.clear();
                         this.state.expenses = [];
@@ -2331,7 +2487,7 @@
                 );
             },
 
-            // Navegação
+            // ===== NAVEGAÇÃO E UI =====
             navigateTo(hash) {
                 window.location.hash = hash;
             },
@@ -2357,9 +2513,9 @@
                 
                 const title = titles[this.state.currentPage] || 'ControloGastos PRO';
                 document.getElementById('page-title').textContent = title;
+                document.title = `${title} | ControloGastos PRO`;
             },
 
-            // Menu lateral
             toggleMenu(show) {
                 const menu = document.getElementById('side-menu');
                 const overlay = document.getElementById('menu-overlay');
@@ -2375,7 +2531,6 @@
                 }
             },
 
-            // Modal de confirmação
             showConfirm(title, message, onConfirm) {
                 document.getElementById('modal-title').textContent = title;
                 document.getElementById('modal-message').textContent = message;
@@ -2403,7 +2558,6 @@
                 document.getElementById('modal-cancel').onclick = null;
             },
 
-            // Toast notifications
             showToast(message, type = 'info') {
                 const toast = document.getElementById('toast');
                 const toastMessage = toast.querySelector('.toast-message');
@@ -2418,7 +2572,7 @@
                 }, 3000);
             },
 
-            // Utilitários
+            // ===== UTILITÁRIOS =====
             formatCurrency(amount) {
                 return new Intl.NumberFormat('pt-PT', {
                     style: 'currency',
@@ -2439,6 +2593,15 @@
             getCountryName(code) {
                 const country = this.state.countries.find(c => c.code === code);
                 return country ? country.name : code;
+            },
+
+            getCountryFlag(code) {
+                const flags = {
+                    'PT': '🇵🇹', 'ES': '🇪🇸', 'FR': '🇫🇷', 'IT': '🇮🇹',
+                    'DE': '🇩🇪', 'NL': '🇳🇱', 'BE': '🇧🇪', 'IE': '🇮🇪',
+                    'AT': '🇦🇹', 'GR': '🇬🇷', 'CH': '🇨🇭', 'UK': '🇬🇧'
+                };
+                return flags[code] || '';
             },
 
             getCategoryName(id) {
@@ -2462,22 +2625,40 @@
                     'UK': '#00247D'
                 };
                 return colors[code] || '#6B7280';
-            },
-
-            // Atualizar dashboard
-            updateDashboard() {
-                if (this.state.currentPage === 'dashboard') {
-                    this.loadPage('dashboard');
-                }
             }
         };
 
-        // Inicializar app quando carregado
+        // Service Worker para funcionar offline
+        if ('serviceWorker' in navigator) {
+            const swCode = `
+                self.addEventListener('install', event => {
+                    console.log('Service Worker instalado');
+                });
+                
+                self.addEventListener('activate', event => {
+                    console.log('Service Worker ativado');
+                });
+                
+                self.addEventListener('fetch', event => {
+                    // Cache básico
+                    event.respondWith(fetch(event.request));
+                });
+            `;
+            
+            const swBlob = new Blob([swCode], { type: 'application/javascript' });
+            const swURL = URL.createObjectURL(swBlob);
+            
+            navigator.serviceWorker.register(swURL)
+                .then(() => console.log('Service Worker registado'))
+                .catch(err => console.log('Service Worker erro:', err));
+        }
+
+        // Inicializar app
         document.addEventListener('DOMContentLoaded', () => {
             app.init();
         });
 
-        // Expor app globalmente para botões inline
+        // Expor app globalmente
         window.app = app;
     </script>
 </body>
