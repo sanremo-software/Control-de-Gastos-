@@ -889,6 +889,33 @@
             color: var(--gray-600);
         }
 
+        /* ===== PROGRESS BARS ===== */
+        .progress {
+            height: 8px;
+            background-color: var(--gray-200);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: var(--space-sm) 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .progress-bar.success {
+            background-color: var(--secondary-color);
+        }
+
+        .progress-bar.warning {
+            background-color: var(--warning-color);
+        }
+
+        .progress-bar.danger {
+            background-color: var(--danger-color);
+        }
+
         /* ===== LISTS ===== */
         .list {
             background-color: white;
@@ -949,6 +976,37 @@
         .list-item-action:hover {
             background-color: var(--gray-100);
             color: var(--gray-900);
+        }
+
+        /* ===== BADGES ===== */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 9999px;
+            background-color: var(--gray-200);
+            color: var(--gray-700);
+        }
+
+        .badge-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .badge-success {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .badge-warning {
+            background-color: var(--warning-color);
+            color: white;
+        }
+
+        .badge-danger {
+            background-color: var(--danger-color);
+            color: white;
         }
 
         /* ===== INSTALL GUIDE ===== */
@@ -1059,6 +1117,19 @@
         .shadow { box-shadow: var(--shadow-md); }
         .shadow-lg { box-shadow: var(--shadow-lg); }
         .shadow-none { box-shadow: none; }
+
+        .gap-1 { gap: var(--space-xs); }
+        .gap-2 { gap: var(--space-sm); }
+        .gap-3 { gap: var(--space-md); }
+        .gap-4 { gap: var(--space-lg); }
+        .gap-5 { gap: var(--space-xl); }
+
+        .ml-1 { margin-left: var(--space-xs); }
+        .ml-2 { margin-left: var(--space-sm); }
+        .ml-3 { margin-left: var(--space-md); }
+        .mr-1 { margin-right: var(--space-xs); }
+        .mr-2 { margin-right: var(--space-sm); }
+        .mr-3 { margin-right: var(--space-md); }
 
         /* ===== RESPONSIVE ===== */
         @media (min-width: 768px) {
@@ -1313,7 +1384,7 @@
                     <span>Sair</span>
                 </button>
                 <div class="app-version">
-                    v2.1.0
+                    v2.2.0
                 </div>
             </div>
         </div>
@@ -1370,6 +1441,26 @@
                 const expenses = database.getExpenses();
                 expenses.push(expense);
                 localStorage.setItem('contrologastos_expenses', JSON.stringify(expenses));
+                
+                // Atualizar orçamento
+                const userData = database.getUserData();
+                const expenseDate = new Date(expense.date);
+                const today = new Date();
+                
+                // Se for do mês atual, diminuir do orçamento mensal
+                if (expenseDate.getMonth() === today.getMonth() && 
+                    expenseDate.getFullYear() === today.getFullYear()) {
+                    userData.currentMonthBalance = Math.max(0, userData.currentMonthBalance - expense.amount);
+                }
+                
+                // Se for do dia atual, diminuir do orçamento diário
+                const expenseDateStr = expenseDate.toISOString().split('T')[0];
+                const todayStr = today.toISOString().split('T')[0];
+                if (expenseDateStr === todayStr) {
+                    userData.currentDayBalance = Math.max(0, userData.currentDayBalance - expense.amount);
+                }
+                
+                database.saveUserData(userData);
                 return expense;
             },
             
@@ -1377,6 +1468,30 @@
                 const expenses = database.getExpenses();
                 const index = expenses.findIndex(exp => exp.id === id);
                 if (index !== -1) {
+                    // Calcular diferença se o valor foi alterado
+                    const oldExpense = expenses[index];
+                    if (updates.amount && updates.amount !== oldExpense.amount) {
+                        const difference = oldExpense.amount - updates.amount;
+                        
+                        // Atualizar orçamento se a despesa for do mês/dia atual
+                        const expenseDate = new Date(updates.date || oldExpense.date);
+                        const today = new Date();
+                        const userData = database.getUserData();
+                        
+                        if (expenseDate.getMonth() === today.getMonth() && 
+                            expenseDate.getFullYear() === today.getFullYear()) {
+                            userData.currentMonthBalance = Math.max(0, userData.currentMonthBalance + difference);
+                        }
+                        
+                        const expenseDateStr = expenseDate.toISOString().split('T')[0];
+                        const todayStr = today.toISOString().split('T')[0];
+                        if (expenseDateStr === todayStr) {
+                            userData.currentDayBalance = Math.max(0, userData.currentDayBalance + difference);
+                        }
+                        
+                        database.saveUserData(userData);
+                    }
+                    
                     expenses[index] = { ...expenses[index], ...updates };
                     localStorage.setItem('contrologastos_expenses', JSON.stringify(expenses));
                     return expenses[index];
@@ -1386,23 +1501,37 @@
             
             deleteExpense: (id) => {
                 const expenses = database.getExpenses();
+                const expenseToDelete = expenses.find(exp => exp.id === id);
                 const filtered = expenses.filter(exp => exp.id !== id);
                 localStorage.setItem('contrologastos_expenses', JSON.stringify(filtered));
+                
+                // Adicionar o valor de volta ao orçamento se a despesa for do mês/dia atual
+                if (expenseToDelete) {
+                    const expenseDate = new Date(expenseToDelete.date);
+                    const today = new Date();
+                    const userData = database.getUserData();
+                    
+                    if (expenseDate.getMonth() === today.getMonth() && 
+                        expenseDate.getFullYear() === today.getFullYear()) {
+                        userData.currentMonthBalance = Math.min(
+                            userData.monthlyBudget,
+                            userData.currentMonthBalance + expenseToDelete.amount
+                        );
+                    }
+                    
+                    const expenseDateStr = expenseDate.toISOString().split('T')[0];
+                    const todayStr = today.toISOString().split('T')[0];
+                    if (expenseDateStr === todayStr) {
+                        userData.currentDayBalance = Math.min(
+                            userData.dailyBudget,
+                            userData.currentDayBalance + expenseToDelete.amount
+                        );
+                    }
+                    
+                    database.saveUserData(userData);
+                }
+                
                 return true;
-            },
-            
-            getSettings: () => {
-                const data = localStorage.getItem('contrologastos_settings');
-                return data ? JSON.parse(data) : {
-                    currency: 'EUR',
-                    monthlyBudget: 1500,
-                    dailyBudget: 50
-                };
-            },
-            
-            saveSettings: (settings) => {
-                localStorage.setItem('contrologastos_settings', JSON.stringify(settings));
-                return settings;
             },
             
             getPrintHistory: () => {
@@ -1413,8 +1542,68 @@
             savePrint: (printData) => {
                 const prints = database.getPrintHistory();
                 prints.push(printData);
-                localStorage.setItem('contrologastos_prints', JSON.stringify(prints.slice(-50))); // Guardar últimos 50
+                localStorage.setItem('contrologastos_prints', JSON.stringify(prints.slice(-50)));
                 return printData;
+            },
+            
+            // NOVO: Gestão de orçamento do utilizador
+            getUserData: () => {
+                const data = localStorage.getItem('contrologastos_userdata');
+                const today = new Date().toISOString().split('T')[0];
+                
+                if (!data) {
+                    // Dados iniciais
+                    const initialData = {
+                        monthlyBudget: 1500,
+                        dailyBudget: 50,
+                        currentMonthBalance: 1500,
+                        currentDayBalance: 50,
+                        lastResetDate: today
+                    };
+                    localStorage.setItem('contrologastos_userdata', JSON.stringify(initialData));
+                    return initialData;
+                }
+                
+                const userData = JSON.parse(data);
+                
+                // Verificar se é um novo dia para reset do orçamento diário
+                if (userData.lastResetDate !== today) {
+                    const isNewMonth = new Date().getDate() === 1;
+                    
+                    if (isNewMonth) {
+                        // Reset mensal no primeiro dia do mês
+                        userData.currentMonthBalance = userData.monthlyBudget;
+                    }
+                    
+                    // Reset diário sempre
+                    userData.currentDayBalance = userData.dailyBudget;
+                    userData.lastResetDate = today;
+                    
+                    database.saveUserData(userData);
+                }
+                
+                return userData;
+            },
+            
+            saveUserData: (userData) => {
+                localStorage.setItem('contrologastos_userdata', JSON.stringify(userData));
+                return userData;
+            },
+            
+            resetMonthBudget: () => {
+                const userData = database.getUserData();
+                userData.currentMonthBalance = userData.monthlyBudget;
+                userData.lastResetDate = new Date().toISOString().split('T')[0];
+                database.saveUserData(userData);
+                return userData;
+            },
+            
+            resetDayBudget: () => {
+                const userData = database.getUserData();
+                userData.currentDayBalance = userData.dailyBudget;
+                userData.lastResetDate = new Date().toISOString().split('T')[0];
+                database.saveUserData(userData);
+                return userData;
             }
         };
 
@@ -1423,6 +1612,7 @@
             state: {
                 currentPage: 'dashboard',
                 expenses: [],
+                userData: null,
                 countries: [
                     { code: 'PT', name: 'Portugal', flag: '🇵🇹', currency: 'EUR', vat: 23 },
                     { code: 'ES', name: 'Espanha', flag: '🇪🇸', currency: 'EUR', vat: 21 },
@@ -1638,9 +1828,48 @@
             // ===== TEMPLATES HTML =====
             getDashboardHTML() {
                 const stats = this.calculateStats();
+                const userData = this.state.userData;
+                const monthlyPercentage = userData.monthlyBudget > 0 ? 
+                    ((userData.monthlyBudget - userData.currentMonthBalance) / userData.monthlyBudget * 100) : 0;
+                const dailyPercentage = userData.dailyBudget > 0 ? 
+                    ((userData.dailyBudget - userData.currentDayBalance) / userData.dailyBudget * 100) : 0;
                 
                 return `
                     <div class="dashboard-page">
+                        <!-- Orçamento -->
+                        <div class="card">
+                            <h3 class="card-title">Orçamento</h3>
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span>Mensal</span>
+                                    <span class="font-bold">${this.formatCurrency(userData.currentMonthBalance)} / ${this.formatCurrency(userData.monthlyBudget)}</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar ${monthlyPercentage > 80 ? 'danger' : monthlyPercentage > 60 ? 'warning' : 'success'}" 
+                                         style="width: ${Math.min(100, monthlyPercentage)}%">
+                                    </div>
+                                </div>
+                                <div class="text-right mt-1">
+                                    <small class="text-muted">${monthlyPercentage.toFixed(1)}% gasto</small>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span>Diário</span>
+                                    <span class="font-bold">${this.formatCurrency(userData.currentDayBalance)} / ${this.formatCurrency(userData.dailyBudget)}</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar ${dailyPercentage > 80 ? 'danger' : dailyPercentage > 60 ? 'warning' : 'success'}" 
+                                         style="width: ${Math.min(100, dailyPercentage)}%">
+                                    </div>
+                                </div>
+                                <div class="text-right mt-1">
+                                    <small class="text-muted">${dailyPercentage.toFixed(1)}% gasto</small>
+                                </div>
+                            </div>
+                        </div>
+                        
                         <!-- Stats Cards -->
                         <div class="stats-grid">
                             <div class="stat-card">
@@ -2003,12 +2232,12 @@
             },
 
             getSettingsHTML() {
-                const settings = database.getSettings();
+                const userData = this.state.userData;
                 
                 return `
                     <div class="settings-page">
                         <div class="card">
-                            <h3 class="card-title">Configurações</h3>
+                            <h3 class="card-title">Configurações de Orçamento</h3>
                             
                             <form id="settings-form">
                                 <div class="form-group">
@@ -2016,9 +2245,10 @@
                                     <input type="number" 
                                            id="monthly-budget" 
                                            class="form-control" 
-                                           value="${settings.monthlyBudget}"
+                                           value="${userData.monthlyBudget}"
                                            step="10"
                                            min="0">
+                                    <small class="text-muted">Saldo atual: ${this.formatCurrency(userData.currentMonthBalance)}</small>
                                 </div>
                                 
                                 <div class="form-group">
@@ -2026,9 +2256,10 @@
                                     <input type="number" 
                                            id="daily-budget" 
                                            class="form-control" 
-                                           value="${settings.dailyBudget}"
+                                           value="${userData.dailyBudget}"
                                            step="5"
                                            min="0">
+                                    <small class="text-muted">Saldo atual: ${this.formatCurrency(userData.currentDayBalance)}</small>
                                 </div>
                                 
                                 <div class="form-actions">
@@ -2037,6 +2268,18 @@
                                     </button>
                                 </div>
                             </form>
+                        </div>
+                        
+                        <div class="card">
+                            <h3 class="card-title">Gestão de Orçamento</h3>
+                            <div class="d-flex flex-column gap-2">
+                                <button class="btn btn-secondary" onclick="app.resetMonthBudget()">
+                                    <i class="fas fa-sync-alt"></i> Resetar Orçamento Mensal
+                                </button>
+                                <button class="btn btn-secondary" onclick="app.resetDayBudget()">
+                                    <i class="fas fa-redo"></i> Resetar Orçamento Diário
+                                </button>
+                            </div>
                         </div>
                         
                         <div class="card">
@@ -2160,6 +2403,7 @@
             // ===== FUNCIONALIDADES PRINCIPAIS =====
             loadData() {
                 this.state.expenses = database.getExpenses();
+                this.state.userData = database.getUserData();
             },
 
             calculateStats() {
@@ -2238,6 +2482,7 @@
                 
                 database.saveExpense(expense);
                 this.state.expenses.push(expense);
+                this.state.userData = database.getUserData(); // Atualizar dados do utilizador
                 
                 this.showToast('Gasto guardado com sucesso!', 'success');
                 this.navigateTo('#dashboard');
@@ -2247,26 +2492,74 @@
                 const expense = this.state.expenses.find(exp => exp.id === id);
                 if (!expense) return;
                 
-                this.showConfirm(
-                    'Editar Gasto',
-                    `Deseja editar o gasto de ${this.formatCurrency(expense.amount)} em ${expense.location}?`,
-                    () => {
-                        // Implementação simplificada
-                        document.getElementById('amount').value = expense.amount;
-                        document.getElementById('country').value = expense.country;
-                        document.getElementById('location').value = expense.location;
-                        document.getElementById('description').value = expense.description || '';
-                        document.getElementById('category').value = expense.category;
-                        document.getElementById('date').value = expense.date;
-                        document.getElementById('notes').value = expense.notes || '';
-                        
-                        // Atualizar ID para update
-                        const form = document.getElementById('expense-form');
-                        form.dataset.editId = id;
-                        
-                        this.showToast('Preencha os campos e guarde para atualizar', 'info');
-                    }
-                );
+                // Preencher formulário
+                document.getElementById('amount').value = expense.amount;
+                document.getElementById('country').value = expense.country;
+                document.getElementById('location').value = expense.location;
+                document.getElementById('description').value = expense.description || '';
+                document.getElementById('category').value = expense.category;
+                document.getElementById('date').value = expense.date;
+                document.getElementById('notes').value = expense.notes || '';
+                
+                // Marcar como edição
+                const form = document.getElementById('expense-form');
+                form.dataset.editId = id;
+                
+                // Alterar botão de submit
+                const submitBtn = form.querySelector('button[type="submit"]');
+                submitBtn.innerHTML = '<i class="fas fa-edit"></i> Atualizar Gasto';
+                submitBtn.onclick = (e) => {
+                    e.preventDefault();
+                    this.updateExpense(id);
+                };
+                
+                this.navigateTo('#add');
+                this.showToast('Edite os campos e guarde para atualizar', 'info');
+            },
+
+            updateExpense(id) {
+                const amount = parseFloat(document.getElementById('amount').value) || 0;
+                const country = document.getElementById('country').value;
+                const location = document.getElementById('location').value;
+                
+                if (!country || !location || amount <= 0) {
+                    this.showToast('Preencha todos os campos obrigatórios', 'error');
+                    return;
+                }
+                
+                const updates = {
+                    amount: amount,
+                    country: country,
+                    location: location,
+                    description: document.getElementById('description').value,
+                    category: document.getElementById('category').value,
+                    date: document.getElementById('date').value,
+                    notes: document.getElementById('notes').value
+                };
+                
+                database.updateExpense(id, updates);
+                
+                // Atualizar lista local
+                const index = this.state.expenses.findIndex(exp => exp.id === id);
+                if (index !== -1) {
+                    this.state.expenses[index] = { ...this.state.expenses[index], ...updates };
+                }
+                
+                this.state.userData = database.getUserData(); // Atualizar dados do utilizador
+                
+                // Resetar formulário
+                const form = document.getElementById('expense-form');
+                delete form.dataset.editId;
+                const submitBtn = form.querySelector('button[type="submit"]');
+                submitBtn.innerHTML = '<i class="fas fa-save"></i> Guardar Gasto';
+                submitBtn.onclick = null;
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.saveExpense();
+                });
+                
+                this.showToast('Gasto atualizado com sucesso!', 'success');
+                this.navigateTo('#dashboard');
             },
 
             deleteExpense(id) {
@@ -2276,6 +2569,7 @@
                     () => {
                         database.deleteExpense(id);
                         this.state.expenses = this.state.expenses.filter(exp => exp.id !== id);
+                        this.state.userData = database.getUserData(); // Atualizar dados do utilizador
                         this.showToast('Gasto eliminado com sucesso!', 'success');
                         this.loadPage('list');
                     }
@@ -2356,6 +2650,7 @@
 
             generateReportHTML(expenses, type) {
                 const total = expenses.reduce((sum, exp) => sum + exp.amount, 0);
+                const userData = this.state.userData;
                 
                 return `
                     <!DOCTYPE html>
@@ -2373,6 +2668,8 @@
                             .total { font-weight: bold; font-size: 1.2em; background-color: #f8f9fa; }
                             .footer { margin-top: 40px; font-size: 0.9em; color: #666; text-align: center; }
                             .flag { display: inline-block; width: 20px; text-align: center; }
+                            .budget-info { background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0; }
+                            .budget-row { display: flex; justify-content: space-between; margin-bottom: 5px; }
                         </style>
                     </head>
                     <body>
@@ -2381,8 +2678,19 @@
                             <p>Relatório de Gastos • ${new Date().toLocaleDateString('pt-PT')}</p>
                         </div>
                         
+                        <div class="budget-info">
+                            <div class="budget-row">
+                                <strong>Orçamento Mensal:</strong>
+                                <span>${app.formatCurrency(userData.currentMonthBalance)} / ${app.formatCurrency(userData.monthlyBudget)}</span>
+                            </div>
+                            <div class="budget-row">
+                                <strong>Orçamento Diário:</strong>
+                                <span>${app.formatCurrency(userData.currentDayBalance)} / ${app.formatCurrency(userData.dailyBudget)}</span>
+                            </div>
+                        </div>
+                        
                         <p><strong>Período:</strong> ${expenses.length} gastos</p>
-                        <p><strong>Total:</strong> ${this.formatCurrency(total)}</p>
+                        <p><strong>Total:</strong> ${app.formatCurrency(total)}</p>
                         
                         <table>
                             <thead>
@@ -2398,19 +2706,19 @@
                             <tbody>
                                 ${expenses.map(exp => `
                                     <tr>
-                                        <td>${this.formatDate(exp.date)}</td>
-                                        <td>${this.getCountryFlag(exp.country)} ${this.getCountryName(exp.country)}</td>
+                                        <td>${app.formatDate(exp.date)}</td>
+                                        <td>${app.getCountryFlag(exp.country)} ${app.getCountryName(exp.country)}</td>
                                         <td>${exp.location}</td>
                                         <td>${exp.description || '-'}</td>
-                                        <td>${this.getCategoryName(exp.category)}</td>
-                                        <td>${this.formatCurrency(exp.amount)}</td>
+                                        <td>${app.getCategoryName(exp.category)}</td>
+                                        <td>${app.formatCurrency(exp.amount)}</td>
                                     </tr>
                                 `).join('')}
                             </tbody>
                             <tfoot>
                                 <tr class="total">
                                     <td colspan="5">TOTAL</td>
-                                    <td>${this.formatCurrency(total)}</td>
+                                    <td>${app.formatCurrency(total)}</td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -2437,30 +2745,63 @@
             },
 
             initSettingsPage() {
-                // Configurações
+                // Configurações já inicializadas pelo template
             },
 
             saveSettings() {
                 const monthlyBudget = parseFloat(document.getElementById('monthly-budget').value) || 1500;
                 const dailyBudget = parseFloat(document.getElementById('daily-budget').value) || 50;
                 
-                const settings = {
-                    monthlyBudget,
-                    dailyBudget,
-                    currency: 'EUR'
-                };
+                // Calcular novo saldo com base na diferença do orçamento
+                const userData = this.state.userData;
+                const monthlyDifference = monthlyBudget - userData.monthlyBudget;
+                const dailyDifference = dailyBudget - userData.dailyBudget;
                 
-                database.saveSettings(settings);
+                userData.monthlyBudget = monthlyBudget;
+                userData.dailyBudget = dailyBudget;
+                userData.currentMonthBalance = Math.max(0, userData.currentMonthBalance + monthlyDifference);
+                userData.currentDayBalance = Math.max(0, userData.currentDayBalance + dailyDifference);
+                
+                database.saveUserData(userData);
+                this.state.userData = userData;
+                
                 this.showToast('Configurações guardadas com sucesso!', 'success');
+                this.navigateTo('#dashboard');
+            },
+
+            resetMonthBudget() {
+                this.showConfirm(
+                    'Resetar Orçamento Mensal',
+                    'Tem a certeza que deseja resetar o orçamento mensal para o valor definido?',
+                    () => {
+                        database.resetMonthBudget();
+                        this.state.userData = database.getUserData();
+                        this.showToast('Orçamento mensal resetado com sucesso!', 'success');
+                        this.loadPage('settings');
+                    }
+                );
+            },
+
+            resetDayBudget() {
+                this.showConfirm(
+                    'Resetar Orçamento Diário',
+                    'Tem a certeza que deseja resetar o orçamento diário para o valor definido?',
+                    () => {
+                        database.resetDayBudget();
+                        this.state.userData = database.getUserData();
+                        this.showToast('Orçamento diário resetado com sucesso!', 'success');
+                        this.loadPage('settings');
+                    }
+                );
             },
 
             exportData() {
                 const data = {
                     expenses: this.state.expenses,
-                    settings: database.getSettings(),
+                    userData: this.state.userData,
                     prints: database.getPrintHistory(),
                     exportDate: new Date().toISOString(),
-                    version: '2.1.0'
+                    version: '2.2.0'
                 };
                 
                 const json = JSON.stringify(data, null, 2);
@@ -2481,6 +2822,7 @@
                     () => {
                         localStorage.clear();
                         this.state.expenses = [];
+                        this.state.userData = database.getUserData(); // Recriar dados iniciais
                         this.showToast('Todos os dados foram eliminados', 'success');
                         this.navigateTo('#dashboard');
                     }
