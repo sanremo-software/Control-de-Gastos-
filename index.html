@@ -1,930 +1,1420 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#ffffff" />
-  <title>Sanremo Torten-Schablone (Schatten-Modus) – korrigiert</title>
-
-  <!-- Klassische Schriften für Torten -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Sanremo Torten-Schablone Pro ✦ Der perfekte Schatten</title>
+  
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Pacifico&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Dancing+Script:wght@400..700&family=Great+Vibes&family=Kaushan+Script&family=Lobster&family=Montserrat:wght@300;400;600;700&family=Open+Sans:wght@300..800&family=Oswald:wght@200..700&family=Pacifico&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:wght@300;400;600&family=Raleway:wght@300;400;600&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
-    :root{
-      --bg:#f6f6f6;
-      --panel:#ffffff;
-      --text:#111;
-      --muted:#666;
-      --radius:14px;
-      --shadowBg:#fff;
-      --shadowText:#000;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    body{ margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; background:var(--bg); color:var(--text); }
-    header{
-      position:sticky; top:0; z-index:10;
-      background:var(--panel); border-bottom:1px solid #e6e6e6;
-      padding:12px 14px; display:flex; align-items:center; justify-content:space-between; gap:10px;
+    
+    :root {
+      --primary: #2d2d2d;
+      --secondary: #6b6b6b;
+      --accent: #d4af37;
+      --bg: #f5f5f7;
+      --card: #ffffff;
+      --text: #1e1e1e;
+      --border: #e0e0e0;
+      --shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+      --radius: 24px;
+      --radius-sm: 16px;
     }
-    header h1{ margin:0; font-size:16px; font-weight:800; }
-    .right{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; justify-content:flex-end; }
-    button, select, input{ font:inherit; }
-    .btn{ border:1px solid #ddd; background:#fff; border-radius:12px; padding:8px 10px; cursor:pointer; }
-    .btn.primary{ background:#111; border-color:#111; color:#fff; }
-    .badge{ font-size:12px; padding:6px 10px; border-radius:999px; border:1px solid #ddd; background:#fff; }
-    .wrap{ max-width: 1100px; margin:0 auto; padding:12px; display:grid; gap:12px; }
-    .grid{ display:grid; grid-template-columns: 1fr; gap:12px; }
-    @media(min-width: 980px){ .grid{ grid-template-columns: 420px 1fr; } }
-    .card{ background:var(--panel); border:1px solid #e6e6e6; border-radius:var(--radius); padding:12px; }
-    .card h2{ margin:0 0 10px 0; font-size:14px; }
-    .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; }
-    .field{ display:flex; flex-direction:column; gap:4px; min-width:150px; flex:1; }
-    label{ font-size:12px; color:var(--muted); }
-    input, select{ border:1px solid #ddd; border-radius:12px; padding:10px; background:#fff; outline:none; }
-    input[type="range"]{ padding:0; height:36px; }
-    .hint{ font-size:12px; color:var(--muted); line-height:1.35; }
-    .sep{ border:none; border-top:1px solid #eee; margin:12px 0; }
-
-    .stageWrap{
-      position:relative;
-      background:#fff;
-      border:1px solid #e6e6e6;
+    
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Header */
+    .header {
+      background: var(--card);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.95);
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .logo i {
+      font-size: 28px;
+      color: var(--accent);
+    }
+    
+    .logo h1 {
+      font-size: 20px;
+      font-weight: 600;
+      background: linear-gradient(135deg, #333, #000);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .header-badges {
+      display: flex;
+      gap: 12px;
+    }
+    
+    .badge {
+      padding: 8px 16px;
+      border-radius: 40px;
+      background: #f0f0f0;
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .badge i {
+      color: var(--accent);
+    }
+    
+    .btn {
+      padding: 10px 20px;
+      border-radius: 40px;
+      border: 1px solid var(--border);
+      background: white;
+      font-weight: 500;
+      font-size: 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    
+    .btn:hover {
+      background: #f8f8f8;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      border: none;
+    }
+    
+    .btn-primary:hover {
+      background: #000;
+    }
+    
+    .btn-accent {
+      background: var(--accent);
+      color: black;
+      border: none;
+    }
+    
+    /* Main Layout */
+    .app-container {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 20px;
+      padding: 20px;
+      flex: 1;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+      background: var(--card);
       border-radius: var(--radius);
-      overflow:hidden;
-      aspect-ratio: 1 / 1;
-      max-height: 78vh;
+      box-shadow: var(--shadow);
+      overflow-y: auto;
+      max-height: calc(100vh - 100px);
+      padding: 20px;
     }
-    .stage{
-      position:absolute; inset:0;
-      display:flex; align-items:center; justify-content:center;
-      background:var(--panel);
-      touch-action: none; /* for drawing */
+    
+    .section {
+      margin-bottom: 28px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 20px;
     }
-    .stage.shadow{ background:var(--shadowBg); }
-    svg{ width:100%; height:100%; display:block; }
-
-    .footerbar{
-      position:fixed; left:0; right:0; bottom:0;
-      background:rgba(255,255,255,0.92);
-      border-top:1px solid #e6e6e6;
-      padding:10px 12px;
-      display:flex; gap:10px; align-items:center; justify-content:space-between;
-      backdrop-filter: blur(8px);
-      z-index:20;
+    
+    .section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
     }
-    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:12px; }
-
-    /* Fullscreen stage */
-    body.fullscreenStage header,
-    body.fullscreenStage .grid .card{ display:none; }
-    body.fullscreenStage .stageWrap{
-      position:fixed; inset:0;
-      border:none; border-radius:0;
-      max-height:none;
-      z-index:999;
+    
+    .section-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--primary);
     }
-    body.fullscreenStage .footerbar{ z-index:1000; }
+    
+    .section-title i {
+      color: var(--accent);
+      width: 24px;
+    }
+    
+    .control-group {
+      margin-bottom: 16px;
+    }
+    
+    .control-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    
+    .control-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--secondary);
+      margin-bottom: 6px;
+    }
+    
+    .control-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      font-size: 14px;
+      transition: all 0.2s;
+      background: #fafafa;
+    }
+    
+    .control-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: white;
+    }
+    
+    .range-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .range-group input[type="range"] {
+      flex: 1;
+      height: 6px;
+      -webkit-appearance: none;
+      background: #e0e0e0;
+      border-radius: 10px;
+    }
+    
+    .range-group input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      background: var(--accent);
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    
+    .range-value {
+      min-width: 45px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+    
+    .select-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    
+    .motif-option {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px 8px;
+      text-align: center;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: white;
+    }
+    
+    .motif-option i {
+      font-size: 24px;
+      display: block;
+      margin-bottom: 6px;
+      color: var(--secondary);
+    }
+    
+    .motif-option.selected {
+      border-color: var(--accent);
+      background: #fef9e7;
+    }
+    
+    .motif-option.selected i {
+      color: var(--accent);
+    }
+    
+    /* Canvas Area */
+    .canvas-container {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .canvas-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    
+    .canvas-title {
+      font-weight: 600;
+    }
+    
+    .canvas-controls {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .stage-wrapper {
+      position: relative;
+      aspect-ratio: 1/1;
+      width: 100%;
+      background: #ffffff;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
+      margin-bottom: 16px;
+    }
+    
+    .stage {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      transition: background 0.2s;
+    }
+    
+    .stage.shadow-mode {
+      background: #ffffff !important;
+    }
+    
+    .stage svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    
+    /* Calibration Bar */
+    .calibration-bar {
+      background: #f0f0f0;
+      border-radius: 40px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    
+    .card-reference {
+      background: linear-gradient(45deg, #2a6f97, #1e4a6b);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    
+    /* Footer */
+    .footer {
+      margin-top: auto;
+      padding: 20px;
+      text-align: center;
+      color: var(--secondary);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+    
+    /* Utility Classes */
+    .hidden {
+      display: none !important;
+    }
+    
+    .flex {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    
+    .text-accent {
+      color: var(--accent);
+    }
+    
+    /* Fullscreen */
+  .fullscreen-mode .header,
+    .fullscreen-mode .sidebar,
+    .fullscreen-mode .canvas-header,
+    .fullscreen-mode .calibration-bar,
+    .fullscreen-mode .footer {
+      display: none;
+    }
+    
+    .fullscreen-mode .app-container {
+      grid-template-columns: 1fr;
+      padding: 0;
+    }
+    
+    .fullscreen-mode .canvas-container {
+      border-radius: 0;
+      padding: 0;
+    }
+    
+    .fullscreen-mode .stage-wrapper {
+      border-radius: 0;
+      margin: 0;
+    }
+    
+    /* Mobile */
+    @media (max-width: 768px) {
+      .app-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .sidebar {
+        max-height: none;
+      }
+    }
   </style>
 </head>
 <body>
-<header>
-  <h1>🎂 Sanremo – Torten-Schablone (rund) [fix]</h1>
-  <div class="right">
-    <span class="badge" id="statusBadge">Normal</span>
-    <button class="btn" id="btnFullscreen">Vollbild</button>
-    <button class="btn primary" id="btnShadow">Schatten-Modus</button>
-  </div>
-</header>
-
-<div class="wrap">
-  <div class="grid">
-
-    <!-- Controls -->
-    <div class="card">
-      <h2>1) Größe (immer rund) & Kalibrierung</h2>
-      <div class="row">
-        <div class="field">
-          <label>Torten-Durchmesser</label>
-          <select id="diameterCm">
-            <option value="18">18 cm</option>
-            <option value="20" selected>20 cm</option>
-            <option value="24">24 cm</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Kalibrierung (Bankkarte = 85,6 mm)</label>
-          <input type="range" id="pxPerMm" min="2" max="10" step="0.01" value="4.2" />
-          <div class="hint">Lege eine EC/Bankkarte auf den Bildschirm und stelle die Breite exakt ein.</div>
-        </div>
+  <div class="header">
+    <div class="logo">
+      <i class="fas fa-cake-candles"></i>
+      <h1>Sanremo Torten-Schablone Pro</h1>
+    </div>
+    <div class="header-badges">
+      <div class="badge" id="mode-badge">
+        <i class="fas fa-moon"></i>
+        <span>Normal</span>
       </div>
-
-      <hr class="sep">
-
-      <h2>2) Kunden-Text (Schrift wählen)</h2>
-      <div class="row">
-        <div class="field" style="flex:2; min-width:240px;">
-          <label>Text (Kunde)</label>
-          <input type="text" id="customerText" value="Alles Gute zum Geburtstag!" />
-        </div>
-        <div class="field">
-          <label>Schriftart</label>
-          <select id="fontChoice">
-            <option value="classic">Klassisch (Serif)</option>
-            <option value="elegant">Elegant (Playfair Display)</option>
-            <option value="scriptClassic" selected>Schreibschrift (Great Vibes)</option>
-            <option value="scriptModern">Schreibschrift (Pacifico)</option>
-            <option value="simple">Einfach (Arial)</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="row" style="margin-top:10px;">
-        <div class="field">
-          <label>Text-Größe (%)</label>
-          <input type="range" id="textScale" min="40" max="160" step="1" value="100" />
-        </div>
-        <div class="field">
-          <label>Position X</label>
-          <input type="range" id="textX" min="-220" max="220" step="1" value="0" />
-        </div>
-        <div class="field">
-          <label>Position Y</label>
-          <input type="range" id="textY" min="-220" max="220" step="1" value="0" />
-        </div>
-      </div>
-
-      <hr class="sep">
-
-      <h2>3) Alter (2–12) optional</h2>
-      <div class="row">
-        <div class="field">
-          <label>Alter</label>
-          <select id="age">
-            <option value="0">Kein Alter</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Alter-Größe (%)</label>
-          <input type="range" id="ageScale" min="40" max="220" step="1" value="120" />
-        </div>
-        <div class="field">
-          <label>Alter Position Y</label>
-          <input type="range" id="ageY" min="-260" max="260" step="1" value="0" />
-        </div>
-      </div>
-
-      <hr class="sep">
-
-      <h2>4) Kinder-Motive (skalierbar)</h2>
-      <div class="row">
-        <div class="field" style="flex:2; min-width:240px;">
-          <label>Motiv auswählen</label>
-          <select id="motif">
-            <option value="none">Kein Motiv</option>
-            <option value="heroDog">Hero-Hund (inspiriert)</option>
-            <option value="superMask">Superheld-Maske (inspiriert)</option>
-            <option value="unicorn">Einhorn</option>
-            <option value="dino">Dino</option>
-            <option value="racecar">Rennwagen</option>
-            <option value="football">Fußball</option>
-            <option value="rainbow">Regenbogen</option>
-            <option value="crown">Krone</option>
-            <option value="paw">Pfote</option>
-            <option value="star">Stern</option>
-            <option value="heart">Herz</option>
-            <option value="teddy">Teddy</option>
-            <option value="controller">Gaming-Controller</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Motiv Rotation (°)</label>
-          <input type="range" id="motifRot" min="-180" max="180" step="1" value="0" />
-        </div>
-      </div>
-
-      <div class="row" style="margin-top:10px;">
-        <div class="field">
-          <label>Motiv-Größe (%)</label>
-          <input type="range" id="motifScale" min="40" max="220" step="1" value="120" />
-        </div>
-        <div class="field">
-          <label>Motiv X</label>
-          <input type="range" id="motifX" min="-260" max="260" step="1" value="0" />
-        </div>
-        <div class="field">
-          <label>Motiv Y</label>
-          <input type="range" id="motifY" min="-260" max="260" step="1" value="-40" />
-        </div>
-      </div>
-
-      <hr class="sep">
-
-      <h2>5) Freihand (selbst zeichnen)</h2>
-      <div class="row">
-        <div class="field">
-          <label>Modus</label>
-          <select id="drawMode">
-            <option value="off" selected>Aus</option>
-            <option value="on">Freihand EIN</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Linienstärke</label>
-          <input type="range" id="drawWidth" min="2" max="14" step="1" value="6" />
-        </div>
-        <div class="field">
-          <label>Zeichnung-Größe (%)</label>
-          <input type="range" id="drawScale" min="40" max="220" step="1" value="120" />
-        </div>
-      </div>
-
-      <div class="row" style="margin-top:10px;">
-        <div class="field">
-          <label>Zeichnung X</label>
-          <input type="range" id="drawX" min="-260" max="260" step="1" value="0" />
-        </div>
-        <div class="field">
-          <label>Zeichnung Y</label>
-          <input type="range" id="drawY" min="-260" max="260" step="1" value="60" />
-        </div>
-        <div class="field">
-          <label>Zeichnung Rotation (°)</label>
-          <input type="range" id="drawRot" min="-180" max="180" step="1" value="0" />
-        </div>
-      </div>
-
-      <div class="row" style="margin-top:10px;">
-        <button class="btn" id="btnUndo">↩️ Undo</button>
-        <button class="btn" id="btnClear">🧽 Löschen</button>
-      </div>
-
-      <hr class="sep">
-
-      <h2>6) Extras</h2>
-      <div class="row">
-        <button class="btn" id="btnRotate">↻ Bühne drehen 90°</button>
-        <button class="btn" id="btnFlipX">⇄ Spiegeln</button>
-        <button class="btn" id="btnReset">Reset</button>
-      </div>
-
-      <div class="hint" style="margin-top:10px;">
-        Tipp: Schatten-Modus + Helligkeit Maximum + Raum leicht abdunkeln. Dann Handy über die Torte halten und mit Schokolade nachziehen.
+      <div class="badge">
+        <i class="fas fa-ruler-combined"></i>
+        <span id="size-display">20 cm</span>
       </div>
     </div>
-
-    <!-- Stage -->
-    <div class="stageWrap">
-      <div class="stage" id="stage">
-        <svg id="svg" viewBox="0 0 1000 1000" aria-label="Torten-Schablone">
-          <!-- Kreis (rund) -->
-          <circle id="circleOuter" cx="500" cy="500" r="420" fill="none" stroke="#111" stroke-width="2" opacity="0.35"></circle>
-          <circle id="circleInner" cx="500" cy="500" r="405" fill="none" stroke="#111" stroke-width="1.5" opacity="0.18"></circle>
-
-          <!-- sehr leichtes Kreuz (Hilfslinien) -->
-          <g id="grid" opacity="0.06" stroke="#111" stroke-width="1">
-            <line x1="500" y1="70" x2="500" y2="930" />
-            <line x1="70" y1="500" x2="930" y2="500" />
-          </g>
-
-          <!-- Alter -->
-          <g id="ageGroup" transform="translate(500 500)">
-            <text id="ageText" x="0" y="0" text-anchor="middle" dominant-baseline="middle"
-                  fill="#111" opacity="0.18" font-size="220" font-weight="800"> </text>
-          </g>
-
-          <!-- Kunden-Text -->
-          <g id="textGroup" transform="translate(500 500)">
-            <text id="custLabel" x="0" y="0" text-anchor="middle" dominant-baseline="middle"
-                  fill="#111" opacity="0.95" font-size="70"> </text>
-          </g>
-
-          <!-- Motiv -->
-          <g id="motifGroup" transform="translate(500 500)" opacity="0.95" fill="none" stroke="#111" stroke-linecap="round" stroke-linejoin="round">
-            <!-- motif paths inserted here -->
-          </g>
-
-          <!-- Freihand -->
-          <g id="drawGroup" transform="translate(500 500)" fill="none" stroke="#111" stroke-linecap="round" stroke-linejoin="round"></g>
-        </svg>
+  </div>
+  
+  <div class="app-container">
+    <!-- Sidebar / Controls -->
+    <div class="sidebar">
+      <!-- Section 1: Größe & Kalibrierung -->
+      <div class="section">
+        <div class="section-title">
+          <i class="fas fa-arrows-up-down"></i>
+          <span>1. Größe & Kalibrierung</span>
+        </div>
+        
+        <div class="control-group">
+          <div class="control-label">Tortendurchmesser</div>
+          <div class="control-row">
+            <button class="btn" onclick="setDiameter(18)">18 cm</button>
+            <button class="btn btn-primary" onclick="setDiameter(20)">20 cm</button>
+            <button class="btn" onclick="setDiameter(24)">24 cm</button>
+            <button class="btn" onclick="setDiameter(26)">26 cm</button>
+            <button class="btn" onclick="setDiameter(28)">28 cm</button>
+          </div>
+        </div>
+        
+        <div class="control-group">
+          <div class="control-label">Kalibrierung (px/mm)</div>
+          <div class="range-group">
+            <input type="range" id="pxPerMm" min="2" max="10" step="0.1" value="4.2">
+            <span class="range-value" id="pxPerMmValue">4.2</span>
+          </div>
+          <div style="font-size: 12px; color: #666; margin-top: 6px;">
+            <i class="fas fa-credit-card"></i> Lege eine Bankkarte auf: 85.6 mm breit
+          </div>
+        </div>
+        
+        <div class="calibration-bar">
+          <div class="card-reference"><i class="fas fa-credit-card"></i> 85.6 mm</div>
+          <div style="flex: 1; text-align: center; font-weight: 500;" id="calibration-readout">
+            Karte: -- mm auf Bildschirm
+          </div>
+        </div>
+      </div>
+      
+      <!-- Section 2: Text -->
+      <div class="section">
+        <div class="section-title">
+          <i class="fas fa-font"></i>
+          <span>2. Text & Schrift</span>
+        </div>
+        
+        <div class="control-group">
+          <div class="control-label">Text eingeben</div>
+          <input type="text" class="control-input" id="customerText" value="Alles Gute zum Geburtstag!" placeholder="Dein Text...">
+        </div>
+        
+        <div class="control-group">
+          <div class="control-label">Schriftart</div>
+          <select class="control-input" id="fontChoice">
+            <optgroup label="🎀 Schreibschriften">
+              <option value="Great Vibes" selected>Great Vibes (elegant)</option>
+              <option value="Dancing Script">Dancing Script</option>
+              <option value="Pacifico">Pacifico (verspielt)</option>
+              <option value="Caveat">Caveat (handschrift)</option>
+              <option value="Kaushan Script">Kaushan Script</option>
+            </optgroup>
+            <optgroup label="📐 Serif">
+              <option value="Playfair Display">Playfair Display</option>
+              <option value="Georgia">Georgia</option>
+            </optgroup>
+            <optgroup label="🔤 Sans Serif">
+              <option value="Montserrat">Montserrat</option>
+              <option value="Poppins">Poppins</option>
+              <option value="Open Sans">Open Sans</option>
+              <option value="Raleway">Raleway</option>
+              <option value="Oswald">Oswald</option>
+            </optgroup>
+          </select>
+        </div>
+        
+        <div class="control-row">
+          <div style="flex: 1;">
+            <div class="control-label">Größe %</div>
+            <div class="range-group">
+              <input type="range" id="textScale" min="30" max="200" value="100">
+              <span class="range-value" id="textScaleValue">100</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="control-row">
+          <div style="flex: 1;">
+            <div class="control-label">Position X</div>
+            <div class="range-group">
+              <input type="range" id="textX" min="-250" max="250" value="0">
+              <span class="range-value" id="textXValue">0</span>
+            </div>
+          </div>
+          <div style="flex: 1;">
+            <div class="control-label">Position Y</div>
+            <div class="range-group">
+              <input type="range" id="textY" min="-250" max="250" value="0">
+              <span class="range-value" id="textYValue">0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Section 3: Alter -->
+      <div class="section">
+        <div class="section-title">
+          <i class="fas fa-cake-candles"></i>
+          <span>3. Alter (optional)</span>
+        </div>
+        
+        <div class="control-row">
+          <div style="flex: 1;">
+            <div class="control-label">Alter</div>
+            <select class="control-input" id="age">
+              <option value="0">Kein Alter</option>
+              <option value="1">1 Jahr</option>
+              <option value="2">2 Jahre</option>
+              <option value="3">3 Jahre</option>
+              <option value="4">4 Jahre</option>
+              <option value="5">5 Jahre</option>
+              <option value="6">6 Jahre</option>
+              <option value="7">7 Jahre</option>
+              <option value="8">8 Jahre</option>
+              <option value="9">9 Jahre</option>
+              <option value="10">10 Jahre</option>
+              <option value="11">11 Jahre</option>
+              <option value="12">12 Jahre</option>
+              <option value="13">13 Jahre</option>
+              <option value="14">14 Jahre</option>
+              <option value="15">15 Jahre</option>
+              <option value="16">16 Jahre</option>
+              <option value="18">18 Jahre</option>
+              <option value="20">20 Jahre</option>
+              <option value="30">30 Jahre</option>
+              <option value="40">40 Jahre</option>
+              <option value="50">50 Jahre</option>
+              <option value="60">60 Jahre</option>
+            </select>
+          </div>
+          <div style="flex: 1;">
+            <div class="control-label">Größe %</div>
+            <div class="range-group">
+              <input type="range" id="ageScale" min="40" max="250" value="150">
+              <span class="range-value" id="ageScaleValue">150</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="control-row">
+          <div style="flex: 1;">
+            <div class="control-label">Position Y</div>
+            <div class="range-group">
+              <input type="range" id="ageY" min="-280" max="280" value="-40">
+              <span class="range-value" id="ageYValue">-40</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Section 4: Motive -->
+      <div class="section">
+        <div class="section-title">
+          <i class="fas fa-paintbrush"></i>
+          <span>4. Motive</span>
+        </div>
+        
+        <div class="control-group">
+          <div class="control-label">Motiv wählen</div>
+          <div class="select-grid" id="motif-grid">
+            <div class="motif-option selected" data-motif="none"><i class="fas fa-ban"></i> Keins</div>
+            <div class="motif-option" data-motif="heart"><i class="fas fa-heart" style="color: #ff6b6b;"></i> Herz</div>
+            <div class="motif-option" data-motif="star"><i class="fas fa-star" style="color: #f1c40f;"></i> Stern</div>
+            <div class="motif-option" data-motif="crown"><i class="fas fa-crown" style="color: #d4af37;"></i> Krone</div>
+            <div class="motif-option" data-motif="bear"><i class="fas fa-bear"></i> Bär</div>
+            <div class="motif-option" data-motif="dog"><i class="fas fa-dog"></i> Hund</div>
+            <div class="motif-option" data-motif="cat"><i class="fas fa-cat"></i> Katze</div>
+            <div class="motif-option" data-motif="dino"><i class="fas fa-dragon"></i> Dino</div>
+            <div class="motif-option" data-motif="unicorn"><i class="fas fa-horse"></i> Einhorn</div>
+            <div class="motif-option" data-motif="car"><i class="fas fa-car"></i> Auto</div>
+            <div class="motif-option" data-motif="ball"><i class="fas fa-futbol"></i> Ball</div>
+            <div class="motif-option" data-motif="cake"><i class="fas fa-cake-candles"></i> Torte</div>
+          </div>
+        </div>
+        
+        <div class="control-row">
+          <div style="flex: 1;">
+            <div class="control-label">Größe %</div>
+            <div class="range-group">
+              <input type="range" id="motifScale" min="30" max="250" value="120">
+              <span class="range-value" id="motifScaleValue">120</span>
+            </div>
+          </div>
+          <div style="flex: 1;">
+            <div class="control-label">Rotation °</div>
+            <div class="range-group">
+              <input type="range" id="motifRot" min="-180" max="180" value="0">
+              <span class="range-value" id="motifRotValue">0</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="control-row">
+          <div style="flex: 1;">
+            <div class="control-label">Position X</div>
+            <div class="range-group">
+              <input type="range" id="motifX" min="-280" max="280" value="0">
+              <span class="range-value" id="motifXValue">0</span>
+            </div>
+          </div>
+          <div style="flex: 1;">
+            <div class="control-label">Position Y</div>
+            <div class="range-group">
+              <input type="range" id="motifY" min="-280" max="280" value="-60">
+              <span class="range-value" id="motifYValue">-60</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Section 5: Freihand -->
+      <div class="section">
+        <div class="section-title">
+          <i class="fas fa-pencil"></i>
+          <span>5. Freihand zeichnen</span>
+        </div>
+        
+        <div class="control-row">
+          <button class="btn" id="drawToggleBtn" style="flex: 1;">
+            <i class="fas fa-paint-brush"></i> Zeichenmodus: AUS
+          </button>
+          <button class="btn" id="clearDrawBtn">
+            <i class="fas fa-trash"></i>
+          </button>
+          <button class="btn" id="undoDrawBtn">
+            <i class="fas fa-undo"></i>
+          </button>
+        </div>
+        
+        <div class="control-row">
+          <div style="flex: 1;">
+            <div class="control-label">Linienstärke</div>
+            <div class="range-group">
+              <input type="range" id="drawWidth" min="2" max="20" value="6">
+              <span class="range-value" id="drawWidthValue">6</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="control-row">
+          <div style="flex: 1;">
+            <div class="control-label">Größe %</div>
+            <div class="range-group">
+              <input type="range" id="drawScale" min="30" max="250" value="100">
+              <span class="range-value" id="drawScaleValue">100</span>
+            </div>
+          </div>
+          <div style="flex: 1;">
+            <div class="control-label">Rotation</div>
+            <div class="range-group">
+              <input type="range" id="drawRot" min="-180" max="180" value="0">
+              <span class="range-value" id="drawRotValue">0</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="control-row">
+          <div style="flex: 1;">
+            <div class="control-label">X</div>
+            <div class="range-group">
+              <input type="range" id="drawX" min="-280" max="280" value="0">
+              <span class="range-value" id="drawXValue">0</span>
+            </div>
+          </div>
+          <div style="flex: 1;">
+            <div class="control-label">Y</div>
+            <div class="range-group">
+              <input type="range" id="drawY" min="-280" max="280" value="60">
+              <span class="range-value" id="drawYValue">60</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Section 6: Extras -->
+      <div class="section">
+        <div class="section-title">
+          <i class="fas fa-sliders"></i>
+          <span>6. Extras</span>
+        </div>
+        
+        <div class="control-row">
+          <button class="btn" onclick="rotateStage()">
+            <i class="fas fa-rotate-right"></i> Drehen 90°
+          </button>
+          <button class="btn" onclick="flipStage()">
+            <i class="fas fa-arrows-left-right"></i> Spiegeln
+          </button>
+          <button class="btn" onclick="resetAll()">
+            <i class="fas fa-undo-alt"></i> Reset
+          </button>
+        </div>
+        
+        <div class="control-row">
+          <button class="btn btn-accent" id="shadowModeBtn" style="flex: 1;">
+            <i class="fas fa-moon"></i> Schatten-Modus AKTIVIEREN
+          </button>
+          <button class="btn" id="fullscreenBtn">
+            <i class="fas fa-expand"></i>
+          </button>
+        </div>
+        
+        <div style="background: #f9f9f9; border-radius: 20px; padding: 12px; margin-top: 16px; font-size: 13px; color: #555;">
+          <i class="fas fa-lightbulb" style="color: #d4af37;"></i>
+          Tipp: Im Schatten-Modus bleibt das Display an. Lege das Gerät mit dem Bildschirm nach unten über die Torte und zeichne die schwarzen Linien nach.
+        </div>
       </div>
     </div>
-
+    
+    <!-- Canvas Area -->
+    <div class="canvas-container">
+      <div class="canvas-header">
+        <div class="canvas-title">
+          <i class="fas fa-circle"></i> Vorschau (runde Torte)
+        </div>
+        <div class="canvas-controls">
+          <span class="badge" id="drawStatus"><i class="fas fa-paint-brush"></i> Zeichnen: AUS</span>
+        </div>
+      </div>
+      
+      <!-- Stage Wrapper -->
+      <div class="stage-wrapper" id="stageWrapper">
+        <div class="stage" id="stage">
+          <svg id="svg" viewBox="0 0 1000 1000">
+            <!-- Hintergrund (weiß) -->
+            <rect width="1000" height="1000" fill="white" />
+            
+            <!-- Hauptkreis (Torte) -->
+            <circle id="mainCircle" cx="500" cy="500" r="420" fill="none" stroke="#111" stroke-width="2.5" opacity="0.4" />
+            <circle id="innerCircle" cx="500" cy="500" r="405" fill="none" stroke="#111" stroke-width="1.5" opacity="0.2" />
+            
+            <!-- Hilfslinien (dezent) -->
+            <g id="grid" opacity="0.1" stroke="#111" stroke-width="1">
+              <line x1="500" y1="50" x2="500" y2="950" />
+              <line x1="50" y1="500" x2="950" y2="500" />
+            </g>
+            
+            <!-- Alters-Zahl -->
+            <g id="ageGroup" transform="translate(500 500)">
+              <text id="ageText" x="0" y="0" text-anchor="middle" dominant-baseline="middle" fill="#111" font-size="220" font-weight="800" opacity="0.18"></text>
+            </g>
+            
+            <!-- Kunden-Text -->
+            <g id="textGroup" transform="translate(500 500)">
+              <text id="custLabel" x="0" y="0" text-anchor="middle" dominant-baseline="middle" fill="#111" font-size="70" opacity="0.95"></text>
+            </g>
+            
+            <!-- Motiv Gruppe -->
+            <g id="motifGroup" transform="translate(500 500)" fill="none" stroke="#111" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"></g>
+            
+            <!-- Freihand Gruppe -->
+            <g id="drawGroup" transform="translate(500 500)" fill="none" stroke="#111" stroke-linecap="round" stroke-linejoin="round"></g>
+          </svg>
+        </div>
+      </div>
+      
+      <!-- Status & Info -->
+      <div style="display: flex; justify-content: space-between; font-size: 13px; color: #666; margin-top: 8px;">
+        <span><i class="fas fa-ruler"></i> <span id="scaleInfo">20 cm | 4.2 px/mm</span></span>
+        <span><i class="fas fa-moon"></i> <span id="shadowStatus">Normal-Modus</span></span>
+      </div>
+    </div>
   </div>
-</div>
-
-<div class="footerbar">
-  <div class="hint" style="margin:0;">
-    ✅ Schatten-Modus hält das Display an. Falls es trotzdem ausgeht: Android „Bildschirm-Timeout“ länger stellen.
-    <span id="drawHint"></span>
+  
+  <div class="footer">
+    <i class="fas fa-copyright"></i> Sanremo Torten-Schablone Pro • Perfekt für Schokoladen-Dekoration • v2.0
   </div>
-  <div class="mono" id="scaleInfo"></div>
-</div>
-
-<script>
-  (function() {
-    const $ = (id)=>document.getElementById(id);
-
-    // ---------- State ----------
-    const state = {
-      diameterCm: 20,
-      pxPerMm: 4.2,
-
-      customerText: "Alles Gute zum Geburtstag!",
-      fontChoice: "scriptClassic",
-      textScale: 100,
-      textX: 0,
-      textY: 0,
-
-      age: 0,
-      ageScale: 120,
-      ageY: 0,
-
-      motif: "none",
-      motifScale: 120,
-      motifX: 0,
-      motifY: -40,
-      motifRot: 0,
-
-      drawMode: "off",
-      drawWidth: 6,
-      drawScale: 120,
-      drawX: 0,
-      drawY: 60,
-      drawRot: 0,
-
-      stageRot: 0,
-      stageFlipX: false,
-      shadowMode: false,
-      wakeLock: null,
-
-      // drawing data
-      paths: [],     // array of {d, w}
-      current: null
-    };
-
-    const KEY = "sanremo_torte_shadow_v3";
-
-    function load(){
-      try{
-        const raw = localStorage.getItem(KEY);
-        if(!raw) return;
-        const obj = JSON.parse(raw);
-        // keep paths safe
-        Object.assign(state, obj);
-        if(!Array.isArray(state.paths)) state.paths = [];
-      }catch(e){}
-    }
-    function save(){
-      try{
-        localStorage.setItem(KEY, JSON.stringify({
-          ...state,
-          wakeLock: null, current: null
-        }));
-      }catch(e){}
-    }
-
-    // ---------- Wake Lock ----------
-    async function requestWakeLock(){
-      try{
-        if('wakeLock' in navigator){
-          state.wakeLock = await navigator.wakeLock.request('screen');
+  
+  <script>
+    (function() {
+      // ==================== STATE ====================
+      const state = {
+        diameterCm: 20,
+        pxPerMm: 4.2,
+        
+        customerText: "Alles Gute zum Geburtstag!",
+        fontChoice: "Great Vibes",
+        textScale: 100,
+        textX: 0,
+        textY: 0,
+        
+        age: 0,
+        ageScale: 150,
+        ageY: -40,
+        
+        motif: "none",
+        motifScale: 120,
+        motifX: 0,
+        motifY: -60,
+        motifRot: 0,
+        
+        drawMode: false,
+        drawWidth: 6,
+        drawScale: 100,
+        drawX: 0,
+        drawY: 60,
+        drawRot: 0,
+        
+        stageRot: 0,
+        stageFlip: false,
+        shadowMode: false,
+        
+        paths: [],
+        currentPath: null,
+        
+        wakeLock: null
+      };
+      
+      // DOM Elements
+      const $ = id => document.getElementById(id);
+      
+      // ==================== INITIALIZE ====================
+      function init() {
+        setupEventListeners();
+        setupMotifGrid();
+        fillAgeOptions();
+        render();
+        updateUIFromState();
+        requestAnimationFrame(() => renderScale());
+      }
+      
+      function setupEventListeners() {
+        // Größe
+        document.querySelectorAll('[onclick^="setDiameter"]').forEach(btn => {
+          const match = btn.getAttribute('onclick').match(/\d+/);
+          if (match) {
+            const cm = parseInt(match[0]);
+            btn.addEventListener('click', (e) => {
+              e.preventDefault();
+              setDiameter(cm);
+            });
+          }
+        });
+        
+        // Range Inputs
+        const ranges = [
+          'pxPerMm', 'textScale', 'textX', 'textY',
+          'ageScale', 'ageY', 'motifScale', 'motifRot', 'motifX', 'motifY',
+          'drawWidth', 'drawScale', 'drawRot', 'drawX', 'drawY'
+        ];
+        
+        ranges.forEach(id => {
+          const el = $(id);
+          if (el) {
+            el.addEventListener('input', (e) => {
+              const value = parseFloat(e.target.value);
+              const stateKey = id;
+              if (stateKey in state) {
+                state[stateKey] = value;
+                $(id + 'Value').textContent = value;
+                render();
+              }
+            });
+          }
+        });
+        
+        // Text Inputs
+        $('customerText').addEventListener('input', (e) => {
+          state.customerText = e.target.value;
+          render();
+        });
+        
+        $('fontChoice').addEventListener('change', (e) => {
+          state.fontChoice = e.target.value;
+          render();
+        });
+        
+        $('age').addEventListener('change', (e) => {
+          state.age = parseInt(e.target.value) || 0;
+          render();
+        });
+        
+        // Buttons
+        $('drawToggleBtn').addEventListener('click', toggleDrawMode);
+        $('clearDrawBtn').addEventListener('click', clearDrawing);
+        $('undoDrawBtn').addEventListener('click', undoDrawing);
+        $('shadowModeBtn').addEventListener('click', toggleShadowMode);
+        $('fullscreenBtn').addEventListener('click', toggleFullscreen);
+        
+        // Drawing Events
+        const stage = $('stage');
+        let drawing = false;
+        
+        stage.addEventListener('pointerdown', (e) => {
+          if (!state.drawMode) return;
+          drawing = true;
+          stage.setPointerCapture(e.pointerId);
+          const point = clientToSVG(e.clientX, e.clientY);
+          startStroke(point.x, point.y);
+        });
+        
+        stage.addEventListener('pointermove', (e) => {
+          if (!drawing || !state.drawMode) return;
+          const point = clientToSVG(e.clientX, e.clientY);
+          continueStroke(point.x, point.y);
+        });
+        
+        stage.addEventListener('pointerup', () => {
+          if (drawing) {
+            drawing = false;
+            endStroke();
+          }
+        });
+        
+        stage.addEventListener('pointercancel', () => {
+          if (drawing) {
+            drawing = false;
+            endStroke();
+          }
+        });
+        
+        // Wake Lock on visibility
+        document.addEventListener('visibilitychange', async () => {
+          if (state.shadowMode && document.visibilityState === 'visible') {
+            await requestWakeLock();
+          }
+        });
+        
+        // Window resize
+        window.addEventListener('resize', () => {
+          renderScale();
+        });
+      }
+      
+      function setupMotifGrid() {
+        const options = document.querySelectorAll('.motif-option');
+        options.forEach(opt => {
+          opt.addEventListener('click', () => {
+            options.forEach(o => o.classList.remove('selected'));
+            opt.classList.add('selected');
+            const motif = opt.dataset.motif;
+            state.motif = motif;
+            render();
+          });
+        });
+      }
+      
+      function fillAgeOptions() {
+        const select = $('age');
+        select.innerHTML = '<option value="0">Kein Alter</option>';
+        for (let i = 1; i <= 20; i++) {
+          const opt = document.createElement('option');
+          opt.value = i;
+          opt.textContent = i + (i === 1 ? ' Jahr' : ' Jahre');
+          select.appendChild(opt);
         }
-      }catch(e){}
-    }
-    async function releaseWakeLock(){
-      try{
-        if(state.wakeLock){
-          await state.wakeLock.release();
-          state.wakeLock = null;
+        [30, 40, 50, 60].forEach(val => {
+          const opt = document.createElement('option');
+          opt.value = val;
+          opt.textContent = val + ' Jahre';
+          select.appendChild(opt);
+        });
+      }
+      
+      function updateUIFromState() {
+        // Update range displays
+        $('pxPerMmValue').textContent = state.pxPerMm;
+        $('textScaleValue').textContent = state.textScale;
+        $('textXValue').textContent = state.textX;
+        $('textYValue').textContent = state.textY;
+        $('ageScaleValue').textContent = state.ageScale;
+        $('ageYValue').textContent = state.ageY;
+        $('motifScaleValue').textContent = state.motifScale;
+        $('motifRotValue').textContent = state.motifRot;
+        $('motifXValue').textContent = state.motifX;
+        $('motifYValue').textContent = state.motifY;
+        $('drawWidthValue').textContent = state.drawWidth;
+        $('drawScaleValue').textContent = state.drawScale;
+        $('drawRotValue').textContent = state.drawRot;
+        $('drawXValue').textContent = state.drawX;
+        $('drawYValue').textContent = state.drawY;
+        
+        // Update selects
+        $('age').value = state.age;
+        $('fontChoice').value = state.fontChoice;
+        $('customerText').value = state.customerText;
+        
+        // Update motif grid
+        document.querySelectorAll('.motif-option').forEach(opt => {
+          if (opt.dataset.motif === state.motif) {
+            opt.classList.add('selected');
+          } else {
+            opt.classList.remove('selected');
+          }
+        });
+        
+        // Update draw button
+        $('drawToggleBtn').innerHTML = state.drawMode ? 
+          '<i class="fas fa-paint-brush"></i> Zeichenmodus: AN' : 
+          '<i class="fas fa-paint-brush"></i> Zeichenmodus: AUS';
+        $('drawStatus').innerHTML = state.drawMode ? 
+          '<i class="fas fa-paint-brush"></i> Zeichnen: AN' : 
+          '<i class="fas fa-paint-brush"></i> Zeichnen: AUS';
+        
+        // Update shadow button
+        $('shadowModeBtn').innerHTML = state.shadowMode ?
+          '<i class="fas fa-sun"></i> Normal-Modus' :
+          '<i class="fas fa-moon"></i> Schatten-Modus AKTIVIEREN';
+        
+        $('mode-badge').innerHTML = state.shadowMode ?
+          '<i class="fas fa-moon"></i><span>Schatten-Modus</span>' :
+          '<i class="fas fa-sun"></i><span>Normal</span>';
+        
+        $('shadowStatus').textContent = state.shadowMode ? 'Schatten-Modus' : 'Normal-Modus';
+        $('size-display').textContent = state.diameterCm + ' cm';
+      }
+      
+      // ==================== RENDERING ====================
+      function render() {
+        const shadow = state.shadowMode;
+        const color = shadow ? '#000000' : '#111111';
+        
+        // Set colors
+        setStrokeColor(color);
+        
+        // Customer Text
+        const custLabel = $('custLabel');
+        custLabel.textContent = state.customerText;
+        custLabel.style.fontFamily = `'${state.fontChoice}', cursive, sans-serif`;
+        custLabel.setAttribute('opacity', shadow ? '1' : '0.95');
+        applyTransform('textGroup', state.textX, state.textY, state.textScale, 0);
+        
+        // Age
+        const ageText = $('ageText');
+        ageText.textContent = state.age > 0 ? state.age.toString() : '';
+        ageText.setAttribute('opacity', shadow ? '0.2' : '0.18');
+        applyTransform('ageGroup', 0, state.ageY, state.ageScale, 0);
+        
+        // Motif
+        renderMotif();
+        
+        // Drawing
+        renderDrawing();
+        
+        // Stage transforms
+        const stage = $('stage');
+        const flip = state.stageFlip ? -1 : 1;
+        stage.style.transform = `scaleX(${flip}) rotate(${state.stageRot}deg)`;
+        
+        renderScale();
+        updateUIFromState();
+      }
+      
+      function setStrokeColor(color) {
+        $('mainCircle').setAttribute('stroke', color);
+        $('innerCircle').setAttribute('stroke', color);
+        $('grid').setAttribute('stroke', color);
+        $('custLabel').setAttribute('fill', color);
+        $('ageText').setAttribute('fill', color);
+        $('motifGroup').setAttribute('stroke', color);
+        $('drawGroup').setAttribute('stroke', color);
+      }
+      
+      function applyTransform(groupId, x, y, scalePct, rot) {
+        const g = $(groupId);
+        if (!g) return;
+        const s = scalePct / 100;
+        g.setAttribute('transform', `translate(${500 + x} ${500 + y}) rotate(${rot}) scale(${s})`);
+      }
+      
+      function renderMotif() {
+        const mg = $('motifGroup');
+        mg.innerHTML = '';
+        
+        if (state.motif === 'none') {
+          mg.setAttribute('opacity', '0');
+          return;
         }
-      }catch(e){}
-    }
-
-    // ---------- Fonts ----------
-    function fontFamily(choice){
-      switch(choice){
-        case "classic": return 'Georgia, "Times New Roman", Times, serif';
-        case "elegant": return '"Playfair Display", Georgia, serif';
-        case "scriptClassic": return '"Great Vibes", cursive';
-        case "scriptModern": return '"Pacifico", cursive';
-        default: return 'Arial, Helvetica, sans-serif';
+        
+        mg.setAttribute('opacity', state.shadowMode ? '1' : '0.95');
+        mg.setAttribute('stroke-width', state.shadowMode ? '10' : '8');
+        
+        const paths = getMotifPaths(state.motif);
+        paths.forEach(d => {
+          const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          path.setAttribute('d', d);
+          mg.appendChild(path);
+        });
+        
+        applyTransform('motifGroup', state.motifX, state.motifY, state.motifScale, state.motifRot);
       }
-    }
-
-    // ---------- Motifs (generic outlines) ----------
-    // helper: path for a circle (as SVG path string)
-    function pathCircle(cx, cy, r) {
-      return `M ${cx+r} ${cy} A ${r} ${r} 0 1 0 ${cx-r} ${cy} A ${r} ${r} 0 1 0 ${cx+r} ${cy}`;
-    }
-
-    // helper: arc from angle a0 to a1 (degrees) around center (cx,cy)
-    function pathArc(cx, cy, r, a0, a1) {
-      const rad = (d) => d * Math.PI / 180;
-      const x0 = cx + r * Math.cos(rad(a0));
-      const y0 = cy + r * Math.sin(rad(a0));
-      const x1 = cx + r * Math.cos(rad(a1));
-      const y1 = cy + r * Math.sin(rad(a1));
-      const large = ((a1 - a0) % 360) > 180 ? 1 : 0;
-      return `M ${x0} ${y0} A ${r} ${r} 0 ${large} 1 ${x1} ${y1}`;
-    }
-
-    const motifs = {
-      none: () => [],
-      heroDog: () => ([
-        // head circle
-        pathCircle(0,-40,150),
-        // ears
-        pathArc(-85,-175,55,200,340),
-        pathArc(85,-175,55,200,340),
-        // eyes
-        pathCircle(-45,-70,12),
-        pathCircle(45,-70,12),
-        // nose
-        "M 0 -30 C -18 -35 -25 -10 0 -2 C 25 -10 18 -35 0 -30",
-        // mouth
-        "M -35 10 C -10 40 10 40 35 10",
-        // badge
-        "M 0 120 L 45 165 L 0 210 L -45 165 Z",
-        "M -18 165 L 0 147 L 18 165 L 0 183 Z"
-      ]),
-      superMask: () => ([
-        // mask outline
-        "M -170 -20 C -130 -150 -30 -180 0 -180 C 30 -180 130 -150 170 -20 C 140 40 80 70 0 70 C -80 70 -140 40 -170 -20 Z",
-        // eyes
-        "M -110 -30 C -80 -80 -40 -80 -10 -30 C -40 -10 -80 -10 -110 -30 Z",
-        "M 110 -30 C 80 -80 40 -80 10 -30 C 40 -10 80 -10 110 -30 Z",
-        // web-ish lines (generic)
-        "M 0 -180 L 0 70",
-        "M -110 -120 L 0 -70 L 110 -120",
-        "M -150 -40 L 0 -10 L 150 -40"
-      ]),
-      unicorn: () => ([
-        // head
-        "M -130 40 C -140 -40 -90 -140 0 -160 C 90 -140 140 -40 130 40 C 120 120 60 160 0 160 C -60 160 -120 120 -130 40 Z",
-        // horn
-        "M 0 -240 L 40 -160 L 0 -175 L -40 -160 Z",
-        "M -18 -210 L 18 -190",
-        "M -22 -190 L 22 -170",
-        // ear
-        "M 95 -120 C 140 -140 150 -80 115 -60",
-        // mane lines
-        "M -95 -120 C -140 -70 -120 10 -70 40",
-        "M -70 -140 C -110 -90 -80 -10 -40 20",
-        // eyes
-        pathCircle(-45,-30,10),
-        pathCircle(45,-30,10),
-        // nose
-        "M -10 70 C 0 80 10 80 20 70"
-      ]),
-      dino: () => ([
-        // body
-        "M -170 60 C -150 -80 -60 -160 60 -130 C 150 -100 170 -20 150 50 C 140 95 110 115 70 125 C 30 135 -10 130 -40 110 C -70 90 -110 95 -140 85 C -165 78 -178 75 -170 60 Z",
-        // spikes
-        "M -120 -40 L -105 -80 L -90 -45",
-        "M -80 -70 L -65 -110 L -50 -75",
-        "M -40 -90 L -25 -130 L -10 -95",
-        // eye
-        pathCircle(70,-55,12),
-        // smile
-        "M 40 -20 C 70 10 100 10 130 -5",
-        // legs
-        "M -40 110 L -55 160 L -20 160 L -10 120",
-        "M 60 120 L 55 165 L 90 165 L 95 125",
-        // tail
-        "M -170 60 C -240 70 -260 20 -210 0"
-      ]),
-      racecar: () => ([
-        // car body
-        "M -190 40 C -160 -30 -90 -70 -10 -70 C 60 -70 120 -40 160 10 C 180 35 190 60 190 90 C 110 100 30 105 0 105 C -50 105 -130 95 -190 90 Z",
-        // cockpit
-        "M -40 -70 C -20 -120 60 -120 90 -70",
-        // wheels
-        pathCircle(-120,95,38),
-        pathCircle(120,95,38),
-        pathCircle(-120,95,16),
-        pathCircle(120,95,16),
-        // spoiler
-        "M 150 10 L 210 10 L 210 40 L 160 40",
-        // stripe
-        "M -10 -70 L -10 105"
-      ]),
-      football: () => ([
-        pathCircle(0,0,170),
-        // pentagon-ish center
-        "M 0 -55 L 50 -20 L 30 40 L -30 40 L -50 -20 Z",
-        // seams
-        "M 0 -55 L 0 -170",
-        "M 50 -20 L 150 -90",
-        "M 30 40 L 120 140",
-        "M -30 40 L -120 140",
-        "M -50 -20 L -150 -90"
-      ]),
-      rainbow: () => ([
-        // arcs
-        pathArc(0,70,220,200,340),
-        pathArc(0,70,190,200,340),
-        pathArc(0,70,160,200,340),
-        // clouds
-        "M -200 120 C -220 90 -170 70 -150 90 C -140 60 -90 60 -85 90 C -60 65 -20 85 -35 120 Z",
-        "M 200 120 C 220 90 170 70 150 90 C 140 60 90 60 85 90 C 60 65 20 85 35 120 Z"
-      ]),
-      crown: () => ([
-        "M -170 120 L -120 -40 L -40 40 L 0 -80 L 40 40 L 120 -40 L 170 120 Z",
-        "M -170 120 L 170 120",
-        pathCircle(-120,-40,10),
-        pathCircle(0,-80,10),
-        pathCircle(120,-40,10)
-      ]),
-      paw: () => ([
-        // pads
-        pathCircle(0,40,70),
-        pathCircle(-85,-60,25),
-        pathCircle(-25,-95,22),
-        pathCircle(25,-95,22),
-        pathCircle(85,-60,25)
-      ]),
-      star: () => ([
-        "M 0 -180 L 42 -55 L 170 -55 L 65 20 L 105 150 L 0 75 L -105 150 L -65 20 L -170 -55 L -42 -55 Z"
-      ]),
-      heart: () => ([
-        "M 0 140 C -220 -10 -120 -180 0 -80 C 120 -180 220 -10 0 140 Z"
-      ]),
-      teddy: () => ([
-        // head
-        pathCircle(0,-20,150),
-        // ears
-        pathCircle(-110,-150,55),
-        pathCircle(110,-150,55),
-        // eyes
-        pathCircle(-50,-40,12),
-        pathCircle(50,-40,12),
-        // nose
-        "M 0 0 C -18 -10 -28 15 0 25 C 28 15 18 -10 0 0 Z",
-        // mouth
-        "M 0 25 C 0 55 -40 60 -55 40",
-        "M 0 25 C 0 55 40 60 55 40"
-      ]),
-      controller: () => ([
-        "M -190 10 C -170 -90 -60 -120 0 -90 C 60 -120 170 -90 190 10 C 210 95 140 140 90 120 C 50 105 40 70 0 70 C -40 70 -50 105 -90 120 C -140 140 -210 95 -190 10 Z",
-        // dpad
-        "M -90 0 L -60 0 L -60 -30 L -30 -30 L -30 0 L 0 0 L 0 30 L -30 30 L -30 60 L -60 60 L -60 30 L -90 30 Z",
-        // buttons
-        pathCircle(95,0,14),
-        pathCircle(125,-25,14),
-        pathCircle(125,25,14),
-        pathCircle(155,0,14)
-      ])
-    };
-
-    // ---------- Rendering helpers ----------
-    function setStrokeColor(color){
-      $("circleOuter").setAttribute("stroke", color);
-      $("circleInner").setAttribute("stroke", color);
-      $("grid").setAttribute("stroke", color);
-
-      $("custLabel").setAttribute("fill", color);
-      $("ageText").setAttribute("fill", color);
-
-      // motif & draw are stroke-based
-      $("motifGroup").setAttribute("stroke", color);
-      $("drawGroup").setAttribute("stroke", color);
-    }
-
-    function applyGroupTransform(g, x, y, scalePct, rotDeg){
-      const s = (scalePct/100).toFixed(4);
-      g.setAttribute("transform", `translate(${500 + x} ${500 + y}) rotate(${rotDeg}) scale(${s})`);
-    }
-
-    function renderScale(){
-      // Physical scaling of circle to match selected cm (via px/mm calibration)
-      const desiredMm = state.diameterCm * 10;
-      const desiredPx = desiredMm * state.pxPerMm;
-
-      const wrap = document.querySelector(".stageWrap");
-      const rect = wrap.getBoundingClientRect();
-      const availablePx = Math.min(rect.width, rect.height);
-
-      const baseDiameter = 840; // circle diameter in viewBox units
-      const currentCirclePx = (baseDiameter/1000) * availablePx;
-      const factor = desiredPx / currentCirclePx;
-
-      const svg = $("svg");
-      svg.style.transformOrigin = "50% 50%";
-      svg.style.transform = `scale(${factor})`;
-
-      $("scaleInfo").textContent = `Ø ${state.diameterCm} cm | Kalibrierung: ${state.pxPerMm.toFixed(2)} px/mm`;
-    }
-
-    function render(){
-      const shadow = state.shadowMode;
-      const color = shadow ? "#000" : "#111";
-      setStrokeColor(color);
-
-      // customer text
-      const t = $("custLabel");
-      t.textContent = state.customerText || "";
-      t.style.fontFamily = fontFamily(state.fontChoice);
-      t.setAttribute("opacity", shadow ? "0.95" : "0.9");
-      applyGroupTransform($("textGroup"), state.textX, state.textY, state.textScale, 0);
-
-      // age
-      const a = $("ageText");
-      a.textContent = state.age && Number(state.age) > 0 ? String(state.age) : "";
-      a.setAttribute("opacity", shadow ? "0.14" : "0.16"); // subtle shadow behind
-      applyGroupTransform($("ageGroup"), 0, state.ageY, state.ageScale, 0);
-
-      // motif
-      const mg = $("motifGroup");
-      mg.innerHTML = "";
-      mg.setAttribute("stroke-width", shadow ? "10" : "9");
-      mg.setAttribute("opacity", state.motif === "none" ? "0" : (shadow ? "0.95" : "0.9"));
-
-      const paths = motifs[state.motif] ? motifs[state.motif]() : [];
-      for(const d of paths){
-        const p = document.createElementNS("http://www.w3.org/2000/svg","path");
-        p.setAttribute("d", d);
-        mg.appendChild(p);
+      
+      function getMotifPaths(motif) {
+        const center = (cx, cy, r) => `M ${cx+r} ${cy} A ${r} ${r} 0 1 0 ${cx-r} ${cy} A ${r} ${r} 0 1 0 ${cx+r} ${cy}`;
+        
+        switch(motif) {
+          case 'heart':
+            return ["M 0 100 C -100 -50 -50 -150 0 -80 C 50 -150 100 -50 0 100 Z"];
+          case 'star':
+            return ["M 0 -150 L 35 -45 L 145 -45 L 55 20 L 90 130 L 0 65 L -90 130 L -55 20 L -145 -45 L -35 -45 Z"];
+          case 'crown':
+            return ["M -130 40 L -80 -80 L -20 20 L 0 -40 L 20 20 L 80 -80 L 130 40 L 100 80 L -100 80 Z"];
+          case 'bear':
+            return [
+              center(0, -40, 120),
+              center(-70, -130, 40),
+              center(70, -130, 40),
+              center(-35, -60, 10),
+              center(35, -60, 10),
+              "M -50 20 Q 0 60 50 20"
+            ];
+          case 'dog':
+            return [
+              center(0, -20, 100),
+              center(-60, -100, 30),
+              center(60, -100, 30),
+              "M -70 30 Q -20 70 0 70 Q 20 70 70 30",
+              center(-35, -40, 8),
+              center(35, -40, 8)
+            ];
+          case 'cat':
+            return [
+              "M -100 -50 C -140 -100 -40 -140 0 -100 C 40 -140 140 -100 100 -50",
+              "M -80 0 L -130 40",
+              "M 80 0 L 130 40",
+              center(-30, 20, 8),
+              center(30, 20, 8),
+              "M -40 60 Q 0 100 40 60"
+            ];
+          case 'dino':
+            return [
+              "M -150 0 C -180 -80 -60 -140 0 -120 C 80 -140 180 -60 150 20 C 140 80 80 120 0 120 C -80 120 -140 80 -150 0",
+              "M -100 20 L -150 60",
+              "M 100 20 L 150 60",
+              "M -40 100 L -60 160 L -20 160 L -20 120",
+              "M 40 100 L 60 160 L 20 160 L 20 120"
+            ];
+          case 'unicorn':
+            return [
+              "M -120 -20 C -150 -100 -50 -150 0 -140 C 60 -150 140 -90 120 -20 C 110 50 60 100 0 100 C -60 100 -110 50 -120 -20",
+              "M 0 -180 L 40 -120 L 0 -140 L -40 -120 Z",
+              center(-40, -40, 8),
+              center(40, -40, 8),
+              "M -70 20 Q 0 60 70 20"
+            ];
+          case 'car':
+            return [
+              "M -180 20 C -180 -40 -100 -70 0 -70 C 100 -70 180 -40 180 20 C 180 60 120 80 0 80 C -120 80 -180 60 -180 20",
+              center(-120, 40, 20),
+              center(120, 40, 20),
+              "M -60 -70 L -60 -120",
+              "M 60 -70 L 60 -120"
+            ];
+          case 'ball':
+            return [
+              center(0, 0, 120),
+              "M -80 -40 L -120 -80",
+              "M -40 40 L -100 100",
+              "M 40 40 L 100 100",
+              "M 80 -40 L 120 -80",
+              "M 0 -120 L 0 120"
+            ];
+          case 'cake':
+            return [
+              "M -120 20 L -120 -60 L 120 -60 L 120 20",
+              "M -150 20 L 150 20 L 120 80 L -120 80 Z",
+              "M -60 -60 L -60 -100",
+              "M 0 -60 L 0 -100",
+              "M 60 -60 L 60 -100",
+              center(-80, 50, 8),
+              center(0, 50, 8),
+              center(80, 50, 8)
+            ];
+          default:
+            return [];
+        }
       }
-      applyGroupTransform(mg, state.motifX, state.motifY, state.motifScale, state.motifRot);
-
-      // drawing
-      renderDrawing();
-
-      // stage rotation/flip
-      const stageDiv = $("stage");
-      const flip = state.stageFlipX ? -1 : 1;
-      stageDiv.style.transformOrigin = "50% 50%";
-      stageDiv.style.transform = `scaleX(${flip}) rotate(${state.stageRot}deg)`;
-
-      renderScale();
-      updateDrawHint();
-    }
-
-    function renderDrawing(){
-      const dg = $("drawGroup");
-      dg.innerHTML = "";
-
-      applyGroupTransform(dg, state.drawX, state.drawY, state.drawScale, state.drawRot);
-
-      for(const item of state.paths){
-        const p = document.createElementNS("http://www.w3.org/2000/svg","path");
-        p.setAttribute("d", item.d);
-        p.setAttribute("stroke-width", item.w);
-        p.setAttribute("opacity", state.shadowMode ? "0.95" : "0.9");
-        dg.appendChild(p);
+      
+      function renderDrawing() {
+        const dg = $('drawGroup');
+        dg.innerHTML = '';
+        
+        applyTransform('drawGroup', state.drawX, state.drawY, state.drawScale, state.drawRot);
+        
+        state.paths.forEach(item => {
+          const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          path.setAttribute('d', item.d);
+          path.setAttribute('stroke-width', item.w);
+          path.setAttribute('opacity', state.shadowMode ? '1' : '0.95');
+          dg.appendChild(path);
+        });
+        
+        if (state.currentPath) {
+          const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          path.setAttribute('d', state.currentPath.d);
+          path.setAttribute('stroke-width', state.currentPath.w);
+          path.setAttribute('opacity', state.shadowMode ? '1' : '0.95');
+          dg.appendChild(path);
+        }
       }
-      // current
-      if(state.current){
-        const p = document.createElementNS("http://www.w3.org/2000/svg","path");
-        p.setAttribute("d", state.current.d);
-        p.setAttribute("stroke-width", state.current.w);
-        p.setAttribute("opacity", state.shadowMode ? "0.95" : "0.9");
-        dg.appendChild(p);
+      
+      function renderScale() {
+        const desiredMm = state.diameterCm * 10;
+        const desiredPx = desiredMm * state.pxPerMm;
+        
+        const wrapper = $('stageWrapper');
+        const rect = wrapper.getBoundingClientRect();
+        const availablePx = Math.min(rect.width, rect.height);
+        
+        const baseDiameter = 840; // SVG circle diameter
+        const currentPx = (baseDiameter / 1000) * availablePx;
+        const factor = desiredPx / currentPx;
+        
+        $('svg').style.transform = `scale(${factor})`;
+        $('scaleInfo').textContent = `${state.diameterCm} cm | ${state.pxPerMm.toFixed(1)} px/mm`;
+        
+        // Calibration readout
+        const cardPx = 85.6 * state.pxPerMm;
+        $('calibration-readout').textContent = `Karte: ${cardPx.toFixed(0)} px auf Bildschirm`;
       }
-    }
-
-    function updateDrawHint(){
-      const on = state.drawMode === "on";
-      $("drawHint").textContent = on ? " | ✍️ Freihand: Zeichne direkt im Kreis." : "";
-    }
-
-    // ---------- Drawing (pointer -> SVG coords) ----------
-    function clientToSvgPoint(clientX, clientY){
-      const svg = $("svg");
-      const pt = svg.createSVGPoint();
-      pt.x = clientX; pt.y = clientY;
-      const ctm = svg.getScreenCTM();
-      if(!ctm) return {x:0,y:0};
-      const inv = ctm.inverse();
-      const sp = pt.matrixTransform(inv);
-      return {x: sp.x, y: sp.y};
-    }
-
-    function startStroke(x,y){
-      const dg = $("drawGroup");
-      const pt = $("svg").createSVGPoint();
-      pt.x = x; pt.y = y;
-      const m = dg.getCTM();
-      if(!m) return;
-      const inv = m.inverse();
-      const lp = pt.matrixTransform(inv);
-      state.current = { d: `M ${lp.x.toFixed(2)} ${lp.y.toFixed(2)}`, w: state.drawWidth };
-    }
-
-    function extendStroke(x,y){
-      const dg = $("drawGroup");
-      const pt = $("svg").createSVGPoint();
-      pt.x = x; pt.y = y;
-      const m = dg.getCTM();
-      if(!m || !state.current) return;
-      const inv = m.inverse();
-      const lp = pt.matrixTransform(inv);
-      state.current.d += ` L ${lp.x.toFixed(2)} ${lp.y.toFixed(2)}`;
-    }
-
-    function endStroke(){
-      if(state.current){
-        state.paths.push(state.current);
-        state.current = null;
-        save();
+      
+      // ==================== DRAWING ====================
+      function clientToSVG(clientX, clientY) {
+        const svg = $('svg');
+        const pt = svg.createSVGPoint();
+        pt.x = clientX;
+        pt.y = clientY;
+        const ctm = svg.getScreenCTM();
+        if (!ctm) return { x: 500, y: 500 };
+        const inv = ctm.inverse();
+        const sp = pt.matrixTransform(inv);
+        return { x: sp.x, y: sp.y };
       }
-    }
-
-    // ---------- Shadow mode / fullscreen ----------
-    async function toggleShadowMode(){
-      state.shadowMode = !state.shadowMode;
-      save();
-
-      $("stage").classList.toggle("shadow", state.shadowMode);
-      $("statusBadge").textContent = state.shadowMode ? "Schatten-Modus" : "Normal";
-      $("btnShadow").textContent = state.shadowMode ? "Normal-Modus" : "Schatten-Modus";
-
-      if(state.shadowMode) await requestWakeLock();
-      else await releaseWakeLock();
-
-      render();
-    }
-
-    function toggleFullscreen(){
-      document.body.classList.toggle("fullscreenStage");
-      $("btnFullscreen").textContent = document.body.classList.contains("fullscreenStage") ? "Zurück" : "Vollbild";
-      setTimeout(()=>renderScale(), 50);
-    }
-
-    // ---------- Init UI ----------
-    function fillAges(){
-      const sel = $("age");
-      for(let i=2;i<=12;i++){
-        const opt = document.createElement("option");
-        opt.value = String(i);
-        opt.textContent = String(i);
-        sel.appendChild(opt);
+      
+      function startStroke(x, y) {
+        const dg = $('drawGroup');
+        const pt = $('svg').createSVGPoint();
+        pt.x = x;
+        pt.y = y;
+        const m = dg.getCTM();
+        if (!m) return;
+        const inv = m.inverse();
+        const lp = pt.matrixTransform(inv);
+        state.currentPath = {
+          d: `M ${lp.x.toFixed(2)} ${lp.y.toFixed(2)}`,
+          w: state.drawWidth
+        };
+        renderDrawing();
       }
-    }
-
-    function initUI(){
-      fillAges();
-
-      // set defaults
-      $("diameterCm").value = String(state.diameterCm);
-      $("pxPerMm").value = String(state.pxPerMm);
-
-      $("customerText").value = state.customerText;
-      $("fontChoice").value = state.fontChoice;
-      $("textScale").value = String(state.textScale);
-      $("textX").value = String(state.textX);
-      $("textY").value = String(state.textY);
-
-      $("age").value = String(state.age);
-      $("ageScale").value = String(state.ageScale);
-      $("ageY").value = String(state.ageY);
-
-      $("motif").value = state.motif;
-      $("motifScale").value = String(state.motifScale);
-      $("motifX").value = String(state.motifX);
-      $("motifY").value = String(state.motifY);
-      $("motifRot").value = String(state.motifRot);
-
-      $("drawMode").value = state.drawMode;
-      $("drawWidth").value = String(state.drawWidth);
-      $("drawScale").value = String(state.drawScale);
-      $("drawX").value = String(state.drawX);
-      $("drawY").value = String(state.drawY);
-      $("drawRot").value = String(state.drawRot);
-
-      // events
-      $("diameterCm").addEventListener("change",(e)=>{ state.diameterCm=Number(e.target.value); save(); render(); });
-      $("pxPerMm").addEventListener("input",(e)=>{ state.pxPerMm=Number(e.target.value); save(); renderScale(); });
-
-      $("customerText").addEventListener("input",(e)=>{ state.customerText=e.target.value; save(); render(); });
-      $("fontChoice").addEventListener("change",(e)=>{ state.fontChoice=e.target.value; save(); render(); });
-      $("textScale").addEventListener("input",(e)=>{ state.textScale=Number(e.target.value); save(); render(); });
-      $("textX").addEventListener("input",(e)=>{ state.textX=Number(e.target.value); save(); render(); });
-      $("textY").addEventListener("input",(e)=>{ state.textY=Number(e.target.value); save(); render(); });
-
-      $("age").addEventListener("change",(e)=>{ state.age=Number(e.target.value); save(); render(); });
-      $("ageScale").addEventListener("input",(e)=>{ state.ageScale=Number(e.target.value); save(); render(); });
-      $("ageY").addEventListener("input",(e)=>{ state.ageY=Number(e.target.value); save(); render(); });
-
-      $("motif").addEventListener("change",(e)=>{ state.motif=e.target.value; save(); render(); });
-      $("motifScale").addEventListener("input",(e)=>{ state.motifScale=Number(e.target.value); save(); render(); });
-      $("motifX").addEventListener("input",(e)=>{ state.motifX=Number(e.target.value); save(); render(); });
-      $("motifY").addEventListener("input",(e)=>{ state.motifY=Number(e.target.value); save(); render(); });
-      $("motifRot").addEventListener("input",(e)=>{ state.motifRot=Number(e.target.value); save(); render(); });
-
-      $("drawMode").addEventListener("change",(e)=>{ state.drawMode=e.target.value; save(); updateDrawHint(); });
-      $("drawWidth").addEventListener("input",(e)=>{ state.drawWidth=Number(e.target.value); save(); });
-      $("drawScale").addEventListener("input",(e)=>{ state.drawScale=Number(e.target.value); save(); render(); });
-      $("drawX").addEventListener("input",(e)=>{ state.drawX=Number(e.target.value); save(); render(); });
-      $("drawY").addEventListener("input",(e)=>{ state.drawY=Number(e.target.value); save(); render(); });
-      $("drawRot").addEventListener("input",(e)=>{ state.drawRot=Number(e.target.value); save(); render(); });
-
-      $("btnShadow").addEventListener("click", toggleShadowMode);
-      $("btnFullscreen").addEventListener("click", toggleFullscreen);
-
-      $("btnUndo").addEventListener("click", ()=>{
-        state.paths.pop();
-        save(); render();
-      });
-      $("btnClear").addEventListener("click", ()=>{
+      
+      function continueStroke(x, y) {
+        if (!state.currentPath) return;
+        const dg = $('drawGroup');
+        const pt = $('svg').createSVGPoint();
+        pt.x = x;
+        pt.y = y;
+        const m = dg.getCTM();
+        if (!m) return;
+        const inv = m.inverse();
+        const lp = pt.matrixTransform(inv);
+        state.currentPath.d += ` L ${lp.x.toFixed(2)} ${lp.y.toFixed(2)}`;
+        renderDrawing();
+      }
+      
+      function endStroke() {
+        if (state.currentPath) {
+          state.paths.push(state.currentPath);
+          state.currentPath = null;
+        }
+        renderDrawing();
+      }
+      
+      function clearDrawing() {
         state.paths = [];
-        state.current = null;
-        save(); render();
-      });
-
-      $("btnRotate").addEventListener("click", ()=>{
-        state.stageRot = (state.stageRot + 90) % 360;
-        save(); render();
-      });
-      $("btnFlipX").addEventListener("click", ()=>{
-        state.stageFlipX = !state.stageFlipX;
-        save(); render();
-      });
-      $("btnReset").addEventListener("click", ()=>{
-        // reset transforms but keep calibration
-        state.textScale=100; state.textX=0; state.textY=0;
-        state.age=0; state.ageScale=120; state.ageY=0;
-        state.motif="none"; state.motifScale=120; state.motifX=0; state.motifY=-40; state.motifRot=0;
-        state.drawMode="off"; state.drawWidth=6; state.drawScale=120; state.drawX=0; state.drawY=60; state.drawRot=0;
-        state.stageRot=0; state.stageFlipX=false;
-        state.paths=[]; state.current=null;
-
-        // push to UI
-        $("textScale").value=String(state.textScale);
-        $("textX").value=String(state.textX);
-        $("textY").value=String(state.textY);
-
-        $("age").value=String(state.age);
-        $("ageScale").value=String(state.ageScale);
-        $("ageY").value=String(state.ageY);
-
-        $("motif").value=state.motif;
-        $("motifScale").value=String(state.motifScale);
-        $("motifX").value=String(state.motifX);
-        $("motifY").value=String(state.motifY);
-        $("motifRot").value=String(state.motifRot);
-
-        $("drawMode").value=state.drawMode;
-        $("drawWidth").value=String(state.drawWidth);
-        $("drawScale").value=String(state.drawScale);
-        $("drawX").value=String(state.drawX);
-        $("drawY").value=String(state.drawY);
-        $("drawRot").value=String(state.drawRot);
-
-        save(); render();
-      });
-
-      // Drawing events on stage
-      const stageDiv = $("stage");
-      let drawing = false;
-
-      stageDiv.addEventListener("pointerdown", (e)=>{
-        if(state.drawMode !== "on") return;
-        drawing = true;
-        stageDiv.setPointerCapture(e.pointerId);
-        const p = clientToSvgPoint(e.clientX, e.clientY);
-        startStroke(p.x, p.y);
+        state.currentPath = null;
         renderDrawing();
-      });
-
-      stageDiv.addEventListener("pointermove", (e)=>{
-        if(!drawing || state.drawMode !== "on") return;
-        const p = clientToSvgPoint(e.clientX, e.clientY);
-        extendStroke(p.x, p.y);
+      }
+      
+      function undoDrawing() {
+        state.paths.pop();
         renderDrawing();
-      });
-
-      stageDiv.addEventListener("pointerup", ()=>{
-        if(!drawing) return;
-        drawing = false;
-        endStroke();
-        renderDrawing();
-      });
-
-      stageDiv.addEventListener("pointercancel", ()=>{
-        if(!drawing) return;
-        drawing = false;
-        endStroke();
-        renderDrawing();
-      });
-
-      // reacquire wake lock if needed
-      document.addEventListener('visibilitychange', async ()=>{
-        if(state.shadowMode && document.visibilityState === 'visible'){
+      }
+      
+      function toggleDrawMode() {
+        state.drawMode = !state.drawMode;
+        updateUIFromState();
+      }
+      
+      // ==================== SHADOW MODE ====================
+      async function toggleShadowMode() {
+        state.shadowMode = !state.shadowMode;
+        
+        if (state.shadowMode) {
+          $('stage').classList.add('shadow-mode');
           await requestWakeLock();
+        } else {
+          $('stage').classList.remove('shadow-mode');
+          await releaseWakeLock();
         }
-      });
-    }
-
-    // ---------- Boot ----------
-    load();
-    initUI();
-    $("statusBadge").textContent = state.shadowMode ? "Schatten-Modus" : "Normal";
-    $("btnShadow").textContent = state.shadowMode ? "Normal-Modus" : "Schatten-Modus";
-    $("stage").classList.toggle("shadow", state.shadowMode);
-    render();
-  })();
-</script>
+        
+        render();
+        updateUIFromState();
+      }
+      
+      async function requestWakeLock() {
+        try {
+          if ('wakeLock' in navigator) {
+            state.wakeLock = await navigator.wakeLock.request('screen');
+          }
+        } catch (err) {
+          console.warn('Wake Lock failed:', err);
+        }
+      }
+      
+      async function releaseWakeLock() {
+        try {
+          if (state.wakeLock) {
+            await state.wakeLock.release();
+            state.wakeLock = null;
+          }
+        } catch (err) {
+          console.warn('Release Wake Lock failed:', err);
+        }
+      }
+      
+      // ==================== ACTIONS ====================
+      window.setDiameter = function(cm) {
+        state.diameterCm = cm;
+        render();
+        updateUIFromState();
+      };
+      
+      window.rotateStage = function() {
+        state.stageRot = (state.stageRot + 90) % 360;
+        render();
+      };
+      
+      window.flipStage = function() {
+        state.stageFlip = !state.stageFlip;
+        render();
+      };
+      
+      window.resetAll = function() {
+        state.textScale = 100;
+        state.textX = 0;
+        state.textY = 0;
+        state.age = 0;
+        state.ageScale = 150;
+        state.ageY = -40;
+        state.motif = 'none';
+        state.motifScale = 120;
+        state.motifX = 0;
+        state.motifY = -60;
+        state.motifRot = 0;
+        state.drawMode = false;
+        state.drawScale = 100;
+        state.drawX = 0;
+        state.drawY = 60;
+        state.drawRot = 0;
+        state.stageRot = 0;
+        state.stageFlip = false;
+        state.paths = [];
+        state.currentPath = null;
+        
+        render();
+        updateUIFromState();
+      };
+      
+      function toggleFullscreen() {
+        document.body.classList.toggle('fullscreen-mode');
+        $('fullscreenBtn').innerHTML = document.body.classList.contains('fullscreen-mode') ?
+          '<i class="fas fa-compress"></i>' :
+          '<i class="fas fa-expand"></i>';
+        setTimeout(() => renderScale(), 100);
+      }
+      
+      // ==================== START ====================
+      init();
+    })();
+  </script>
 </body>
 </html>
