@@ -3,103 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOLO - TEXTO NA CÂMARA</title>
+    <title>CÂMARA + TEXTO - VERSÃO FUNCIONAL</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: black; overflow: hidden; height: 100vh; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000;
+            color: white;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+        }
         
         .container {
             position: relative;
             width: 100%;
             height: 100%;
+            display: flex;
+            flex-direction: column;
         }
         
-        /* CÂMARA */
+        /* Área da câmara */
+        .camera-section {
+            position: relative;
+            flex: 1;
+            background: #1a1a1a;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
         #video {
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
         
-        /* CANVAS - OBRIGATÓRIO PARA O TEXTO */
         #canvas {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 10; /* MUITO IMPORTANTE: FICA POR CIMA */
-            background: transparent;
+            z-index: 5;
         }
         
-        /* CONTROLOS */
-        .controls {
+        /* Mensagem quando não há câmara */
+        .no-camera {
             position: absolute;
-            bottom: 30px;
-            left: 0;
-            right: 0;
-            z-index: 20;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            padding: 20px;
-        }
-        
-        input {
-            width: 90%;
-            max-width: 500px;
-            padding: 20px;
-            font-size: 30px;
+            color: white;
             text-align: center;
-            border-radius: 60px;
-            border: 3px solid gold;
-            background: rgba(0,0,0,0.8);
-            color: white;
-        }
-        
-        .sliders {
-            width: 90%;
-            max-width: 500px;
-            background: rgba(0,0,0,0.8);
+            z-index: 2;
+            background: rgba(255,0,0,0.5);
             padding: 20px;
-            border-radius: 40px;
-            border: 2px solid gold;
+            border-radius: 20px;
+            display: none;
         }
         
-        .slider-item {
+        /* Controlos */
+        .controls {
+            background: #222;
+            padding: 20px;
+            border-top: 2px solid gold;
+        }
+        
+        .input-row {
             display: flex;
-            align-items: center;
-            gap: 15px;
-            margin: 15px 0;
+            gap: 10px;
+            margin-bottom: 15px;
         }
         
-        .slider-item label {
-            color: gold;
-            width: 50px;
-            font-size: 24px;
-        }
-        
-        .slider-item input {
+        .input-row input {
             flex: 1;
-            padding: 0;
-        }
-        
-        .slider-item span {
-            color: white;
-            width: 50px;
+            padding: 15px;
             font-size: 20px;
+            border-radius: 30px;
+            border: 2px solid gold;
+            background: #333;
+            color: white;
         }
         
-        button {
-            width: 90%;
-            max-width: 500px;
-            padding: 20px;
-            font-size: 28px;
-            border-radius: 60px;
+        .input-row button {
+            padding: 15px 30px;
+            font-size: 20px;
+            border-radius: 30px;
             border: none;
             background: gold;
             color: black;
@@ -107,109 +99,238 @@
             cursor: pointer;
         }
         
-        .status {
-            position: absolute;
-            top: 20px;
-            left: 20px;
+        .slider-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .slider-row label {
+            width: 60px;
+            color: gold;
+            font-size: 20px;
+        }
+        
+        .slider-row input {
+            flex: 1;
+            height: 10px;
+            -webkit-appearance: none;
+            background: #444;
+            border-radius: 10px;
+        }
+        
+        .slider-row input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 30px;
+            height: 30px;
             background: gold;
-            padding: 10px 20px;
-            border-radius: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .slider-row span {
+            width: 50px;
+            text-align: right;
+            color: white;
             font-size: 18px;
-            z-index: 30;
+        }
+        
+        .button-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .btn {
+            padding: 15px;
+            border-radius: 30px;
+            border: none;
+            background: #444;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        
+        .btn-gold {
+            background: gold;
+            color: black;
+            font-weight: bold;
+        }
+        
+        .status {
+            text-align: center;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 30px;
+            background: #333;
+            color: gold;
+        }
+        
+        .error {
+            background: #ff4444;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+            display: none;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <video id="video" autoplay playsinline></video>
-    <canvas id="canvas"></canvas>
+    <!-- Área da câmara -->
+    <div class="camera-section">
+        <video id="video" autoplay playsinline></video>
+        <canvas id="canvas"></canvas>
+        <div class="no-camera" id="noCamera">
+            📷 Clique no botão para ativar a câmara
+        </div>
+    </div>
     
-    <div class="status" id="status">📸 A iniciar...</div>
-    
+    <!-- Controlos -->
     <div class="controls">
-        <input type="text" id="texto" value="PARABÉNS" placeholder="Escreva aqui">
-        
-        <div class="sliders">
-            <div class="slider-item">
-                <label>📏</label>
-                <input type="range" id="tamanho" min="30" max="300" value="100">
-                <span id="tamanhoValor">100</span>
-            </div>
-            <div class="slider-item">
-                <label>⬆️</label>
-                <input type="range" id="posY" min="-300" max="300" value="0">
-                <span id="posYValor">0</span>
-            </div>
+        <div class="input-row">
+            <input type="text" id="textInput" value="PARABÉNS" placeholder="Digite o texto...">
+            <button id="updateBtn">OK</button>
         </div>
         
-        <button id="projecao">🌙 ATIVAR PROJEÇÃO</button>
+        <div class="slider-row">
+            <label>📏</label>
+            <input type="range" id="sizeSlider" min="30" max="250" value="100">
+            <span id="sizeValue">100</span>
+        </div>
+        
+        <div class="slider-row">
+            <label>⬆️</label>
+            <input type="range" id="ySlider" min="-300" max="300" value="0">
+            <span id="yValue">0</span>
+        </div>
+        
+        <div class="button-grid">
+            <button class="btn" id="cameraBtn">📸 INICIAR CÂMARA</button>
+            <button class="btn btn-gold" id="projectBtn">🌙 PROJEÇÃO</button>
+        </div>
+        
+        <div class="status" id="status">
+            ⚪ Clique em INICIAR CÂMARA
+        </div>
+        
+        <div class="error" id="error"></div>
     </div>
 </div>
 
 <script>
-    // ===== ELEMENTOS =====
+    // Elementos
     const video = document.getElementById('video');
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
-    const statusDiv = document.getElementById('status');
     
-    // ===== ESTADO =====
-    let cameraPronta = false;
+    // Estado
+    let cameraAtiva = false;
     let projecaoAtiva = false;
     let texto = "PARABÉNS";
     let tamanho = 100;
     let posY = 0;
     
-    // ===== INICIAR CÂMARA =====
-    async function iniciarCamera() {
+    // Função para iniciar câmara
+    document.getElementById('cameraBtn').addEventListener('click', async () => {
+        const status = document.getElementById('status');
+        const error = document.getElementById('error');
+        
+        status.innerHTML = "⏳ A pedir acesso à câmara...";
+        error.style.display = 'none';
+        
         try {
-            statusDiv.innerHTML = "⏳ A pedir câmara...";
+            // Verificar se o navegador suporta
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                throw new Error('Navegador não suporta câmara');
+            }
+            
+            // PEDIR ACESSO À CÂMARA - Isto mostra o popup!
+            console.log("A pedir câmara...");
             
             const stream = await navigator.mediaDevices.getUserMedia({ 
-                video: { facingMode: 'environment' } 
+                video: {
+                    facingMode: 'environment', // Câmara traseira
+                    width: { ideal: 1280 },
+                    height: { ideal: 720 }
+                }
             });
             
+            console.log("Câmara OK!");
+            
+            // MOSTRAR VÍDEO
             video.srcObject = stream;
             
             video.onloadedmetadata = () => {
-                // CANVAS com as mesmas dimensões do vídeo
+                console.log("Vídeo carregado");
+                
+                // Ajustar canvas ao tamanho do vídeo
                 canvas.width = video.videoWidth;
                 canvas.height = video.videoHeight;
                 
+                // Iniciar reprodução
                 video.play();
-                cameraPronta = true;
-                statusDiv.innerHTML = "✅ Câmara OK - Escreva o texto";
                 
-                // Começar a desenhar
+                cameraAtiva = true;
+                
+                // Atualizar status
+                status.innerHTML = "✅ CÂMARA ATIVA - A ver bolo!";
+                document.getElementById('noCamera').style.display = 'none';
+                
+                // Iniciar desenho
                 desenhar();
             };
             
         } catch (err) {
-            statusDiv.innerHTML = "❌ Erro: " + err.message;
+            console.error("Erro detalhado:", err);
+            
+            let mensagem = "❌ ";
+            
+            if (err.name === 'NotAllowedError') {
+                mensagem = "❌ PERMISSÃO NEGADA!\n\n";
+                mensagem += "No seu telemóvel:\n";
+                mensagem += "1. Abra Definições\n";
+                mensagem += "2. Apps > Chrome\n";
+                mensagem += "3. Permissões > Câmara = Permitir\n";
+                mensagem += "4. Recarregue a página e tente novamente";
+            } 
+            else if (err.name === 'NotFoundError') {
+                mensagem = "❌ Nenhuma câmara encontrada";
+            }
+            else {
+                mensagem = "❌ Erro: " + err.message;
+            }
+            
+            error.innerHTML = mensagem.replace(/\n/g, '<br>');
+            error.style.display = 'block';
+            status.innerHTML = "❌ Falhou";
         }
-    }
+    });
     
-    // ===== FUNÇÃO DE DESENHO =====
+    // Função de desenho
     function desenhar() {
-        if (!cameraPronta) {
+        if (!cameraAtiva) {
             requestAnimationFrame(desenhar);
             return;
         }
         
-        // LIMPAR canvas (importante!)
+        // Limpar canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
-        // Centro do ecrã
+        // Centro
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;
         
-        // CONFIGURAR CORES
+        // Configurar estilo
         if (projecaoAtiva) {
-            ctx.fillStyle = '#FFD700'; // Dourado
+            ctx.fillStyle = '#FFD700';
             ctx.shadowColor = '#FFD700';
             ctx.shadowBlur = 30;
         } else {
-            ctx.fillStyle = '#FFFFFF'; // Branco
+            ctx.fillStyle = '#FFFFFF';
             ctx.shadowColor = '#000000';
             ctx.shadowBlur = 10;
         }
@@ -219,64 +340,59 @@
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         
-        // DESENHAR TEXTO - É AQUI QUE A MÁGICA ACONTECE
+        // Desenhar texto
         ctx.font = `bold ${tamanho}px Arial, sans-serif`;
         ctx.fillText(texto, centerX, centerY + posY);
         
-        // DEBUG - desenhar um círculo para confirmar que o canvas funciona
+        // Desenhar círculo de teste (para confirmar que o canvas funciona)
         ctx.strokeStyle = projecaoAtiva ? '#FFD700' : '#FFFFFF';
-        ctx.lineWidth = 4;
+        ctx.lineWidth = 3;
         ctx.beginPath();
-        ctx.arc(centerX, centerY, 50, 0, Math.PI * 2);
+        ctx.arc(centerX, centerY, 30, 0, Math.PI * 2);
         ctx.stroke();
         
         requestAnimationFrame(desenhar);
     }
     
-    // ===== EVENTOS =====
-    
-    // Texto
-    document.getElementById('texto').addEventListener('input', (e) => {
-        texto = e.target.value;
+    // Atualizar texto
+    document.getElementById('updateBtn').addEventListener('click', () => {
+        texto = document.getElementById('textInput').value;
     });
     
-    // Tamanho
-    document.getElementById('tamanho').addEventListener('input', (e) => {
+    // Sliders
+    document.getElementById('sizeSlider').addEventListener('input', (e) => {
         tamanho = parseInt(e.target.value);
-        document.getElementById('tamanhoValor').innerText = tamanho;
+        document.getElementById('sizeValue').innerText = tamanho;
     });
     
-    // Posição Y
-    document.getElementById('posY').addEventListener('input', (e) => {
+    document.getElementById('ySlider').addEventListener('input', (e) => {
         posY = parseInt(e.target.value);
-        document.getElementById('posYValor').innerText = posY;
+        document.getElementById('yValue').innerText = posY;
     });
     
-    // Botão projeção
-    document.getElementById('projecao').addEventListener('click', () => {
+    // Modo projeção
+    document.getElementById('projectBtn').addEventListener('click', () => {
         projecaoAtiva = !projecaoAtiva;
-        const btn = document.getElementById('projecao');
+        const btn = document.getElementById('projectBtn');
+        const status = document.getElementById('status');
         
         if (projecaoAtiva) {
-            btn.innerHTML = '⚪ DESATIVAR PROJEÇÃO';
-            btn.style.background = '#333';
-            btn.style.color = 'gold';
-            statusDiv.innerHTML = '✨ PROJEÇÃO ATIVA - Texto dourado';
-            
-            // Wake Lock
-            if ('wakeLock' in navigator) {
-                navigator.wakeLock.request('screen').catch(() => {});
-            }
+            btn.innerHTML = '⚪ NORMAL';
+            btn.style.background = '#444';
+            status.innerHTML = '✨ PROJEÇÃO ATIVA - Linhas douradas';
         } else {
-            btn.innerHTML = '🌙 ATIVAR PROJEÇÃO';
+            btn.innerHTML = '🌙 PROJEÇÃO';
             btn.style.background = 'gold';
-            btn.style.color = 'black';
-            statusDiv.innerHTML = '✅ Câmara OK - Texto branco';
+            status.innerHTML = '✅ Câmara ativa - Texto branco';
         }
     });
     
-    // ===== INICIAR =====
-    iniciarCamera();
+    // Tecla Enter
+    document.getElementById('textInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            texto = e.target.value;
+        }
+    });
 </script>
 </body>
 </html>
