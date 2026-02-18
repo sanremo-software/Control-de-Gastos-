@@ -3,29 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Sanremo Profi Torten-Projektor</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Pacifico&family=Dancing+Script:wght@400..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Lobster&family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+  <title>PROJEÇÃO DIRETA - Desenho sobre o bolo</title>
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
       background: #000;
-      color: white;
+      font-family: 'Arial', sans-serif;
       overflow: hidden;
       height: 100vh;
       width: 100vw;
       touch-action: pan-y pinch-zoom;
     }
 
-    /* LAYOUT PRINCIPAL */
-    .app {
+    .container {
       position: relative;
       width: 100%;
       height: 100%;
@@ -33,7 +30,7 @@
       flex-direction: column;
     }
 
-    /* ÁREA DA CÂMARA + PROJEÇÃO */
+    /* Área da câmara + desenho */
     .camera-area {
       position: relative;
       flex: 1;
@@ -42,501 +39,323 @@
       overflow: hidden;
     }
 
-    #camera-feed {
+    /* Vídeo da câmara */
+    #camera {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
+      z-index: 1;
     }
 
-    /* CANVAS DE PROJEÇÃO - ONDE TUDO ACONTECE */
-    #projector-canvas {
+    /* Canvas do desenho - SOBRE a câmara */
+    #overlay {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: 20;
-      pointer-events: none;
+      z-index: 2;
+      pointer-events: none; /* Permite tocar nos botões */
     }
 
-    /* BOTÃO FLUTUANTE PARA ABRIR MENU */
-    .menu-button {
-      position: absolute;
-      bottom: 120px;
-      right: 20px;
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      background: #FFD700;
-      color: black;
-      border: none;
-      font-size: 30px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-      z-index: 50;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-    }
-
-    /* PAINEL DE CONTROLO DESLIZANTE */
+    /* Painel de controlos - sobreposto */
     .control-panel {
       position: absolute;
       bottom: 0;
       left: 0;
       right: 0;
-      background: rgba(20, 20, 20, 0.95);
-      backdrop-filter: blur(20px);
-      border-top: 3px solid #FFD700;
-      padding: 25px 20px;
-      transform: translateY(100%);
-      transition: transform 0.3s ease;
-      z-index: 100;
-      max-height: 80vh;
-      overflow-y: auto;
-      border-radius: 30px 30px 0 0;
-    }
-
-    .control-panel.open {
-      transform: translateY(0);
-    }
-
-    .panel-header {
+      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+      padding: 30px 20px 40px;
+      z-index: 3;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       align-items: center;
-      margin-bottom: 20px;
+      gap: 15px;
+      pointer-events: none;
     }
 
-    .panel-header h2 {
-      color: #FFD700;
-      font-size: 24px;
+    .control-panel > * {
+      pointer-events: auto;
     }
 
-    .close-btn {
-      background: none;
+    /* Campo de texto */
+    .text-box {
+      width: 100%;
+      max-width: 500px;
+      background: rgba(30,30,30,0.95);
+      backdrop-filter: blur(10px);
+      border: 2px solid #FFD700;
+      border-radius: 60px;
+      padding: 5px;
+      display: flex;
+      gap: 5px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .text-box input {
+      flex: 1;
+      background: transparent;
       border: none;
       color: white;
-      font-size: 30px;
+      font-size: 22px;
+      padding: 15px 25px;
+      outline: none;
+    }
+
+    .text-box input::placeholder {
+      color: #666;
+    }
+
+    .text-box button {
+      background: #FFD700;
+      border: none;
+      border-radius: 50px;
+      width: 60px;
+      font-size: 24px;
       cursor: pointer;
     }
 
-    /* SEÇÕES DO PAINEL */
-    .panel-section {
-      margin-bottom: 30px;
-      border-bottom: 1px solid #333;
-      padding-bottom: 20px;
+    /* Sliders */
+    .slider-container {
+      width: 100%;
+      max-width: 500px;
+      background: rgba(30,30,30,0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 40px;
+      padding: 15px 25px;
+      border: 1px solid #FFD700;
     }
 
-    .section-title {
-      color: #FFD700;
-      font-size: 18px;
-      margin-bottom: 15px;
+    .slider-row {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 15px;
+      margin: 10px 0;
     }
 
-    .input-group {
-      margin-bottom: 15px;
-    }
-
-    .input-group label {
-      display: block;
-      color: #aaa;
-      margin-bottom: 5px;
-      font-size: 14px;
-    }
-
-    input[type="text"], select {
-      width: 100%;
-      padding: 15px;
-      border-radius: 15px;
-      border: 1px solid #444;
-      background: #333;
-      color: white;
-      font-size: 18px;
-    }
-
-    input[type="range"] {
-      width: 100%;
-      height: 8px;
-      -webkit-appearance: none;
-      background: linear-gradient(to right, #FFD700, #FFA500);
-      border-radius: 10px;
-    }
-
-    input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 28px;
-      height: 28px;
-      background: white;
-      border-radius: 50%;
-      border: 2px solid #FFD700;
-      cursor: pointer;
-    }
-
-    .range-value {
-      display: inline-block;
-      margin-left: 10px;
+    .slider-row label {
       color: #FFD700;
+      width: 40px;
+      font-size: 18px;
       font-weight: bold;
     }
 
-    .button-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .btn {
-      padding: 15px;
-      border-radius: 15px;
-      border: none;
+    .slider-row input {
+      flex: 1;
+      height: 8px;
+      -webkit-appearance: none;
       background: #333;
-      color: white;
-      font-size: 16px;
-      font-weight: 600;
+      border-radius: 10px;
+    }
+
+    .slider-row input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 28px;
+      height: 28px;
+      background: #FFD700;
+      border-radius: 50%;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: all 0.2s;
-    }
-
-    .btn:active {
-      transform: scale(0.95);
-    }
-
-    .btn-primary {
-      background: #FFD700;
-      color: black;
-    }
-
-    .btn-active {
-      background: #FFD700;
-      color: black;
       border: 2px solid white;
     }
 
-    .motif-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-
-    .motif-item {
-      background: #333;
-      border-radius: 15px;
-      padding: 15px 5px;
-      text-align: center;
+    .slider-row span {
       color: white;
-      font-size: 14px;
+      width: 45px;
+      text-align: right;
+    }
+
+    /* Botões de motivo */
+    .motif-bar {
+      width: 100%;
+      max-width: 500px;
+      background: rgba(30,30,30,0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 60px;
+      padding: 10px;
+      border: 1px solid #FFD700;
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .motif-btn {
+      background: none;
+      border: none;
+      font-size: 32px;
+      padding: 10px;
+      border-radius: 50px;
       cursor: pointer;
-      border: 2px solid transparent;
+      transition: all 0.2s;
+      width: 60px;
     }
 
-    .motif-item.selected {
-      border-color: #FFD700;
-      background: #444;
+    .motif-btn.selected {
+      background: #FFD700;
+      transform: scale(1.1);
     }
 
-    .motif-item i {
-      font-size: 30px;
-      display: block;
-      margin-bottom: 5px;
+    /* Botão principal */
+    .main-btn {
+      width: 100%;
+      max-width: 500px;
+      background: #FFD700;
+      border: none;
+      border-radius: 60px;
+      padding: 20px;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      transition: all 0.2s;
+    }
+
+    .main-btn.off {
+      background: #333;
       color: #FFD700;
     }
 
-    .color-row {
-      display: flex;
-      gap: 10px;
-      margin: 15px 0;
-      flex-wrap: wrap;
-    }
-
-    .color-option {
-      width: 50px;
-      height: 50px;
-      border-radius: 25px;
-      cursor: pointer;
-      border: 3px solid transparent;
-    }
-
-    .color-option.selected {
-      border-color: white;
-    }
-
-    /* INDICADOR DE MODO */
-    .mode-indicator {
+    /* Indicador de modo */
+    .mode-badge {
       position: absolute;
       top: 20px;
       left: 20px;
       background: rgba(0,0,0,0.7);
+      color: #FFD700;
       padding: 10px 20px;
       border-radius: 40px;
-      color: #FFD700;
+      font-size: 16px;
       font-weight: bold;
-      z-index: 30;
       border: 1px solid #FFD700;
+      z-index: 4;
       backdrop-filter: blur(5px);
     }
 
-    /* MENSAGEM DE AJUDA */
-    .help-message {
+    /* Instrução inicial */
+    .instruction {
       position: absolute;
-      bottom: 200px;
-      left: 20px;
-      right: 20px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       background: rgba(0,0,0,0.8);
       color: white;
-      padding: 15px;
+      padding: 30px;
       border-radius: 30px;
       text-align: center;
-      border-left: 5px solid #FFD700;
-      z-index: 25;
-      font-size: 14px;
+      border: 2px solid #FFD700;
+      z-index: 10;
+      max-width: 80%;
     }
 
-    /* ANIMAÇÕES */
-    @keyframes pulse {
-      0% { opacity: 1; }
-      50% { opacity: 0.5; }
-      100% { opacity: 1; }
+    .instruction h2 {
+      color: #FFD700;
+      margin-bottom: 15px;
+      font-size: 28px;
     }
 
-    .pulse {
-      animation: pulse 2s infinite;
+    .instruction p {
+      margin: 10px 0;
+      font-size: 18px;
+    }
+
+    .instruction button {
+      background: #FFD700;
+      border: none;
+      padding: 20px 40px;
+      border-radius: 50px;
+      font-size: 22px;
+      font-weight: bold;
+      margin-top: 20px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-<div class="app">
-  <!-- CÂMARA -->
+<div class="container">
+  <!-- Área principal -->
   <div class="camera-area">
-    <video id="camera-feed" autoplay playsinline></video>
-    <canvas id="projector-canvas"></canvas>
+    <video id="camera" autoplay playsinline></video>
+    <canvas id="overlay"></canvas>
     
-    <!-- INDICADOR DE MODO -->
-    <div class="mode-indicator" id="modeIndicator">
-      ⚪ NORMAL
+    <!-- Badge de modo -->
+    <div class="mode-badge" id="modeBadge">
+      ⚪ MODO NORMAL
     </div>
 
-    <!-- MENSAGEM DE AJUDA INICIAL -->
-    <div class="help-message" id="helpMessage">
-      👆 Toque no botão amarelo para abrir o menu
+    <!-- Instrução inicial -->
+    <div class="instruction" id="instruction">
+      <h2>🎂 PROJEÇÃO NO BOLO</h2>
+      <p>1. Aponte a câmara para o bolo</p>
+      <p>2. Escreva a mensagem</p>
+      <p>3. Ative a PROJEÇÃO</p>
+      <p>4. Copie com chocolate!</p>
+      <button id="startBtn">COMEÇAR</button>
     </div>
   </div>
 
-  <!-- BOTÃO MENU -->
-  <button class="menu-button" id="menuBtn">✏️</button>
-
-  <!-- PAINEL DE CONTROLO -->
-  <div class="control-panel" id="controlPanel">
-    <div class="panel-header">
-      <h2>🎂 Torten-Projektor Pro</h2>
-      <button class="close-btn" id="closeBtn">✕</button>
+  <!-- Painel de controlos -->
+  <div class="control-panel" id="controlPanel" style="display: none;">
+    <!-- Campo de texto -->
+    <div class="text-box">
+      <input type="text" id="textInput" value="PARABÉNS" placeholder="Digite aqui...">
+      <button id="updateBtn">✓</button>
     </div>
 
-    <!-- SEÇÃO 1: TEXTO PRINCIPAL -->
-    <div class="panel-section">
-      <div class="section-title">
-        <span>✏️ 1. Texto principal</span>
-      </div>
-      
-      <div class="input-group">
-        <label>Escreva aqui:</label>
-        <input type="text" id="textInput" value="Parabéns!" placeholder="Ex: Parabéns, Feliz Aniversário, etc...">
-      </div>
-
-      <div class="input-group">
-        <label>Fonte:</label>
-        <select id="fontSelect">
-          <option value="'Great Vibes'">Great Vibes (elegante)</option>
-          <option value="'Pacifico'">Pacifico (divertido)</option>
-          <option value="'Dancing Script'">Dancing Script (moderno)</option>
-          <option value="'Lobster'">Lobster (chamativo)</option>
-          <option value="'Playfair Display'">Playfair Display (clássico)</option>
-          <option value="'Comic Neue'">Comic Neue (infantil)</option>
-          <option value="Arial">Arial (simples)</option>
-        </select>
-      </div>
-
-      <div class="input-group">
-        <label>Tamanho: <span id="sizeValue" class="range-value">80</span></label>
+    <!-- Sliders -->
+    <div class="slider-container">
+      <div class="slider-row">
+        <label>📏</label>
         <input type="range" id="sizeSlider" min="30" max="200" value="80">
+        <span id="sizeValue">80</span>
       </div>
-
-      <div class="input-group">
-        <label>Posição Y: <span id="yValue" class="range-value">0</span></label>
+      <div class="slider-row">
+        <label>⬆️</label>
         <input type="range" id="ySlider" min="-300" max="300" value="0">
+        <span id="yValue">0</span>
       </div>
     </div>
 
-    <!-- SEÇÃO 2: IDADE (OPCIONAL) -->
-    <div class="panel-section">
-      <div class="section-title">
-        <span>🎂 2. Idade (opcional)</span>
-      </div>
-
-      <div class="input-group">
-        <label>Idade:</label>
-        <select id="ageSelect">
-          <option value="0">Nenhuma</option>
-          <option value="1">1 ano</option>
-          <option value="2">2 anos</option>
-          <option value="3">3 anos</option>
-          <option value="4">4 anos</option>
-          <option value="5">5 anos</option>
-          <option value="6">6 anos</option>
-          <option value="7">7 anos</option>
-          <option value="8">8 anos</option>
-          <option value="9">9 anos</option>
-          <option value="10">10 anos</option>
-          <option value="18">18 anos</option>
-          <option value="30">30 anos</option>
-          <option value="40">40 anos</option>
-          <option value="50">50 anos</option>
-          <option value="60">60 anos</option>
-        </select>
-      </div>
-
-      <div class="input-group">
-        <label>Tamanho da idade: <span id="ageSizeValue" class="range-value">100</span></label>
-        <input type="range" id="ageSizeSlider" min="40" max="250" value="100">
-      </div>
-
-      <div class="input-group">
-        <label>Posição Y idade: <span id="ageYValue" class="range-value">-50</span></label>
-        <input type="range" id="ageYSlider" min="-300" max="300" value="-50">
-      </div>
+    <!-- Motivos -->
+    <div class="motif-bar">
+      <button class="motif-btn" data-motif="none">🚫</button>
+      <button class="motif-btn" data-motif="heart">❤️</button>
+      <button class="motif-btn" data-motif="star">⭐</button>
+      <button class="motif-btn" data-motif="unicorn">🦄</button>
+      <button class="motif-btn" data-motif="dino">🦖</button>
+      <button class="motif-btn" data-motif="bear">🐻</button>
     </div>
 
-    <!-- SEÇÃO 3: MOTIVOS INFANTIS -->
-    <div class="panel-section">
-      <div class="section-title">
-        <span>🦄 3. Motivos infantis</span>
-      </div>
-
-      <div class="motif-grid" id="motifGrid">
-        <div class="motif-item" data-motif="none">
-          <span style="font-size:30px;">🚫</span>
-          Nenhum
-        </div>
-        <div class="motif-item" data-motif="heart">
-          <span style="font-size:30px;">❤️</span>
-          Coração
-        </div>
-        <div class="motif-item" data-motif="star">
-          <span style="font-size:30px;">⭐</span>
-          Estrela
-        </div>
-        <div class="motif-item" data-motif="unicorn">
-          <span style="font-size:30px;">🦄</span>
-          Unicórnio
-        </div>
-        <div class="motif-item" data-motif="dino">
-          <span style="font-size:30px;">🦖</span>
-          Dinossauro
-        </div>
-        <div class="motif-item" data-motif="bear">
-          <span style="font-size:30px;">🐻</span>
-          Urso
-        </div>
-        <div class="motif-item" data-motif="car">
-          <span style="font-size:30px;">🚗</span>
-          Carro
-        </div>
-        <div class="motif-item" data-motif="ball">
-          <span style="font-size:30px;">⚽</span>
-          Bola
-        </div>
-        <div class="motif-item" data-motif="cake">
-          <span style="font-size:30px;">🎂</span>
-          Bolo
-        </div>
-      </div>
-
-      <div class="input-group">
-        <label>Tamanho motivo: <span id="motifSizeValue" class="range-value">80</span></label>
-        <input type="range" id="motifSizeSlider" min="30" max="200" value="80">
-      </div>
-
-      <div class="input-group">
-        <label>Posição Y motivo: <span id="motifYValue" class="range-value">-100</span></label>
-        <input type="range" id="motifYSlider" min="-300" max="300" value="-100">
-      </div>
-    </div>
-
-    <!-- SEÇÃO 4: CORES E MODO SOMBRA -->
-    <div class="panel-section">
-      <div class="section-title">
-        <span>🎨 4. Cores e Modo Sombra</span>
-      </div>
-
-      <div class="color-row">
-        <div class="color-option" style="background: #FFD700;" data-color="#FFD700"></div>
-        <div class="color-option" style="background: #FF0000;" data-color="#FF0000"></div>
-        <div class="color-option" style="background: #00FF00;" data-color="#00FF00"></div>
-        <div class="color-option" style="background: #0000FF;" data-color="#0000FF"></div>
-        <div class="color-option" style="background: #FF00FF;" data-color="#FF00FF"></div>
-        <div class="color-option" style="background: #00FFFF;" data-color="#00FFFF"></div>
-        <div class="color-option" style="background: #FFFFFF;" data-color="#FFFFFF"></div>
-      </div>
-
-      <div class="button-grid">
-        <button class="btn btn-primary" id="shadowToggle">🌙 ATIVAR SOMBRA</button>
-        <button class="btn" id="resetBtn">⟲ RESET</button>
-      </div>
-
-      <div style="margin-top: 15px; text-align: center; color: #FFD700; font-size: 14px;">
-        <span id="wakeLockStatus">⚡ Ecrã sempre ligado (ativo)</span>
-      </div>
-    </div>
-
-    <!-- SEÇÃO 5: INFO E AJUDA -->
-    <div class="panel-section">
-      <div style="background: #222; padding: 15px; border-radius: 15px; text-align: center;">
-        <p style="color: #FFD700; margin-bottom: 5px;">🍫 Como usar:</p>
-        <p style="color: #aaa; font-size: 14px;">1. Aponte a câmara para o bolo<br>2. Ajuste o texto/motivo<br>3. Ative o modo sombra<br>4. Escreva por cima com chocolate</p>
-      </div>
-    </div>
+    <!-- Botão principal -->
+    <button class="main-btn" id="projectBtn">🌙 ATIVAR PROJEÇÃO</button>
   </div>
 </div>
 
 <script>
-  // ===== ELEMENTOS =====
-  const video = document.getElementById('camera-feed');
-  const canvas = document.getElementById('projector-canvas');
+  // Elementos
+  const video = document.getElementById('camera');
+  const canvas = document.getElementById('overlay');
   const ctx = canvas.getContext('2d');
   
-  // ===== ESTADO DA APLICAÇÃO =====
-  const state = {
-    shadowMode: false,
-    text: "Parabéns!",
-    font: "'Great Vibes'",
-    textSize: 80,
-    textY: 0,
-    
-    age: 0,
-    ageSize: 100,
-    ageY: -50,
-    
-    motif: "none",
-    motifSize: 80,
-    motifY: -100,
-    
-    color: "#FFD700"
-  };
+  // Estado
+  let projectionMode = false;
+  let text = "PARABÉNS";
+  let textSize = 80;
+  let textY = 0;
+  let motif = "none";
   
-  // ===== INICIAR CÂMARA =====
-  async function initCamera() {
+  // Motivos (emoji)
+  const motifs = {
+    none: "",
+    heart: "❤️",
+    star: "⭐",
+    unicorn: "🦄",
+    dino: "🦖",
+    bear: "🐻"
+  };
+
+  // Iniciar câmara
+  async function startCamera() {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
@@ -554,18 +373,18 @@
         drawLoop();
       };
     } catch (err) {
-      alert('Erro: Não foi possível aceder à câmara. Por favor, permita o acesso.');
+      alert('Por favor, permita o acesso à câmara');
     }
   }
-  
-  // ===== LOOP DE DESENHO =====
+
+  // Loop de desenho
   function drawLoop() {
-    drawProjection();
+    draw();
     requestAnimationFrame(drawLoop);
   }
-  
-  function drawProjection() {
-    // Limpar canvas (deixar transparente)
+
+  function draw() {
+    // Limpar canvas (transparente)
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
     // Centro do ecrã
@@ -573,14 +392,16 @@
     const centerY = canvas.height / 2;
     const radius = Math.min(canvas.width, canvas.height) * 0.3;
     
-    // CONFIGURAR ESTILO (MODO SOMBRA vs NORMAL)
-    if (state.shadowMode) {
-      ctx.strokeStyle = state.color;
-      ctx.fillStyle = state.color;
-      ctx.shadowColor = state.color;
-      ctx.shadowBlur = 25;
-      ctx.lineWidth = 12;
+    // MODO PROJEÇÃO vs MODO NORMAL
+    if (projectionMode) {
+      // MODO PROJEÇÃO - cores VIVAS para ver sobre o bolo
+      ctx.strokeStyle = '#FFD700';  // Dourado
+      ctx.fillStyle = '#FFD700';
+      ctx.shadowColor = '#FFD700';
+      ctx.shadowBlur = 30;
+      ctx.lineWidth = 15;
     } else {
+      // MODO NORMAL - cores suaves para preview
       ctx.strokeStyle = '#FFFFFF';
       ctx.fillStyle = '#FFFFFF';
       ctx.shadowColor = '#000000';
@@ -593,7 +414,7 @@
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     
-    // ===== 1. DESENHAR CÍRCULO GUIA =====
+    // Desenhar círculo guia (sempre visível)
     ctx.beginPath();
     ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
     ctx.stroke();
@@ -601,7 +422,7 @@
     // Segundo círculo (mais fino)
     ctx.beginPath();
     ctx.arc(centerX, centerY, radius * 0.95, 0, Math.PI * 2);
-    ctx.strokeStyle = state.shadowMode ? state.color : '#CCCCCC';
+    ctx.strokeStyle = projectionMode ? '#FFD700' : '#CCCCCC';
     ctx.stroke();
     
     // Linhas de centro (ténues)
@@ -616,219 +437,97 @@
     ctx.stroke();
     ctx.globalAlpha = 1;
     
-    // ===== 2. DESENHAR MOTIVO =====
-    if (state.motif !== 'none') {
-      ctx.font = `${state.motifSize}px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif`;
-      ctx.fillStyle = state.shadowMode ? state.color : '#FFFFFF';
-      
-      let emoji = '';
-      switch(state.motif) {
-        case 'heart': emoji = '❤️'; break;
-        case 'star': emoji = '⭐'; break;
-        case 'unicorn': emoji = '🦄'; break;
-        case 'dino': emoji = '🦖'; break;
-        case 'bear': emoji = '🐻'; break;
-        case 'car': emoji = '🚗'; break;
-        case 'ball': emoji = '⚽'; break;
-        case 'cake': emoji = '🎂'; break;
-      }
-      
-      ctx.fillText(emoji, centerX, centerY + state.motifY);
+    // Desenhar motivo (se houver)
+    if (motif !== 'none') {
+      ctx.font = `${textSize * 1.2}px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif`;
+      ctx.fillStyle = projectionMode ? '#FFD700' : '#FFFFFF';
+      ctx.fillText(motifs[motif], centerX, centerY - 50);
     }
     
-    // ===== 3. DESENHAR IDADE =====
-    if (state.age > 0) {
-      ctx.font = `bold ${state.ageSize}px Arial`;
-      ctx.fillStyle = state.shadowMode ? state.color : '#FFFFFF';
-      ctx.globalAlpha = 0.4;
-      ctx.fillText(state.age.toString(), centerX, centerY + state.ageY);
-      ctx.globalAlpha = 1;
+    // Desenhar TEXTO PRINCIPAL
+    ctx.font = `${textSize}px "Great Vibes", "Pacifico", Arial`;
+    ctx.fillStyle = projectionMode ? '#FFD700' : '#FFFFFF';
+    
+    // Sombra extra no modo projeção
+    if (projectionMode) {
+      ctx.shadowBlur = 40;
     }
     
-    // ===== 4. DESENHAR TEXTO PRINCIPAL =====
-    ctx.font = `${state.textSize}px ${state.font}`;
-    ctx.fillStyle = state.shadowMode ? state.color : '#FFFFFF';
-    ctx.fillText(state.text, centerX, centerY + state.textY);
-  }
-  
-  // ===== WAKE LOCK (ECRÃ SEMPRE LIGADO) =====
-  let wakeLock = null;
-  
-  async function requestWakeLock() {
-    try {
-      if ('wakeLock' in navigator) {
-        wakeLock = await navigator.wakeLock.request('screen');
-        document.getElementById('wakeLockStatus').innerHTML = '⚡ Ecrã sempre ligado (ativo)';
-      }
-    } catch (err) {
-      console.log('Wake Lock error:', err);
-    }
-  }
-  
-  async function releaseWakeLock() {
-    try {
-      if (wakeLock) {
-        await wakeLock.release();
-        wakeLock = null;
-        document.getElementById('wakeLockStatus').innerHTML = '⚡ Ecrã sempre ligado (disponível)';
-      }
-    } catch (err) {}
-  }
-  
-  // ===== CONTROLO DO PAINEL =====
-  const panel = document.getElementById('controlPanel');
-  const menuBtn = document.getElementById('menuBtn');
-  const closeBtn = document.getElementById('closeBtn');
-  
-  menuBtn.addEventListener('click', () => {
-    panel.classList.add('open');
-  });
-  
-  closeBtn.addEventListener('click', () => {
-    panel.classList.remove('open');
-  });
-  
-  // Fechar ao clicar fora
-  document.addEventListener('click', (e) => {
-    if (!panel.contains(e.target) && !menuBtn.contains(e.target) && panel.classList.contains('open')) {
-      panel.classList.remove('open');
-    }
-  });
-  
-  // ===== EVENTOS DOS CONTROLES =====
-  
-  // Texto
-  document.getElementById('textInput').addEventListener('input', (e) => {
-    state.text = e.target.value;
-  });
-  
-  document.getElementById('fontSelect').addEventListener('change', (e) => {
-    state.font = e.target.value;
-  });
-  
-  document.getElementById('sizeSlider').addEventListener('input', (e) => {
-    state.textSize = parseInt(e.target.value);
-    document.getElementById('sizeValue').innerText = state.textSize;
-  });
-  
-  document.getElementById('ySlider').addEventListener('input', (e) => {
-    state.textY = parseInt(e.target.value);
-    document.getElementById('yValue').innerText = state.textY;
-  });
-  
-  // Idade
-  document.getElementById('ageSelect').addEventListener('change', (e) => {
-    state.age = parseInt(e.target.value);
-  });
-  
-  document.getElementById('ageSizeSlider').addEventListener('input', (e) => {
-    state.ageSize = parseInt(e.target.value);
-    document.getElementById('ageSizeValue').innerText = state.ageSize;
-  });
-  
-  document.getElementById('ageYSlider').addEventListener('input', (e) => {
-    state.ageY = parseInt(e.target.value);
-    document.getElementById('ageYValue').innerText = state.ageY;
-  });
-  
-  // Motivos
-  document.querySelectorAll('.motif-item').forEach(item => {
-    item.addEventListener('click', () => {
-      document.querySelectorAll('.motif-item').forEach(i => i.classList.remove('selected'));
-      item.classList.add('selected');
-      state.motif = item.dataset.motif;
-    });
-  });
-  
-  document.getElementById('motifSizeSlider').addEventListener('input', (e) => {
-    state.motifSize = parseInt(e.target.value);
-    document.getElementById('motifSizeValue').innerText = state.motifSize;
-  });
-  
-  document.getElementById('motifYSlider').addEventListener('input', (e) => {
-    state.motifY = parseInt(e.target.value);
-    document.getElementById('motifYValue').innerText = state.motifY;
-  });
-  
-  // Cores
-  document.querySelectorAll('.color-option').forEach(option => {
-    option.addEventListener('click', () => {
-      document.querySelectorAll('.color-option').forEach(o => o.classList.remove('selected'));
-      option.classList.add('selected');
-      state.color = option.dataset.color;
-    });
-  });
-  
-  // Modo Sombra
-  document.getElementById('shadowToggle').addEventListener('click', () => {
-    state.shadowMode = !state.shadowMode;
-    const btn = document.getElementById('shadowToggle');
-    const indicator = document.getElementById('modeIndicator');
-    
-    if (state.shadowMode) {
-      btn.innerHTML = '☀️ DESATIVAR SOMBRA';
-      btn.style.background = '#333';
-      btn.style.color = '#FFD700';
-      indicator.innerHTML = '🌙 MODO SOMBRA ATIVO';
-      indicator.style.color = '#FFD700';
-      requestWakeLock();
-      
-      // Esconder mensagem de ajuda
-      document.getElementById('helpMessage').style.display = 'none';
+    // Dividir texto em linhas
+    const words = text.split(' ');
+    if (words.length > 1) {
+      // Texto com duas linhas
+      ctx.fillText(words[0], centerX, centerY + textY - 30);
+      ctx.fillText(words.slice(1).join(' '), centerX, centerY + textY + 30);
     } else {
-      btn.innerHTML = '🌙 ATIVAR SOMBRA';
-      btn.style.background = '#FFD700';
-      btn.style.color = 'black';
-      indicator.innerHTML = '⚪ NORMAL';
-      indicator.style.color = '#FFD700';
-      releaseWakeLock();
+      // Texto numa linha
+      ctx.fillText(text, centerX, centerY + textY);
+    }
+  }
+
+  // Event listeners
+  document.getElementById('startBtn').addEventListener('click', () => {
+    document.getElementById('instruction').style.display = 'none';
+    document.getElementById('controlPanel').style.display = 'flex';
+    startCamera();
+  });
+
+  // Texto
+  document.getElementById('updateBtn').addEventListener('click', () => {
+    text = document.getElementById('textInput').value.toUpperCase();
+  });
+
+  document.getElementById('textInput').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      text = e.target.value.toUpperCase();
     }
   });
-  
-  // Reset
-  document.getElementById('resetBtn').addEventListener('click', () => {
-    state.text = "Parabéns!";
-    state.font = "'Great Vibes'";
-    state.textSize = 80;
-    state.textY = 0;
-    state.age = 0;
-    state.ageSize = 100;
-    state.ageY = -50;
-    state.motif = "none";
-    state.motifSize = 80;
-    state.motifY = -100;
-    state.color = "#FFD700";
-    
-    // Atualizar UI
-    document.getElementById('textInput').value = "Parabéns!";
-    document.getElementById('fontSelect').value = "'Great Vibes'";
-    document.getElementById('sizeSlider').value = 80;
-    document.getElementById('sizeValue').innerText = "80";
-    document.getElementById('ySlider').value = 0;
-    document.getElementById('yValue').innerText = "0";
-    document.getElementById('ageSelect').value = "0";
-    document.getElementById('ageSizeSlider').value = 100;
-    document.getElementById('ageSizeValue').innerText = "100";
-    document.getElementById('ageYSlider').value = -50;
-    document.getElementById('ageYValue').innerText = "-50";
-    document.getElementById('motifSizeSlider').value = 80;
-    document.getElementById('motifSizeValue').innerText = "80";
-    document.getElementById('motifYSlider').value = -100;
-    document.getElementById('motifYValue').innerText = "-100";
-    
-    document.querySelectorAll('.motif-item').forEach(i => i.classList.remove('selected'));
-    document.querySelector('[data-motif="none"]').classList.add('selected');
-    
-    document.querySelectorAll('.color-option').forEach(o => o.classList.remove('selected'));
-    document.querySelector('[data-color="#FFD700"]').classList.add('selected');
+
+  // Sliders
+  document.getElementById('sizeSlider').addEventListener('input', (e) => {
+    textSize = parseInt(e.target.value);
+    document.getElementById('sizeValue').innerText = textSize;
   });
-  
-  // Iniciar
-  initCamera();
-  requestWakeLock();
-  
-  // Selecionar cor inicial
-  document.querySelector('[data-color="#FFD700"]').classList.add('selected');
+
+  document.getElementById('ySlider').addEventListener('input', (e) => {
+    textY = parseInt(e.target.value);
+    document.getElementById('yValue').innerText = textY;
+  });
+
+  // Motivos
+  document.querySelectorAll('.motif-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.motif-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      motif = btn.dataset.motif;
+    });
+  });
+
+  // Botão de projeção
+  document.getElementById('projectBtn').addEventListener('click', () => {
+    projectionMode = !projectionMode;
+    const btn = document.getElementById('projectBtn');
+    const badge = document.getElementById('modeBadge');
+    
+    if (projectionMode) {
+      btn.innerHTML = '⚪ DESATIVAR PROJEÇÃO';
+      btn.classList.add('off');
+      badge.innerHTML = '✨ MODO PROJEÇÃO ATIVO';
+      badge.style.color = '#FFD700';
+      
+      // Wake Lock para ecrã não desligar
+      if ('wakeLock' in navigator) {
+        navigator.wakeLock.request('screen');
+      }
+    } else {
+      btn.innerHTML = '🌙 ATIVAR PROJEÇÃO';
+      btn.classList.remove('off');
+      badge.innerHTML = '⚪ MODO NORMAL';
+      badge.style.color = '#FFD700';
+    }
+  });
+
+  // Selecionar "nenhum" por padrão
   document.querySelector('[data-motif="none"]').classList.add('selected');
 </script>
 </body>
