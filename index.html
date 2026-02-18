@@ -1,839 +1,665 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sanremo Torten-Schablone PRO + Shadow Fix</title>
-    <!-- Font Awesome & Google Fonts -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Pacifico&family=Dancing+Script:wght@400..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background: #f0f2f5;
-            color: #1e1e1e;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        /* Header */
-        .header {
-            background: #ffffff;
-            padding: 16px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid #ddd;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-        }
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 20px;
-            font-weight: 600;
-        }
-        .logo i {
-            color: #d4af37;
-            font-size: 28px;
-        }
-        .badge {
-            background: #f0f0f0;
-            padding: 8px 16px;
-            border-radius: 40px;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        /* Main layout */
-        .app {
-            display: grid;
-            grid-template-columns: 340px 1fr;
-            gap: 20px;
-            padding: 20px;
-            flex: 1;
-        }
-        /* Sidebar */
-        .sidebar {
-            background: white;
-            border-radius: 24px;
-            padding: 20px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
-            overflow-y: auto;
-            max-height: calc(100vh - 120px);
-        }
-        .section {
-            margin-bottom: 28px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 20px;
-        }
-        .section h3 {
-            font-size: 16px;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #2c3e50;
-        }
-        .section h3 i {
-            color: #d4af37;
-            width: 24px;
-        }
-        .control-row {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 12px;
-            flex-wrap: wrap;
-        }
-        .control-label {
-            font-size: 12px;
-            font-weight: 600;
-            color: #666;
-            margin-bottom: 4px;
-        }
-        input, select {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid #ddd;
-            border-radius: 30px;
-            font-size: 14px;
-            background: #fafafa;
-        }
-        input:focus, select:focus {
-            outline: none;
-            border-color: #d4af37;
-        }
-        .range-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .range-group input[type=range] {
-            flex: 1;
-            padding: 0;
-            height: 6px;
-            border-radius: 10px;
-        }
-        .range-group span {
-            min-width: 45px;
-            text-align: center;
-            font-size: 13px;
-            font-weight: 600;
-        }
-        .btn {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 30px;
-            font-weight: 600;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background: #f0f0f0;
-            transition: all 0.2s;
-        }
-        .btn-primary {
-            background: #2c3e50;
-            color: white;
-        }
-        .btn-accent {
-            background: #d4af37;
-            color: black;
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-        }
-        .motif-grid {
-            display: grid;
-            grid-template-columns: repeat(3,1fr);
-            gap: 8px;
-        }
-        .motif-item {
-            border: 1px solid #ddd;
-            border-radius: 16px;
-            padding: 12px 4px;
-            text-align: center;
-            font-size: 12px;
-            cursor: pointer;
-            background: white;
-        }
-        .motif-item i {
-            font-size: 24px;
-            display: block;
-            margin-bottom: 4px;
-            color: #2c3e50;
-        }
-        .motif-item.selected {
-            border-color: #d4af37;
-            background: #fef9e7;
-        }
-        /* Canvas area */
-        .canvas-area {
-            background: white;
-            border-radius: 24px;
-            padding: 20px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
-        }
-        .canvas-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 16px;
-        }
-        .stage-container {
-            position: relative;
-            aspect-ratio: 1/1;
-            width: 100%;
-            background: #ffffff;
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
-            margin-bottom: 16px;
-        }
-        canvas {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-        .info-bar {
-            display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-            color: #666;
-            padding: 0 8px;
-        }
-        /* Fullscreen */
-        .fullscreen .header, .fullscreen .sidebar, .fullscreen .canvas-header, .fullscreen .info-bar {
-            display: none;
-        }
-        .fullscreen .app {
-            grid-template-columns: 1fr;
-            padding: 0;
-        }
-        .fullscreen .canvas-area {
-            border-radius: 0;
-            padding: 0;
-        }
-        .fullscreen .stage-container {
-            border-radius: 0;
-        }
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 20px;
-            color: #888;
-            font-size: 13px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Sanremo AR Torten-Projektor</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #000;
+      color: white;
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    /* Container principal */
+    .app {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Câmara + Overlay */
+    .camera-container {
+      position: relative;
+      flex: 1;
+      width: 100%;
+      overflow: hidden;
+      background: #000;
+    }
+
+    #camera-feed {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scaleX(-1); /* Espelho para parecer natural */
+    }
+
+    /* Overlay do desenho */
+    .drawing-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    canvas {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scaleX(-1); /* Compensa o espelho da câmara */
+      width: min(90vh, 90vw);
+      height: min(90vh, 90vw);
+      max-width: 100%;
+      max-height: 100%;
+      pointer-events: none;
+    }
+
+    /* Controlos flutuantes */
+    .controls-panel {
+      position: absolute;
+      bottom: 30px;
+      left: 0;
+      right: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      padding: 20px;
+      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .control-row {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+      pointer-events: auto;
+    }
+
+    .btn {
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: white;
+      padding: 15px 25px;
+      border-radius: 50px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      min-width: 60px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    .btn-primary {
+      background: #ffaa00;
+      color: black;
+      border: none;
+    }
+
+    .btn-primary.active {
+      background: #333;
+      color: white;
+    }
+
+    .btn-large {
+      padding: 18px 40px;
+      font-size: 22px;
+    }
+
+    .slider-container {
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(10px);
+      padding: 20px;
+      border-radius: 30px;
+      width: 90%;
+      max-width: 500px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .slider-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    input[type=range] {
+      width: 100%;
+      height: 10px;
+      -webkit-appearance: none;
+      background: linear-gradient(to right, #ffaa00, #ff5500);
+      border-radius: 10px;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 30px;
+      height: 30px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      cursor: pointer;
+    }
+
+    .text-preview {
+      position: absolute;
+      top: 30px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 24px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+      pointer-events: none;
+      background: rgba(0,0,0,0.3);
+      padding: 15px;
+      backdrop-filter: blur(5px);
+      margin: 0 20px;
+      border-radius: 50px;
+      border: 1px solid rgba(255,255,255,0.2);
+      z-index: 5;
+    }
+
+    /* Modal de texto */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.95);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #1a1a1a;
+      padding: 30px;
+      border-radius: 30px;
+      width: 90%;
+      max-width: 500px;
+      border: 1px solid #ffaa00;
+    }
+
+    .modal h2 {
+      color: #ffaa00;
+      margin-bottom: 20px;
+    }
+
+    .modal input, .modal select {
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 15px;
+      border: 1px solid #333;
+      background: #333;
+      color: white;
+      font-size: 18px;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .brightness-indicator {
+      position: absolute;
+      top: 100px;
+      right: 20px;
+      background: rgba(0,0,0,0.5);
+      padding: 10px;
+      border-radius: 30px;
+      font-size: 14px;
+      z-index: 5;
+    }
+  </style>
 </head>
 <body>
-    <div class="header">
-        <div class="logo">
-            <i class="fas fa-cake-candles"></i>
-            <span>Sanremo Torten-Schablone PRO</span>
-        </div>
-        <div class="badge" id="modeBadge"><i class="fas fa-sun"></i> Normal</div>
+<div class="app">
+  <!-- Câmara -->
+  <div class="camera-container">
+    <video id="camera-feed" autoplay playsinline></video>
+    
+    <!-- Overlay com o desenho -->
+    <div class="drawing-overlay">
+      <canvas id="drawing-canvas" width="1000" height="1000"></canvas>
     </div>
 
-    <div class="app">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <!-- Seção 1: Tamanho e calibração -->
-            <div class="section">
-                <h3><i class="fas fa-ruler"></i> 1. Größe & Kalibrierung</h3>
-                <div class="control-row">
-                    <select id="diameterSelect" style="flex:2;">
-                        <option value="18">18 cm</option>
-                        <option value="20" selected>20 cm</option>
-                        <option value="22">22 cm</option>
-                        <option value="24">24 cm</option>
-                        <option value="26">26 cm</option>
-                        <option value="28">28 cm</option>
-                        <option value="30">30 cm</option>
-                    </select>
-                </div>
-                <div class="control-row">
-                    <div style="flex:1;">
-                        <div class="control-label">Kalibrierung (px/mm)</div>
-                        <input type="range" id="calibration" min="2" max="10" step="0.1" value="4.2">
-                    </div>
-                    <div style="flex:1; text-align:right;">
-                        <span id="calValue">4.2</span> px/mm<br>
-                        <small>💳 Karte: <span id="cardSize">360</span> px</small>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Seção 2: Texto -->
-            <div class="section">
-                <h3><i class="fas fa-font"></i> 2. Text</h3>
-                <input type="text" id="textInput" value="Alles Gute zum Geburtstag!">
-                <div class="control-row">
-                    <select id="fontSelect" style="flex:2;">
-                        <option value="Montserrat">Montserrat</option>
-                        <option value="Great Vibes" selected>Great Vibes</option>
-                        <option value="Pacifico">Pacifico</option>
-                        <option value="Dancing Script">Dancing Script</option>
-                        <option value="Playfair Display">Playfair Display</option>
-                        <option value="Arial">Arial</option>
-                    </select>
-                </div>
-                <div class="control-row">
-                    <div style="flex:1;">
-                        <div class="control-label">Grösse</div>
-                        <input type="range" id="textSize" min="20" max="200" value="70">
-                    </div>
-                    <div style="flex:1;">
-                        <div class="control-label">Y Pos</div>
-                        <input type="range" id="textY" min="-200" max="200" value="0">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Seção 3: Alter -->
-            <div class="section">
-                <h3><i class="fas fa-birthday-cake"></i> 3. Alter</h3>
-                <select id="ageSelect">
-                    <option value="0">Kein Alter</option>
-                    <option value="1">1</option><option value="2">2</option><option value="3">3</option>
-                    <option value="4">4</option><option value="5">5</option><option value="6">6</option>
-                    <option value="7">7</option><option value="8">8</option><option value="9">9</option>
-                    <option value="10">10</option><option value="11">11</option><option value="12">12</option>
-                    <option value="13">13</option><option value="14">14</option><option value="15">15</option>
-                    <option value="16">16</option><option value="17">17</option><option value="18">18</option>
-                </select>
-                <div class="control-row">
-                    <div style="flex:1;">
-                        <div class="control-label">Grösse</div>
-                        <input type="range" id="ageSize" min="50" max="300" value="150">
-                    </div>
-                    <div style="flex:1;">
-                        <div class="control-label">Y Pos</div>
-                        <input type="range" id="ageY" min="-250" max="250" value="-50">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Seção 4: Motivos -->
-            <div class="section">
-                <h3><i class="fas fa-paintbrush"></i> 4. Motive</h3>
-                <div class="motif-grid" id="motifGrid">
-                    <div class="motif-item selected" data-motif="none"><i class="fas fa-ban"></i> Keins</div>
-                    <div class="motif-item" data-motif="heart"><i class="fas fa-heart" style="color:#ff6b6b;"></i> Herz</div>
-                    <div class="motif-item" data-motif="star"><i class="fas fa-star" style="color:#f1c40f;"></i> Stern</div>
-                    <div class="motif-item" data-motif="crown"><i class="fas fa-crown" style="color:#d4af37;"></i> Krone</div>
-                    <div class="motif-item" data-motif="bear"><i class="fas fa-bear"></i> Bär</div>
-                    <div class="motif-item" data-motif="dog"><i class="fas fa-dog"></i> Hund</div>
-                    <div class="motif-item" data-motif="cat"><i class="fas fa-cat"></i> Katze</div>
-                    <div class="motif-item" data-motif="dino"><i class="fas fa-dragon"></i> Dino</div>
-                    <div class="motif-item" data-motif="unicorn"><i class="fas fa-horse"></i> Einhorn</div>
-                    <div class="motif-item" data-motif="car"><i class="fas fa-car"></i> Auto</div>
-                    <div class="motif-item" data-motif="ball"><i class="fas fa-futbol"></i> Ball</div>
-                    <div class="motif-item" data-motif="cake"><i class="fas fa-cake-candles"></i> Torte</div>
-                </div>
-                <div class="control-row">
-                    <div style="flex:1;">
-                        <div class="control-label">Grösse</div>
-                        <input type="range" id="motifSize" min="30" max="250" value="120">
-                    </div>
-                    <div style="flex:1;">
-                        <div class="control-label">Y Pos</div>
-                        <input type="range" id="motifY" min="-280" max="280" value="-60">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Seção 5: Desenho livre -->
-            <div class="section">
-                <h3><i class="fas fa-pencil"></i> 5. Freihand</h3>
-                <div class="control-row">
-                    <button class="btn" id="drawToggleBtn" style="flex:2;"><i class="fas fa-paint-brush"></i> Zeichnen: AUS</button>
-                    <button class="btn" id="clearDrawBtn"><i class="fas fa-trash"></i></button>
-                    <button class="btn" id="undoDrawBtn"><i class="fas fa-undo"></i></button>
-                </div>
-                <div class="control-row">
-                    <div style="flex:1;">
-                        <div class="control-label">Stärke</div>
-                        <input type="range" id="drawWidth" min="2" max="20" value="6">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Seção 6: Extras -->
-            <div class="section">
-                <h3><i class="fas fa-sliders"></i> 6. Extras</h3>
-                <button class="btn btn-accent" id="shadowBtn" style="width:100%; margin-bottom:10px;">
-                    <i class="fas fa-moon"></i> SCHATTEN-MODUS AKTIVIEREN
-                </button>
-                <div class="control-row">
-                    <button class="btn" id="fullscreenBtn" style="flex:1;"><i class="fas fa-expand"></i> Vollbild</button>
-                    <button class="btn" id="resetBtn" style="flex:1;"><i class="fas fa-undo-alt"></i> Reset</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Canvas Area -->
-        <div class="canvas-area">
-            <div class="canvas-header">
-                <span><i class="fas fa-circle"></i> Vorschau (rund)</span>
-                <span id="drawStatus">Zeichnen: AUS</span>
-            </div>
-            <div class="stage-container" id="stageContainer">
-                <canvas id="tortenCanvas" width="1000" height="1000"></canvas>
-            </div>
-            <div class="info-bar">
-                <span><i class="fas fa-ruler"></i> <span id="sizeInfo">20 cm</span></span>
-                <span><i class="fas fa-moon" id="shadowIcon"></i> <span id="modeText">Normal</span></span>
-            </div>
-        </div>
+    <!-- Pré-visualização do texto -->
+    <div class="text-preview" id="textPreview">
+      Alles Gute zum Geburtstag!
     </div>
 
-    <div class="footer">
-        <i class="fas fa-check-circle" style="color:#27ae60;"></i> Modo sombra garantido: fundo preto, linhas brancas. Ecrã não desliga.
+    <!-- Indicador de brilho -->
+    <div class="brightness-indicator" id="brightnessIndicator">
+      🌞 Helligkeit: <span id="brightnessValue">100%</span>
+    </div>
+  </div>
+
+  <!-- Controlos -->
+  <div class="controls-panel">
+    <div class="slider-container">
+      <div class="slider-label">
+        <span>🔆 Helligkeit</span>
+        <span id="brightnessSliderValue">100%</span>
+      </div>
+      <input type="range" id="brightness" min="0" max="200" value="100" step="1">
     </div>
 
-    <script>
-        (function() {
-            // ----- Elementos -----
-            const canvas = document.getElementById('tortenCanvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = 1000;
-            canvas.height = 1000;
+    <div class="control-row">
+      <button class="btn" id="textBtn">✏️ Text</button>
+      <button class="btn" id="ageBtn">🎂 Alter</button>
+      <button class="btn" id="colorBtn" style="background: #ffaa00;">🟡 Farbe</button>
+    </div>
 
-            // ----- Estado -----
-            let state = {
-                diameter: 20,
-                pxPerMm: 4.2,
-                text: "Alles Gute zum Geburtstag!",
-                fontFamily: "Great Vibes",
-                textSize: 70,
-                textY: 0,
-                age: 0,
-                ageSize: 150,
-                ageY: -50,
-                motif: "none",
-                motifSize: 120,
-                motifY: -60,
-                drawMode: false,
-                drawWidth: 6,
-                paths: [],
-                currentPath: null,
-                shadowMode: false,
-                wakeLock: null
-            };
+    <div class="control-row">
+      <button class="btn" id="sizeDownBtn">−</button>
+      <button class="btn btn-primary" id="shadowBtn">🌙 SCHATTEN</button>
+      <button class="btn" id="sizeUpBtn">+</button>
+    </div>
 
-            // ----- Motivos (paths simples) -----
-            function drawMotif(motif, x, y, size) {
-                const s = size / 100;
-                ctx.save();
-                ctx.translate(500 + x, 500 + y);
-                ctx.scale(s, s);
-                ctx.lineWidth = state.shadowMode ? 10 : 8;
-                ctx.strokeStyle = state.shadowMode ? '#ffffff' : '#000000';
-                ctx.fillStyle = 'transparent';
+    <div class="control-row">
+      <button class="btn btn-large" id="captureBtn">📸 Foto machen</button>
+    </div>
+  </div>
 
-                switch(motif) {
-                    case 'heart':
-                        ctx.beginPath();
-                        ctx.moveTo(0, 100);
-                        ctx.bezierCurveTo(-100, -50, -50, -150, 0, -80);
-                        ctx.bezierCurveTo(50, -150, 100, -50, 0, 100);
-                        ctx.stroke();
-                        break;
-                    case 'star':
-                        ctx.beginPath();
-                        for (let i = 0; i < 5; i++) {
-                            let angle = (i * 72 - 90) * Math.PI / 180;
-                            let x1 = 120 * Math.cos(angle);
-                            let y1 = 120 * Math.sin(angle);
-                            if (i === 0) ctx.moveTo(x1, y1);
-                            else ctx.lineTo(x1, y1);
-                            angle = ((i + 0.5) * 72 - 90) * Math.PI / 180;
-                            x1 = 50 * Math.cos(angle);
-                            y1 = 50 * Math.sin(angle);
-                            ctx.lineTo(x1, y1);
-                        }
-                        ctx.closePath();
-                        ctx.stroke();
-                        break;
-                    case 'crown':
-                        ctx.beginPath();
-                        ctx.moveTo(-130, 40); ctx.lineTo(-80, -80); ctx.lineTo(-20, 20);
-                        ctx.lineTo(0, -40); ctx.lineTo(20, 20); ctx.lineTo(80, -80);
-                        ctx.lineTo(130, 40); ctx.lineTo(100, 80); ctx.lineTo(-100, 80); ctx.closePath();
-                        ctx.stroke();
-                        break;
-                    case 'bear':
-                        ctx.beginPath(); ctx.arc(0, -40, 100, 0, 2*Math.PI); ctx.stroke();
-                        ctx.beginPath(); ctx.arc(-70, -130, 40, 0, 2*Math.PI); ctx.stroke();
-                        ctx.beginPath(); ctx.arc(70, -130, 40, 0, 2*Math.PI); ctx.stroke();
-                        ctx.beginPath(); ctx.arc(-35, -60, 10, 0, 2*Math.PI); ctx.fillStyle = state.shadowMode ? '#ffffff' : '#000000'; ctx.fill();
-                        ctx.beginPath(); ctx.arc(35, -60, 10, 0, 2*Math.PI); ctx.fill();
-                        ctx.beginPath(); ctx.moveTo(-50, 20); ctx.quadraticCurveTo(0, 60, 50, 20); ctx.stroke();
-                        break;
-                    case 'dog':
-                        ctx.beginPath(); ctx.arc(0, -20, 100, 0, 2*Math.PI); ctx.stroke();
-                        ctx.beginPath(); ctx.arc(-60, -100, 30, 0, 2*Math.PI); ctx.stroke();
-                        ctx.beginPath(); ctx.arc(60, -100, 30, 0, 2*Math.PI); ctx.stroke();
-                        ctx.beginPath(); ctx.arc(-35, -40, 8, 0, 2*Math.PI); ctx.fill();
-                        ctx.beginPath(); ctx.arc(35, -40, 8, 0, 2*Math.PI); ctx.fill();
-                        ctx.beginPath(); ctx.moveTo(-70, 30); ctx.quadraticCurveTo(-20, 70, 0, 70); ctx.quadraticCurveTo(20, 70, 70, 30); ctx.stroke();
-                        break;
-                    case 'cat':
-                        ctx.beginPath(); ctx.moveTo(-100, -50); ctx.bezierCurveTo(-140, -100, -40, -140, 0, -100); ctx.bezierCurveTo(40, -140, 140, -100, 100, -50); ctx.stroke();
-                        ctx.beginPath(); ctx.moveTo(-80, 0); ctx.lineTo(-130, 40); ctx.stroke();
-                        ctx.beginPath(); ctx.moveTo(80, 0); ctx.lineTo(130, 40); ctx.stroke();
-                        ctx.beginPath(); ctx.arc(-30, 20, 8, 0, 2*Math.PI); ctx.fill();
-                        ctx.beginPath(); ctx.arc(30, 20, 8, 0, 2*Math.PI); ctx.fill();
-                        ctx.beginPath(); ctx.moveTo(-40, 60); ctx.quadraticCurveTo(0, 100, 40, 60); ctx.stroke();
-                        break;
-                    case 'dino':
-                        ctx.beginPath(); ctx.moveTo(-150, 0); ctx.bezierCurveTo(-180, -80, -60, -140, 0, -120); ctx.bezierCurveTo(80, -140, 180, -60, 150, 20); ctx.bezierCurveTo(140, 80, 80, 120, 0, 120); ctx.bezierCurveTo(-80, 120, -140, 80, -150, 0); ctx.stroke();
-                        ctx.beginPath(); ctx.moveTo(-100, 20); ctx.lineTo(-150, 60); ctx.stroke();
-                        ctx.beginPath(); ctx.moveTo(100, 20); ctx.lineTo(150, 60); ctx.stroke();
-                        break;
-                    case 'unicorn':
-                        ctx.beginPath(); ctx.moveTo(-120, -20); ctx.bezierCurveTo(-150, -100, -50, -150, 0, -140); ctx.bezierCurveTo(60, -150, 140, -90, 120, -20); ctx.bezierCurveTo(110, 50, 60, 100, 0, 100); ctx.bezierCurveTo(-60, 100, -110, 50, -120, -20); ctx.stroke();
-                        ctx.beginPath(); ctx.moveTo(0, -180); ctx.lineTo(40, -120); ctx.lineTo(0, -140); ctx.lineTo(-40, -120); ctx.closePath(); ctx.stroke();
-                        ctx.beginPath(); ctx.arc(-40, -40, 8, 0, 2*Math.PI); ctx.fill();
-                        ctx.beginPath(); ctx.arc(40, -40, 8, 0, 2*Math.PI); ctx.fill();
-                        break;
-                    case 'car':
-                        ctx.beginPath(); ctx.moveTo(-180, 20); ctx.bezierCurveTo(-180, -40, -100, -70, 0, -70); ctx.bezierCurveTo(100, -70, 180, -40, 180, 20); ctx.bezierCurveTo(180, 60, 120, 80, 0, 80); ctx.bezierCurveTo(-120, 80, -180, 60, -180, 20); ctx.stroke();
-                        ctx.beginPath(); ctx.arc(-120, 40, 20, 0, 2*Math.PI); ctx.stroke();
-                        ctx.beginPath(); ctx.arc(120, 40, 20, 0, 2*Math.PI); ctx.stroke();
-                        break;
-                    case 'ball':
-                        ctx.beginPath(); ctx.arc(0, 0, 120, 0, 2*Math.PI); ctx.stroke();
-                        ctx.beginPath(); ctx.moveTo(-80, -40); ctx.lineTo(-120, -80); ctx.stroke();
-                        ctx.beginPath(); ctx.moveTo(-40, 40); ctx.lineTo(-100, 100); ctx.stroke();
-                        ctx.beginPath(); ctx.moveTo(40, 40); ctx.lineTo(100, 100); ctx.stroke();
-                        ctx.beginPath(); ctx.moveTo(80, -40); ctx.lineTo(120, -80); ctx.stroke();
-                        ctx.beginPath(); ctx.moveTo(0, -120); ctx.lineTo(0, 120); ctx.stroke();
-                        break;
-                    case 'cake':
-                        ctx.beginPath(); ctx.moveTo(-120, 20); ctx.lineTo(-120, -60); ctx.lineTo(120, -60); ctx.lineTo(120, 20); ctx.closePath(); ctx.stroke();
-                        ctx.beginPath(); ctx.moveTo(-150, 20); ctx.lineTo(150, 20); ctx.lineTo(120, 80); ctx.lineTo(-120, 80); ctx.closePath(); ctx.stroke();
-                        ctx.beginPath(); ctx.arc(-80, 50, 8, 0, 2*Math.PI); ctx.fill();
-                        ctx.beginPath(); ctx.arc(0, 50, 8, 0, 2*Math.PI); ctx.fill();
-                        ctx.beginPath(); ctx.arc(80, 50, 8, 0, 2*Math.PI); ctx.fill();
-                        break;
-                }
-                ctx.restore();
-            }
+  <!-- Modal de texto -->
+  <div class="modal" id="textModal">
+    <div class="modal-content">
+      <h2>✏️ Text bearbeiten</h2>
+      <input type="text" id="modalText" value="Alles Gute zum Geburtstag!" placeholder="Dein Text...">
+      
+      <select id="modalFont">
+        <option value="Arial">Arial</option>
+        <option value="'Great Vibes'">Great Vibes (Schreibschrift)</option>
+        <option value="'Pacifico'">Pacifico</option>
+        <option value="'Playfair Display'">Playfair Display</option>
+        <option value="Georgia">Georgia</option>
+        <option value="'Dancing Script'">Dancing Script</option>
+      </select>
 
-            // ----- Desenho principal -----
-            function draw() {
-                ctx.clearRect(0, 0, 1000, 1000);
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <div>
+          <label>Grösse: <span id="modalSizeValue">70</span></label>
+          <input type="range" id="modalSize" min="30" max="200" value="70">
+        </div>
+        <div>
+          <label>Y Position: <span id="modalYValue">0</span></label>
+          <input type="range" id="modalY" min="-300" max="300" value="0">
+        </div>
+      </div>
 
-                // Fundo
-                ctx.fillStyle = state.shadowMode ? '#000000' : '#ffffff';
-                ctx.fillRect(0, 0, 1000, 1000);
+      <div class="modal-buttons">
+        <button class="btn" style="flex:1;" onclick="closeTextModal()">Abbrechen</button>
+        <button class="btn btn-primary" style="flex:1;" onclick="applyTextModal()">Anwenden</button>
+      </div>
+    </div>
+  </div>
 
-                // Círculos da torta
-                ctx.lineWidth = 3;
-                ctx.strokeStyle = state.shadowMode ? '#ffffff' : '#000000';
-                ctx.beginPath();
-                ctx.arc(500, 500, 420, 0, 2 * Math.PI);
-                ctx.stroke();
-                ctx.lineWidth = 1.5;
-                ctx.strokeStyle = state.shadowMode ? '#ffffff' : '#666666';
-                ctx.beginPath();
-                ctx.arc(500, 500, 405, 0, 2 * Math.PI);
-                ctx.stroke();
+  <!-- Modal de idade -->
+  <div class="modal" id="ageModal">
+    <div class="modal-content">
+      <h2>🎂 Alter</h2>
+      
+      <select id="modalAge">
+        <option value="0">Kein Alter</option>
+        <option value="1">1 Jahr</option>
+        <option value="2">2 Jahre</option>
+        <option value="3">3 Jahre</option>
+        <option value="4">4 Jahre</option>
+        <option value="5">5 Jahre</option>
+        <option value="6">6 Jahre</option>
+        <option value="7">7 Jahre</option>
+        <option value="8">8 Jahre</option>
+        <option value="9">9 Jahre</option>
+        <option value="10">10 Jahre</option>
+        <option value="18">18 Jahre</option>
+        <option value="30">30 Jahre</option>
+        <option value="40">40 Jahre</option>
+        <option value="50">50 Jahre</option>
+        <option value="60">60 Jahre</option>
+      </select>
 
-                // Linhas auxiliares
-                ctx.strokeStyle = state.shadowMode ? '#ffffff' : '#cccccc';
-                ctx.lineWidth = 1;
-                ctx.beginPath(); ctx.moveTo(500, 100); ctx.lineTo(500, 900); ctx.stroke();
-                ctx.beginPath(); ctx.moveTo(100, 500); ctx.lineTo(900, 500); ctx.stroke();
+      <div style="margin: 15px 0;">
+        <label>Grösse: <span id="modalAgeSizeValue">150</span></label>
+        <input type="range" id="modalAgeSize" min="50" max="300" value="150">
+      </div>
 
-                // Texto
-                ctx.font = `${state.textSize}px "${state.fontFamily}", cursive, sans-serif`;
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillStyle = state.shadowMode ? '#ffffff' : '#000000';
-                ctx.fillText(state.text, 500, 500 + state.textY);
+      <div style="margin: 15px 0;">
+        <label>Y Position: <span id="modalAgeYValue">-50</span></label>
+        <input type="range" id="modalAgeY" min="-300" max="300" value="-50">
+      </div>
 
-                // Idade
-                if (state.age > 0) {
-                    ctx.font = `bold ${state.ageSize}px Arial`;
-                    ctx.fillStyle = state.shadowMode ? '#ffffff' : '#000000';
-                    ctx.globalAlpha = 0.3;
-                    ctx.fillText(state.age.toString(), 500, 500 + state.ageY);
-                    ctx.globalAlpha = 1.0;
-                }
+      <div class="modal-buttons">
+        <button class="btn" style="flex:1;" onclick="closeAgeModal()">Abbrechen</button>
+        <button class="btn btn-primary" style="flex:1;" onclick="applyAgeModal()">Anwenden</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-                // Motivo
-                if (state.motif !== 'none') {
-                    drawMotif(state.motif, 0, state.motifY, state.motifSize);
-                }
-
-                // Desenho livre
-                ctx.lineCap = 'round';
-                ctx.lineJoin = 'round';
-                ctx.strokeStyle = state.shadowMode ? '#ffffff' : '#000000';
-                state.paths.forEach(p => {
-                    ctx.beginPath();
-                    ctx.lineWidth = p.w;
-                    const commands = p.d.split(' ');
-                    if (commands[0] === 'M') {
-                        ctx.moveTo(parseFloat(commands[1]), parseFloat(commands[2]));
-                    }
-                    for (let i = 3; i < commands.length; i += 3) {
-                        if (commands[i] === 'L') {
-                            ctx.lineTo(parseFloat(commands[i+1]), parseFloat(commands[i+2]));
-                        }
-                    }
-                    ctx.stroke();
-                });
-                if (state.currentPath) {
-                    ctx.beginPath();
-                    ctx.lineWidth = state.currentPath.w;
-                    const commands = state.currentPath.d.split(' ');
-                    if (commands[0] === 'M') {
-                        ctx.moveTo(parseFloat(commands[1]), parseFloat(commands[2]));
-                    }
-                    for (let i = 3; i < commands.length; i += 3) {
-                        if (commands[i] === 'L') {
-                            ctx.lineTo(parseFloat(commands[i+1]), parseFloat(commands[i+2]));
-                        }
-                    }
-                    ctx.stroke();
-                }
-
-                // Atualizar informações
-                document.getElementById('sizeInfo').innerText = state.diameter + ' cm';
-                document.getElementById('modeText').innerText = state.shadowMode ? 'Schatten' : 'Normal';
-                document.getElementById('shadowIcon').style.color = state.shadowMode ? '#d4af37' : '#888';
-                document.getElementById('modeBadge').innerHTML = state.shadowMode ? '<i class="fas fa-moon"></i> Schatten' : '<i class="fas fa-sun"></i> Normal';
-            }
-
-            // ----- Calibração (escala) -----
-            function updateScale() {
-                const desiredMm = state.diameter * 10;
-                const desiredPx = desiredMm * state.pxPerMm;
-                const container = document.getElementById('stageContainer');
-                const rect = container.getBoundingClientRect();
-                const availablePx = Math.min(rect.width, rect.height);
-                const baseDiameter = 840; // círculo em unidades canvas
-                const currentPx = (baseDiameter / 1000) * availablePx;
-                const scale = desiredPx / currentPx;
-                canvas.style.transform = `scale(${scale})`;
-                canvas.style.transformOrigin = 'center';
-            }
-
-            // ----- Wake Lock -----
-            async function requestWakeLock() {
-                try {
-                    if ('wakeLock' in navigator) {
-                        state.wakeLock = await navigator.wakeLock.request('screen');
-                    }
-                } catch (e) {}
-            }
-            async function releaseWakeLock() {
-                try {
-                    if (state.wakeLock) {
-                        await state.wakeLock.release();
-                        state.wakeLock = null;
-                    }
-                } catch (e) {}
-            }
-
-            // ----- Toggle Shadow -----
-            function toggleShadow() {
-                state.shadowMode = !state.shadowMode;
-                const btn = document.getElementById('shadowBtn');
-                if (state.shadowMode) {
-                    btn.innerHTML = '<i class="fas fa-sun"></i> NORMAL-MODUS';
-                    requestWakeLock();
-                } else {
-                    btn.innerHTML = '<i class="fas fa-moon"></i> SCHATTEN-MODUS AKTIVIEREN';
-                    releaseWakeLock();
-                }
-                draw();
-            }
-
-            // ----- Desenho livre -----
-            let drawing = false;
-            function startStroke(x, y) {
-                const rect = canvas.getBoundingClientRect();
-                const scaleX = canvas.width / rect.width;
-                const scaleY = canvas.height / rect.height;
-                const canvasX = (x - rect.left) * scaleX;
-                const canvasY = (y - rect.top) * scaleY;
-                state.currentPath = { d: `M ${canvasX} ${canvasY}`, w: state.drawWidth };
-                drawing = true;
-                draw();
-            }
-            function continueStroke(x, y) {
-                if (!drawing || !state.currentPath) return;
-                const rect = canvas.getBoundingClientRect();
-                const scaleX = canvas.width / rect.width;
-                const scaleY = canvas.height / rect.height;
-                const canvasX = (x - rect.left) * scaleX;
-                const canvasY = (y - rect.top) * scaleY;
-                state.currentPath.d += ` L ${canvasX} ${canvasY}`;
-                draw();
-            }
-            function endStroke() {
-                if (state.currentPath) {
-                    state.paths.push(state.currentPath);
-                    state.currentPath = null;
-                }
-                drawing = false;
-                draw();
-            }
-
-            // ----- Event Listeners -----
-            document.getElementById('diameterSelect').addEventListener('change', (e) => {
-                state.diameter = parseInt(e.target.value);
-                updateScale();
-                draw();
-            });
-            document.getElementById('calibration').addEventListener('input', (e) => {
-                state.pxPerMm = parseFloat(e.target.value);
-                document.getElementById('calValue').innerText = state.pxPerMm.toFixed(1);
-                const cardPx = (85.6 * state.pxPerMm).toFixed(0);
-                document.getElementById('cardSize').innerText = cardPx;
-                updateScale();
-                draw();
-            });
-            document.getElementById('textInput').addEventListener('input', (e) => {
-                state.text = e.target.value; draw();
-            });
-            document.getElementById('fontSelect').addEventListener('change', (e) => {
-                state.fontFamily = e.target.value; draw();
-            });
-            document.getElementById('textSize').addEventListener('input', (e) => {
-                state.textSize = parseInt(e.target.value); draw();
-            });
-            document.getElementById('textY').addEventListener('input', (e) => {
-                state.textY = parseInt(e.target.value); draw();
-            });
-            document.getElementById('ageSelect').addEventListener('change', (e) => {
-                state.age = parseInt(e.target.value); draw();
-            });
-            document.getElementById('ageSize').addEventListener('input', (e) => {
-                state.ageSize = parseInt(e.target.value); draw();
-            });
-            document.getElementById('ageY').addEventListener('input', (e) => {
-                state.ageY = parseInt(e.target.value); draw();
-            });
-            document.getElementById('motifSize').addEventListener('input', (e) => {
-                state.motifSize = parseInt(e.target.value); draw();
-            });
-            document.getElementById('motifY').addEventListener('input', (e) => {
-                state.motifY = parseInt(e.target.value); draw();
-            });
-            document.getElementById('drawWidth').addEventListener('input', (e) => {
-                state.drawWidth = parseInt(e.target.value);
-                document.getElementById('drawWidth').nextElementSibling.innerText = state.drawWidth;
-            });
-            document.getElementById('clearDrawBtn').addEventListener('click', () => {
-                state.paths = []; state.currentPath = null; draw();
-            });
-            document.getElementById('undoDrawBtn').addEventListener('click', () => {
-                state.paths.pop(); draw();
-            });
-            document.getElementById('drawToggleBtn').addEventListener('click', () => {
-                state.drawMode = !state.drawMode;
-                document.getElementById('drawToggleBtn').innerHTML = state.drawMode ? 
-                    '<i class="fas fa-paint-brush"></i> Zeichnen: AN' : 
-                    '<i class="fas fa-paint-brush"></i> Zeichnen: AUS';
-                document.getElementById('drawStatus').innerText = state.drawMode ? 'Zeichnen: AN' : 'Zeichnen: AUS';
-            });
-            document.getElementById('shadowBtn').addEventListener('click', toggleShadow);
-            document.getElementById('fullscreenBtn').addEventListener('click', () => {
-                document.body.classList.toggle('fullscreen');
-                setTimeout(updateScale, 100);
-            });
-            document.getElementById('resetBtn').addEventListener('click', () => {
-                state.diameter = 20;
-                state.pxPerMm = 4.2;
-                state.text = "Alles Gute zum Geburtstag!";
-                state.fontFamily = "Great Vibes";
-                state.textSize = 70;
-                state.textY = 0;
-                state.age = 0;
-                state.ageSize = 150;
-                state.ageY = -50;
-                state.motif = "none";
-                state.motifSize = 120;
-                state.motifY = -60;
-                state.drawMode = false;
-                state.paths = [];
-                state.currentPath = null;
-                document.getElementById('diameterSelect').value = '20';
-                document.getElementById('calibration').value = '4.2';
-                document.getElementById('calValue').innerText = '4.2';
-                document.getElementById('textInput').value = state.text;
-                document.getElementById('fontSelect').value = 'Great Vibes';
-                document.getElementById('textSize').value = '70';
-                document.getElementById('textY').value = '0';
-                document.getElementById('ageSelect').value = '0';
-                document.getElementById('ageSize').value = '150';
-                document.getElementById('ageY').value = '-50';
-                document.getElementById('motifSize').value = '120';
-                document.getElementById('motifY').value = '-60';
-                document.getElementById('drawToggleBtn').innerHTML = '<i class="fas fa-paint-brush"></i> Zeichnen: AUS';
-                document.getElementById('drawStatus').innerText = 'Zeichnen: AUS';
-                document.querySelectorAll('.motif-item').forEach(el => el.classList.remove('selected'));
-                document.querySelector('.motif-item[data-motif="none"]').classList.add('selected');
-                updateScale();
-                draw();
-            });
-
-            // Motif grid
-            document.querySelectorAll('.motif-item').forEach(el => {
-                el.addEventListener('click', () => {
-                    document.querySelectorAll('.motif-item').forEach(e => e.classList.remove('selected'));
-                    el.classList.add('selected');
-                    state.motif = el.dataset.motif;
-                    draw();
-                });
-            });
-
-            // Eventos de desenho
-            canvas.addEventListener('pointerdown', (e) => {
-                if (!state.drawMode) return;
-                e.preventDefault();
-                startStroke(e.clientX, e.clientY);
-            });
-            canvas.addEventListener('pointermove', (e) => {
-                if (!drawing) return;
-                e.preventDefault();
-                continueStroke(e.clientX, e.clientY);
-            });
-            canvas.addEventListener('pointerup', (e) => {
-                if (!drawing) return;
-                e.preventDefault();
-                endStroke();
-            });
-            canvas.addEventListener('pointercancel', (e) => {
-                if (!drawing) return;
-                e.preventDefault();
-                endStroke();
-            });
-
-            // Inicialização
-            updateScale();
-            draw();
-            window.addEventListener('resize', updateScale);
-
-            // Valores iniciais
-            document.getElementById('calValue').innerText = state.pxPerMm.toFixed(1);
-            document.getElementById('cardSize').innerText = (85.6 * state.pxPerMm).toFixed(0);
-        })();
-    </script>
+<script>
+  // Elementos
+  const video = document.getElementById('camera-feed');
+  const canvas = document.getElementById('drawing-canvas');
+  const ctx = canvas.getContext('2d');
+  const textPreview = document.getElementById('textPreview');
+  
+  // Estado
+  let shadowMode = false;
+  let currentText = "Alles Gute zum Geburtstag!";
+  let currentFont = "'Great Vibes'";
+  let currentTextSize = 70;
+  let currentTextY = 0;
+  let currentAge = 0;
+  let currentAgeSize = 150;
+  let currentAgeY = -50;
+  let currentColor = '#ffaa00'; // Cor padrão
+  let currentBrightness = 100;
+  
+  // ===== INICIAR CÂMARA =====
+  async function initCamera() {
+    try {
+      const constraints = {
+        video: {
+          facingMode: 'environment', // Câmara traseira
+          width: { ideal: 1920 },
+          height: { ideal: 1080 }
+        }
+      };
+      
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      video.srcObject = stream;
+      
+      // Aguardar vídeo carregar
+      video.onloadedmetadata = () => {
+        video.play();
+        drawOverlay();
+      };
+    } catch (err) {
+      console.error('Erro câmara:', err);
+      alert('Kein Kamerazugriff! Bitte erlauben Sie den Zugriff auf die Kamera.');
+    }
+  }
+  
+  // ===== DESENHAR OVERLAY =====
+  function drawOverlay() {
+    ctx.clearRect(0, 0, 1000, 1000);
+    
+    // Fundo transparente
+    ctx.clearRect(0, 0, 1000, 1000);
+    
+    // Configurar cores baseado no modo
+    if (shadowMode) {
+      ctx.strokeStyle = currentColor;
+      ctx.fillStyle = currentColor;
+      ctx.shadowColor = 'rgba(255,255,255,0.5)';
+      ctx.shadowBlur = 10;
+    } else {
+      ctx.strokeStyle = '#ffffff';
+      ctx.fillStyle = '#ffffff';
+      ctx.shadowColor = 'rgba(0,0,0,0.3)';
+      ctx.shadowBlur = 5;
+    }
+    
+    ctx.lineWidth = 8;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
+    
+    // Desenhar círculo da torta
+    ctx.beginPath();
+    ctx.arc(500, 500, 400, 0, Math.PI * 2);
+    ctx.stroke();
+    
+    ctx.beginPath();
+    ctx.arc(500, 500, 380, 0, Math.PI * 2);
+    ctx.strokeStyle = shadowMode ? currentColor : '#cccccc';
+    ctx.stroke();
+    
+    // Linhas de centro (fracas)
+    ctx.globalAlpha = 0.3;
+    ctx.beginPath();
+    ctx.moveTo(500, 100);
+    ctx.lineTo(500, 900);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(100, 500);
+    ctx.lineTo(900, 500);
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+    
+    // Sombras para texto
+    ctx.shadowBlur = shadowMode ? 20 : 5;
+    
+    // Desenhar texto
+    ctx.font = `${currentTextSize}px ${currentFont}`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = shadowMode ? currentColor : '#ffffff';
+    ctx.fillText(currentText, 500, 500 + currentTextY);
+    
+    // Desenhar idade
+    if (currentAge > 0) {
+      ctx.font = `bold ${currentAgeSize}px Arial`;
+      ctx.globalAlpha = 0.4;
+      ctx.fillStyle = shadowMode ? currentColor : '#ffffff';
+      ctx.fillText(currentAge.toString(), 500, 500 + currentAgeY);
+      ctx.globalAlpha = 1;
+    }
+    
+    // Atualizar preview
+    textPreview.style.color = shadowMode ? currentColor : '#ffffff';
+    textPreview.style.fontFamily = currentFont;
+    textPreview.style.fontSize = '24px';
+    textPreview.textContent = currentText;
+    
+    requestAnimationFrame(drawOverlay);
+  }
+  
+  // ===== MODO SOMBRA =====
+  function toggleShadowMode() {
+    shadowMode = !shadowMode;
+    
+    const btn = document.getElementById('shadowBtn');
+    if (shadowMode) {
+      btn.innerHTML = '☀️ NORMAL';
+      btn.classList.add('active');
+      
+      // Wake Lock
+      requestWakeLock();
+    } else {
+      btn.innerHTML = '🌙 SCHATTEN';
+      btn.classList.remove('active');
+      
+      // Release Wake Lock
+      releaseWakeLock();
+    }
+  }
+  
+  // Wake Lock
+  let wakeLock = null;
+  
+  async function requestWakeLock() {
+    try {
+      if ('wakeLock' in navigator) {
+        wakeLock = await navigator.wakeLock.request('screen');
+      }
+    } catch (err) {
+      console.log('Wake Lock error:', err);
+    }
+  }
+  
+  async function releaseWakeLock() {
+    try {
+      if (wakeLock) {
+        await wakeLock.release();
+        wakeLock = null;
+      }
+    } catch (err) {
+      console.log('Release error:', err);
+    }
+  }
+  
+  // ===== CONTROLOS =====
+  
+  // Brilho
+  document.getElementById('brightness').addEventListener('input', (e) => {
+    currentBrightness = e.target.value;
+    document.getElementById('brightnessSliderValue').innerText = currentBrightness + '%';
+    document.getElementById('brightnessValue').innerText = currentBrightness + '%';
+    
+    // Ajustar brilho do vídeo (se suportado)
+    if (video.style) {
+      video.style.filter = `brightness(${currentBrightness}%)`;
+    }
+  });
+  
+  // Tamanho
+  document.getElementById('sizeDownBtn').addEventListener('click', () => {
+    currentTextSize = Math.max(30, currentTextSize - 10);
+    document.getElementById('modalSize').value = currentTextSize;
+    document.getElementById('modalSizeValue').innerText = currentTextSize;
+  });
+  
+  document.getElementById('sizeUpBtn').addEventListener('click', () => {
+    currentTextSize = Math.min(200, currentTextSize + 10);
+    document.getElementById('modalSize').value = currentTextSize;
+    document.getElementById('modalSizeValue').innerText = currentTextSize;
+  });
+  
+  // Cor
+  let colorIndex = 0;
+  const colors = ['#ffaa00', '#ff0000', '#00ff00', '#0000ff', '#ffffff', '#ff00ff'];
+  
+  document.getElementById('colorBtn').addEventListener('click', () => {
+    colorIndex = (colorIndex + 1) % colors.length;
+    currentColor = colors[colorIndex];
+    document.getElementById('colorBtn').style.background = currentColor;
+  });
+  
+  // Modals
+  const textModal = document.getElementById('textModal');
+  const ageModal = document.getElementById('ageModal');
+  
+  document.getElementById('textBtn').addEventListener('click', () => {
+    document.getElementById('modalText').value = currentText;
+    document.getElementById('modalFont').value = currentFont;
+    document.getElementById('modalSize').value = currentTextSize;
+    document.getElementById('modalSizeValue').innerText = currentTextSize;
+    document.getElementById('modalY').value = currentTextY;
+    document.getElementById('modalYValue').innerText = currentTextY;
+    textModal.classList.add('active');
+  });
+  
+  document.getElementById('ageBtn').addEventListener('click', () => {
+    document.getElementById('modalAge').value = currentAge;
+    document.getElementById('modalAgeSize').value = currentAgeSize;
+    document.getElementById('modalAgeSizeValue').innerText = currentAgeSize;
+    document.getElementById('modalAgeY').value = currentAgeY;
+    document.getElementById('modalAgeYValue').innerText = currentAgeY;
+    ageModal.classList.add('active');
+  });
+  
+  // Fechar modals
+  window.closeTextModal = function() {
+    textModal.classList.remove('active');
+  };
+  
+  window.closeAgeModal = function() {
+    ageModal.classList.remove('active');
+  };
+  
+  window.applyTextModal = function() {
+    currentText = document.getElementById('modalText').value;
+    currentFont = document.getElementById('modalFont').value;
+    currentTextSize = parseInt(document.getElementById('modalSize').value);
+    currentTextY = parseInt(document.getElementById('modalY').value);
+    textModal.classList.remove('active');
+  };
+  
+  window.applyAgeModal = function() {
+    currentAge = parseInt(document.getElementById('modalAge').value);
+    currentAgeSize = parseInt(document.getElementById('modalAgeSize').value);
+    currentAgeY = parseInt(document.getElementById('modalAgeY').value);
+    ageModal.classList.remove('active');
+  };
+  
+  // Sliders update
+  document.getElementById('modalSize').addEventListener('input', (e) => {
+    document.getElementById('modalSizeValue').innerText = e.target.value;
+  });
+  
+  document.getElementById('modalY').addEventListener('input', (e) => {
+    document.getElementById('modalYValue').innerText = e.target.value;
+  });
+  
+  document.getElementById('modalAgeSize').addEventListener('input', (e) => {
+    document.getElementById('modalAgeSizeValue').innerText = e.target.value;
+  });
+  
+  document.getElementById('modalAgeY').addEventListener('input', (e) => {
+    document.getElementById('modalAgeYValue').innerText = e.target.value;
+  });
+  
+  // Botão sombra
+  document.getElementById('shadowBtn').addEventListener('click', toggleShadowMode);
+  
+  // Foto
+  document.getElementById('captureBtn').addEventListener('click', () => {
+    // Criar um canvas para capturar a tela inteira
+    const captureCanvas = document.createElement('canvas');
+    captureCanvas.width = video.videoWidth;
+    captureCanvas.height = video.videoHeight;
+    const captureCtx = captureCanvas.getContext('2d');
+    
+    // Desenhar vídeo
+    captureCtx.drawImage(video, 0, 0, captureCanvas.width, captureCanvas.height);
+    
+    // Desenhar overlay por cima
+    const overlayCanvas = document.getElementById('drawing-canvas');
+    captureCtx.drawImage(overlayCanvas, 0, 0, captureCanvas.width, captureCanvas.height);
+    
+    // Download
+    const link = document.createElement('a');
+    link.download = `torte-${new Date().getTime()}.png`;
+    link.href = captureCanvas.toDataURL();
+    link.click();
+  });
+  
+  // Iniciar
+  initCamera();
+</script>
 </body>
 </html>
