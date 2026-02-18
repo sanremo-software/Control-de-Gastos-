@@ -1,439 +1,282 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>BOLO PROJEÇÃO - TEXTO SOBRE CÂMARA</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body, html {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: black;
-      font-family: Arial, sans-serif;
-    }
-
-    .container {
-      position: relative;
-      width: 100%;
-      height: 100%;
-    }
-
-    /* Câmara ocupa todo o ecrã */
-    #video {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: 1;
-    }
-
-    /* CANVAS - É AQUI QUE O TEXTO APARECE */
-    #canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 2;
-      pointer-events: none; /* Permite clicar nos botões */
-    }
-
-    /* Painel de controlos - SEMPRE VISÍVEL */
-    .controls {
-      position: absolute;
-      bottom: 30px;
-      left: 0;
-      right: 0;
-      z-index: 3;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 15px;
-      padding: 20px;
-      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-    }
-
-    /* Input de texto */
-    .input-group {
-      width: 95%;
-      max-width: 500px;
-      background: rgba(255,255,255,0.2);
-      backdrop-filter: blur(10px);
-      border: 2px solid gold;
-      border-radius: 60px;
-      padding: 5px;
-      display: flex;
-    }
-
-    .input-group input {
-      flex: 1;
-      background: transparent;
-      border: none;
-      color: white;
-      font-size: 24px;
-      padding: 15px 25px;
-      outline: none;
-    }
-
-    .input-group input::placeholder {
-      color: rgba(255,255,255,0.5);
-    }
-
-    .input-group button {
-      background: gold;
-      border: none;
-      border-radius: 60px;
-      width: 70px;
-      font-size: 28px;
-      cursor: pointer;
-    }
-
-    /* Sliders */
-    .sliders {
-      width: 95%;
-      max-width: 500px;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(10px);
-      border-radius: 40px;
-      padding: 20px;
-      border: 1px solid gold;
-    }
-
-    .slider-item {
-      margin: 15px 0;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .slider-item label {
-      color: gold;
-      width: 50px;
-      font-size: 20px;
-      font-weight: bold;
-    }
-
-    .slider-item input {
-      flex: 1;
-      height: 8px;
-      -webkit-appearance: none;
-      background: #333;
-      border-radius: 10px;
-    }
-
-    .slider-item input::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 28px;
-      height: 28px;
-      background: gold;
-      border-radius: 50%;
-      cursor: pointer;
-      border: 2px solid white;
-    }
-
-    .slider-item span {
-      color: white;
-      width: 45px;
-      text-align: right;
-      font-size: 18px;
-    }
-
-    /* Botões de motivo */
-    .motif-bar {
-      width: 95%;
-      max-width: 500px;
-      display: flex;
-      gap: 10px;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(10px);
-      padding: 15px;
-      border-radius: 60px;
-      border: 1px solid gold;
-      justify-content: center;
-    }
-
-    .motif-btn {
-      background: none;
-      border: none;
-      font-size: 40px;
-      padding: 10px;
-      border-radius: 50px;
-      cursor: pointer;
-      width: 70px;
-      transition: all 0.2s;
-    }
-
-    .motif-btn.selected {
-      background: gold;
-      transform: scale(1.1);
-    }
-
-    /* Botão de projeção */
-    .project-btn {
-      width: 95%;
-      max-width: 500px;
-      background: gold;
-      border: none;
-      border-radius: 60px;
-      padding: 20px;
-      font-size: 26px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.2s;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    }
-
-    .project-btn.off {
-      background: #333;
-      color: gold;
-    }
-
-    /* Status */
-    .status {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      background: rgba(0,0,0,0.6);
-      color: gold;
-      padding: 10px 20px;
-      border-radius: 40px;
-      font-size: 16px;
-      z-index: 3;
-      border: 1px solid gold;
-      backdrop-filter: blur(5px);
-    }
-
-    /* Mensagem de ajuda */
-    .help {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: rgba(0,0,0,0.6);
-      color: white;
-      padding: 10px 20px;
-      border-radius: 40px;
-      font-size: 14px;
-      z-index: 3;
-      border: 1px solid gold;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOLO - TEXTO NA CÂMARA</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: black; overflow: hidden; height: 100vh; }
+        
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* CÂMARA */
+        #video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* CANVAS - OBRIGATÓRIO PARA O TEXTO */
+        #canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10; /* MUITO IMPORTANTE: FICA POR CIMA */
+            background: transparent;
+        }
+        
+        /* CONTROLOS */
+        .controls {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+        }
+        
+        input {
+            width: 90%;
+            max-width: 500px;
+            padding: 20px;
+            font-size: 30px;
+            text-align: center;
+            border-radius: 60px;
+            border: 3px solid gold;
+            background: rgba(0,0,0,0.8);
+            color: white;
+        }
+        
+        .sliders {
+            width: 90%;
+            max-width: 500px;
+            background: rgba(0,0,0,0.8);
+            padding: 20px;
+            border-radius: 40px;
+            border: 2px solid gold;
+        }
+        
+        .slider-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .slider-item label {
+            color: gold;
+            width: 50px;
+            font-size: 24px;
+        }
+        
+        .slider-item input {
+            flex: 1;
+            padding: 0;
+        }
+        
+        .slider-item span {
+            color: white;
+            width: 50px;
+            font-size: 20px;
+        }
+        
+        button {
+            width: 90%;
+            max-width: 500px;
+            padding: 20px;
+            font-size: 28px;
+            border-radius: 60px;
+            border: none;
+            background: gold;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .status {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: gold;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-size: 18px;
+            z-index: 30;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
-  <!-- Câmara -->
-  <video id="video" autoplay playsinline></video>
-  
-  <!-- CANVAS para desenho - O TEXTO VAI AQUI! -->
-  <canvas id="canvas"></canvas>
-
-  <!-- Informação -->
-  <div class="status" id="status">📸 A iniciar câmara...</div>
-  <div class="help">👆 TEXTO APARECE AQUI</div>
-
-  <!-- Controlos -->
-  <div class="controls">
-    <!-- Input de texto -->
-    <div class="input-group">
-      <input type="text" id="textInput" value="PARABÉNS" placeholder="Escreva aqui...">
-      <button id="updateBtn">✓</button>
+    <video id="video" autoplay playsinline></video>
+    <canvas id="canvas"></canvas>
+    
+    <div class="status" id="status">📸 A iniciar...</div>
+    
+    <div class="controls">
+        <input type="text" id="texto" value="PARABÉNS" placeholder="Escreva aqui">
+        
+        <div class="sliders">
+            <div class="slider-item">
+                <label>📏</label>
+                <input type="range" id="tamanho" min="30" max="300" value="100">
+                <span id="tamanhoValor">100</span>
+            </div>
+            <div class="slider-item">
+                <label>⬆️</label>
+                <input type="range" id="posY" min="-300" max="300" value="0">
+                <span id="posYValor">0</span>
+            </div>
+        </div>
+        
+        <button id="projecao">🌙 ATIVAR PROJEÇÃO</button>
     </div>
-
-    <!-- Sliders -->
-    <div class="sliders">
-      <div class="slider-item">
-        <label>📏</label>
-        <input type="range" id="sizeSlider" min="30" max="200" value="80">
-        <span id="sizeValue">80</span>
-      </div>
-      <div class="slider-item">
-        <label>⬆️</label>
-        <input type="range" id="ySlider" min="-300" max="300" value="0">
-        <span id="yValue">0</span>
-      </div>
-    </div>
-
-    <!-- Motivos -->
-    <div class="motif-bar">
-      <button class="motif-btn selected" data-motif="none">🚫</button>
-      <button class="motif-btn" data-motif="heart">❤️</button>
-      <button class="motif-btn" data-motif="star">⭐</button>
-      <button class="motif-btn" data-motif="unicorn">🦄</button>
-      <button class="motif-btn" data-motif="dino">🦖</button>
-      <button class="motif-btn" data-motif="bear">🐻</button>
-    </div>
-
-    <!-- Botão principal -->
-    <button class="project-btn" id="projectBtn">🌙 ATIVAR PROJEÇÃO</button>
-  </div>
 </div>
 
 <script>
-  // Elementos
-  const video = document.getElementById('video');
-  const canvas = document.getElementById('canvas');
-  const ctx = canvas.getContext('2d');
-  const statusDiv = document.getElementById('status');
-
-  // Estado
-  let projecaoAtiva = false;
-  let texto = "PARABÉNS";
-  let tamanho = 80;
-  let posY = 0;
-  let motivo = "none";
-
-  // Motivos
-  const motivos = {
-    none: "",
-    heart: "❤️",
-    star: "⭐",
-    unicorn: "🦄",
-    dino: "🦖",
-    bear: "🐻"
-  };
-
-  // ===== INICIAR CÂMARA =====
-  async function iniciarCamera() {
-    try {
-      statusDiv.innerHTML = "⏳ A pedir câmara...";
-      
-      const stream = await navigator.mediaDevices.getUserMedia({ 
-        video: { 
-          facingMode: 'environment',
-          width: { ideal: 1920 },
-          height: { ideal: 1080 }
-        } 
-      });
-      
-      video.srcObject = stream;
-      
-      video.onloadedmetadata = () => {
-        // Ajustar canvas ao tamanho do vídeo
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
+    // ===== ELEMENTOS =====
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const statusDiv = document.getElementById('status');
+    
+    // ===== ESTADO =====
+    let cameraPronta = false;
+    let projecaoAtiva = false;
+    let texto = "PARABÉNS";
+    let tamanho = 100;
+    let posY = 0;
+    
+    // ===== INICIAR CÂMARA =====
+    async function iniciarCamera() {
+        try {
+            statusDiv.innerHTML = "⏳ A pedir câmara...";
+            
+            const stream = await navigator.mediaDevices.getUserMedia({ 
+                video: { facingMode: 'environment' } 
+            });
+            
+            video.srcObject = stream;
+            
+            video.onloadedmetadata = () => {
+                // CANVAS com as mesmas dimensões do vídeo
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                
+                video.play();
+                cameraPronta = true;
+                statusDiv.innerHTML = "✅ Câmara OK - Escreva o texto";
+                
+                // Começar a desenhar
+                desenhar();
+            };
+            
+        } catch (err) {
+            statusDiv.innerHTML = "❌ Erro: " + err.message;
+        }
+    }
+    
+    // ===== FUNÇÃO DE DESENHO =====
+    function desenhar() {
+        if (!cameraPronta) {
+            requestAnimationFrame(desenhar);
+            return;
+        }
         
-        video.play();
-        statusDiv.innerHTML = "✅ Câmara ativa - TEXTO APARECE EM CIMA!";
+        // LIMPAR canvas (importante!)
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         
-        // Começar a desenhar
-        desenhar();
-      };
-      
-    } catch (err) {
-      statusDiv.innerHTML = "❌ Erro: " + err.message;
-    }
-  }
-
-  // ===== FUNÇÃO DE DESENHO =====
-  function desenhar() {
-    // Limpar canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    // Centro do ecrã (onde vai o texto)
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    const raio = Math.min(canvas.width, canvas.height) * 0.3;
-    
-    // ESCOLHER CORES baseado no modo
-    if (projecaoAtiva) {
-      // MODO PROJEÇÃO - CORES VIVAS
-      ctx.strokeStyle = '#FFD700';  // Dourado
-      ctx.fillStyle = '#FFD700';
-      ctx.shadowColor = '#FFD700';
-      ctx.shadowBlur = 30;
-      ctx.lineWidth = 15;
-    } else {
-      // MODO NORMAL - BRANCO
-      ctx.strokeStyle = '#FFFFFF';
-      ctx.fillStyle = '#FFFFFF';
-      ctx.shadowColor = '#000000';
-      ctx.shadowBlur = 10;
-      ctx.lineWidth = 8;
+        // Centro do ecrã
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        
+        // CONFIGURAR CORES
+        if (projecaoAtiva) {
+            ctx.fillStyle = '#FFD700'; // Dourado
+            ctx.shadowColor = '#FFD700';
+            ctx.shadowBlur = 30;
+        } else {
+            ctx.fillStyle = '#FFFFFF'; // Branco
+            ctx.shadowColor = '#000000';
+            ctx.shadowBlur = 10;
+        }
+        
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        
+        // DESENHAR TEXTO - É AQUI QUE A MÁGICA ACONTECE
+        ctx.font = `bold ${tamanho}px Arial, sans-serif`;
+        ctx.fillText(texto, centerX, centerY + posY);
+        
+        // DEBUG - desenhar um círculo para confirmar que o canvas funciona
+        ctx.strokeStyle = projecaoAtiva ? '#FFD700' : '#FFFFFF';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, 50, 0, Math.PI * 2);
+        ctx.stroke();
+        
+        requestAnimationFrame(desenhar);
     }
     
-    ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = 0;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
+    // ===== EVENTOS =====
     
-    // DESENHAR CÍRCULO GUIA (opcional, pode comentar se não quiser)
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, raio, 0, Math.PI * 2);
-    ctx.stroke();
-    
-    // DESENHAR MOTIVO (se selecionado)
-    if (motivo !== 'none') {
-      ctx.font = `${tamanho * 1.2}px "Segoe UI Emoji", "Apple Color Emoji", sans-serif`;
-      ctx.fillText(motivos[motivo], centerX, centerY - 50);
-    }
-    
-    // ===== DESENHAR TEXTO =====
-    ctx.font = `${tamanho}px "Arial", "Helvetica", sans-serif`;
-    ctx.fillText(texto, centerX, centerY + posY);
-    
-    // Continuar animação
-    requestAnimationFrame(desenhar);
-  }
-
-  // ===== EVENTOS =====
-  
-  // Atualizar texto
-  document.getElementById('updateBtn').addEventListener('click', () => {
-    texto = document.getElementById('textInput').value;
-  });
-
-  document.getElementById('textInput').addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-      texto = e.target.value;
-    }
-  });
-
-  // Sliders
-  document.getElementById('sizeSlider').addEventListener('input', (e) => {
-    tamanho = parseInt(e.target.value);
-    document.getElementById('sizeValue').innerText = tamanho;
-  });
-
-  document.getElementById('ySlider').addEventListener('input', (e) => {
-    posY = parseInt(e.target.value);
-    document.getElementById('yValue').innerText = posY;
-  });
-
-  // Motivos
-  document.querySelectorAll('.motif-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.motif-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      motivo = btn.dataset.motif;
+    // Texto
+    document.getElementById('texto').addEventListener('input', (e) => {
+        texto = e.target.value;
     });
-  });
-
-  // Modo projeção
-  document.getElementById('projectBtn').addEventListener('click', () => {
-    projecaoAtiva = !projecaoAtiva;
-    const btn = document.getElementById('projectBtn');
     
-    if (projecaoAtiva) {
-      btn.innerHTML = '⚪ DESATIVAR PROJEÇÃO';
-      btn.classList.add('off');
-      statusDiv.innerHTML = '✨ PROJEÇÃO ATIVA - Linhas douradas';
-    } else {
-      btn.innerHTML = '🌙 ATIVAR PROJEÇÃO';
-      btn.classList.remove('off');
-      statusDiv.innerHTML = '✅ Câmara ativa - TEXTO EM CIMA!';
-    }
-  });
-
-  // Iniciar tudo
-  iniciarCamera();
+    // Tamanho
+    document.getElementById('tamanho').addEventListener('input', (e) => {
+        tamanho = parseInt(e.target.value);
+        document.getElementById('tamanhoValor').innerText = tamanho;
+    });
+    
+    // Posição Y
+    document.getElementById('posY').addEventListener('input', (e) => {
+        posY = parseInt(e.target.value);
+        document.getElementById('posYValor').innerText = posY;
+    });
+    
+    // Botão projeção
+    document.getElementById('projecao').addEventListener('click', () => {
+        projecaoAtiva = !projecaoAtiva;
+        const btn = document.getElementById('projecao');
+        
+        if (projecaoAtiva) {
+            btn.innerHTML = '⚪ DESATIVAR PROJEÇÃO';
+            btn.style.background = '#333';
+            btn.style.color = 'gold';
+            statusDiv.innerHTML = '✨ PROJEÇÃO ATIVA - Texto dourado';
+            
+            // Wake Lock
+            if ('wakeLock' in navigator) {
+                navigator.wakeLock.request('screen').catch(() => {});
+            }
+        } else {
+            btn.innerHTML = '🌙 ATIVAR PROJEÇÃO';
+            btn.style.background = 'gold';
+            btn.style.color = 'black';
+            statusDiv.innerHTML = '✅ Câmara OK - Texto branco';
+        }
+    });
+    
+    // ===== INICIAR =====
+    iniciarCamera();
 </script>
 </body>
 </html>
