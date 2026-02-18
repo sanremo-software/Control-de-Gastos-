@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Sanremo AR Torten-Projektor - COMPLETO</title>
+  <title>SANREMO - CÂMARA + DESENHO</title>
   <style>
     * {
       margin: 0;
@@ -12,17 +12,16 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: Arial, sans-serif;
       background: #000;
       color: white;
       overflow: hidden;
-      touch-action: none;
       height: 100vh;
       width: 100vw;
     }
 
     /* Container principal */
-    .app {
+    .container {
       position: relative;
       width: 100%;
       height: 100%;
@@ -30,16 +29,16 @@
       flex-direction: column;
     }
 
-    /* Câmara em tempo real */
-    .camera-container {
+    /* Câmara */
+    .camera-box {
       position: relative;
       flex: 1;
       width: 100%;
-      overflow: hidden;
       background: #000;
+      overflow: hidden;
     }
 
-    #camera-feed {
+    #video {
       position: absolute;
       top: 0;
       left: 0;
@@ -48,466 +47,223 @@
       object-fit: cover;
     }
 
-    /* Canvas de sobreposição - onde a MAGIA acontece */
-    .overlay-canvas {
+    /* CANVAS DE SOBREPOSIÇÃO - VISÍVEL */
+    #overlay {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      pointer-events: none;
-      z-index: 5;
-    }
-
-    #drawing-canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-
-    /* Preview do texto */
-    .text-preview {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      right: 20px;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(10px);
-      padding: 15px 25px;
-      border-radius: 50px;
-      color: white;
-      font-size: 24px;
-      text-align: center;
-      border: 1px solid rgba(255,255,255,0.2);
       z-index: 10;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
       pointer-events: none;
     }
 
-    /* Painel de controlos - SEMPRE visível */
-    .control-panel {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.4));
-      padding: 25px 20px;
+    /* Controlos */
+    .controls {
+      background: #111;
+      padding: 15px;
+      border-top: 2px solid #FFD700;
       z-index: 20;
-      border-top: 1px solid rgba(255,255,255,0.1);
     }
 
-    .control-row {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 15px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .btn {
-      background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.3);
-      color: white;
-      padding: 15px 25px;
-      border-radius: 40px;
-      font-size: 18px;
-      font-weight: 600;
-      cursor: pointer;
-      backdrop-filter: blur(5px);
-      transition: all 0.2s;
-      min-width: 80px;
-      text-align: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    }
-
-    .btn:active {
-      transform: scale(0.95);
-      background: rgba(255,255,255,0.3);
-    }
-
-    .btn-primary {
-      background: #FFD700;
-      color: black;
-      border: none;
-    }
-
-    .btn-primary.active {
-      background: #333;
-      color: white;
-    }
-
-    .btn-large {
-      padding: 18px 35px;
-      font-size: 22px;
-      background: #FFD700;
-      color: black;
-      flex: 1;
-    }
-
-    .slider-container {
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(10px);
-      padding: 15px 20px;
-      border-radius: 40px;
-      width: 100%;
-      border: 1px solid rgba(255,255,255,0.2);
+    .input-group {
       margin-bottom: 10px;
     }
 
-    .slider-label {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 8px;
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 25px;
+      border: 1px solid #333;
+      background: #222;
+      color: white;
       font-size: 16px;
+    }
+
+    .slider-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .slider-group label {
+      width: 60px;
       color: #FFD700;
     }
 
     input[type=range] {
-      width: 100%;
-      height: 8px;
-      -webkit-appearance: none;
-      background: linear-gradient(to right, #FFD700, #FF4500);
-      border-radius: 10px;
+      flex: 1;
     }
 
-    input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 28px;
-      height: 28px;
-      background: white;
-      border-radius: 50%;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-      cursor: pointer;
-      border: 2px solid #FFD700;
-    }
-
-    /* Modal de edição */
-    .modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.95);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 100;
-      backdrop-filter: blur(10px);
-    }
-
-    .modal.active {
+    .button-row {
       display: flex;
+      gap: 10px;
+      margin-top: 10px;
     }
 
-    .modal-content {
-      background: #1a1a1a;
-      padding: 30px;
-      border-radius: 40px;
-      width: 90%;
-      max-width: 500px;
-      border: 2px solid #FFD700;
-    }
-
-    .modal h2 {
-      color: #FFD700;
-      margin-bottom: 25px;
-      font-size: 28px;
-    }
-
-    .modal input, .modal select {
-      width: 100%;
-      padding: 18px;
-      margin-bottom: 20px;
+    button {
+      flex: 1;
+      padding: 15px;
       border-radius: 30px;
-      border: 1px solid #333;
+      border: none;
       background: #333;
       color: white;
-      font-size: 18px;
-    }
-
-    .modal label {
-      display: block;
-      margin-bottom: 8px;
-      color: #FFD700;
       font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
     }
 
-    .modal-buttons {
-      display: flex;
-      gap: 15px;
-      margin-top: 25px;
+    .shadow-btn {
+      background: #FFD700;
+      color: black;
     }
 
-    /* Indicadores */
-    .status-indicator {
-      position: absolute;
-      top: 100px;
-      right: 20px;
-      background: rgba(0,0,0,0.7);
-      padding: 12px 20px;
-      border-radius: 40px;
-      font-size: 16px;
-      z-index: 10;
-      border: 1px solid #FFD700;
+    .shadow-btn.active {
+      background: #333;
       color: #FFD700;
-      backdrop-filter: blur(5px);
     }
 
-    /* Mensagem de erro */
-    .error-message {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(255,0,0,0.9);
-      color: white;
-      padding: 30px;
-      border-radius: 30px;
+    .status {
       text-align: center;
-      z-index: 1000;
-      display: none;
+      color: #FFD700;
+      margin-top: 5px;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
-<div class="app">
-  <!-- Mensagem de erro -->
-  <div class="error-message" id="errorMessage">
-    <h2>❌ Kamera Fehler</h2>
-    <p>Bitte Kamera-Zugriff erlauben</p>
-    <button class="btn" onclick="location.reload()">Neu laden</button>
+<div class="container">
+  <!-- Câmara + Desenho -->
+  <div class="camera-box">
+    <video id="video" autoplay playsinline></video>
+    <canvas id="overlay"></canvas>
   </div>
 
-  <!-- Câmara -->
-  <div class="camera-container">
-    <video id="camera-feed" autoplay playsinline></video>
-    
-    <!-- Canvas de sobreposição -->
-    <div class="overlay-canvas">
-      <canvas id="drawing-canvas" width="1080" height="1920"></canvas>
+  <!-- Controlos -->
+  <div class="controls">
+    <div class="input-group">
+      <input type="text" id="textInput" value="Parabéns!" placeholder="Texto...">
     </div>
 
-    <!-- Preview texto -->
-    <div class="text-preview" id="textPreview">
-      Alles Gute zum Geburtstag!
+    <div class="slider-group">
+      <label>Tamanho</label>
+      <input type="range" id="sizeSlider" min="30" max="200" value="80">
     </div>
 
-    <!-- Status -->
-    <div class="status-indicator" id="statusIndicator">
-      🌙 NORMAL MODUS
-    </div>
-  </div>
-
-  <!-- Painel de controlos -->
-  <div class="control-panel">
-    <!-- Slider tamanho -->
-    <div class="slider-container">
-      <div class="slider-label">
-        <span>📏 Textgrösse</span>
-        <span id="sizeValue">70</span>
-      </div>
-      <input type="range" id="sizeSlider" min="30" max="200" value="70">
+    <div class="slider-group">
+      <label>Posição Y</label>
+      <input type="range" id="ySlider" min="-200" max="200" value="0">
     </div>
 
-    <!-- Slider posição Y -->
-    <div class="slider-container">
-      <div class="slider-label">
-        <span>⬆️ Position Y</span>
-        <span id="yValue">0</span>
-      </div>
-      <input type="range" id="ySlider" min="-300" max="300" value="0">
+    <div class="button-row">
+      <button id="fontBtn">📝 Fonte</button>
+      <button id="colorBtn">🎨 Cor</button>
+      <button id="shadowBtn" class="shadow-btn">🌙 SOMBRA</button>
     </div>
 
-    <!-- Botões principais -->
-    <div class="control-row">
-      <button class="btn" id="textBtn">✏️ Text</button>
-      <button class="btn" id="fontBtn">📝 Schrift</button>
-      <button class="btn" id="ageBtn">🎂 Alter</button>
-    </div>
-
-    <div class="control-row">
-      <button class="btn" id="colorBtn" style="background: #FFD700; color: black;">🟡 Farbe</button>
-      <button class="btn btn-primary" id="shadowBtn">🌙 SCHATTEN</button>
-      <button class="btn" id="resetBtn">⟲ Reset</button>
-    </div>
-
-    <div class="control-row">
-      <button class="btn btn-large" id="captureBtn">📸 FOTO MACHEN</button>
-    </div>
-  </div>
-
-  <!-- Modal Texto -->
-  <div class="modal" id="textModal">
-    <div class="modal-content">
-      <h2>✏️ Text eingeben</h2>
-      <input type="text" id="textInput" value="Alles Gute zum Geburtstag!">
-      <div class="modal-buttons">
-        <button class="btn" style="flex:1;" onclick="closeModal('textModal')">Abbrechen</button>
-        <button class="btn btn-primary" style="flex:1;" onclick="saveText()">Speichern</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal Schriftart -->
-  <div class="modal" id="fontModal">
-    <div class="modal-content">
-      <h2>📝 Schriftart</h2>
-      <select id="fontSelect">
-        <option value="Arial">Arial (einfach)</option>
-        <option value="'Great Vibes'">Great Vibes (elegant)</option>
-        <option value="'Pacifico'">Pacifico (verspielt)</option>
-        <option value="'Playfair Display'">Playfair Display (klassisch)</option>
-        <option value="'Dancing Script'">Dancing Script (schwungvoll)</option>
-        <option value="Georgia">Georgia (serif)</option>
-        <option value="'Comic Sans MS'">Comic Sans (kindlich)</option>
-      </select>
-      <div class="modal-buttons">
-        <button class="btn" style="flex:1;" onclick="closeModal('fontModal')">Abbrechen</button>
-        <button class="btn btn-primary" style="flex:1;" onclick="saveFont()">Speichern</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal Alter -->
-  <div class="modal" id="ageModal">
-    <div class="modal-content">
-      <h2>🎂 Alter</h2>
-      <select id="ageSelect">
-        <option value="0">Kein Alter</option>
-        <option value="1">1 Jahr</option>
-        <option value="2">2 Jahre</option>
-        <option value="3">3 Jahre</option>
-        <option value="4">4 Jahre</option>
-        <option value="5">5 Jahre</option>
-        <option value="6">6 Jahre</option>
-        <option value="7">7 Jahre</option>
-        <option value="8">8 Jahre</option>
-        <option value="9">9 Jahre</option>
-        <option value="10">10 Jahre</option>
-        <option value="18">18 Jahre</option>
-        <option value="30">30 Jahre</option>
-        <option value="40">40 Jahre</option>
-        <option value="50">50 Jahre</option>
-        <option value="60">60 Jahre</option>
-      </select>
-      
-      <label style="margin-top: 20px;">Grösse: <span id="ageSizeValue">120</span></label>
-      <input type="range" id="ageSize" min="50" max="250" value="120">
-      
-      <label style="margin-top: 15px;">Y Position: <span id="ageYValue">-80</span></label>
-      <input type="range" id="ageY" min="-300" max="300" value="-80">
-
-      <div class="modal-buttons">
-        <button class="btn" style="flex:1;" onclick="closeModal('ageModal')">Abbrechen</button>
-        <button class="btn btn-primary" style="flex:1;" onclick="saveAge()">Speichern</button>
-      </div>
+    <div class="status" id="statusText">
+      🌙 Clique em SOMBRA para ver o desenho
     </div>
   </div>
 </div>
 
+<!-- Modal Fonte -->
+<div id="fontModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 100; justify-content: center; align-items: center;">
+  <div style="background: #222; padding: 30px; border-radius: 30px; width: 80%; max-width: 400px;">
+    <h3 style="color: #FFD700; margin-bottom: 20px;">Escolher Fonte</h3>
+    <select id="fontSelect" style="width: 100%; padding: 15px; margin-bottom: 20px;">
+      <option value="Arial">Arial</option>
+      <option value="'Great Vibes'">Great Vibes</option>
+      <option value="'Pacifico'">Pacifico</option>
+      <option value="'Comic Sans MS'">Comic Sans</option>
+      <option value="Georgia">Georgia</option>
+    </select>
+    <button onclick="closeFontModal()" style="width: 100%; background: #FFD700; color: black;">OK</button>
+  </div>
+</div>
+
+<!-- Modal Cor -->
+<div id="colorModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 100; justify-content: center; align-items: center;">
+  <div style="background: #222; padding: 30px; border-radius: 30px; width: 80%; max-width: 400px;">
+    <h3 style="color: #FFD700; margin-bottom: 20px;">Escolher Cor</h3>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px;">
+      <div onclick="setColor('#FFD700')" style="background: #FFD700; height: 60px; border-radius: 15px;"></div>
+      <div onclick="setColor('#FF0000')" style="background: #FF0000; height: 60px; border-radius: 15px;"></div>
+      <div onclick="setColor('#00FF00')" style="background: #00FF00; height: 60px; border-radius: 15px;"></div>
+      <div onclick="setColor('#0000FF')" style="background: #0000FF; height: 60px; border-radius: 15px;"></div>
+      <div onclick="setColor('#FF00FF')" style="background: #FF00FF; height: 60px; border-radius: 15px;"></div>
+      <div onclick="setColor('#FFFFFF')" style="background: #FFFFFF; height: 60px; border-radius: 15px;"></div>
+    </div>
+    <button onclick="closeColorModal()" style="width: 100%; background: #FFD700; color: black;">OK</button>
+  </div>
+</div>
+
 <script>
-  // Elementos DOM
-  const video = document.getElementById('camera-feed');
-  const canvas = document.getElementById('drawing-canvas');
-  const ctx = canvas.getContext('2d');
-  const textPreview = document.getElementById('textPreview');
-  const errorMessage = document.getElementById('errorMessage');
-  
-  // ===== ESTADO DA APLICAÇÃO =====
-  const state = {
-    shadowMode: false,
-    text: "Alles Gute zum Geburtstag!",
-    font: "'Great Vibes'",
-    textSize: 70,
-    textY: 0,
-    age: 0,
-    ageSize: 120,
-    ageY: -80,
-    color: '#FFD700', // Dourado
-    colorIndex: 0
-  };
-  
-  // Cores disponíveis
-  const colors = ['#FFD700', '#FF0000', '#00FF00', '#00FFFF', '#FF00FF', '#FFFFFF'];
-  
-  // ===== INICIALIZAR CÂMARA =====
-  async function initCamera() {
+  // Elementos
+  const video = document.getElementById('video');
+  const overlay = document.getElementById('overlay');
+  const ctx = overlay.getContext('2d');
+
+  // Estado
+  let shadowMode = false;
+  let text = "Parabéns!";
+  let font = "Arial";
+  let size = 80;
+  let yPos = 0;
+  let color = "#FFD700";
+
+  // ===== INICIAR CÂMARA =====
+  async function startCamera() {
     try {
-      // Verificar se o navegador suporta câmara
-      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        throw new Error('Keine Kamera-Unterstützung');
-      }
-      
-      const constraints = {
-        video: {
-          facingMode: 'environment', // Câmara traseira
-          width: { ideal: 1920 },
-          height: { ideal: 1080 }
-        },
-        audio: false
-      };
-      
-      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        video: { facingMode: 'environment' } 
+      });
       video.srcObject = stream;
       
-      // Aguardar vídeo carregar
-      await new Promise((resolve) => {
-        video.onloadedmetadata = () => {
-          video.play();
-          resolve();
-        };
-      });
-      
-      // Ajustar canvas ao tamanho do vídeo
-      canvas.width = video.videoWidth || 1080;
-      canvas.height = video.videoHeight || 1920;
-      
-      // Iniciar desenho
-      drawLoop();
-      
+      video.onloadedmetadata = () => {
+        // Ajustar canvas ao tamanho do vídeo
+        overlay.width = video.videoWidth;
+        overlay.height = video.videoHeight;
+        drawLoop();
+      };
     } catch (err) {
-      console.error('Kamera Fehler:', err);
-      errorMessage.style.display = 'block';
+      alert('Erro: Não foi possível aceder à câmara');
     }
   }
-  
-  // ===== LOOP DE DESENHO =====
+
+  // ===== DESENHAR SOBREPOSIÇÃO =====
   function drawLoop() {
-    drawOverlay();
+    draw();
     requestAnimationFrame(drawLoop);
   }
-  
-  function drawOverlay() {
-    // Limpar canvas (transparente)
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  function draw() {
+    // Limpar canvas (deixar transparente)
+    ctx.clearRect(0, 0, overlay.width, overlay.height);
     
-    // Configurar estilo
-    ctx.lineWidth = 8;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
+    // Centro do ecrã
+    const centerX = overlay.width / 2;
+    const centerY = overlay.height / 2;
+    const radius = Math.min(overlay.width, overlay.height) * 0.3;
     
-    // CORES - MODO SOMBRA
-    if (state.shadowMode) {
-      ctx.strokeStyle = state.color;
-      ctx.fillStyle = state.color;
-      ctx.shadowColor = state.color;
-      ctx.shadowBlur = 30;
-      ctx.shadowOffsetX = 0;
-      ctx.shadowOffsetY = 0;
+    // Configurar estilo - MODO SOMBRA vs NORMAL
+    if (shadowMode) {
+      ctx.strokeStyle = color;
+      ctx.fillStyle = color;
+      ctx.shadowColor = color;
+      ctx.shadowBlur = 20;
+      ctx.lineWidth = 10;
     } else {
       ctx.strokeStyle = '#FFFFFF';
       ctx.fillStyle = '#FFFFFF';
-      ctx.shadowColor = 'rgba(0,0,0,0.5)';
+      ctx.shadowColor = '#000000';
       ctx.shadowBlur = 10;
+      ctx.lineWidth = 8;
     }
     
-    // Calcular centro (com proporção do ecrã)
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    const radius = Math.min(canvas.width, canvas.height) * 0.35;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
     
     // Desenhar círculo da torta
     ctx.beginPath();
@@ -517,10 +273,10 @@
     // Segundo círculo (interior)
     ctx.beginPath();
     ctx.arc(centerX, centerY, radius * 0.95, 0, Math.PI * 2);
-    ctx.strokeStyle = state.shadowMode ? state.color : '#CCCCCC';
+    ctx.strokeStyle = shadowMode ? color : '#CCCCCC';
     ctx.stroke();
     
-    // Linhas de centro (ténues)
+    // Linhas de centro (fracas)
     ctx.globalAlpha = 0.3;
     ctx.beginPath();
     ctx.moveTo(centerX, centerY - radius * 1.2);
@@ -532,49 +288,74 @@
     ctx.stroke();
     ctx.globalAlpha = 1;
     
-    // Desenhar texto principal
-    ctx.font = `${state.textSize}px ${state.font}`;
-    ctx.fillStyle = state.shadowMode ? state.color : '#FFFFFF';
-    ctx.fillText(state.text, centerX, centerY + state.textY);
-    
-    // Desenhar idade
-    if (state.age > 0) {
-      ctx.font = `bold ${state.ageSize}px Arial`;
-      ctx.globalAlpha = 0.4;
-      ctx.fillStyle = state.shadowMode ? state.color : '#FFFFFF';
-      ctx.fillText(state.age.toString(), centerX, centerY + state.ageY);
-      ctx.globalAlpha = 1;
-    }
-    
-    // Atualizar preview
-    textPreview.style.color = state.shadowMode ? state.color : '#FFFFFF';
-    textPreview.style.fontFamily = state.font;
-    textPreview.textContent = state.text;
+    // Desenhar texto
+    ctx.font = `${size}px ${font}`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = shadowMode ? color : '#FFFFFF';
+    ctx.fillText(text, centerX, centerY + yPos);
   }
+
+  // ===== EVENTOS =====
   
-  // ===== MODO SOMBRA =====
-  function toggleShadowMode() {
-    state.shadowMode = !state.shadowMode;
-    
+  // Texto
+  document.getElementById('textInput').addEventListener('input', (e) => {
+    text = e.target.value;
+  });
+
+  // Tamanho
+  document.getElementById('sizeSlider').addEventListener('input', (e) => {
+    size = parseInt(e.target.value);
+  });
+
+  // Posição Y
+  document.getElementById('ySlider').addEventListener('input', (e) => {
+    yPos = parseInt(e.target.value);
+  });
+
+  // Botão Sombra
+  document.getElementById('shadowBtn').addEventListener('click', () => {
+    shadowMode = !shadowMode;
     const btn = document.getElementById('shadowBtn');
-    const indicator = document.getElementById('statusIndicator');
+    const status = document.getElementById('statusText');
     
-    if (state.shadowMode) {
-      btn.innerHTML = '☀️ NORMAL';
+    if (shadowMode) {
+      btn.textContent = '☀️ NORMAL';
       btn.classList.add('active');
-      indicator.innerHTML = '✨ SCHATTEN MODUS';
-      indicator.style.color = state.color;
+      status.innerHTML = '✨ MODO SOMBRA ATIVO - Desenho colorido';
       requestWakeLock();
     } else {
-      btn.innerHTML = '🌙 SCHATTEN';
+      btn.textContent = '🌙 SOMBRA';
       btn.classList.remove('active');
-      indicator.innerHTML = '🌙 NORMAL MODUS';
-      indicator.style.color = '#FFD700';
+      status.innerHTML = '🌙 Clique em SOMBRA para ver o desenho';
       releaseWakeLock();
     }
-  }
-  
-  // ===== WAKE LOCK =====
+  });
+
+  // Fonte
+  document.getElementById('fontBtn').addEventListener('click', () => {
+    document.getElementById('fontModal').style.display = 'flex';
+  });
+
+  window.closeFontModal = () => {
+    font = document.getElementById('fontSelect').value;
+    document.getElementById('fontModal').style.display = 'none';
+  };
+
+  // Cor
+  document.getElementById('colorBtn').addEventListener('click', () => {
+    document.getElementById('colorModal').style.display = 'flex';
+  });
+
+  window.setColor = (c) => {
+    color = c;
+  };
+
+  window.closeColorModal = () => {
+    document.getElementById('colorModal').style.display = 'none';
+  };
+
+  // Wake Lock
   let wakeLock = null;
   
   async function requestWakeLock() {
@@ -582,9 +363,7 @@
       if ('wakeLock' in navigator) {
         wakeLock = await navigator.wakeLock.request('screen');
       }
-    } catch (err) {
-      console.log('Wake Lock nicht unterstützt');
-    }
+    } catch (err) {}
   }
   
   async function releaseWakeLock() {
@@ -595,123 +374,9 @@
       }
     } catch (err) {}
   }
-  
-  // ===== CONTROLOS =====
-  
-  // Sliders
-  document.getElementById('sizeSlider').addEventListener('input', (e) => {
-    state.textSize = parseInt(e.target.value);
-    document.getElementById('sizeValue').innerText = state.textSize;
-  });
-  
-  document.getElementById('ySlider').addEventListener('input', (e) => {
-    state.textY = parseInt(e.target.value);
-    document.getElementById('yValue').innerText = state.textY;
-  });
-  
-  // Modal functions
-  window.closeModal = (modalId) => {
-    document.getElementById(modalId).classList.remove('active');
-  };
-  
-  // Text Modal
-  document.getElementById('textBtn').addEventListener('click', () => {
-    document.getElementById('textInput').value = state.text;
-    document.getElementById('textModal').classList.add('active');
-  });
-  
-  window.saveText = () => {
-    state.text = document.getElementById('textInput').value;
-    closeModal('textModal');
-  };
-  
-  // Font Modal
-  document.getElementById('fontBtn').addEventListener('click', () => {
-    document.getElementById('fontSelect').value = state.font;
-    document.getElementById('fontModal').classList.add('active');
-  });
-  
-  window.saveFont = () => {
-    state.font = document.getElementById('fontSelect').value;
-    closeModal('fontModal');
-  };
-  
-  // Age Modal
-  document.getElementById('ageBtn').addEventListener('click', () => {
-    document.getElementById('ageSelect').value = state.age;
-    document.getElementById('ageSize').value = state.ageSize;
-    document.getElementById('ageY').value = state.ageY;
-    document.getElementById('ageSizeValue').innerText = state.ageSize;
-    document.getElementById('ageYValue').innerText = state.ageY;
-    document.getElementById('ageModal').classList.add('active');
-  });
-  
-  window.saveAge = () => {
-    state.age = parseInt(document.getElementById('ageSelect').value);
-    state.ageSize = parseInt(document.getElementById('ageSize').value);
-    state.ageY = parseInt(document.getElementById('ageY').value);
-    closeModal('ageModal');
-  };
-  
-  // Age sliders update
-  document.getElementById('ageSize').addEventListener('input', (e) => {
-    document.getElementById('ageSizeValue').innerText = e.target.value;
-  });
-  
-  document.getElementById('ageY').addEventListener('input', (e) => {
-    document.getElementById('ageYValue').innerText = e.target.value;
-  });
-  
-  // Color
-  document.getElementById('colorBtn').addEventListener('click', () => {
-    state.colorIndex = (state.colorIndex + 1) % colors.length;
-    state.color = colors[state.colorIndex];
-    document.getElementById('colorBtn').style.background = state.color;
-  });
-  
-  // Shadow button
-  document.getElementById('shadowBtn').addEventListener('click', toggleShadowMode);
-  
-  // Reset
-  document.getElementById('resetBtn').addEventListener('click', () => {
-    state.text = "Alles Gute zum Geburtstag!";
-    state.font = "'Great Vibes'";
-    state.textSize = 70;
-    state.textY = 0;
-    state.age = 0;
-    state.ageSize = 120;
-    state.ageY = -80;
-    
-    document.getElementById('sizeSlider').value = 70;
-    document.getElementById('sizeValue').innerText = '70';
-    document.getElementById('ySlider').value = 0;
-    document.getElementById('yValue').innerText = '0';
-    document.getElementById('textInput').value = state.text;
-  });
-  
-  // Capture photo
-  document.getElementById('captureBtn').addEventListener('click', () => {
-    // Criar canvas para foto
-    const photoCanvas = document.createElement('canvas');
-    photoCanvas.width = video.videoWidth;
-    photoCanvas.height = video.videoHeight;
-    const photoCtx = photoCanvas.getContext('2d');
-    
-    // Desenhar vídeo
-    photoCtx.drawImage(video, 0, 0, photoCanvas.width, photoCanvas.height);
-    
-    // Desenhar overlay
-    photoCtx.drawImage(canvas, 0, 0, photoCanvas.width, photoCanvas.height);
-    
-    // Download
-    const link = document.createElement('a');
-    link.download = `torte-${new Date().getTime()}.png`;
-    link.href = photoCanvas.toDataURL('image/png');
-    link.click();
-  });
-  
+
   // Iniciar
-  initCamera();
+  startCamera();
 </script>
 </body>
 </html>
