@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Sanremo AR Torten-Projektor</title>
+  <title>Sanremo AR Torten-Projektor - COMPLETO</title>
   <style>
     * {
       margin: 0;
@@ -12,23 +12,25 @@
     }
 
     body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: #000;
       color: white;
       overflow: hidden;
       touch-action: none;
+      height: 100vh;
+      width: 100vw;
     }
 
     /* Container principal */
     .app {
       position: relative;
-      width: 100vw;
-      height: 100vh;
+      width: 100%;
+      height: 100%;
       display: flex;
       flex-direction: column;
     }
 
-    /* Câmara + Overlay */
+    /* Câmara em tempo real */
     .camera-container {
       position: relative;
       flex: 1;
@@ -44,76 +46,89 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transform: scaleX(-1); /* Espelho para parecer natural */
     }
 
-    /* Overlay do desenho */
-    .drawing-overlay {
+    /* Canvas de sobreposição - onde a MAGIA acontece */
+    .overlay-canvas {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    #drawing-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Preview do texto */
+    .text-preview {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+      padding: 15px 25px;
+      border-radius: 50px;
+      color: white;
+      font-size: 24px;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.2);
+      z-index: 10;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
       pointer-events: none;
     }
 
-    canvas {
+    /* Painel de controlos - SEMPRE visível */
+    .control-panel {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scaleX(-1); /* Compensa o espelho da câmara */
-      width: min(90vh, 90vw);
-      height: min(90vh, 90vw);
-      max-width: 100%;
-      max-height: 100%;
-      pointer-events: none;
-    }
-
-    /* Controlos flutuantes */
-    .controls-panel {
-      position: absolute;
-      bottom: 30px;
+      bottom: 0;
       left: 0;
       right: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 15px;
-      padding: 20px;
-      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-      pointer-events: none;
-      z-index: 10;
+      background: linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.4));
+      padding: 25px 20px;
+      z-index: 20;
+      border-top: 1px solid rgba(255,255,255,0.1);
     }
 
     .control-row {
       display: flex;
-      gap: 15px;
+      gap: 12px;
+      margin-bottom: 15px;
       flex-wrap: wrap;
       justify-content: center;
-      pointer-events: auto;
     }
 
     .btn {
-      background: rgba(255,255,255,0.2);
-      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,0.15);
       border: 1px solid rgba(255,255,255,0.3);
       color: white;
       padding: 15px 25px;
-      border-radius: 50px;
+      border-radius: 40px;
       font-size: 18px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s;
-      min-width: 60px;
+      backdrop-filter: blur(5px);
+      transition: all 0.2s;
+      min-width: 80px;
       text-align: center;
       box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
 
+    .btn:active {
+      transform: scale(0.95);
+      background: rgba(255,255,255,0.3);
+    }
+
     .btn-primary {
-      background: #ffaa00;
+      background: #FFD700;
       color: black;
       border: none;
     }
@@ -124,64 +139,51 @@
     }
 
     .btn-large {
-      padding: 18px 40px;
+      padding: 18px 35px;
       font-size: 22px;
+      background: #FFD700;
+      color: black;
+      flex: 1;
     }
 
     .slider-container {
       background: rgba(0,0,0,0.5);
       backdrop-filter: blur(10px);
-      padding: 20px;
-      border-radius: 30px;
-      width: 90%;
-      max-width: 500px;
+      padding: 15px 20px;
+      border-radius: 40px;
+      width: 100%;
       border: 1px solid rgba(255,255,255,0.2);
+      margin-bottom: 10px;
     }
 
     .slider-label {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       font-size: 16px;
+      color: #FFD700;
     }
 
     input[type=range] {
       width: 100%;
-      height: 10px;
+      height: 8px;
       -webkit-appearance: none;
-      background: linear-gradient(to right, #ffaa00, #ff5500);
+      background: linear-gradient(to right, #FFD700, #FF4500);
       border-radius: 10px;
     }
 
     input[type=range]::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 30px;
-      height: 30px;
+      width: 28px;
+      height: 28px;
       background: white;
       border-radius: 50%;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
       cursor: pointer;
+      border: 2px solid #FFD700;
     }
 
-    .text-preview {
-      position: absolute;
-      top: 30px;
-      left: 0;
-      right: 0;
-      text-align: center;
-      font-size: 24px;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-      pointer-events: none;
-      background: rgba(0,0,0,0.3);
-      padding: 15px;
-      backdrop-filter: blur(5px);
-      margin: 0 20px;
-      border-radius: 50px;
-      border: 1px solid rgba(255,255,255,0.2);
-      z-index: 5;
-    }
-
-    /* Modal de texto */
+    /* Modal de edição */
     .modal {
       position: fixed;
       top: 0;
@@ -203,137 +205,177 @@
     .modal-content {
       background: #1a1a1a;
       padding: 30px;
-      border-radius: 30px;
+      border-radius: 40px;
       width: 90%;
       max-width: 500px;
-      border: 1px solid #ffaa00;
+      border: 2px solid #FFD700;
     }
 
     .modal h2 {
-      color: #ffaa00;
-      margin-bottom: 20px;
+      color: #FFD700;
+      margin-bottom: 25px;
+      font-size: 28px;
     }
 
     .modal input, .modal select {
       width: 100%;
-      padding: 15px;
-      margin-bottom: 15px;
-      border-radius: 15px;
+      padding: 18px;
+      margin-bottom: 20px;
+      border-radius: 30px;
       border: 1px solid #333;
       background: #333;
       color: white;
       font-size: 18px;
     }
 
+    .modal label {
+      display: block;
+      margin-bottom: 8px;
+      color: #FFD700;
+      font-size: 16px;
+    }
+
     .modal-buttons {
       display: flex;
-      gap: 10px;
+      gap: 15px;
+      margin-top: 25px;
     }
 
-    .hidden {
-      display: none;
-    }
-
-    .brightness-indicator {
+    /* Indicadores */
+    .status-indicator {
       position: absolute;
       top: 100px;
       right: 20px;
-      background: rgba(0,0,0,0.5);
-      padding: 10px;
+      background: rgba(0,0,0,0.7);
+      padding: 12px 20px;
+      border-radius: 40px;
+      font-size: 16px;
+      z-index: 10;
+      border: 1px solid #FFD700;
+      color: #FFD700;
+      backdrop-filter: blur(5px);
+    }
+
+    /* Mensagem de erro */
+    .error-message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255,0,0,0.9);
+      color: white;
+      padding: 30px;
       border-radius: 30px;
-      font-size: 14px;
-      z-index: 5;
+      text-align: center;
+      z-index: 1000;
+      display: none;
     }
   </style>
 </head>
 <body>
 <div class="app">
+  <!-- Mensagem de erro -->
+  <div class="error-message" id="errorMessage">
+    <h2>❌ Kamera Fehler</h2>
+    <p>Bitte Kamera-Zugriff erlauben</p>
+    <button class="btn" onclick="location.reload()">Neu laden</button>
+  </div>
+
   <!-- Câmara -->
   <div class="camera-container">
     <video id="camera-feed" autoplay playsinline></video>
     
-    <!-- Overlay com o desenho -->
-    <div class="drawing-overlay">
-      <canvas id="drawing-canvas" width="1000" height="1000"></canvas>
+    <!-- Canvas de sobreposição -->
+    <div class="overlay-canvas">
+      <canvas id="drawing-canvas" width="1080" height="1920"></canvas>
     </div>
 
-    <!-- Pré-visualização do texto -->
+    <!-- Preview texto -->
     <div class="text-preview" id="textPreview">
       Alles Gute zum Geburtstag!
     </div>
 
-    <!-- Indicador de brilho -->
-    <div class="brightness-indicator" id="brightnessIndicator">
-      🌞 Helligkeit: <span id="brightnessValue">100%</span>
+    <!-- Status -->
+    <div class="status-indicator" id="statusIndicator">
+      🌙 NORMAL MODUS
     </div>
   </div>
 
-  <!-- Controlos -->
-  <div class="controls-panel">
+  <!-- Painel de controlos -->
+  <div class="control-panel">
+    <!-- Slider tamanho -->
     <div class="slider-container">
       <div class="slider-label">
-        <span>🔆 Helligkeit</span>
-        <span id="brightnessSliderValue">100%</span>
+        <span>📏 Textgrösse</span>
+        <span id="sizeValue">70</span>
       </div>
-      <input type="range" id="brightness" min="0" max="200" value="100" step="1">
+      <input type="range" id="sizeSlider" min="30" max="200" value="70">
     </div>
 
+    <!-- Slider posição Y -->
+    <div class="slider-container">
+      <div class="slider-label">
+        <span>⬆️ Position Y</span>
+        <span id="yValue">0</span>
+      </div>
+      <input type="range" id="ySlider" min="-300" max="300" value="0">
+    </div>
+
+    <!-- Botões principais -->
     <div class="control-row">
       <button class="btn" id="textBtn">✏️ Text</button>
+      <button class="btn" id="fontBtn">📝 Schrift</button>
       <button class="btn" id="ageBtn">🎂 Alter</button>
-      <button class="btn" id="colorBtn" style="background: #ffaa00;">🟡 Farbe</button>
     </div>
 
     <div class="control-row">
-      <button class="btn" id="sizeDownBtn">−</button>
+      <button class="btn" id="colorBtn" style="background: #FFD700; color: black;">🟡 Farbe</button>
       <button class="btn btn-primary" id="shadowBtn">🌙 SCHATTEN</button>
-      <button class="btn" id="sizeUpBtn">+</button>
+      <button class="btn" id="resetBtn">⟲ Reset</button>
     </div>
 
     <div class="control-row">
-      <button class="btn btn-large" id="captureBtn">📸 Foto machen</button>
+      <button class="btn btn-large" id="captureBtn">📸 FOTO MACHEN</button>
     </div>
   </div>
 
-  <!-- Modal de texto -->
+  <!-- Modal Texto -->
   <div class="modal" id="textModal">
     <div class="modal-content">
-      <h2>✏️ Text bearbeiten</h2>
-      <input type="text" id="modalText" value="Alles Gute zum Geburtstag!" placeholder="Dein Text...">
-      
-      <select id="modalFont">
-        <option value="Arial">Arial</option>
-        <option value="'Great Vibes'">Great Vibes (Schreibschrift)</option>
-        <option value="'Pacifico'">Pacifico</option>
-        <option value="'Playfair Display'">Playfair Display</option>
-        <option value="Georgia">Georgia</option>
-        <option value="'Dancing Script'">Dancing Script</option>
-      </select>
-
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-        <div>
-          <label>Grösse: <span id="modalSizeValue">70</span></label>
-          <input type="range" id="modalSize" min="30" max="200" value="70">
-        </div>
-        <div>
-          <label>Y Position: <span id="modalYValue">0</span></label>
-          <input type="range" id="modalY" min="-300" max="300" value="0">
-        </div>
-      </div>
-
+      <h2>✏️ Text eingeben</h2>
+      <input type="text" id="textInput" value="Alles Gute zum Geburtstag!">
       <div class="modal-buttons">
-        <button class="btn" style="flex:1;" onclick="closeTextModal()">Abbrechen</button>
-        <button class="btn btn-primary" style="flex:1;" onclick="applyTextModal()">Anwenden</button>
+        <button class="btn" style="flex:1;" onclick="closeModal('textModal')">Abbrechen</button>
+        <button class="btn btn-primary" style="flex:1;" onclick="saveText()">Speichern</button>
       </div>
     </div>
   </div>
 
-  <!-- Modal de idade -->
+  <!-- Modal Schriftart -->
+  <div class="modal" id="fontModal">
+    <div class="modal-content">
+      <h2>📝 Schriftart</h2>
+      <select id="fontSelect">
+        <option value="Arial">Arial (einfach)</option>
+        <option value="'Great Vibes'">Great Vibes (elegant)</option>
+        <option value="'Pacifico'">Pacifico (verspielt)</option>
+        <option value="'Playfair Display'">Playfair Display (klassisch)</option>
+        <option value="'Dancing Script'">Dancing Script (schwungvoll)</option>
+        <option value="Georgia">Georgia (serif)</option>
+        <option value="'Comic Sans MS'">Comic Sans (kindlich)</option>
+      </select>
+      <div class="modal-buttons">
+        <button class="btn" style="flex:1;" onclick="closeModal('fontModal')">Abbrechen</button>
+        <button class="btn btn-primary" style="flex:1;" onclick="saveFont()">Speichern</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Alter -->
   <div class="modal" id="ageModal">
     <div class="modal-content">
       <h2>🎂 Alter</h2>
-      
-      <select id="modalAge">
+      <select id="ageSelect">
         <option value="0">Kein Alter</option>
         <option value="1">1 Jahr</option>
         <option value="2">2 Jahre</option>
@@ -351,164 +393,188 @@
         <option value="50">50 Jahre</option>
         <option value="60">60 Jahre</option>
       </select>
-
-      <div style="margin: 15px 0;">
-        <label>Grösse: <span id="modalAgeSizeValue">150</span></label>
-        <input type="range" id="modalAgeSize" min="50" max="300" value="150">
-      </div>
-
-      <div style="margin: 15px 0;">
-        <label>Y Position: <span id="modalAgeYValue">-50</span></label>
-        <input type="range" id="modalAgeY" min="-300" max="300" value="-50">
-      </div>
+      
+      <label style="margin-top: 20px;">Grösse: <span id="ageSizeValue">120</span></label>
+      <input type="range" id="ageSize" min="50" max="250" value="120">
+      
+      <label style="margin-top: 15px;">Y Position: <span id="ageYValue">-80</span></label>
+      <input type="range" id="ageY" min="-300" max="300" value="-80">
 
       <div class="modal-buttons">
-        <button class="btn" style="flex:1;" onclick="closeAgeModal()">Abbrechen</button>
-        <button class="btn btn-primary" style="flex:1;" onclick="applyAgeModal()">Anwenden</button>
+        <button class="btn" style="flex:1;" onclick="closeModal('ageModal')">Abbrechen</button>
+        <button class="btn btn-primary" style="flex:1;" onclick="saveAge()">Speichern</button>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-  // Elementos
+  // Elementos DOM
   const video = document.getElementById('camera-feed');
   const canvas = document.getElementById('drawing-canvas');
   const ctx = canvas.getContext('2d');
   const textPreview = document.getElementById('textPreview');
+  const errorMessage = document.getElementById('errorMessage');
   
-  // Estado
-  let shadowMode = false;
-  let currentText = "Alles Gute zum Geburtstag!";
-  let currentFont = "'Great Vibes'";
-  let currentTextSize = 70;
-  let currentTextY = 0;
-  let currentAge = 0;
-  let currentAgeSize = 150;
-  let currentAgeY = -50;
-  let currentColor = '#ffaa00'; // Cor padrão
-  let currentBrightness = 100;
+  // ===== ESTADO DA APLICAÇÃO =====
+  const state = {
+    shadowMode: false,
+    text: "Alles Gute zum Geburtstag!",
+    font: "'Great Vibes'",
+    textSize: 70,
+    textY: 0,
+    age: 0,
+    ageSize: 120,
+    ageY: -80,
+    color: '#FFD700', // Dourado
+    colorIndex: 0
+  };
   
-  // ===== INICIAR CÂMARA =====
+  // Cores disponíveis
+  const colors = ['#FFD700', '#FF0000', '#00FF00', '#00FFFF', '#FF00FF', '#FFFFFF'];
+  
+  // ===== INICIALIZAR CÂMARA =====
   async function initCamera() {
     try {
+      // Verificar se o navegador suporta câmara
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        throw new Error('Keine Kamera-Unterstützung');
+      }
+      
       const constraints = {
         video: {
           facingMode: 'environment', // Câmara traseira
           width: { ideal: 1920 },
           height: { ideal: 1080 }
-        }
+        },
+        audio: false
       };
       
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
       video.srcObject = stream;
       
       // Aguardar vídeo carregar
-      video.onloadedmetadata = () => {
-        video.play();
-        drawOverlay();
-      };
+      await new Promise((resolve) => {
+        video.onloadedmetadata = () => {
+          video.play();
+          resolve();
+        };
+      });
+      
+      // Ajustar canvas ao tamanho do vídeo
+      canvas.width = video.videoWidth || 1080;
+      canvas.height = video.videoHeight || 1920;
+      
+      // Iniciar desenho
+      drawLoop();
+      
     } catch (err) {
-      console.error('Erro câmara:', err);
-      alert('Kein Kamerazugriff! Bitte erlauben Sie den Zugriff auf die Kamera.');
+      console.error('Kamera Fehler:', err);
+      errorMessage.style.display = 'block';
     }
   }
   
-  // ===== DESENHAR OVERLAY =====
+  // ===== LOOP DE DESENHO =====
+  function drawLoop() {
+    drawOverlay();
+    requestAnimationFrame(drawLoop);
+  }
+  
   function drawOverlay() {
-    ctx.clearRect(0, 0, 1000, 1000);
+    // Limpar canvas (transparente)
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    // Fundo transparente
-    ctx.clearRect(0, 0, 1000, 1000);
+    // Configurar estilo
+    ctx.lineWidth = 8;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
     
-    // Configurar cores baseado no modo
-    if (shadowMode) {
-      ctx.strokeStyle = currentColor;
-      ctx.fillStyle = currentColor;
-      ctx.shadowColor = 'rgba(255,255,255,0.5)';
-      ctx.shadowBlur = 10;
+    // CORES - MODO SOMBRA
+    if (state.shadowMode) {
+      ctx.strokeStyle = state.color;
+      ctx.fillStyle = state.color;
+      ctx.shadowColor = state.color;
+      ctx.shadowBlur = 30;
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = 0;
     } else {
-      ctx.strokeStyle = '#ffffff';
-      ctx.fillStyle = '#ffffff';
-      ctx.shadowColor = 'rgba(0,0,0,0.3)';
-      ctx.shadowBlur = 5;
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.fillStyle = '#FFFFFF';
+      ctx.shadowColor = 'rgba(0,0,0,0.5)';
+      ctx.shadowBlur = 10;
     }
     
-    ctx.lineWidth = 8;
-    ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = 0;
+    // Calcular centro (com proporção do ecrã)
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const radius = Math.min(canvas.width, canvas.height) * 0.35;
     
     // Desenhar círculo da torta
     ctx.beginPath();
-    ctx.arc(500, 500, 400, 0, Math.PI * 2);
+    ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
     ctx.stroke();
     
+    // Segundo círculo (interior)
     ctx.beginPath();
-    ctx.arc(500, 500, 380, 0, Math.PI * 2);
-    ctx.strokeStyle = shadowMode ? currentColor : '#cccccc';
+    ctx.arc(centerX, centerY, radius * 0.95, 0, Math.PI * 2);
+    ctx.strokeStyle = state.shadowMode ? state.color : '#CCCCCC';
     ctx.stroke();
     
-    // Linhas de centro (fracas)
+    // Linhas de centro (ténues)
     ctx.globalAlpha = 0.3;
     ctx.beginPath();
-    ctx.moveTo(500, 100);
-    ctx.lineTo(500, 900);
+    ctx.moveTo(centerX, centerY - radius * 1.2);
+    ctx.lineTo(centerX, centerY + radius * 1.2);
     ctx.stroke();
     ctx.beginPath();
-    ctx.moveTo(100, 500);
-    ctx.lineTo(900, 500);
+    ctx.moveTo(centerX - radius * 1.2, centerY);
+    ctx.lineTo(centerX + radius * 1.2, centerY);
     ctx.stroke();
     ctx.globalAlpha = 1;
     
-    // Sombras para texto
-    ctx.shadowBlur = shadowMode ? 20 : 5;
-    
-    // Desenhar texto
-    ctx.font = `${currentTextSize}px ${currentFont}`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillStyle = shadowMode ? currentColor : '#ffffff';
-    ctx.fillText(currentText, 500, 500 + currentTextY);
+    // Desenhar texto principal
+    ctx.font = `${state.textSize}px ${state.font}`;
+    ctx.fillStyle = state.shadowMode ? state.color : '#FFFFFF';
+    ctx.fillText(state.text, centerX, centerY + state.textY);
     
     // Desenhar idade
-    if (currentAge > 0) {
-      ctx.font = `bold ${currentAgeSize}px Arial`;
+    if (state.age > 0) {
+      ctx.font = `bold ${state.ageSize}px Arial`;
       ctx.globalAlpha = 0.4;
-      ctx.fillStyle = shadowMode ? currentColor : '#ffffff';
-      ctx.fillText(currentAge.toString(), 500, 500 + currentAgeY);
+      ctx.fillStyle = state.shadowMode ? state.color : '#FFFFFF';
+      ctx.fillText(state.age.toString(), centerX, centerY + state.ageY);
       ctx.globalAlpha = 1;
     }
     
     // Atualizar preview
-    textPreview.style.color = shadowMode ? currentColor : '#ffffff';
-    textPreview.style.fontFamily = currentFont;
-    textPreview.style.fontSize = '24px';
-    textPreview.textContent = currentText;
-    
-    requestAnimationFrame(drawOverlay);
+    textPreview.style.color = state.shadowMode ? state.color : '#FFFFFF';
+    textPreview.style.fontFamily = state.font;
+    textPreview.textContent = state.text;
   }
   
   // ===== MODO SOMBRA =====
   function toggleShadowMode() {
-    shadowMode = !shadowMode;
+    state.shadowMode = !state.shadowMode;
     
     const btn = document.getElementById('shadowBtn');
-    if (shadowMode) {
+    const indicator = document.getElementById('statusIndicator');
+    
+    if (state.shadowMode) {
       btn.innerHTML = '☀️ NORMAL';
       btn.classList.add('active');
-      
-      // Wake Lock
+      indicator.innerHTML = '✨ SCHATTEN MODUS';
+      indicator.style.color = state.color;
       requestWakeLock();
     } else {
       btn.innerHTML = '🌙 SCHATTEN';
       btn.classList.remove('active');
-      
-      // Release Wake Lock
+      indicator.innerHTML = '🌙 NORMAL MODUS';
+      indicator.style.color = '#FFD700';
       releaseWakeLock();
     }
   }
   
-  // Wake Lock
+  // ===== WAKE LOCK =====
   let wakeLock = null;
   
   async function requestWakeLock() {
@@ -517,7 +583,7 @@
         wakeLock = await navigator.wakeLock.request('screen');
       }
     } catch (err) {
-      console.log('Wake Lock error:', err);
+      console.log('Wake Lock nicht unterstützt');
     }
   }
   
@@ -527,134 +593,120 @@
         await wakeLock.release();
         wakeLock = null;
       }
-    } catch (err) {
-      console.log('Release error:', err);
-    }
+    } catch (err) {}
   }
   
   // ===== CONTROLOS =====
   
-  // Brilho
-  document.getElementById('brightness').addEventListener('input', (e) => {
-    currentBrightness = e.target.value;
-    document.getElementById('brightnessSliderValue').innerText = currentBrightness + '%';
-    document.getElementById('brightnessValue').innerText = currentBrightness + '%';
-    
-    // Ajustar brilho do vídeo (se suportado)
-    if (video.style) {
-      video.style.filter = `brightness(${currentBrightness}%)`;
-    }
+  // Sliders
+  document.getElementById('sizeSlider').addEventListener('input', (e) => {
+    state.textSize = parseInt(e.target.value);
+    document.getElementById('sizeValue').innerText = state.textSize;
   });
   
-  // Tamanho
-  document.getElementById('sizeDownBtn').addEventListener('click', () => {
-    currentTextSize = Math.max(30, currentTextSize - 10);
-    document.getElementById('modalSize').value = currentTextSize;
-    document.getElementById('modalSizeValue').innerText = currentTextSize;
+  document.getElementById('ySlider').addEventListener('input', (e) => {
+    state.textY = parseInt(e.target.value);
+    document.getElementById('yValue').innerText = state.textY;
   });
   
-  document.getElementById('sizeUpBtn').addEventListener('click', () => {
-    currentTextSize = Math.min(200, currentTextSize + 10);
-    document.getElementById('modalSize').value = currentTextSize;
-    document.getElementById('modalSizeValue').innerText = currentTextSize;
-  });
+  // Modal functions
+  window.closeModal = (modalId) => {
+    document.getElementById(modalId).classList.remove('active');
+  };
   
-  // Cor
-  let colorIndex = 0;
-  const colors = ['#ffaa00', '#ff0000', '#00ff00', '#0000ff', '#ffffff', '#ff00ff'];
-  
-  document.getElementById('colorBtn').addEventListener('click', () => {
-    colorIndex = (colorIndex + 1) % colors.length;
-    currentColor = colors[colorIndex];
-    document.getElementById('colorBtn').style.background = currentColor;
-  });
-  
-  // Modals
-  const textModal = document.getElementById('textModal');
-  const ageModal = document.getElementById('ageModal');
-  
+  // Text Modal
   document.getElementById('textBtn').addEventListener('click', () => {
-    document.getElementById('modalText').value = currentText;
-    document.getElementById('modalFont').value = currentFont;
-    document.getElementById('modalSize').value = currentTextSize;
-    document.getElementById('modalSizeValue').innerText = currentTextSize;
-    document.getElementById('modalY').value = currentTextY;
-    document.getElementById('modalYValue').innerText = currentTextY;
-    textModal.classList.add('active');
+    document.getElementById('textInput').value = state.text;
+    document.getElementById('textModal').classList.add('active');
   });
   
+  window.saveText = () => {
+    state.text = document.getElementById('textInput').value;
+    closeModal('textModal');
+  };
+  
+  // Font Modal
+  document.getElementById('fontBtn').addEventListener('click', () => {
+    document.getElementById('fontSelect').value = state.font;
+    document.getElementById('fontModal').classList.add('active');
+  });
+  
+  window.saveFont = () => {
+    state.font = document.getElementById('fontSelect').value;
+    closeModal('fontModal');
+  };
+  
+  // Age Modal
   document.getElementById('ageBtn').addEventListener('click', () => {
-    document.getElementById('modalAge').value = currentAge;
-    document.getElementById('modalAgeSize').value = currentAgeSize;
-    document.getElementById('modalAgeSizeValue').innerText = currentAgeSize;
-    document.getElementById('modalAgeY').value = currentAgeY;
-    document.getElementById('modalAgeYValue').innerText = currentAgeY;
-    ageModal.classList.add('active');
+    document.getElementById('ageSelect').value = state.age;
+    document.getElementById('ageSize').value = state.ageSize;
+    document.getElementById('ageY').value = state.ageY;
+    document.getElementById('ageSizeValue').innerText = state.ageSize;
+    document.getElementById('ageYValue').innerText = state.ageY;
+    document.getElementById('ageModal').classList.add('active');
   });
   
-  // Fechar modals
-  window.closeTextModal = function() {
-    textModal.classList.remove('active');
+  window.saveAge = () => {
+    state.age = parseInt(document.getElementById('ageSelect').value);
+    state.ageSize = parseInt(document.getElementById('ageSize').value);
+    state.ageY = parseInt(document.getElementById('ageY').value);
+    closeModal('ageModal');
   };
   
-  window.closeAgeModal = function() {
-    ageModal.classList.remove('active');
-  };
-  
-  window.applyTextModal = function() {
-    currentText = document.getElementById('modalText').value;
-    currentFont = document.getElementById('modalFont').value;
-    currentTextSize = parseInt(document.getElementById('modalSize').value);
-    currentTextY = parseInt(document.getElementById('modalY').value);
-    textModal.classList.remove('active');
-  };
-  
-  window.applyAgeModal = function() {
-    currentAge = parseInt(document.getElementById('modalAge').value);
-    currentAgeSize = parseInt(document.getElementById('modalAgeSize').value);
-    currentAgeY = parseInt(document.getElementById('modalAgeY').value);
-    ageModal.classList.remove('active');
-  };
-  
-  // Sliders update
-  document.getElementById('modalSize').addEventListener('input', (e) => {
-    document.getElementById('modalSizeValue').innerText = e.target.value;
+  // Age sliders update
+  document.getElementById('ageSize').addEventListener('input', (e) => {
+    document.getElementById('ageSizeValue').innerText = e.target.value;
   });
   
-  document.getElementById('modalY').addEventListener('input', (e) => {
-    document.getElementById('modalYValue').innerText = e.target.value;
+  document.getElementById('ageY').addEventListener('input', (e) => {
+    document.getElementById('ageYValue').innerText = e.target.value;
   });
   
-  document.getElementById('modalAgeSize').addEventListener('input', (e) => {
-    document.getElementById('modalAgeSizeValue').innerText = e.target.value;
+  // Color
+  document.getElementById('colorBtn').addEventListener('click', () => {
+    state.colorIndex = (state.colorIndex + 1) % colors.length;
+    state.color = colors[state.colorIndex];
+    document.getElementById('colorBtn').style.background = state.color;
   });
   
-  document.getElementById('modalAgeY').addEventListener('input', (e) => {
-    document.getElementById('modalAgeYValue').innerText = e.target.value;
-  });
-  
-  // Botão sombra
+  // Shadow button
   document.getElementById('shadowBtn').addEventListener('click', toggleShadowMode);
   
-  // Foto
+  // Reset
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    state.text = "Alles Gute zum Geburtstag!";
+    state.font = "'Great Vibes'";
+    state.textSize = 70;
+    state.textY = 0;
+    state.age = 0;
+    state.ageSize = 120;
+    state.ageY = -80;
+    
+    document.getElementById('sizeSlider').value = 70;
+    document.getElementById('sizeValue').innerText = '70';
+    document.getElementById('ySlider').value = 0;
+    document.getElementById('yValue').innerText = '0';
+    document.getElementById('textInput').value = state.text;
+  });
+  
+  // Capture photo
   document.getElementById('captureBtn').addEventListener('click', () => {
-    // Criar um canvas para capturar a tela inteira
-    const captureCanvas = document.createElement('canvas');
-    captureCanvas.width = video.videoWidth;
-    captureCanvas.height = video.videoHeight;
-    const captureCtx = captureCanvas.getContext('2d');
+    // Criar canvas para foto
+    const photoCanvas = document.createElement('canvas');
+    photoCanvas.width = video.videoWidth;
+    photoCanvas.height = video.videoHeight;
+    const photoCtx = photoCanvas.getContext('2d');
     
     // Desenhar vídeo
-    captureCtx.drawImage(video, 0, 0, captureCanvas.width, captureCanvas.height);
+    photoCtx.drawImage(video, 0, 0, photoCanvas.width, photoCanvas.height);
     
-    // Desenhar overlay por cima
-    const overlayCanvas = document.getElementById('drawing-canvas');
-    captureCtx.drawImage(overlayCanvas, 0, 0, captureCanvas.width, captureCanvas.height);
+    // Desenhar overlay
+    photoCtx.drawImage(canvas, 0, 0, photoCanvas.width, photoCanvas.height);
     
     // Download
     const link = document.createElement('a');
     link.download = `torte-${new Date().getTime()}.png`;
-    link.href = captureCanvas.toDataURL();
+    link.href = photoCanvas.toDataURL('image/png');
     link.click();
   });
   
