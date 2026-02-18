@@ -2,31 +2,43 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>BOLO PRO - Com Câmara</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CÂMARA TESTE</title>
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-
+    
     body {
-      background: black;
+      background: #333;
       font-family: Arial, sans-serif;
-      height: 100vh;
-      width: 100vw;
-      overflow: hidden;
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    h1 {
       color: white;
+      margin: 20px 0;
+      text-align: center;
     }
-
-    .container {
-      position: relative;
+    
+    .camera-container {
       width: 100%;
-      height: 100%;
+      max-width: 500px;
+      background: black;
+      border-radius: 20px;
+      overflow: hidden;
+      margin: 20px 0;
+      position: relative;
+      aspect-ratio: 4/3;
     }
-
-    #video {
+    
+    #video, #canvas {
       position: absolute;
       top: 0;
       left: 0;
@@ -34,471 +46,282 @@
       height: 100%;
       object-fit: cover;
     }
-
-    #canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 2;
-    }
-
-    /* ECRÃ DE PERMISSÃO */
-    .permission-screen {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 100;
-      padding: 30px;
-      text-align: center;
-    }
-
-    .permission-screen h1 {
-      font-size: 36px;
-      margin-bottom: 20px;
-      color: white;
-    }
-
-    .permission-screen p {
-      font-size: 18px;
-      margin-bottom: 30px;
-      color: rgba(255,255,255,0.9);
-    }
-
-    .permission-btn {
-      background: white;
-      color: #667eea;
-      border: none;
-      padding: 20px 40px;
-      border-radius: 50px;
-      font-size: 24px;
-      font-weight: bold;
-      margin: 10px;
-      width: 280px;
-      cursor: pointer;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    }
-
-    .error-box {
-      background: rgba(255,0,0,0.2);
-      border: 2px solid red;
-      padding: 20px;
-      border-radius: 20px;
-      margin-top: 20px;
-      display: none;
-    }
-
-    /* CONTROLOS */
+    
     .controls {
-      position: absolute;
-      bottom: 30px;
-      left: 0;
-      right: 0;
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 15px;
-      padding: 20px;
-      display: none;
-    }
-
-    .text-input {
-      width: 90%;
+      width: 100%;
       max-width: 500px;
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(10px);
-      border: 2px solid gold;
-      border-radius: 50px;
-      padding: 5px;
-      display: flex;
-    }
-
-    .text-input input {
-      flex: 1;
-      background: transparent;
-      border: none;
-      color: white;
-      font-size: 24px;
-      padding: 15px 20px;
-      outline: none;
-    }
-
-    .text-input button {
-      background: gold;
-      border: none;
-      border-radius: 50px;
-      width: 70px;
-      font-size: 24px;
-      cursor: pointer;
-    }
-
-    .slider-panel {
-      width: 90%;
-      max-width: 500px;
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(10px);
-      border-radius: 30px;
+      background: white;
+      border-radius: 20px;
       padding: 20px;
-      border: 1px solid gold;
-    }
-
-    .slider-item {
       margin: 10px 0;
-      display: flex;
-      align-items: center;
-      gap: 10px;
     }
-
-    .slider-item label {
-      width: 50px;
-      color: gold;
-      font-size: 20px;
-    }
-
-    .slider-item input {
-      flex: 1;
-    }
-
-    .slider-item span {
-      color: white;
-      width: 40px;
-      text-align: right;
-    }
-
-    .motif-bar {
-      display: flex;
-      gap: 10px;
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(10px);
+    
+    input, select, button {
+      width: 100%;
       padding: 15px;
-      border-radius: 50px;
-      border: 1px solid gold;
+      margin: 10px 0;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 16px;
     }
-
-    .motif-btn {
-      background: none;
+    
+    button {
+      background: #007bff;
+      color: white;
       border: none;
-      font-size: 30px;
-      padding: 10px;
-      border-radius: 40px;
-      cursor: pointer;
-      width: 60px;
-    }
-
-    .motif-btn.selected {
-      background: gold;
-    }
-
-    .project-btn {
-      width: 90%;
-      max-width: 500px;
-      background: gold;
-      border: none;
-      border-radius: 50px;
-      padding: 20px;
-      font-size: 24px;
       font-weight: bold;
       cursor: pointer;
     }
-
-    .project-btn.off {
-      background: #333;
-      color: gold;
+    
+    button:active {
+      transform: scale(0.98);
     }
-
-    .status {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      background: rgba(0,0,0,0.5);
-      color: gold;
-      padding: 10px 20px;
-      border-radius: 40px;
-      z-index: 5;
-      border: 1px solid gold;
+    
+    .error {
+      background: #ff4444;
+      color: white;
+      padding: 15px;
+      border-radius: 10px;
+      margin: 10px 0;
+      display: none;
+    }
+    
+    .success {
+      background: #00C851;
+      color: white;
+      padding: 15px;
+      border-radius: 10px;
+      margin: 10px 0;
+    }
+    
+    .step {
+      background: #f0f0f0;
+      padding: 15px;
+      border-radius: 10px;
+      margin: 10px 0;
+    }
+    
+    .step h3 {
+      color: #333;
+      margin-bottom: 10px;
     }
   </style>
 </head>
 <body>
-<div class="container">
-  <!-- ECRÃ DE PERMISSÃO -->
-  <div class="permission-screen" id="permissionScreen">
-    <h1>🎂 ACESSO À CÂMARA</h1>
-    <p>Para projetar o texto no seu bolo,<br>precisamos de usar a câmara</p>
-    
-    <button class="permission-btn" id="requestBtn">
-      📸 ATIVAR CÂMARA
-    </button>
-    
-    <div class="error-box" id="errorBox">
-      <p>❌ Não foi possível aceder à câmara</p>
-      <p style="font-size: 14px;">Verifique as permissões nas definições</p>
+  <h1>📱 TESTE DE CÂMARA</h1>
+  
+  <div class="camera-container">
+    <video id="video" autoplay playsinline></video>
+    <canvas id="canvas"></canvas>
+  </div>
+  
+  <div class="controls">
+    <div class="step">
+      <h3>Passo 1: Ativar Câmara</h3>
+      <button id="btnAtivar">📸 ATIVAR CÂMARA</button>
     </div>
     
-    <p style="margin-top: 30px; font-size: 14px;">🔒 A imagem não é guardada, apenas usada para projeção</p>
+    <div class="step">
+      <h3>Passo 2: Escrever Texto</h3>
+      <input type="text" id="texto" value="PARABÉNS" placeholder="Digite o texto">
+      <button id="btnAtualizar">✓ Atualizar Texto</button>
+    </div>
+    
+    <div class="step">
+      <h3>Passo 3: Ajustar</h3>
+      <label>Tamanho: <span id="tamanhoValor">80</span></label>
+      <input type="range" id="tamanho" min="30" max="200" value="80">
+      
+      <label>Posição Y: <span id="yValor">0</span></label>
+      <input type="range" id="posY" min="-200" max="200" value="0">
+    </div>
+    
+    <div class="step">
+      <h3>Passo 4: Modo Projeção</h3>
+      <button id="btnProjecao">🌙 ATIVAR PROJEÇÃO</button>
+    </div>
+    
+    <div id="erro" class="error"></div>
+    <div id="sucesso" class="success" style="display: none;">
+      ✅ Câmara ativada com sucesso!
+    </div>
   </div>
 
-  <!-- CÂMARA + DESENHO -->
-  <video id="video" autoplay playsinline style="display: none;"></video>
-  <canvas id="canvas" style="display: none;"></canvas>
-  
-  <!-- STATUS -->
-  <div class="status" id="status" style="display: none;">⚪ NORMAL</div>
-
-  <!-- CONTROLOS -->
-  <div class="controls" id="controls">
-    <div class="text-input">
-      <input type="text" id="textInput" value="PARABÉNS" placeholder="Digite aqui...">
-      <button id="updateBtn">✓</button>
-    </div>
-
-    <div class="slider-panel">
-      <div class="slider-item">
-        <label>📏</label>
-        <input type="range" id="sizeSlider" min="30" max="200" value="80">
-        <span id="sizeValue">80</span>
-      </div>
-      <div class="slider-item">
-        <label>⬆️</label>
-        <input type="range" id="ySlider" min="-300" max="300" value="0">
-        <span id="yValue">0</span>
-      </div>
-    </div>
-
-    <div class="motif-bar">
-      <button class="motif-btn" data-motif="none">🚫</button>
-      <button class="motif-btn" data-motif="heart">❤️</button>
-      <button class="motif-btn" data-motif="star">⭐</button>
-      <button class="motif-btn" data-motif="unicorn">🦄</button>
-      <button class="motif-btn" data-motif="dino">🦖</button>
-      <button class="motif-btn" data-motif="bear">🐻</button>
-    </div>
-
-    <button class="project-btn" id="projectBtn">🌙 ATIVAR PROJEÇÃO</button>
-  </div>
-</div>
-
-<script>
-  // Elementos
-  const video = document.getElementById('video');
-  const canvas = document.getElementById('canvas');
-  const ctx = canvas.getContext('2d');
-  
-  const permissionScreen = document.getElementById('permissionScreen');
-  const controls = document.getElementById('controls');
-  const status = document.getElementById('status');
-  
-  // Estado
-  let projectionMode = false;
-  let text = "PARABÉNS";
-  let textSize = 80;
-  let textY = 0;
-  let motif = "none";
-  
-  const motifs = {
-    none: "",
-    heart: "❤️",
-    star: "⭐",
-    unicorn: "🦄",
-    dino: "🦖",
-    bear: "🐻"
-  };
-
-  // FUNÇÃO PARA PEDIR ACESSO À CÂMARA
-  async function requestCamera() {
-    try {
-      // Esconder mensagem de erro
-      document.getElementById('errorBox').style.display = 'none';
+  <script>
+    // Elementos
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Estado
+    let cameraAtiva = false;
+    let projecaoAtiva = false;
+    let texto = "PARABÉNS";
+    let tamanho = 80;
+    let posY = 0;
+    
+    // Função para ativar câmara
+    document.getElementById('btnAtivar').addEventListener('click', async () => {
+      const erroDiv = document.getElementById('erro');
+      const sucessoDiv = document.getElementById('sucesso');
       
-      // Pedir acesso à câmara - Isto VAI mostrar o popup!
-      const stream = await navigator.mediaDevices.getUserMedia({ 
-        video: {
-          facingMode: 'environment', // Câmara traseira
-          width: { ideal: 1920 },
-          height: { ideal: 1080 }
-        },
-        audio: false
-      });
-      
-      // Sucesso! Temos acesso à câmara
-      video.srcObject = stream;
-      
-      // Aguardar vídeo carregar
-      video.onloadedmetadata = () => {
-        // Mostrar vídeo e canvas
-        video.style.display = 'block';
-        canvas.style.display = 'block';
+      try {
+        erroDiv.style.display = 'none';
+        sucessoDiv.style.display = 'none';
         
-        // Ajustar canvas
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
+        console.log('A pedir câmara...');
         
-        // Iniciar vídeo
-        video.play();
+        // Pedir acesso à câmara - Isto VAI mostrar o popup!
+        const stream = await navigator.mediaDevices.getUserMedia({ 
+          video: {
+            facingMode: 'environment', // Câmara traseira
+            width: { ideal: 1280 },
+            height: { ideal: 720 }
+          }
+        });
         
-        // Esconder ecrã de permissão
-        permissionScreen.style.display = 'none';
+        console.log('Câmara obtida!');
         
-        // Mostrar controlos
-        controls.style.display = 'flex';
-        status.style.display = 'block';
+        // Mostrar vídeo
+        video.srcObject = stream;
         
-        // Iniciar desenho
-        drawLoop();
-      };
-      
-    } catch (err) {
-      console.error('Erro câmara:', err);
-      
-      // Mostrar erro
-      document.getElementById('errorBox').style.display = 'block';
-      
-      // Instruções específicas
-      let errorMsg = '';
-      if (err.name === 'NotAllowedError') {
-        errorMsg = 'Permissão negada. Vá a Definições > Apps > Chrome > Permissões > Câmara = Permitir';
-      } else if (err.name === 'NotFoundError') {
-        errorMsg = 'Nenhuma câmara encontrada';
-      } else {
-        errorMsg = 'Erro: ' + err.message;
+        video.onloadedmetadata = () => {
+          console.log('Vídeo carregado');
+          
+          // Ajustar canvas
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          
+          // Iniciar reprodução
+          video.play();
+          
+          // Marcar como ativa
+          cameraAtiva = true;
+          
+          // Mostrar sucesso
+          sucessoDiv.style.display = 'block';
+          
+          // Iniciar desenho
+          desenhar();
+        };
+        
+      } catch (err) {
+        console.error('Erro:', err);
+        
+        // Mostrar erro detalhado
+        let mensagem = '';
+        
+        if (err.name === 'NotAllowedError') {
+          mensagem = '❌ Permissão negada. No seu telemóvel:';
+          mensagem += '\n\n📱 ANDROID:';
+          mensagem += '\n1. Abra Definições';
+          mensagem += '\n2. Apps > Chrome';
+          mensagem += '\n3. Permissões > Câmara = Permitir';
+          mensagem += '\n4. Recarregue a página';
+          mensagem += '\n\n📱 IPHONE:';
+          mensagem += '\n1. Definições > Safari';
+          mensagem += '\n2. Câmara = Permitir';
+          mensagem += '\n3. Recarregue a página';
+        } else if (err.name === 'NotFoundError') {
+          mensagem = '❌ Nenhuma câmara encontrada no seu dispositivo';
+        } else {
+          mensagem = '❌ Erro: ' + err.message;
+        }
+        
+        erroDiv.innerHTML = mensagem.replace(/\n/g, '<br>');
+        erroDiv.style.display = 'block';
       }
-      
-      document.getElementById('errorBox').innerHTML = `
-        <p>❌ ${errorMsg}</p>
-        <p style="font-size:14px; margin-top:10px;">Tente: F5 para recarregar</p>
-      `;
-    }
-  }
-
-  // Loop de desenho
-  function drawLoop() {
-    draw();
-    requestAnimationFrame(drawLoop);
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    const radius = Math.min(canvas.width, canvas.height) * 0.3;
-    
-    // Configurar estilo
-    if (projectionMode) {
-      ctx.strokeStyle = '#FFD700';
-      ctx.fillStyle = '#FFD700';
-      ctx.shadowColor = '#FFD700';
-      ctx.shadowBlur = 30;
-      ctx.lineWidth = 15;
-    } else {
-      ctx.strokeStyle = '#FFFFFF';
-      ctx.fillStyle = '#FFFFFF';
-      ctx.shadowColor = '#000000';
-      ctx.shadowBlur = 10;
-      ctx.lineWidth = 8;
-    }
-    
-    ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = 0;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    
-    // Círculo guia
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-    ctx.stroke();
-    
-    // Linhas de centro
-    ctx.globalAlpha = 0.2;
-    ctx.beginPath();
-    ctx.moveTo(centerX, centerY - radius * 1.2);
-    ctx.lineTo(centerX, centerY + radius * 1.2);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(centerX - radius * 1.2, centerY);
-    ctx.lineTo(centerX + radius * 1.2, centerY);
-    ctx.stroke();
-    ctx.globalAlpha = 1;
-    
-    // Motivo
-    if (motif !== 'none') {
-      ctx.font = `${textSize * 1.2}px "Segoe UI Emoji", "Apple Color Emoji", sans-serif`;
-      ctx.fillText(motifs[motif], centerX, centerY - 50);
-    }
-    
-    // Texto
-    ctx.font = `${textSize}px "Great Vibes", "Pacifico", Arial`;
-    ctx.fillText(text, centerX, centerY + textY);
-  }
-
-  // EVENTOS
-  
-  // Botão para pedir câmara
-  document.getElementById('requestBtn').addEventListener('click', requestCamera);
-  
-  // Atualizar texto
-  document.getElementById('updateBtn').addEventListener('click', () => {
-    text = document.getElementById('textInput').value.toUpperCase();
-  });
-
-  document.getElementById('textInput').addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-      text = e.target.value.toUpperCase();
-    }
-  });
-
-  // Sliders
-  document.getElementById('sizeSlider').addEventListener('input', (e) => {
-    textSize = parseInt(e.target.value);
-    document.getElementById('sizeValue').innerText = textSize;
-  });
-
-  document.getElementById('ySlider').addEventListener('input', (e) => {
-    textY = parseInt(e.target.value);
-    document.getElementById('yValue').innerText = textY;
-  });
-
-  // Motivos
-  document.querySelectorAll('.motif-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.motif-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      motif = btn.dataset.motif;
     });
-  });
-
-  // Modo projeção
-  document.getElementById('projectBtn').addEventListener('click', () => {
-    projectionMode = !projectionMode;
-    const btn = document.getElementById('projectBtn');
     
-    if (projectionMode) {
-      btn.innerHTML = '⚪ DESATIVAR PROJEÇÃO';
-      btn.classList.add('off');
-      status.innerHTML = '✨ PROJEÇÃO ATIVA';
-      
-      // Wake Lock
-      if ('wakeLock' in navigator) {
-        navigator.wakeLock.request('screen').catch(() => {});
+    // Função de desenho
+    function desenhar() {
+      if (!cameraAtiva) {
+        requestAnimationFrame(desenhar);
+        return;
       }
-    } else {
-      btn.innerHTML = '🌙 ATIVAR PROJEÇÃO';
-      btn.classList.remove('off');
-      status.innerHTML = '⚪ NORMAL';
+      
+      // Limpar canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      // Centro
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      const raio = Math.min(canvas.width, canvas.height) * 0.3;
+      
+      // Configurar estilo
+      if (projecaoAtiva) {
+        ctx.strokeStyle = '#FFD700';
+        ctx.fillStyle = '#FFD700';
+        ctx.shadowColor = '#FFD700';
+        ctx.shadowBlur = 30;
+        ctx.lineWidth = 15;
+      } else {
+        ctx.strokeStyle = '#FFFFFF';
+        ctx.fillStyle = '#FFFFFF';
+        ctx.shadowColor = '#000000';
+        ctx.shadowBlur = 10;
+        ctx.lineWidth = 8;
+      }
+      
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = 0;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      
+      // Desenhar círculo
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, raio, 0, Math.PI * 2);
+      ctx.stroke();
+      
+      // Desenhar texto
+      ctx.font = `${tamanho}px "Arial", sans-serif`;
+      ctx.fillText(texto, centerX, centerY + posY);
+      
+      requestAnimationFrame(desenhar);
     }
-  });
-
-  // Selecionar motivo inicial
-  document.querySelector('[data-motif="none"]').classList.add('selected');
-</script>
+    
+    // Atualizar texto
+    document.getElementById('btnAtualizar').addEventListener('click', () => {
+      texto = document.getElementById('texto').value;
+    });
+    
+    // Tamanho
+    document.getElementById('tamanho').addEventListener('input', (e) => {
+      tamanho = parseInt(e.target.value);
+      document.getElementById('tamanhoValor').innerText = tamanho;
+    });
+    
+    // Posição Y
+    document.getElementById('posY').addEventListener('input', (e) => {
+      posY = parseInt(e.target.value);
+      document.getElementById('yValor').innerText = posY;
+    });
+    
+    // Modo projeção
+    document.getElementById('btnProjecao').addEventListener('click', () => {
+      projecaoAtiva = !projecaoAtiva;
+      const btn = document.getElementById('btnProjecao');
+      
+      if (projecaoAtiva) {
+        btn.innerHTML = '⚪ DESATIVAR PROJEÇÃO';
+        btn.style.background = '#333';
+        
+        // Wake Lock
+        if ('wakeLock' in navigator) {
+          navigator.wakeLock.request('screen').catch(() => {});
+        }
+      } else {
+        btn.innerHTML = '🌙 ATIVAR PROJEÇÃO';
+        btn.style.background = '#007bff';
+      }
+    });
+    
+    // Tecla Enter no input
+    document.getElementById('texto').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        texto = e.target.value;
+      }
+    });
+  </script>
 </body>
 </html>
