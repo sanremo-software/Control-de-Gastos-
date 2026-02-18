@@ -1,322 +1,279 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="pt">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>PROJEÇÃO DIRETA - Desenho sobre o bolo</title>
+  <title>BOLO PRO - Com Câmara</title>
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
     }
 
     body {
-      background: #000;
-      font-family: 'Arial', sans-serif;
-      overflow: hidden;
+      background: black;
+      font-family: Arial, sans-serif;
       height: 100vh;
       width: 100vw;
-      touch-action: pan-y pinch-zoom;
+      overflow: hidden;
+      color: white;
     }
 
     .container {
       position: relative;
       width: 100%;
       height: 100%;
-      display: flex;
-      flex-direction: column;
     }
 
-    /* Área da câmara + desenho */
-    .camera-area {
-      position: relative;
-      flex: 1;
-      width: 100%;
-      background: #000;
-      overflow: hidden;
-    }
-
-    /* Vídeo da câmara */
-    #camera {
+    #video {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      z-index: 1;
     }
 
-    /* Canvas do desenho - SOBRE a câmara */
-    #overlay {
+    #canvas {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       z-index: 2;
-      pointer-events: none; /* Permite tocar nos botões */
     }
 
-    /* Painel de controlos - sobreposto */
-    .control-panel {
+    /* ECRÃ DE PERMISSÃO */
+    .permission-screen {
       position: absolute;
-      bottom: 0;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .permission-screen h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+      color: white;
+    }
+
+    .permission-screen p {
+      font-size: 18px;
+      margin-bottom: 30px;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .permission-btn {
+      background: white;
+      color: #667eea;
+      border: none;
+      padding: 20px 40px;
+      border-radius: 50px;
+      font-size: 24px;
+      font-weight: bold;
+      margin: 10px;
+      width: 280px;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .error-box {
+      background: rgba(255,0,0,0.2);
+      border: 2px solid red;
+      padding: 20px;
+      border-radius: 20px;
+      margin-top: 20px;
+      display: none;
+    }
+
+    /* CONTROLOS */
+    .controls {
+      position: absolute;
+      bottom: 30px;
       left: 0;
       right: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-      padding: 30px 20px 40px;
-      z-index: 3;
+      z-index: 10;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 15px;
-      pointer-events: none;
+      padding: 20px;
+      display: none;
     }
 
-    .control-panel > * {
-      pointer-events: auto;
-    }
-
-    /* Campo de texto */
-    .text-box {
-      width: 100%;
+    .text-input {
+      width: 90%;
       max-width: 500px;
-      background: rgba(30,30,30,0.95);
+      background: rgba(0,0,0,0.7);
       backdrop-filter: blur(10px);
-      border: 2px solid #FFD700;
-      border-radius: 60px;
+      border: 2px solid gold;
+      border-radius: 50px;
       padding: 5px;
       display: flex;
-      gap: 5px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
 
-    .text-box input {
+    .text-input input {
       flex: 1;
       background: transparent;
       border: none;
       color: white;
-      font-size: 22px;
-      padding: 15px 25px;
+      font-size: 24px;
+      padding: 15px 20px;
       outline: none;
     }
 
-    .text-box input::placeholder {
-      color: #666;
-    }
-
-    .text-box button {
-      background: #FFD700;
+    .text-input button {
+      background: gold;
       border: none;
       border-radius: 50px;
-      width: 60px;
+      width: 70px;
       font-size: 24px;
       cursor: pointer;
     }
 
-    /* Sliders */
-    .slider-container {
-      width: 100%;
+    .slider-panel {
+      width: 90%;
       max-width: 500px;
-      background: rgba(30,30,30,0.95);
+      background: rgba(0,0,0,0.7);
       backdrop-filter: blur(10px);
-      border-radius: 40px;
-      padding: 15px 25px;
-      border: 1px solid #FFD700;
+      border-radius: 30px;
+      padding: 20px;
+      border: 1px solid gold;
     }
 
-    .slider-row {
+    .slider-item {
+      margin: 10px 0;
       display: flex;
       align-items: center;
-      gap: 15px;
-      margin: 10px 0;
+      gap: 10px;
     }
 
-    .slider-row label {
-      color: #FFD700;
-      width: 40px;
-      font-size: 18px;
-      font-weight: bold;
+    .slider-item label {
+      width: 50px;
+      color: gold;
+      font-size: 20px;
     }
 
-    .slider-row input {
+    .slider-item input {
       flex: 1;
-      height: 8px;
-      -webkit-appearance: none;
-      background: #333;
-      border-radius: 10px;
     }
 
-    .slider-row input::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 28px;
-      height: 28px;
-      background: #FFD700;
-      border-radius: 50%;
-      cursor: pointer;
-      border: 2px solid white;
-    }
-
-    .slider-row span {
+    .slider-item span {
       color: white;
-      width: 45px;
+      width: 40px;
       text-align: right;
     }
 
-    /* Botões de motivo */
     .motif-bar {
-      width: 100%;
-      max-width: 500px;
-      background: rgba(30,30,30,0.95);
-      backdrop-filter: blur(10px);
-      border-radius: 60px;
-      padding: 10px;
-      border: 1px solid #FFD700;
       display: flex;
-      justify-content: space-around;
+      gap: 10px;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(10px);
+      padding: 15px;
+      border-radius: 50px;
+      border: 1px solid gold;
     }
 
     .motif-btn {
       background: none;
       border: none;
-      font-size: 32px;
+      font-size: 30px;
       padding: 10px;
-      border-radius: 50px;
+      border-radius: 40px;
       cursor: pointer;
-      transition: all 0.2s;
       width: 60px;
     }
 
     .motif-btn.selected {
-      background: #FFD700;
-      transform: scale(1.1);
+      background: gold;
     }
 
-    /* Botão principal */
-    .main-btn {
-      width: 100%;
+    .project-btn {
+      width: 90%;
       max-width: 500px;
-      background: #FFD700;
+      background: gold;
       border: none;
-      border-radius: 60px;
+      border-radius: 50px;
       padding: 20px;
       font-size: 24px;
       font-weight: bold;
       cursor: pointer;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      transition: all 0.2s;
     }
 
-    .main-btn.off {
+    .project-btn.off {
       background: #333;
-      color: #FFD700;
+      color: gold;
     }
 
-    /* Indicador de modo */
-    .mode-badge {
+    .status {
       position: absolute;
       top: 20px;
       left: 20px;
-      background: rgba(0,0,0,0.7);
-      color: #FFD700;
+      background: rgba(0,0,0,0.5);
+      color: gold;
       padding: 10px 20px;
       border-radius: 40px;
-      font-size: 16px;
-      font-weight: bold;
-      border: 1px solid #FFD700;
-      z-index: 4;
-      backdrop-filter: blur(5px);
-    }
-
-    /* Instrução inicial */
-    .instruction {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(0,0,0,0.8);
-      color: white;
-      padding: 30px;
-      border-radius: 30px;
-      text-align: center;
-      border: 2px solid #FFD700;
-      z-index: 10;
-      max-width: 80%;
-    }
-
-    .instruction h2 {
-      color: #FFD700;
-      margin-bottom: 15px;
-      font-size: 28px;
-    }
-
-    .instruction p {
-      margin: 10px 0;
-      font-size: 18px;
-    }
-
-    .instruction button {
-      background: #FFD700;
-      border: none;
-      padding: 20px 40px;
-      border-radius: 50px;
-      font-size: 22px;
-      font-weight: bold;
-      margin-top: 20px;
-      cursor: pointer;
+      z-index: 5;
+      border: 1px solid gold;
     }
   </style>
 </head>
 <body>
 <div class="container">
-  <!-- Área principal -->
-  <div class="camera-area">
-    <video id="camera" autoplay playsinline></video>
-    <canvas id="overlay"></canvas>
+  <!-- ECRÃ DE PERMISSÃO -->
+  <div class="permission-screen" id="permissionScreen">
+    <h1>🎂 ACESSO À CÂMARA</h1>
+    <p>Para projetar o texto no seu bolo,<br>precisamos de usar a câmara</p>
     
-    <!-- Badge de modo -->
-    <div class="mode-badge" id="modeBadge">
-      ⚪ MODO NORMAL
+    <button class="permission-btn" id="requestBtn">
+      📸 ATIVAR CÂMARA
+    </button>
+    
+    <div class="error-box" id="errorBox">
+      <p>❌ Não foi possível aceder à câmara</p>
+      <p style="font-size: 14px;">Verifique as permissões nas definições</p>
     </div>
-
-    <!-- Instrução inicial -->
-    <div class="instruction" id="instruction">
-      <h2>🎂 PROJEÇÃO NO BOLO</h2>
-      <p>1. Aponte a câmara para o bolo</p>
-      <p>2. Escreva a mensagem</p>
-      <p>3. Ative a PROJEÇÃO</p>
-      <p>4. Copie com chocolate!</p>
-      <button id="startBtn">COMEÇAR</button>
-    </div>
+    
+    <p style="margin-top: 30px; font-size: 14px;">🔒 A imagem não é guardada, apenas usada para projeção</p>
   </div>
 
-  <!-- Painel de controlos -->
-  <div class="control-panel" id="controlPanel" style="display: none;">
-    <!-- Campo de texto -->
-    <div class="text-box">
+  <!-- CÂMARA + DESENHO -->
+  <video id="video" autoplay playsinline style="display: none;"></video>
+  <canvas id="canvas" style="display: none;"></canvas>
+  
+  <!-- STATUS -->
+  <div class="status" id="status" style="display: none;">⚪ NORMAL</div>
+
+  <!-- CONTROLOS -->
+  <div class="controls" id="controls">
+    <div class="text-input">
       <input type="text" id="textInput" value="PARABÉNS" placeholder="Digite aqui...">
       <button id="updateBtn">✓</button>
     </div>
 
-    <!-- Sliders -->
-    <div class="slider-container">
-      <div class="slider-row">
+    <div class="slider-panel">
+      <div class="slider-item">
         <label>📏</label>
         <input type="range" id="sizeSlider" min="30" max="200" value="80">
         <span id="sizeValue">80</span>
       </div>
-      <div class="slider-row">
+      <div class="slider-item">
         <label>⬆️</label>
         <input type="range" id="ySlider" min="-300" max="300" value="0">
         <span id="yValue">0</span>
       </div>
     </div>
 
-    <!-- Motivos -->
     <div class="motif-bar">
       <button class="motif-btn" data-motif="none">🚫</button>
       <button class="motif-btn" data-motif="heart">❤️</button>
@@ -326,16 +283,19 @@
       <button class="motif-btn" data-motif="bear">🐻</button>
     </div>
 
-    <!-- Botão principal -->
-    <button class="main-btn" id="projectBtn">🌙 ATIVAR PROJEÇÃO</button>
+    <button class="project-btn" id="projectBtn">🌙 ATIVAR PROJEÇÃO</button>
   </div>
 </div>
 
 <script>
   // Elementos
-  const video = document.getElementById('camera');
-  const canvas = document.getElementById('overlay');
+  const video = document.getElementById('video');
+  const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
+  
+  const permissionScreen = document.getElementById('permissionScreen');
+  const controls = document.getElementById('controls');
+  const status = document.getElementById('status');
   
   // Estado
   let projectionMode = false;
@@ -344,7 +304,6 @@
   let textY = 0;
   let motif = "none";
   
-  // Motivos (emoji)
   const motifs = {
     none: "",
     heart: "❤️",
@@ -354,26 +313,69 @@
     bear: "🐻"
   };
 
-  // Iniciar câmara
-  async function startCamera() {
+  // FUNÇÃO PARA PEDIR ACESSO À CÂMARA
+  async function requestCamera() {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({
+      // Esconder mensagem de erro
+      document.getElementById('errorBox').style.display = 'none';
+      
+      // Pedir acesso à câmara - Isto VAI mostrar o popup!
+      const stream = await navigator.mediaDevices.getUserMedia({ 
         video: {
-          facingMode: 'environment',
+          facingMode: 'environment', // Câmara traseira
           width: { ideal: 1920 },
           height: { ideal: 1080 }
-        }
+        },
+        audio: false
       });
+      
+      // Sucesso! Temos acesso à câmara
       video.srcObject = stream;
       
+      // Aguardar vídeo carregar
       video.onloadedmetadata = () => {
+        // Mostrar vídeo e canvas
+        video.style.display = 'block';
+        canvas.style.display = 'block';
+        
+        // Ajustar canvas
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
+        
+        // Iniciar vídeo
         video.play();
+        
+        // Esconder ecrã de permissão
+        permissionScreen.style.display = 'none';
+        
+        // Mostrar controlos
+        controls.style.display = 'flex';
+        status.style.display = 'block';
+        
+        // Iniciar desenho
         drawLoop();
       };
+      
     } catch (err) {
-      alert('Por favor, permita o acesso à câmara');
+      console.error('Erro câmara:', err);
+      
+      // Mostrar erro
+      document.getElementById('errorBox').style.display = 'block';
+      
+      // Instruções específicas
+      let errorMsg = '';
+      if (err.name === 'NotAllowedError') {
+        errorMsg = 'Permissão negada. Vá a Definições > Apps > Chrome > Permissões > Câmara = Permitir';
+      } else if (err.name === 'NotFoundError') {
+        errorMsg = 'Nenhuma câmara encontrada';
+      } else {
+        errorMsg = 'Erro: ' + err.message;
+      }
+      
+      document.getElementById('errorBox').innerHTML = `
+        <p>❌ ${errorMsg}</p>
+        <p style="font-size:14px; margin-top:10px;">Tente: F5 para recarregar</p>
+      `;
     }
   }
 
@@ -384,24 +386,20 @@
   }
 
   function draw() {
-    // Limpar canvas (transparente)
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    // Centro do ecrã
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
     const radius = Math.min(canvas.width, canvas.height) * 0.3;
     
-    // MODO PROJEÇÃO vs MODO NORMAL
+    // Configurar estilo
     if (projectionMode) {
-      // MODO PROJEÇÃO - cores VIVAS para ver sobre o bolo
-      ctx.strokeStyle = '#FFD700';  // Dourado
+      ctx.strokeStyle = '#FFD700';
       ctx.fillStyle = '#FFD700';
       ctx.shadowColor = '#FFD700';
       ctx.shadowBlur = 30;
       ctx.lineWidth = 15;
     } else {
-      // MODO NORMAL - cores suaves para preview
       ctx.strokeStyle = '#FFFFFF';
       ctx.fillStyle = '#FFFFFF';
       ctx.shadowColor = '#000000';
@@ -414,18 +412,12 @@
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     
-    // Desenhar círculo guia (sempre visível)
+    // Círculo guia
     ctx.beginPath();
     ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
     ctx.stroke();
     
-    // Segundo círculo (mais fino)
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, radius * 0.95, 0, Math.PI * 2);
-    ctx.strokeStyle = projectionMode ? '#FFD700' : '#CCCCCC';
-    ctx.stroke();
-    
-    // Linhas de centro (ténues)
+    // Linhas de centro
     ctx.globalAlpha = 0.2;
     ctx.beginPath();
     ctx.moveTo(centerX, centerY - radius * 1.2);
@@ -437,42 +429,23 @@
     ctx.stroke();
     ctx.globalAlpha = 1;
     
-    // Desenhar motivo (se houver)
+    // Motivo
     if (motif !== 'none') {
-      ctx.font = `${textSize * 1.2}px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif`;
-      ctx.fillStyle = projectionMode ? '#FFD700' : '#FFFFFF';
+      ctx.font = `${textSize * 1.2}px "Segoe UI Emoji", "Apple Color Emoji", sans-serif`;
       ctx.fillText(motifs[motif], centerX, centerY - 50);
     }
     
-    // Desenhar TEXTO PRINCIPAL
+    // Texto
     ctx.font = `${textSize}px "Great Vibes", "Pacifico", Arial`;
-    ctx.fillStyle = projectionMode ? '#FFD700' : '#FFFFFF';
-    
-    // Sombra extra no modo projeção
-    if (projectionMode) {
-      ctx.shadowBlur = 40;
-    }
-    
-    // Dividir texto em linhas
-    const words = text.split(' ');
-    if (words.length > 1) {
-      // Texto com duas linhas
-      ctx.fillText(words[0], centerX, centerY + textY - 30);
-      ctx.fillText(words.slice(1).join(' '), centerX, centerY + textY + 30);
-    } else {
-      // Texto numa linha
-      ctx.fillText(text, centerX, centerY + textY);
-    }
+    ctx.fillText(text, centerX, centerY + textY);
   }
 
-  // Event listeners
-  document.getElementById('startBtn').addEventListener('click', () => {
-    document.getElementById('instruction').style.display = 'none';
-    document.getElementById('controlPanel').style.display = 'flex';
-    startCamera();
-  });
-
-  // Texto
+  // EVENTOS
+  
+  // Botão para pedir câmara
+  document.getElementById('requestBtn').addEventListener('click', requestCamera);
+  
+  // Atualizar texto
   document.getElementById('updateBtn').addEventListener('click', () => {
     text = document.getElementById('textInput').value.toUpperCase();
   });
@@ -503,31 +476,28 @@
     });
   });
 
-  // Botão de projeção
+  // Modo projeção
   document.getElementById('projectBtn').addEventListener('click', () => {
     projectionMode = !projectionMode;
     const btn = document.getElementById('projectBtn');
-    const badge = document.getElementById('modeBadge');
     
     if (projectionMode) {
       btn.innerHTML = '⚪ DESATIVAR PROJEÇÃO';
       btn.classList.add('off');
-      badge.innerHTML = '✨ MODO PROJEÇÃO ATIVO';
-      badge.style.color = '#FFD700';
+      status.innerHTML = '✨ PROJEÇÃO ATIVA';
       
-      // Wake Lock para ecrã não desligar
+      // Wake Lock
       if ('wakeLock' in navigator) {
-        navigator.wakeLock.request('screen');
+        navigator.wakeLock.request('screen').catch(() => {});
       }
     } else {
       btn.innerHTML = '🌙 ATIVAR PROJEÇÃO';
       btn.classList.remove('off');
-      badge.innerHTML = '⚪ MODO NORMAL';
-      badge.style.color = '#FFD700';
+      status.innerHTML = '⚪ NORMAL';
     }
   });
 
-  // Selecionar "nenhum" por padrão
+  // Selecionar motivo inicial
   document.querySelector('[data-motif="none"]').classList.add('selected');
 </script>
 </body>
