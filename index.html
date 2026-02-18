@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>BOLO CAM - Desenho por cima da câmara</title>
+  <title>BOLO PROJEÇÃO - TEXTO SOBRE CÂMARA</title>
   <style>
     * {
       margin: 0;
@@ -11,9 +11,9 @@
       box-sizing: border-box;
     }
 
-    html, body {
-      height: 100%;
+    body, html {
       width: 100%;
+      height: 100%;
       overflow: hidden;
       background: black;
       font-family: Arial, sans-serif;
@@ -23,20 +23,9 @@
       position: relative;
       width: 100%;
       height: 100%;
-      display: flex;
-      flex-direction: column;
     }
 
-    /* Área da câmara + desenho */
-    .camera-area {
-      position: relative;
-      flex: 1;
-      width: 100%;
-      background: #000;
-      overflow: hidden;
-    }
-
-    /* Elemento de vídeo - mostra o bolo */
+    /* Câmara ocupa todo o ecrã */
     #video {
       position: absolute;
       top: 0;
@@ -47,7 +36,7 @@
       z-index: 1;
     }
 
-    /* Canvas - desenho por cima do vídeo */
+    /* CANVAS - É AQUI QUE O TEXTO APARECE */
     #canvas {
       position: absolute;
       top: 0;
@@ -58,48 +47,53 @@
       pointer-events: none; /* Permite clicar nos botões */
     }
 
-    /* Painel de controlos */
+    /* Painel de controlos - SEMPRE VISÍVEL */
     .controls {
       position: absolute;
-      bottom: 20px;
+      bottom: 30px;
       left: 0;
       right: 0;
       z-index: 3;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
-      padding: 15px;
+      gap: 15px;
+      padding: 20px;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
     }
 
     /* Input de texto */
-    .text-box {
+    .input-group {
       width: 95%;
       max-width: 500px;
-      background: rgba(0,0,0,0.7);
+      background: rgba(255,255,255,0.2);
       backdrop-filter: blur(10px);
-      border: 2px solid #FFD700;
-      border-radius: 50px;
+      border: 2px solid gold;
+      border-radius: 60px;
       padding: 5px;
       display: flex;
     }
 
-    .text-box input {
+    .input-group input {
       flex: 1;
       background: transparent;
       border: none;
       color: white;
-      font-size: 20px;
-      padding: 15px 20px;
+      font-size: 24px;
+      padding: 15px 25px;
       outline: none;
     }
 
-    .text-box button {
-      background: #FFD700;
+    .input-group input::placeholder {
+      color: rgba(255,255,255,0.5);
+    }
+
+    .input-group button {
+      background: gold;
       border: none;
-      border-radius: 50px;
-      width: 60px;
-      font-size: 24px;
+      border-radius: 60px;
+      width: 70px;
+      font-size: 28px;
       cursor: pointer;
     }
 
@@ -107,24 +101,25 @@
     .sliders {
       width: 95%;
       max-width: 500px;
-      background: rgba(0,0,0,0.7);
+      background: rgba(0,0,0,0.6);
       backdrop-filter: blur(10px);
-      border-radius: 30px;
-      padding: 15px 20px;
-      border: 1px solid #FFD700;
+      border-radius: 40px;
+      padding: 20px;
+      border: 1px solid gold;
     }
 
     .slider-item {
+      margin: 15px 0;
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin: 10px 0;
+      gap: 15px;
     }
 
     .slider-item label {
-      color: #FFD700;
-      width: 40px;
-      font-size: 18px;
+      color: gold;
+      width: 50px;
+      font-size: 20px;
+      font-weight: bold;
     }
 
     .slider-item input {
@@ -137,137 +132,118 @@
 
     .slider-item input::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 25px;
-      height: 25px;
-      background: #FFD700;
+      width: 28px;
+      height: 28px;
+      background: gold;
       border-radius: 50%;
       cursor: pointer;
+      border: 2px solid white;
     }
 
     .slider-item span {
       color: white;
-      width: 40px;
+      width: 45px;
       text-align: right;
+      font-size: 18px;
     }
 
     /* Botões de motivo */
-    .motifs {
+    .motif-bar {
       width: 95%;
       max-width: 500px;
       display: flex;
       gap: 10px;
-      background: rgba(0,0,0,0.7);
+      background: rgba(0,0,0,0.6);
       backdrop-filter: blur(10px);
       padding: 15px;
-      border-radius: 50px;
-      border: 1px solid #FFD700;
+      border-radius: 60px;
+      border: 1px solid gold;
       justify-content: center;
     }
 
     .motif-btn {
       background: none;
       border: none;
-      font-size: 30px;
+      font-size: 40px;
       padding: 10px;
-      border-radius: 40px;
+      border-radius: 50px;
       cursor: pointer;
-      width: 60px;
+      width: 70px;
       transition: all 0.2s;
     }
 
     .motif-btn.selected {
-      background: #FFD700;
+      background: gold;
+      transform: scale(1.1);
     }
 
-    /* Botão principal */
-    .main-btn {
+    /* Botão de projeção */
+    .project-btn {
       width: 95%;
       max-width: 500px;
-      background: #FFD700;
+      background: gold;
       border: none;
-      border-radius: 50px;
-      padding: 18px;
-      font-size: 22px;
+      border-radius: 60px;
+      padding: 20px;
+      font-size: 26px;
       font-weight: bold;
       cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
 
-    .main-btn.off {
+    .project-btn.off {
       background: #333;
-      color: #FFD700;
+      color: gold;
     }
 
-    /* Indicador de status */
+    /* Status */
     .status {
       position: absolute;
       top: 20px;
       left: 20px;
-      background: rgba(0,0,0,0.5);
-      color: #FFD700;
-      padding: 8px 16px;
+      background: rgba(0,0,0,0.6);
+      color: gold;
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-size: 16px;
+      z-index: 3;
+      border: 1px solid gold;
+      backdrop-filter: blur(5px);
+    }
+
+    /* Mensagem de ajuda */
+    .help {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      padding: 10px 20px;
       border-radius: 40px;
       font-size: 14px;
       z-index: 3;
-      border: 1px solid #FFD700;
-    }
-
-    /* Botão de iniciar câmara */
-    .start-btn {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: #FFD700;
-      color: black;
-      border: none;
-      padding: 20px 40px;
-      border-radius: 60px;
-      font-size: 24px;
-      font-weight: bold;
-      z-index: 10;
-      cursor: pointer;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    }
-
-    /* Mensagem de erro */
-    .error {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(255,0,0,0.9);
-      color: white;
-      padding: 30px;
-      border-radius: 30px;
-      text-align: center;
-      z-index: 20;
-      display: none;
-      max-width: 80%;
+      border: 1px solid gold;
     }
   </style>
 </head>
 <body>
 <div class="container">
-  <!-- Área principal -->
-  <div class="camera-area">
-    <video id="video" autoplay playsinline></video>
-    <canvas id="canvas"></canvas>
-    
-    <!-- Status -->
-    <div class="status" id="status">⏳ A aguardar...</div>
-    
-    <!-- Botão iniciar -->
-    <button class="start-btn" id="startBtn">📸 INICIAR CÂMARA</button>
-    
-    <!-- Mensagem erro -->
-    <div class="error" id="error"></div>
-  </div>
+  <!-- Câmara -->
+  <video id="video" autoplay playsinline></video>
+  
+  <!-- CANVAS para desenho - O TEXTO VAI AQUI! -->
+  <canvas id="canvas"></canvas>
 
-  <!-- Controlos (inicialmente escondidos) -->
-  <div class="controls" id="controls" style="display: none;">
-    <!-- Texto -->
-    <div class="text-box">
-      <input type="text" id="textInput" value="PARABÉNS" placeholder="Digite aqui...">
+  <!-- Informação -->
+  <div class="status" id="status">📸 A iniciar câmara...</div>
+  <div class="help">👆 TEXTO APARECE AQUI</div>
+
+  <!-- Controlos -->
+  <div class="controls">
+    <!-- Input de texto -->
+    <div class="input-group">
+      <input type="text" id="textInput" value="PARABÉNS" placeholder="Escreva aqui...">
       <button id="updateBtn">✓</button>
     </div>
 
@@ -286,8 +262,8 @@
     </div>
 
     <!-- Motivos -->
-    <div class="motifs">
-      <button class="motif-btn" data-motif="none">🚫</button>
+    <div class="motif-bar">
+      <button class="motif-btn selected" data-motif="none">🚫</button>
       <button class="motif-btn" data-motif="heart">❤️</button>
       <button class="motif-btn" data-motif="star">⭐</button>
       <button class="motif-btn" data-motif="unicorn">🦄</button>
@@ -295,8 +271,8 @@
       <button class="motif-btn" data-motif="bear">🐻</button>
     </div>
 
-    <!-- Botão projeção -->
-    <button class="main-btn" id="projectBtn">🌙 ATIVAR PROJEÇÃO</button>
+    <!-- Botão principal -->
+    <button class="project-btn" id="projectBtn">🌙 ATIVAR PROJEÇÃO</button>
   </div>
 </div>
 
@@ -306,12 +282,8 @@
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
   const statusDiv = document.getElementById('status');
-  const errorDiv = document.getElementById('error');
-  const startBtn = document.getElementById('startBtn');
-  const controls = document.getElementById('controls');
 
   // Estado
-  let cameraAtiva = false;
   let projecaoAtiva = false;
   let texto = "PARABÉNS";
   let tamanho = 80;
@@ -328,99 +300,59 @@
     bear: "🐻"
   };
 
-  // Função para iniciar câmara
+  // ===== INICIAR CÂMARA =====
   async function iniciarCamera() {
     try {
-      statusDiv.innerHTML = "⏳ A pedir acesso à câmara...";
-      startBtn.style.display = 'none';
+      statusDiv.innerHTML = "⏳ A pedir câmara...";
       
-      console.log("A pedir câmara...");
-      
-      // Pedir acesso à câmara
       const stream = await navigator.mediaDevices.getUserMedia({ 
-        video: {
-          facingMode: 'environment', // Câmara traseira
-          width: { ideal: 1280 },
-          height: { ideal: 720 }
-        }
+        video: { 
+          facingMode: 'environment',
+          width: { ideal: 1920 },
+          height: { ideal: 1080 }
+        } 
       });
       
-      console.log("Câmara OK!");
-      
-      // Mostrar vídeo
       video.srcObject = stream;
       
       video.onloadedmetadata = () => {
-        console.log("Vídeo carregado");
-        
         // Ajustar canvas ao tamanho do vídeo
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
         
-        // Iniciar reprodução
         video.play();
+        statusDiv.innerHTML = "✅ Câmara ativa - TEXTO APARECE EM CIMA!";
         
-        // Marcar como ativa
-        cameraAtiva = true;
-        
-        // Atualizar status
-        statusDiv.innerHTML = "✅ Câmara ativa - Aponte para o bolo";
-        
-        // Mostrar controlos
-        controls.style.display = 'flex';
-        
-        // Iniciar desenho
+        // Começar a desenhar
         desenhar();
       };
       
     } catch (err) {
-      console.error("Erro câmara:", err);
-      
-      let mensagem = "";
-      
-      if (err.name === "NotAllowedError") {
-        mensagem = "❌ Permissão negada! No seu telemóvel:\n\n";
-        mensagem += "1. Abra Definições\n";
-        mensagem += "2. Apps > Chrome\n";
-        mensagem += "3. Permissões > Câmara = Permitir\n";
-        mensagem += "4. Recarregue a página";
-      } else if (err.name === "NotFoundError") {
-        mensagem = "❌ Nenhuma câmara encontrada!";
-      } else {
-        mensagem = "❌ Erro: " + err.message;
-      }
-      
-      errorDiv.innerHTML = mensagem.replace(/\n/g, '<br>');
-      errorDiv.style.display = 'block';
-      startBtn.style.display = 'block';
-      startBtn.innerHTML = '🔄 TENTAR NOVAMENTE';
+      statusDiv.innerHTML = "❌ Erro: " + err.message;
     }
   }
 
-  // Função de desenho
+  // ===== FUNÇÃO DE DESENHO =====
   function desenhar() {
-    if (!cameraAtiva) {
-      requestAnimationFrame(desenhar);
-      return;
-    }
-    
     // Limpar canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    // Centro
+    // Centro do ecrã (onde vai o texto)
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
     const raio = Math.min(canvas.width, canvas.height) * 0.3;
     
-    // Configurar estilo - MODO PROJEÇÃO vs NORMAL
+    // ESCOLHER CORES baseado no modo
     if (projecaoAtiva) {
+      // MODO PROJEÇÃO - CORES VIVAS
       ctx.strokeStyle = '#FFD700';  // Dourado
       ctx.fillStyle = '#FFD700';
       ctx.shadowColor = '#FFD700';
       ctx.shadowBlur = 30;
       ctx.lineWidth = 15;
     } else {
-      ctx.strokeStyle = '#FFFFFF';  // Branco
+      // MODO NORMAL - BRANCO
+      ctx.strokeStyle = '#FFFFFF';
       ctx.fillStyle = '#FFFFFF';
       ctx.shadowColor = '#000000';
       ctx.shadowBlur = 10;
@@ -432,51 +364,49 @@
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     
-    // Desenhar círculo guia
+    // DESENHAR CÍRCULO GUIA (opcional, pode comentar se não quiser)
     ctx.beginPath();
     ctx.arc(centerX, centerY, raio, 0, Math.PI * 2);
     ctx.stroke();
     
-    // Desenhar motivo
+    // DESENHAR MOTIVO (se selecionado)
     if (motivo !== 'none') {
       ctx.font = `${tamanho * 1.2}px "Segoe UI Emoji", "Apple Color Emoji", sans-serif`;
       ctx.fillText(motivos[motivo], centerX, centerY - 50);
     }
     
-    // Desenhar texto
-    ctx.font = `${tamanho}px Arial, sans-serif`;
+    // ===== DESENHAR TEXTO =====
+    ctx.font = `${tamanho}px "Arial", "Helvetica", sans-serif`;
     ctx.fillText(texto, centerX, centerY + posY);
     
+    // Continuar animação
     requestAnimationFrame(desenhar);
   }
 
-  // Eventos
-  
-  // Botão iniciar
-  startBtn.addEventListener('click', iniciarCamera);
+  // ===== EVENTOS =====
   
   // Atualizar texto
   document.getElementById('updateBtn').addEventListener('click', () => {
     texto = document.getElementById('textInput').value;
   });
-  
+
   document.getElementById('textInput').addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
       texto = e.target.value;
     }
   });
-  
+
   // Sliders
   document.getElementById('sizeSlider').addEventListener('input', (e) => {
     tamanho = parseInt(e.target.value);
     document.getElementById('sizeValue').innerText = tamanho;
   });
-  
+
   document.getElementById('ySlider').addEventListener('input', (e) => {
     posY = parseInt(e.target.value);
     document.getElementById('yValue').innerText = posY;
   });
-  
+
   // Motivos
   document.querySelectorAll('.motif-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -485,7 +415,7 @@
       motivo = btn.dataset.motif;
     });
   });
-  
+
   // Modo projeção
   document.getElementById('projectBtn').addEventListener('click', () => {
     projecaoAtiva = !projecaoAtiva;
@@ -494,21 +424,16 @@
     if (projecaoAtiva) {
       btn.innerHTML = '⚪ DESATIVAR PROJEÇÃO';
       btn.classList.add('off');
-      statusDiv.innerHTML = '✨ MODO PROJEÇÃO ATIVO - Linhas douradas';
-      
-      // Wake Lock
-      if ('wakeLock' in navigator) {
-        navigator.wakeLock.request('screen').catch(() => {});
-      }
+      statusDiv.innerHTML = '✨ PROJEÇÃO ATIVA - Linhas douradas';
     } else {
       btn.innerHTML = '🌙 ATIVAR PROJEÇÃO';
       btn.classList.remove('off');
-      statusDiv.innerHTML = '✅ Câmara ativa - Aponte para o bolo';
+      statusDiv.innerHTML = '✅ Câmara ativa - TEXTO EM CIMA!';
     }
   });
-  
-  // Selecionar motivo inicial
-  document.querySelector('[data-motif="none"]').classList.add('selected');
+
+  // Iniciar tudo
+  iniciarCamera();
 </script>
 </body>
 </html>
