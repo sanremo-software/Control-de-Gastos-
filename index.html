@@ -460,19 +460,22 @@
       <section id="ocr" class="screen">
         <div class="grid">
           <div class="card span-4">
-            <h2>Google Vision OCR</h2>
-            <p class="small">Modo profissional. A leitura de fotos deve passar por backend seguro. Não metas API key direta no browser.</p>
-            <label>Backend OCR URL</label>
-            <input id="ocrEndpoint" placeholder="Ex: https://teu-dominio.de/api/ocr-product" />
+            <h2>Lokaler Import ohne Google</h2>
+            <p class="small">Modo privado e interno. Sem Google e sem envio para terceiros. A leitura por foto fica opcional e pode ser substituída por preenchimento manual ou OCR local futuro.</p>
+            <label>Modo de importação</label>
+            <select id="ocrMode">
+              <option value="manual">Manual</option>
+              <option value="local_demo">OCR local futuro</option>
+            </select>
             <label>Bild hochladen</label>
             <input id="ocrImage" type="file" accept="image/*" />
-            <button onclick="runOcrImport()">Foto lesen</button>
-            <button class="secondary" onclick="fillOcrDemo()">Demo preencher</button>
+            <button onclick="runOcrImport()">Importar localmente</button>
+            <button class="secondary" onclick="fillOcrDemo()">Preencher exemplo</button>
           </div>
 
           <div class="card span-8">
             <h2>OCR Ergebnis</h2>
-            <div id="ocrStatus" class="small">Sem leitura ainda.</div>
+            <div id="ocrStatus" class="small">Modo local ativo. Sem Google.</div>
             <label>Erkannter Produktname</label>
             <input id="ocr_name" />
             <label>Erkannte Zutaten</label>
@@ -881,7 +884,7 @@
     }
 
     async function runOcrImport() {
-      const endpoint = document.getElementById('ocrEndpoint').value.trim();
+      const mode = document.getElementById('ocrMode').value;
       const file = document.getElementById('ocrImage').files[0];
       const status = document.getElementById('ocrStatus');
 
@@ -890,32 +893,25 @@
         return;
       }
 
-      if (!endpoint) {
-        status.textContent = 'Falta o URL do backend OCR. Em produção, a imagem deve ser enviada para o teu servidor, e o servidor fala com Google Vision.';
+      if (mode === 'manual') {
+        status.textContent = 'Imagem recebida localmente. Neste modo privado, os dados devem ser confirmados e preenchidos manualmente.';
+        fillOcrFields({
+          name: file.name.replace(/\.[^.]+$/, ''),
+          ingredients: '',
+          allergens: '',
+          kj: '',
+          kcal: '',
+          fat: '',
+          sat: '',
+          carb: '',
+          sugar: '',
+          protein: '',
+          salt: ''
+        });
         return;
       }
 
-      try {
-        status.textContent = 'A enviar imagem para backend OCR...';
-        const form = new FormData();
-        form.append('image', file);
-
-        const response = await fetch(endpoint, {
-          method: 'POST',
-          body: form
-        });
-
-        if (!response.ok) {
-          throw new Error('Falha no backend OCR');
-        }
-
-        const data = await response.json();
-        fillOcrFields(data);
-        status.textContent = 'OCR concluído. Confirma tudo antes de guardar.';
-      } catch (err) {
-        console.error(err);
-        status.textContent = 'Erro no OCR. Verifica endpoint, backend e resposta JSON.';
-      }
+      status.textContent = 'OCR local futuro ainda não implementado nesta versão. Mantém tudo privado, mas por agora exige revisão manual.';
     }
 
     function fillOcrFields(data) {
@@ -946,7 +942,7 @@
         protein: 4.1,
         salt: 0.18
       });
-      document.getElementById('ocrStatus').textContent = 'Dados demo carregados. Isto serve só para testar o fluxo.';
+      document.getElementById('ocrStatus').textContent = 'Exemplo local carregado. Nada foi enviado para serviços externos.';
     }
 
     function applyOcrToProductForm() {
