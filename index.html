@@ -1,398 +1,1179 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CÂMARA + TEXTO - VERSÃO FUNCIONAL</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            background: #000;
-            color: white;
-            font-family: Arial, sans-serif;
-            height: 100vh;
-            overflow: hidden;
-        }
-        
-        .container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        /* Área da câmara */
-        .camera-section {
-            position: relative;
-            flex: 1;
-            background: #1a1a1a;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        #video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        #canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 5;
-        }
-        
-        /* Mensagem quando não há câmara */
-        .no-camera {
-            position: absolute;
-            color: white;
-            text-align: center;
-            z-index: 2;
-            background: rgba(255,0,0,0.5);
-            padding: 20px;
-            border-radius: 20px;
-            display: none;
-        }
-        
-        /* Controlos */
-        .controls {
-            background: #222;
-            padding: 20px;
-            border-top: 2px solid gold;
-        }
-        
-        .input-row {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        
-        .input-row input {
-            flex: 1;
-            padding: 15px;
-            font-size: 20px;
-            border-radius: 30px;
-            border: 2px solid gold;
-            background: #333;
-            color: white;
-        }
-        
-        .input-row button {
-            padding: 15px 30px;
-            font-size: 20px;
-            border-radius: 30px;
-            border: none;
-            background: gold;
-            color: black;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        
-        .slider-row {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin: 15px 0;
-        }
-        
-        .slider-row label {
-            width: 60px;
-            color: gold;
-            font-size: 20px;
-        }
-        
-        .slider-row input {
-            flex: 1;
-            height: 10px;
-            -webkit-appearance: none;
-            background: #444;
-            border-radius: 10px;
-        }
-        
-        .slider-row input::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 30px;
-            height: 30px;
-            background: gold;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-        
-        .slider-row span {
-            width: 50px;
-            text-align: right;
-            color: white;
-            font-size: 18px;
-        }
-        
-        .button-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .btn {
-            padding: 15px;
-            border-radius: 30px;
-            border: none;
-            background: #444;
-            color: white;
-            font-size: 18px;
-            cursor: pointer;
-        }
-        
-        .btn-gold {
-            background: gold;
-            color: black;
-            font-weight: bold;
-        }
-        
-        .status {
-            text-align: center;
-            margin-top: 10px;
-            padding: 10px;
-            border-radius: 30px;
-            background: #333;
-            color: gold;
-        }
-        
-        .error {
-            background: #ff4444;
-            color: white;
-            padding: 10px;
-            border-radius: 10px;
-            margin: 10px 0;
-            display: none;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sanremo LMIV Generator</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --card: #1f2937;
+      --soft: #374151;
+      --text: #f9fafb;
+      --muted: #cbd5e1;
+      --accent: #22c55e;
+      --warn: #f59e0b;
+      --danger: #ef4444;
+      --line: #334155;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #0b1220 0%, #111827 100%);
+      color: var(--text);
+    }
+
+    header {
+      padding: 20px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(15, 23, 42, 0.95);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    header p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      min-height: calc(100vh - 84px);
+    }
+
+    aside {
+      border-right: 1px solid var(--line);
+      background: rgba(15, 23, 42, 0.55);
+      padding: 18px;
+    }
+
+    .nav-btn {
+      width: 100%;
+      text-align: left;
+      border: 1px solid var(--line);
+      background: var(--card);
+      color: var(--text);
+      padding: 12px 14px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .nav-btn.active {
+      border-color: var(--accent);
+      outline: 2px solid rgba(34, 197, 94, 0.15);
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+    }
+
+    .card {
+      background: rgba(31, 41, 55, 0.95);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+    }
+
+    .span-12 { grid-column: span 12; }
+    .span-8 { grid-column: span 8; }
+    .span-6 { grid-column: span 6; }
+    .span-4 { grid-column: span 4; }
+    .span-3 { grid-column: span 3; }
+
+    h2, h3 {
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid var(--soft);
+      background: #0f172a;
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+
+    textarea { min-height: 100px; resize: vertical; }
+
+    button {
+      border: 0;
+      background: var(--accent);
+      color: #052e16;
+      font-weight: 800;
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+
+    button.secondary {
+      background: #334155;
+      color: white;
+    }
+
+    button.warn {
+      background: var(--warn);
+      color: #1f1300;
+    }
+
+    button.danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 10px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th { color: var(--muted); }
+
+    .pill {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      margin-right: 6px;
+      margin-bottom: 6px;
+    }
+
+    .ok { background: rgba(34,197,94,0.15); color: #86efac; }
+    .mid { background: rgba(245,158,11,0.15); color: #fcd34d; }
+    .bad { background: rgba(239,68,68,0.15); color: #fca5a5; }
+
+    .preview-box {
+      background: #fff;
+      color: #111;
+      border-radius: 10px;
+      padding: 18px;
+      min-height: 220px;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .small {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .list-box {
+      max-height: 280px;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+    }
+
+    .item-row {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      cursor: pointer;
+    }
+
+    .item-row:hover {
+      background: rgba(255,255,255,0.03);
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .danger-text { color: #fca5a5; font-weight: 700; }
+    .ok-text { color: #86efac; font-weight: 700; }
+
+    @media (max-width: 1100px) {
+      .layout { grid-template-columns: 1fr; }
+      aside { border-right: 0; border-bottom: 1px solid var(--line); }
+      .span-8, .span-6, .span-4, .span-3 { grid-column: span 12; }
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-    <!-- Área da câmara -->
-    <div class="camera-section">
-        <video id="video" autoplay playsinline></video>
-        <canvas id="canvas"></canvas>
-        <div class="no-camera" id="noCamera">
-            📷 Clique no botão para ativar a câmara
-        </div>
-    </div>
-    
-    <!-- Controlos -->
-    <div class="controls">
-        <div class="input-row">
-            <input type="text" id="textInput" value="PARABÉNS" placeholder="Digite o texto...">
-            <button id="updateBtn">OK</button>
-        </div>
-        
-        <div class="slider-row">
-            <label>📏</label>
-            <input type="range" id="sizeSlider" min="30" max="250" value="100">
-            <span id="sizeValue">100</span>
-        </div>
-        
-        <div class="slider-row">
-            <label>⬆️</label>
-            <input type="range" id="ySlider" min="-300" max="300" value="0">
-            <span id="yValue">0</span>
-        </div>
-        
-        <div class="button-grid">
-            <button class="btn" id="cameraBtn">📸 INICIAR CÂMARA</button>
-            <button class="btn btn-gold" id="projectBtn">🌙 PROJEÇÃO</button>
-        </div>
-        
-        <div class="status" id="status">
-            ⚪ Clique em INICIAR CÂMARA
-        </div>
-        
-        <div class="error" id="error"></div>
-    </div>
-</div>
+  <header>
+    <h1>Sanremo LMIV Generator</h1>
+    <p>Produkte, Rezepte, Nährwerte, Validierung und Etikett in einem HTML-Prototyp.</p>
+  </header>
 
-<script>
-    // Elementos
-    const video = document.getElementById('video');
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    
-    // Estado
-    let cameraAtiva = false;
-    let projecaoAtiva = false;
-    let texto = "PARABÉNS";
-    let tamanho = 100;
-    let posY = 0;
-    
-    // Função para iniciar câmara
-    document.getElementById('cameraBtn').addEventListener('click', async () => {
-        const status = document.getElementById('status');
-        const error = document.getElementById('error');
-        
-        status.innerHTML = "⏳ A pedir acesso à câmara...";
-        error.style.display = 'none';
-        
-        try {
-            // Verificar se o navegador suporta
-            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                throw new Error('Navegador não suporta câmara');
-            }
-            
-            // PEDIR ACESSO À CÂMARA - Isto mostra o popup!
-            console.log("A pedir câmara...");
-            
-            const stream = await navigator.mediaDevices.getUserMedia({ 
-                video: {
-                    facingMode: 'environment', // Câmara traseira
-                    width: { ideal: 1280 },
-                    height: { ideal: 720 }
-                }
-            });
-            
-            console.log("Câmara OK!");
-            
-            // MOSTRAR VÍDEO
-            video.srcObject = stream;
-            
-            video.onloadedmetadata = () => {
-                console.log("Vídeo carregado");
-                
-                // Ajustar canvas ao tamanho do vídeo
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                
-                // Iniciar reprodução
-                video.play();
-                
-                cameraAtiva = true;
-                
-                // Atualizar status
-                status.innerHTML = "✅ CÂMARA ATIVA - A ver bolo!";
-                document.getElementById('noCamera').style.display = 'none';
-                
-                // Iniciar desenho
-                desenhar();
-            };
-            
-        } catch (err) {
-            console.error("Erro detalhado:", err);
-            
-            let mensagem = "❌ ";
-            
-            if (err.name === 'NotAllowedError') {
-                mensagem = "❌ PERMISSÃO NEGADA!\n\n";
-                mensagem += "No seu telemóvel:\n";
-                mensagem += "1. Abra Definições\n";
-                mensagem += "2. Apps > Chrome\n";
-                mensagem += "3. Permissões > Câmara = Permitir\n";
-                mensagem += "4. Recarregue a página e tente novamente";
-            } 
-            else if (err.name === 'NotFoundError') {
-                mensagem = "❌ Nenhuma câmara encontrada";
-            }
-            else {
-                mensagem = "❌ Erro: " + err.message;
-            }
-            
-            error.innerHTML = mensagem.replace(/\n/g, '<br>');
-            error.style.display = 'block';
-            status.innerHTML = "❌ Falhou";
-        }
-    });
-    
-    // Função de desenho
-    function desenhar() {
-        if (!cameraAtiva) {
-            requestAnimationFrame(desenhar);
-            return;
-        }
-        
-        // Limpar canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        // Centro
-        const centerX = canvas.width / 2;
-        const centerY = canvas.height / 2;
-        
-        // Configurar estilo
-        if (projecaoAtiva) {
-            ctx.fillStyle = '#FFD700';
-            ctx.shadowColor = '#FFD700';
-            ctx.shadowBlur = 30;
-        } else {
-            ctx.fillStyle = '#FFFFFF';
-            ctx.shadowColor = '#000000';
-            ctx.shadowBlur = 10;
-        }
-        
-        ctx.shadowOffsetX = 0;
-        ctx.shadowOffsetY = 0;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        
-        // Desenhar texto
-        ctx.font = `bold ${tamanho}px Arial, sans-serif`;
-        ctx.fillText(texto, centerX, centerY + posY);
-        
-        // Desenhar círculo de teste (para confirmar que o canvas funciona)
-        ctx.strokeStyle = projecaoAtiva ? '#FFD700' : '#FFFFFF';
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, 30, 0, Math.PI * 2);
-        ctx.stroke();
-        
-        requestAnimationFrame(desenhar);
+  <div class="layout">
+    <aside>
+      <button class="nav-btn active" data-screen="dashboard">Übersicht</button>
+      <button class="nav-btn" data-screen="products">Produkte</button>
+      <button class="nav-btn" data-screen="recipes">Rezepte</button>
+      <button class="nav-btn" data-screen="validation">LMIV Prüfung</button>
+      <button class="nav-btn" data-screen="label">Etikett</button>
+      <button class="nav-btn" data-screen="ocr">OCR Import</button>
+      <button class="nav-btn" data-screen="advanced">Erweiterte Zutaten</button>
+      <button class="nav-btn" data-screen="data">Daten / Export</button>
+
+      <div class="card" style="margin-top:18px;">
+        <h3>Status</h3>
+        <div id="statsBox"></div>
+      </div>
+    </aside>
+
+    <main>
+      <section id="dashboard" class="screen active">
+        <div class="grid">
+          <div class="card span-12">
+            <h2>Projeto base</h2>
+            <p>Este HTML já está montado com a lógica principal para crescer para software real. O ponto forte aqui não é o design, é a estrutura certa: produtos, receitas, cálculo, validação e etiqueta final.</p>
+            <div>
+              <span class="pill ok">Biblioteca de produtos</span>
+              <span class="pill ok">Receitas por sabor</span>
+              <span class="pill ok">Cálculo por 100 g</span>
+              <span class="pill mid">Validação LMIV base</span>
+              <span class="pill mid">Etiqueta pronta</span>
+            </div>
+          </div>
+
+          <div class="card span-4">
+            <h3>Como usar</h3>
+            <ol>
+              <li>Criar produtos com ingredientes e Nährwerte.</li>
+              <li>Montar receita com quantidades reais.</li>
+              <li>Selecionar embalagem.</li>
+              <li>Executar validação.</li>
+              <li>Gerar etiqueta final.</li>
+            </ol>
+          </div>
+
+          <div class="card span-4">
+            <h3>O que este protótipo já faz</h3>
+            <ul>
+              <li>Guardar produtos no browser</li>
+              <li>Criar receitas</li>
+              <li>Calcular Nährwerte ponderados</li>
+              <li>Mostrar alertas críticos</li>
+              <li>Gerar texto final em linha</li>
+            </ul>
+          </div>
+
+          <div class="card span-4">
+            <h3>O que ainda falta para versão vendável</h3>
+            <ul>
+              <li>OCR por foto</li>
+              <li>Login e multiutilizador</li>
+              <li>PDF/Brother direto</li>
+              <li>Versionamento avançado</li>
+              <li>Biblioteca legal mais rígida</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="products" class="screen">
+        <div class="grid">
+          <div class="card span-4">
+            <h2>Produto</h2>
+            <label>Nome</label>
+            <input id="p_name" placeholder="Ex: Amarena Soße" />
+
+            <label>Categoria</label>
+            <select id="p_category">
+              <option value="Basis">Basis</option>
+              <option value="Paste">Paste</option>
+              <option value="Variegato">Variegato</option>
+              <option value="Sauce">Sauce</option>
+              <option value="Trockenzutat">Trockenzutat</option>
+              <option value="Sonstiges">Sonstiges</option>
+            </select>
+
+            <label>Zutaten (como vem no rótulo)</label>
+            <textarea id="p_ingredients" placeholder="Ex: Zucker, MILCH, SAHNE..."></textarea>
+
+            <label>Allergene / Spuren</label>
+            <input id="p_allergens" placeholder="Ex: MILCH, WEIZEN, EI" />
+
+            <div class="two-col">
+              <div>
+                <label>Energie kJ</label>
+                <input id="p_kj" type="number" step="0.01" />
+              </div>
+              <div>
+                <label>Energie kcal</label>
+                <input id="p_kcal" type="number" step="0.01" />
+              </div>
+            </div>
+
+            <div class="two-col">
+              <div><label>Fett</label><input id="p_fat" type="number" step="0.01" /></div>
+              <div><label>davon gesättigt</label><input id="p_sat" type="number" step="0.01" /></div>
+            </div>
+
+            <div class="two-col">
+              <div><label>Kohlenhydrate</label><input id="p_carb" type="number" step="0.01" /></div>
+              <div><label>davon Zucker</label><input id="p_sugar" type="number" step="0.01" /></div>
+            </div>
+
+            <div class="two-col">
+              <div><label>Eiweiß</label><input id="p_protein" type="number" step="0.01" /></div>
+              <div><label>Salz</label><input id="p_salt" type="number" step="0.01" /></div>
+            </div>
+
+            <button onclick="saveProduct()">Produkt speichern</button>
+            <button class="secondary" onclick="clearProductForm()">Limpar</button>
+          </div>
+
+          <div class="card span-8">
+            <h2>Biblioteca de produtos</h2>
+            <div class="list-box" id="productsList"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="recipes" class="screen">
+        <div class="grid">
+          <div class="card span-4">
+            <h2>Receita</h2>
+            <label>Nome da receita</label>
+            <input id="r_name" placeholder="Ex: Amarena Kirsch 170g" />
+
+            <label>Denominação legal</label>
+            <input id="r_legal" placeholder="Ex: Milchspeiseeis mit Amarena-Kirschen" />
+
+            <label>Verpackung</label>
+            <select id="r_packaging">
+              <option value="170">170 g</option>
+              <option value="750">750 g</option>
+            </select>
+
+            <label>Conservação</label>
+            <input id="r_storage" value="Bei mindestens -18 °C lagern. Nach dem Auftauen nicht wieder einfrieren." />
+
+            <label>Hersteller</label>
+            <input id="r_manufacturer" value="Eiscafé Sanremo, Fürst-Richard-Str. 1, Bad Berleburg" />
+
+            <label>MHD/Lot</label>
+            <input id="r_mhd" value="Mindestens haltbar bis: siehe Deckel. Lot: siehe Deckel." />
+          </div>
+
+          <div class="card span-8">
+            <h2>Linhas da receita</h2>
+            <div class="two-col">
+              <div>
+                <label>Produto</label>
+                <select id="ri_product"></select>
+              </div>
+              <div>
+                <label>Quantidade em gramas</label>
+                <input id="ri_qty" type="number" step="0.01" placeholder="Ex: 6000" />
+              </div>
+            </div>
+            <button onclick="addRecipeItem()">Adicionar linha</button>
+            <button class="secondary" onclick="clearRecipeItems()">Apagar linhas</button>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Produto</th>
+                  <th>Quantidade (g)</th>
+                  <th>Categoria</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="recipeItemsTable"></tbody>
+            </table>
+
+            <button onclick="saveRecipe()">Guardar receita</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="validation" class="screen">
+        <div class="grid">
+          <div class="card span-4">
+            <h2>Escolher receita</h2>
+            <label>Receita guardada</label>
+            <select id="validationRecipeSelect"></select>
+            <button onclick="runValidation()">Executar validação</button>
+          </div>
+
+          <div class="card span-8">
+            <h2>Resultado</h2>
+            <div id="validationResults"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="label" class="screen">
+        <div class="grid">
+          <div class="card span-4">
+            <h2>Gerar etiqueta</h2>
+            <label>Receita guardada</label>
+            <select id="labelRecipeSelect"></select>
+            <button onclick="generateLabel()">Gerar texto final</button>
+            <button class="secondary" onclick="copyLabelText()">Copiar texto</button>
+          </div>
+
+          <div class="card span-8">
+            <h2>Pré-visualização</h2>
+            <div class="preview-box" id="labelPreview"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="ocr" class="screen">
+        <div class="grid">
+          <div class="card span-4">
+            <h2>Google Vision OCR</h2>
+            <p class="small">Modo profissional. A leitura de fotos deve passar por backend seguro. Não metas API key direta no browser.</p>
+            <label>Backend OCR URL</label>
+            <input id="ocrEndpoint" placeholder="Ex: https://teu-dominio.de/api/ocr-product" />
+            <label>Bild hochladen</label>
+            <input id="ocrImage" type="file" accept="image/*" />
+            <button onclick="runOcrImport()">Foto lesen</button>
+            <button class="secondary" onclick="fillOcrDemo()">Demo preencher</button>
+          </div>
+
+          <div class="card span-8">
+            <h2>OCR Ergebnis</h2>
+            <div id="ocrStatus" class="small">Sem leitura ainda.</div>
+            <label>Erkannter Produktname</label>
+            <input id="ocr_name" />
+            <label>Erkannte Zutaten</label>
+            <textarea id="ocr_ingredients"></textarea>
+            <label>Erkannte Allergene</label>
+            <input id="ocr_allergens" />
+
+            <div class="two-col">
+              <div><label>kJ</label><input id="ocr_kj" type="number" step="0.01" /></div>
+              <div><label>kcal</label><input id="ocr_kcal" type="number" step="0.01" /></div>
+            </div>
+            <div class="two-col">
+              <div><label>Fett</label><input id="ocr_fat" type="number" step="0.01" /></div>
+              <div><label>davon gesättigt</label><input id="ocr_sat" type="number" step="0.01" /></div>
+            </div>
+            <div class="two-col">
+              <div><label>Kohlenhydrate</label><input id="ocr_carb" type="number" step="0.01" /></div>
+              <div><label>davon Zucker</label><input id="ocr_sugar" type="number" step="0.01" /></div>
+            </div>
+            <div class="two-col">
+              <div><label>Eiweiß</label><input id="ocr_protein" type="number" step="0.01" /></div>
+              <div><label>Salz</label><input id="ocr_salt" type="number" step="0.01" /></div>
+            </div>
+
+            <button onclick="applyOcrToProductForm()">Para formulário de produto</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="advanced" class="screen">
+        <div class="grid">
+          <div class="card span-4">
+            <h2>Estrutura avançada</h2>
+            <label>Produto</label>
+            <select id="adv_product" onchange="renderAdvancedBox()"></select>
+            <label>Ingrediente</label>
+            <input id="adv_name" placeholder="Ex: Zucker" />
+            <label>Percentagem no produto</label>
+            <input id="adv_percent" type="number" step="0.01" placeholder="Ex: 60" />
+            <button onclick="addAdvancedIngredient()">Adicionar</button>
+            <button class="secondary" onclick="normalizeAdvancedIngredients()">Normalizar 100%</button>
+            <p class="small">Aqui defines a composição real de cada produto. Isto vale mais do que OCR bonito.</p>
+          </div>
+
+          <div class="card span-8">
+            <h2>Ingredientes estruturados do produto</h2>
+            <div id="advancedBox"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="data" class="screen">
+        <div class="grid">
+          <div class="card span-6">
+            <h2>Backup JSON</h2>
+            <p class="small">Exporta toda a base do browser. Isto é essencial para não perder dados.</p>
+            <button onclick="exportData()">Exportar JSON</button>
+            <button class="secondary" onclick="window.print()">Imprimir etiqueta / ficha</button>
+            <button class="secondary" onclick="downloadLabelTxt()">Exportar etiqueta TXT</button>
+            <button class="secondary" onclick="document.getElementById('importFile').click()">Importar JSON</button>
+            <input id="importFile" type="file" accept="application/json" style="display:none;" onchange="importData(event)" />
+          </div>
+
+          <div class="card span-6">
+            <h2>Zona perigosa</h2>
+            <p class="danger-text">Apaga tudo do browser. Isto não tem volta.</p>
+            <button class="danger" onclick="resetAllData()">Apagar todos os dados</button>
+          </div>
+
+          <div class="card span-12">
+            <h2>Base bruta</h2>
+            <pre id="rawDataPreview" style="white-space: pre-wrap; font-size: 12px;"></pre>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'sanremo_lmiv_generator_v1';
+
+    const state = {
+      products: [],
+      recipes: [],
+      recipeDraftItems: []
+    };
+
+    function uid() {
+      return Math.random().toString(36).slice(2, 10);
     }
-    
-    // Atualizar texto
-    document.getElementById('updateBtn').addEventListener('click', () => {
-        texto = document.getElementById('textInput').value;
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      renderAll();
+    }
+
+    function loadState() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      try {
+        const data = JSON.parse(raw);
+        state.products = data.products || [];
+        state.recipes = data.recipes || [];
+        state.recipeDraftItems = data.recipeDraftItems || [];
+      } catch (e) {
+        console.error('Erro ao ler dados', e);
+      }
+    }
+
+    function switchScreen(id) {
+      document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      document.querySelector(`[data-screen="${id}"]`).classList.add('active');
+    }
+
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => switchScreen(btn.dataset.screen));
     });
-    
-    // Sliders
-    document.getElementById('sizeSlider').addEventListener('input', (e) => {
-        tamanho = parseInt(e.target.value);
-        document.getElementById('sizeValue').innerText = tamanho;
-    });
-    
-    document.getElementById('ySlider').addEventListener('input', (e) => {
-        posY = parseInt(e.target.value);
-        document.getElementById('yValue').innerText = posY;
-    });
-    
-    // Modo projeção
-    document.getElementById('projectBtn').addEventListener('click', () => {
-        projecaoAtiva = !projecaoAtiva;
-        const btn = document.getElementById('projectBtn');
-        const status = document.getElementById('status');
-        
-        if (projecaoAtiva) {
-            btn.innerHTML = '⚪ NORMAL';
-            btn.style.background = '#444';
-            status.innerHTML = '✨ PROJEÇÃO ATIVA - Linhas douradas';
+
+    function parseNum(v) {
+      const n = Number(v);
+      return Number.isFinite(n) ? n : 0;
+    }
+
+    function clearProductForm() {
+      ['p_name','p_ingredients','p_allergens','p_kj','p_kcal','p_fat','p_sat','p_carb','p_sugar','p_protein','p_salt'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+      document.getElementById('p_category').value = 'Basis';
+    }
+
+    function saveProduct() {
+      const product = {
+        id: uid(),
+        name: document.getElementById('p_name').value.trim(),
+        category: document.getElementById('p_category').value,
+        ingredients: document.getElementById('p_ingredients').value.trim(),
+        allergens: document.getElementById('p_allergens').value.trim(),
+        nutrition: {
+          kj: parseNum(document.getElementById('p_kj').value),
+          kcal: parseNum(document.getElementById('p_kcal').value),
+          fat: parseNum(document.getElementById('p_fat').value),
+          sat: parseNum(document.getElementById('p_sat').value),
+          carb: parseNum(document.getElementById('p_carb').value),
+          sugar: parseNum(document.getElementById('p_sugar').value),
+          protein: parseNum(document.getElementById('p_protein').value),
+          salt: parseNum(document.getElementById('p_salt').value)
+        }
+      };
+
+      if (!product.name) {
+        alert('Nome do produto é obrigatório.');
+        return;
+      }
+
+      product.advancedIngredients = product.advancedIngredients || [];
+      state.products.push(product);
+      clearProductForm();
+      saveState();
+    }
+
+    function deleteProduct(id) {
+      if (!confirm('Apagar este produto?')) return;
+      state.products = state.products.filter(p => p.id !== id);
+      state.recipeDraftItems = state.recipeDraftItems.filter(i => i.productId !== id);
+      state.recipes = state.recipes.map(r => ({
+        ...r,
+        items: r.items.filter(i => i.productId !== id)
+      }));
+      saveState();
+    }
+
+    function addRecipeItem() {
+      const productId = document.getElementById('ri_product').value;
+      const qty = parseNum(document.getElementById('ri_qty').value);
+      const product = state.products.find(p => p.id === productId);
+
+      if (!product) {
+        alert('Escolhe um produto.');
+        return;
+      }
+      if (qty <= 0) {
+        alert('Quantidade tem de ser maior que zero.');
+        return;
+      }
+
+      state.recipeDraftItems.push({
+        id: uid(),
+        productId,
+        qty
+      });
+
+      document.getElementById('ri_qty').value = '';
+      saveState();
+    }
+
+    function removeRecipeItem(id) {
+      state.recipeDraftItems = state.recipeDraftItems.filter(i => i.id !== id);
+      saveState();
+    }
+
+    function clearRecipeItems() {
+      state.recipeDraftItems = [];
+      saveState();
+    }
+
+    function saveRecipe() {
+      const recipe = {
+        id: uid(),
+        name: document.getElementById('r_name').value.trim(),
+        legalName: document.getElementById('r_legal').value.trim(),
+        packaging: document.getElementById('r_packaging').value,
+        storage: document.getElementById('r_storage').value.trim(),
+        manufacturer: document.getElementById('r_manufacturer').value.trim(),
+        mhd: document.getElementById('r_mhd').value.trim(),
+        items: [...state.recipeDraftItems]
+      };
+
+      if (!recipe.name || !recipe.legalName) {
+        alert('Nome da receita e denominação legal são obrigatórios.');
+        return;
+      }
+      if (!recipe.items.length) {
+        alert('A receita precisa de pelo menos uma linha.');
+        return;
+      }
+
+      state.recipes.push(recipe);
+      state.recipeDraftItems = [];
+      document.getElementById('r_name').value = '';
+      document.getElementById('r_legal').value = '';
+      saveState();
+    }
+
+    function deleteRecipe(id) {
+      if (!confirm('Apagar esta receita?')) return;
+      state.recipes = state.recipes.filter(r => r.id !== id);
+      saveState();
+    }
+
+    function productById(id) {
+      return state.products.find(p => p.id === id);
+    }
+
+    function calculateRecipe(recipe) {
+      const totalWeight = recipe.items.reduce((sum, item) => sum + item.qty, 0);
+      const totals = {
+        kj: 0, kcal: 0, fat: 0, sat: 0, carb: 0, sugar: 0, protein: 0, salt: 0
+      };
+
+      const ingredientMap = {};
+      const allergenSet = new Set();
+
+      recipe.items.forEach(item => {
+        const product = productById(item.productId);
+        if (!product) return;
+
+        const factor = item.qty / totalWeight;
+        totals.kj += product.nutrition.kj * factor;
+        totals.kcal += product.nutrition.kcal * factor;
+        totals.fat += product.nutrition.fat * factor;
+        totals.sat += product.nutrition.sat * factor;
+        totals.carb += product.nutrition.carb * factor;
+        totals.sugar += product.nutrition.sugar * factor;
+        totals.protein += product.nutrition.protein * factor;
+        totals.salt += product.nutrition.salt * factor;
+
+        if (Array.isArray(product.advancedIngredients) && product.advancedIngredients.length) {
+          product.advancedIngredients.forEach(part => {
+            const contribution = item.qty * (Number(part.percent || 0) / 100);
+            if (!ingredientMap[part.name]) ingredientMap[part.name] = 0;
+            ingredientMap[part.name] += contribution;
+          });
         } else {
-            btn.innerHTML = '🌙 PROJEÇÃO';
-            btn.style.background = 'gold';
-            status.innerHTML = '✅ Câmara ativa - Texto branco';
+          const parts = product.ingredients.split(',').map(x => x.trim()).filter(Boolean);
+          parts.forEach(part => {
+            if (!ingredientMap[part]) ingredientMap[part] = 0;
+            ingredientMap[part] += item.qty / Math.max(parts.length, 1);
+          });
         }
-    });
-    
-    // Tecla Enter
-    document.getElementById('textInput').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            texto = e.target.value;
+
+        product.allergens.split(',').map(a => a.trim()).filter(Boolean).forEach(a => allergenSet.add(a));
+      });
+
+      const sortedIngredients = Object.entries(ingredientMap)
+        .sort((a, b) => b[1] - a[1])
+        .map(x => x[0]);
+
+      return {
+        totalWeight,
+        nutrition: totals,
+        ingredientsLine: sortedIngredients.join(', '),
+        allergens: [...allergenSet]
+      };
+    }
+
+    function validateRecipe(recipe) {
+      const issues = [];
+      const calc = calculateRecipe(recipe);
+
+      if (!recipe.legalName) issues.push({ level: 'bad', code: 'LEGAL_NAME', text: 'Denominação legal em falta.' });
+      if (!recipe.storage) issues.push({ level: 'bad', code: 'STORAGE', text: 'Texto de conservação em falta.' });
+      if (!recipe.manufacturer) issues.push({ level: 'bad', code: 'MANUFACTURER', text: 'Fabricante em falta.' });
+      if (!recipe.mhd) issues.push({ level: 'bad', code: 'MHD', text: 'MHD/Lot em falta.' });
+      if (!recipe.packaging) issues.push({ level: 'bad', code: 'PACKAGING', text: 'Peso líquido da embalagem em falta.' });
+      if (!calc.totalWeight) issues.push({ level: 'bad', code: 'TOTAL_WEIGHT', text: 'Peso total da receita é zero.' });
+
+      const ingredientNames = recipe.items.map(item => productById(item.productId)?.name || '').filter(Boolean).map(x => x.toLowerCase());
+      const duplicates = ingredientNames.filter((name, index) => ingredientNames.indexOf(name) !== index);
+      if (duplicates.length) issues.push({ level: 'mid', code: 'DUPLICATE_PRODUCTS', text: 'Existem produtos repetidos na receita. Verifica se é intencional.' });
+
+      recipe.items.forEach(item => {
+        const product = productById(item.productId);
+        if (!product) {
+          issues.push({ level: 'bad', code: 'MISSING_PRODUCT', text: 'Linha de receita com produto inexistente.' });
+          return;
         }
-    });
-</script>
+        if (!product.ingredients) issues.push({ level: 'bad', code: 'PRODUCT_INGREDIENTS', text: `Produto sem ingredientes preenchidos: ${product.name}` });
+        const nut = product.nutrition;
+        const hasEmptyNutrition = [nut.kj, nut.kcal, nut.fat, nut.sat, nut.carb, nut.sugar, nut.protein, nut.salt].every(v => v === 0);
+        if (hasEmptyNutrition) issues.push({ level: 'bad', code: 'PRODUCT_NUTRITION', text: `Produto sem Nährwerte: ${product.name}` });
+        if (!product.name) issues.push({ level: 'bad', code: 'PRODUCT_NAME', text: 'Existe produto sem nome.' });
+
+        if (Array.isArray(product.advancedIngredients) && product.advancedIngredients.length) {
+          const sum = product.advancedIngredients.reduce((a, b) => a + Number(b.percent || 0), 0);
+          if (Math.abs(sum - 100) > 0.5) {
+            issues.push({ level: 'mid', code: 'ADVANCED_SUM', text: `Percentagens estruturadas do produto ${product.name} não fecham 100%.` });
+          }
+        }
+      });
+
+      if (!calc.ingredientsLine) issues.push({ level: 'bad', code: 'FINAL_INGREDIENTS', text: 'Lista final de ingredientes ficou vazia.' });
+      if (!issues.length) issues.push({ level: 'ok', code: 'OK', text: 'Sem falhas críticas nesta validação base.' });
+      return issues;
+    }
+
+    function runValidation() {
+      const recipeId = document.getElementById('validationRecipeSelect').value;
+      const recipe = state.recipes.find(r => r.id === recipeId);
+      const box = document.getElementById('validationResults');
+
+      if (!recipe) {
+        box.innerHTML = '<p class="danger-text">Escolhe uma receita.</p>';
+        return;
+      }
+
+      const calc = calculateRecipe(recipe);
+      const issues = validateRecipe(recipe);
+      const critical = issues.filter(i => i.level === 'bad');
+      const medium = issues.filter(i => i.level === 'mid');
+
+      box.innerHTML = `
+        <div style="margin-bottom:12px;">
+          <strong>Receita:</strong> ${recipe.name}<br>
+          <strong>Peso total:</strong> ${calc.totalWeight.toFixed(2)} g<br>
+          <strong>Allergene:</strong> ${calc.allergens.join(', ') || '—'}<br>
+          <strong>Status:</strong> ${critical.length ? '<span class="danger-text">BLOQUEADA</span>' : '<span class="ok-text">LIBERADA</span>'}
+        </div>
+        <div style="margin-bottom:12px;">
+          <span class="pill bad">Críticos: ${critical.length}</span>
+          <span class="pill mid">Médios: ${medium.length}</span>
+        </div>
+        ${issues.map(i => `<div class="pill ${i.level}">${i.text}</div>`).join('')}
+      `;
+    }
+
+    function formatNumber(n) {
+      return Number(n || 0).toFixed(2).replace('.', ',');
+    }
+
+    function generateLabelText(recipe) {
+      const calc = calculateRecipe(recipe);
+      return `${recipe.legalName} Zutaten: ${calc.ingredientsLine}. Nährwerte je 100 g: Energie ${formatNumber(calc.nutrition.kj)} kJ / ${formatNumber(calc.nutrition.kcal)} kcal, Fett ${formatNumber(calc.nutrition.fat)} g, davon gesättigte Fettsäuren ${formatNumber(calc.nutrition.sat)} g, Kohlenhydrate ${formatNumber(calc.nutrition.carb)} g, davon Zucker ${formatNumber(calc.nutrition.sugar)} g, Eiweiß ${formatNumber(calc.nutrition.protein)} g, Salz ${formatNumber(calc.nutrition.salt)} g. Inhalt: ${recipe.packaging} g. ${recipe.storage} ${recipe.mhd} Hersteller: ${recipe.manufacturer}.`;
+    }
+
+    function generateLabel() {
+      const recipeId = document.getElementById('labelRecipeSelect').value;
+      const recipe = state.recipes.find(r => r.id === recipeId);
+      const preview = document.getElementById('labelPreview');
+
+      if (!recipe) {
+        preview.innerHTML = '<span class="danger-text">Escolhe uma receita.</span>';
+        return;
+      }
+
+      const issues = validateRecipe(recipe);
+      const critical = issues.filter(i => i.level === 'bad');
+
+      if (critical.length) {
+        preview.innerHTML = `<span class="danger-text">Etiqueta bloqueada. Corrige primeiro os erros críticos.</span><br><br>${critical.map(i => '• ' + i.text).join('<br>')}`;
+        return;
+      }
+
+      preview.textContent = generateLabelText(recipe);
+    }
+
+    function copyLabelText() {
+      const text = document.getElementById('labelPreview').textContent.trim();
+      if (!text) {
+        alert('Nada para copiar.');
+        return;
+      }
+      navigator.clipboard.writeText(text);
+      alert('Texto copiado.');
+    }
+
+    async function runOcrImport() {
+      const endpoint = document.getElementById('ocrEndpoint').value.trim();
+      const file = document.getElementById('ocrImage').files[0];
+      const status = document.getElementById('ocrStatus');
+
+      if (!file) {
+        alert('Escolhe uma imagem.');
+        return;
+      }
+
+      if (!endpoint) {
+        status.textContent = 'Falta o URL do backend OCR. Em produção, a imagem deve ser enviada para o teu servidor, e o servidor fala com Google Vision.';
+        return;
+      }
+
+      try {
+        status.textContent = 'A enviar imagem para backend OCR...';
+        const form = new FormData();
+        form.append('image', file);
+
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          body: form
+        });
+
+        if (!response.ok) {
+          throw new Error('Falha no backend OCR');
+        }
+
+        const data = await response.json();
+        fillOcrFields(data);
+        status.textContent = 'OCR concluído. Confirma tudo antes de guardar.';
+      } catch (err) {
+        console.error(err);
+        status.textContent = 'Erro no OCR. Verifica endpoint, backend e resposta JSON.';
+      }
+    }
+
+    function fillOcrFields(data) {
+      document.getElementById('ocr_name').value = data.name || '';
+      document.getElementById('ocr_ingredients').value = data.ingredients || '';
+      document.getElementById('ocr_allergens').value = data.allergens || '';
+      document.getElementById('ocr_kj').value = data.kj || '';
+      document.getElementById('ocr_kcal').value = data.kcal || '';
+      document.getElementById('ocr_fat').value = data.fat || '';
+      document.getElementById('ocr_sat').value = data.sat || '';
+      document.getElementById('ocr_carb').value = data.carb || '';
+      document.getElementById('ocr_sugar').value = data.sugar || '';
+      document.getElementById('ocr_protein').value = data.protein || '';
+      document.getElementById('ocr_salt').value = data.salt || '';
+    }
+
+    function fillOcrDemo() {
+      fillOcrFields({
+        name: 'Demo Produkt',
+        ingredients: 'Zucker, MILCH, SAHNE, Glukosesirup, MAGERMILCHPULVER',
+        allergens: 'MILCH',
+        kj: 950,
+        kcal: 227,
+        fat: 8.4,
+        sat: 5.2,
+        carb: 31.5,
+        sugar: 27.1,
+        protein: 4.1,
+        salt: 0.18
+      });
+      document.getElementById('ocrStatus').textContent = 'Dados demo carregados. Isto serve só para testar o fluxo.';
+    }
+
+    function applyOcrToProductForm() {
+      document.getElementById('p_name').value = document.getElementById('ocr_name').value;
+      document.getElementById('p_ingredients').value = document.getElementById('ocr_ingredients').value;
+      document.getElementById('p_allergens').value = document.getElementById('ocr_allergens').value;
+      document.getElementById('p_kj').value = document.getElementById('ocr_kj').value;
+      document.getElementById('p_kcal').value = document.getElementById('ocr_kcal').value;
+      document.getElementById('p_fat').value = document.getElementById('ocr_fat').value;
+      document.getElementById('p_sat').value = document.getElementById('ocr_sat').value;
+      document.getElementById('p_carb').value = document.getElementById('ocr_carb').value;
+      document.getElementById('p_sugar').value = document.getElementById('ocr_sugar').value;
+      document.getElementById('p_protein').value = document.getElementById('ocr_protein').value;
+      document.getElementById('p_salt').value = document.getElementById('ocr_salt').value;
+      switchScreen('products');
+    }
+
+    function exportData() {
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'sanremo-lmiv-backup.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function importData(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = e => {
+        try {
+          const data = JSON.parse(e.target.result);
+          state.products = data.products || [];
+          state.recipes = data.recipes || [];
+          state.recipeDraftItems = data.recipeDraftItems || [];
+          saveState();
+          alert('Dados importados com sucesso.');
+        } catch {
+          alert('JSON inválido.');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function resetAllData() {
+      if (!confirm('Queres apagar tudo?')) return;
+      localStorage.removeItem(STORAGE_KEY);
+      state.products = [];
+      state.recipes = [];
+      state.recipeDraftItems = [];
+      renderAll();
+    }
+
+    function renderProducts() {
+      const box = document.getElementById('productsList');
+      if (!state.products.length) {
+        box.innerHTML = '<div class="item-row">Nenhum produto guardado.</div>';
+        return;
+      }
+
+      box.innerHTML = state.products.map(p => `
+        <div class="item-row">
+          <strong>${p.name}</strong><br>
+          <span class="small">${p.category}</span><br>
+          <span class="small">Allergene: ${p.allergens || '—'}</span><br>
+          <span class="small">${p.ingredients || 'Sem ingredientes preenchidos'}</span><br>
+          <button class="danger" onclick="deleteProduct('${p.id}')">Apagar</button>
+        </div>
+      `).join('');
+    }
+
+    function renderProductOptions() {
+      const options = '<option value="">Produkt wählen</option>' + state.products.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+      document.getElementById('ri_product').innerHTML = options;
+      const adv = document.getElementById('adv_product');
+      if (adv) adv.innerHTML = options;
+    }
+
+    function renderRecipeDraftTable() {
+      const tbody = document.getElementById('recipeItemsTable');
+      if (!state.recipeDraftItems.length) {
+        tbody.innerHTML = '<tr><td colspan="4">Sem linhas na receita.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = state.recipeDraftItems.map(item => {
+        const p = productById(item.productId);
+        return `
+          <tr>
+            <td>${p?.name || '—'}</td>
+            <td>${formatNumber(item.qty)}</td>
+            <td>${p?.category || '—'}</td>
+            <td><button class="danger" onclick="removeRecipeItem('${item.id}')">X</button></td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function renderRecipeSelectors() {
+      const options = '<option value="">Rezept wählen</option>' + state.recipes.map(r => `<option value="${r.id}">${r.name}</option>`).join('');
+      document.getElementById('validationRecipeSelect').innerHTML = options;
+      document.getElementById('labelRecipeSelect').innerHTML = options;
+    }
+
+    function renderStats() {
+      document.getElementById('statsBox').innerHTML = `
+        <div><strong>${state.products.length}</strong> produtos</div>
+        <div><strong>${state.recipes.length}</strong> receitas</div>
+        <div><strong>${state.recipeDraftItems.length}</strong> linhas em rascunho</div>
+      `;
+    }
+
+    function renderRawData() {
+      document.getElementById('rawDataPreview').textContent = JSON.stringify(state, null, 2);
+    }
+
+    function addAdvancedIngredient() {
+      const productId = document.getElementById('adv_product').value;
+      const name = document.getElementById('adv_name').value.trim();
+      const percent = parseNum(document.getElementById('adv_percent').value);
+      const product = productById(productId);
+      if (!product) {
+        alert('Escolhe um produto.');
+        return;
+      }
+      if (!name || percent <= 0) {
+        alert('Ingrediente e percentagem são obrigatórios.');
+        return;
+      }
+      product.advancedIngredients = product.advancedIngredients || [];
+      product.advancedIngredients.push({ id: uid(), name, percent });
+      document.getElementById('adv_name').value = '';
+      document.getElementById('adv_percent').value = '';
+      saveState();
+      renderAdvancedBox();
+    }
+
+    function removeAdvancedIngredient(productId, ingredientId) {
+      const product = productById(productId);
+      if (!product || !Array.isArray(product.advancedIngredients)) return;
+      product.advancedIngredients = product.advancedIngredients.filter(x => x.id !== ingredientId);
+      saveState();
+      renderAdvancedBox();
+    }
+
+    function normalizeAdvancedIngredients() {
+      const productId = document.getElementById('adv_product').value;
+      const product = productById(productId);
+      if (!product || !Array.isArray(product.advancedIngredients) || !product.advancedIngredients.length) {
+        alert('Esse produto não tem ingredientes estruturados.');
+        return;
+      }
+      const sum = product.advancedIngredients.reduce((a, b) => a + Number(b.percent || 0), 0);
+      if (!sum) return;
+      product.advancedIngredients = product.advancedIngredients.map(x => ({
+        ...x,
+        percent: Number(((Number(x.percent || 0) / sum) * 100).toFixed(2))
+      }));
+      saveState();
+      renderAdvancedBox();
+    }
+
+    function renderAdvancedBox() {
+      const box = document.getElementById('advancedBox');
+      const productId = document.getElementById('adv_product')?.value;
+      const product = productById(productId);
+      if (!box) return;
+      if (!product) {
+        box.innerHTML = '<div class="item-row">Escolhe um produto.</div>';
+        return;
+      }
+      const items = product.advancedIngredients || [];
+      const sum = items.reduce((a, b) => a + Number(b.percent || 0), 0);
+      box.innerHTML = `
+        <div class="card" style="padding:12px; margin-bottom:12px;">
+          <strong>${product.name}</strong><br>
+          <span class="small">Soma atual: ${formatNumber(sum)}%</span>
+        </div>
+        ${items.length ? items.map(i => `
+          <div class="item-row">
+            <strong>${i.name}</strong> — ${formatNumber(i.percent)} %
+            <div style="margin-top:8px;"><button class="danger" onclick="removeAdvancedIngredient('${product.id}','${i.id}')">Apagar</button></div>
+          </div>
+        `).join('') : '<div class="item-row">Sem ingredientes estruturados neste produto.</div>'}
+      `;
+    }
+
+    function downloadLabelTxt() {
+      const text = document.getElementById('labelPreview').textContent.trim();
+      if (!text) {
+        alert('Gera primeiro a etiqueta.');
+        return;
+      }
+      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'etikett.txt';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function renderAll() {
+      renderProducts();
+      renderProductOptions();
+      renderRecipeDraftTable();
+      renderRecipeSelectors();
+      renderStats();
+      renderRawData();
+      renderAdvancedBox();
+    }
+
+    loadState();
+    renderAll();
+  </script>
+  <script>
+    // --- SIMPLE OCR MOCK (next phase base) ---
+    function handleImageUpload(input) {
+      const file = input.files[0];
+      if (!file) return;
+
+      // Simulação: no futuro entra OCR real
+      alert('OCR ainda não ligado. Próximo passo será ler automaticamente ingredientes e Nährwerte.');
+    }
+  </script>
 </body>
 </html>
