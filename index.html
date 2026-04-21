@@ -389,17 +389,17 @@
         <div class="card col-span-5">
           <h2>🍨 Rezept erstellen</h2>
           <input type="hidden" id="editRecipeId">
-          <label>Rezeptname</label><input id="recipeName" placeholder="z.B. Stracciatella 250g">
-          <label>Verkehrsbezeichnung (LMIV)</label><input id="recipeLegal" placeholder="Milcheis mit Schokolade">
+          <label>Rezeptname</label><input id="recipeName" placeholder="z.B. Amarena Eis 170g" value="Amarena Eis">
+          <label>Verkehrsbezeichnung (LMIV)</label><input id="recipeLegal" placeholder="Milcheis mit Amarena-Kirschen" value="Milchspeiseeis mit Amarena-Kirschen">
           <label>Verpackungsgröße (g)</label><select id="recipePackaging"><option>170</option><option>250</option><option>500</option><option>750</option><option>1000</option><option>2000</option></select>
-          <label>Aufbewahrungshinweis</label><input id="recipeStorage" value="Bei -18°C lagern. Nach Auftauen nicht wieder einfrieren.">
+          <label>Aufbewahrungshinweis</label><input id="recipeStorage" value="Bei -18°C lagern">
           <label>Hersteller (Adresse)</label><input id="recipeManufacturer" value="Eiscafé Sanremo, Musterstr. 1, 57319 Bad Berleburg">
-          <label>MHD / Los</label><input id="recipeMhd" value="Mindestens haltbar bis: siehe Deckel. Lot: siehe Deckel.">
+          <label>MHD / Los</label><input id="recipeMhd" value="MHD siehe Deckel">
           <hr>
           <h3>➕ Zutat (Produkt + Gramm)</h3>
           <div class="two-col">
             <div><label>Produkt</label><select id="recipeProductSelect"></select></div>
-            <div><label>Menge (g)</label><input id="recipeItemQty" type="number" step="0.1"></div>
+            <div><label>Menge (g)</label><input id="recipeItemQty" type="number" step="0.1" placeholder="z.B. 125"></div>
           </div>
           <button onclick="addRecipeItem()">+ Zutat hinzufügen</button>
           <button class="secondary" onclick="clearRecipeDraft()">Alle entfernen</button>
@@ -407,7 +407,12 @@
         </div>
         <div class="card col-span-7">
           <h2>📊 Aktuelle Rezeptpositionen</h2>
-          <div style="max-height: 280px; overflow: auto;"><table id="recipeItemsTable"></table></div>
+          <div style="max-height: 280px; overflow: auto;">
+            <table id="recipeItemsTable">
+              <thead><tr><th>Produkt</th><th>Menge (g)</th><th>Anteil</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
           <button onclick="saveRecipe()" style="margin-top: 12px;">💾 Rezept speichern</button>
           <hr>
           <h2>📁 Ihre Rezepte</h2>
@@ -453,12 +458,12 @@
 </div>
 
 <script>
-  // ---------- KERNLOGIK ----------
-  const STORAGE_KEY = 'sanremo_lmiv_pro_v2';
+  // ---------- KERNLOGIK - VOLL FUNKTIONSFÄHIG ----------
+  const STORAGE_KEY = 'sanremo_lmiv_pro_v3';
   let state = {
     products: [],
     recipes: [],
-    recipeDraft: []   // temporäre Positionen beim Rezeptbau
+    recipeDraft: []
   };
 
   // Beispiel-Produkte mit 100% Struktur
@@ -484,8 +489,8 @@
     state.products.forEach(p => { if (!p.composition) p.composition = []; if (!p.nutrition) p.nutrition = { kj:0,kcal:0,fat:0,sat:0,carb:0,sugar:0,protein:0,salt:0 }; });
     if (!state.recipes.length) {
       state.recipes = [{
-        id: 'rec1', name: 'Amarena Eis 250g', legalName: 'Milchspeiseeis mit Amarena-Kirschen', packaging: '250', storage: 'Bei -18°C lagern', manufacturer: 'Eiscafé Sanremo, Musterstr. 1, 57319 Bad Berleburg', mhd: 'MHD siehe Deckel',
-        items: [{ id:'ri1', productId:'p1', qty:150 }, { id:'ri2', productId:'p2', qty:45 }, { id:'ri3', productId:'p3', qty:40 }, { id:'ri4', productId:'p5', qty:15 }]
+        id: 'rec1', name: 'Amarena Eis 170g', legalName: 'Milchspeiseeis mit Amarena-Kirschen', packaging: '170', storage: 'Bei -18°C lagern', manufacturer: 'Eiscafé Sanremo, Musterstr. 1, 57319 Bad Berleburg', mhd: 'MHD siehe Deckel',
+        items: [{ id:'ri1', productId:'p1', qty:100 }, { id:'ri2', productId:'p2', qty:35 }, { id:'ri3', productId:'p3', qty:25 }, { id:'ri4', productId:'p5', qty:10 }]
       }];
     }
     if (!state.recipeDraft) state.recipeDraft = [];
@@ -494,10 +499,8 @@
   function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); renderAll(); }
   function uid() { return Date.now() + '-' + Math.random().toString(36).substr(2, 8); }
 
-  // Produkt-Hilfsfunktionen
   function getProductPercentSum(prod) { return (prod.composition || []).reduce((s,c)=>s+c.percent,0); }
 
-  // Rezept Nährwerte pro 100g
   function computeRecipeNutrition(recipe) {
     const totalWeight = recipe.items.reduce((s,i)=>s+i.qty,0);
     if (totalWeight === 0) return null;
@@ -518,14 +521,13 @@
     return accum;
   }
 
-  // Gewichtsbasierte Zutatenliste für ein Rezept
   function getWeightSortedIngredients(recipe) {
-    const ingredientMap = new Map(); // name -> gramm
+    const ingredientMap = new Map();
     for (let item of recipe.items) {
       const prod = state.products.find(p=>p.id===item.productId);
       if (!prod || !prod.composition || prod.composition.length === 0) continue;
       const sumPerc = getProductPercentSum(prod);
-      if (Math.abs(sumPerc - 100) > 0.1) continue; // nicht 100% -> ignorieren für Exaktheit
+      if (Math.abs(sumPerc - 100) > 0.1) continue;
       for (let comp of prod.composition) {
         const gramm = item.qty * (comp.percent / 100);
         ingredientMap.set(comp.name, (ingredientMap.get(comp.name) || 0) + gramm);
@@ -535,7 +537,6 @@
     return sorted.map(e=>e[0]);
   }
 
-  // Rezept auf LMIV prüfen
   function validateRecipeCompliance(recipe) {
     const issues = [];
     if (!recipe.legalName) issues.push({ level:'error', text:'Verkehrsbezeichnung fehlt' });
@@ -695,12 +696,12 @@
   function renderRecipeDraft() {
     const total = state.recipeDraft.reduce((s,i)=>s+i.qty,0);
     document.getElementById('recipeTotalWeight').innerHTML = `<strong>Gesamt: ${total.toFixed(1)} g</strong>`;
-    const tbody = document.getElementById('recipeItemsTable');
-    tbody.innerHTML = `<thead><tr><th>Produkt</th><th>Menge (g)</th><th>Anteil</th><th></th></tr></thead><tbody>${state.recipeDraft.map(it=>{
+    const tbody = document.querySelector('#recipeItemsTable tbody');
+    tbody.innerHTML = state.recipeDraft.map(it=>{
       const prod = state.products.find(p=>p.id===it.productId);
       const percent = total ? (it.qty/total*100).toFixed(1) : 0;
       return `<tr><td>${prod?.name||'?'}</td><td>${it.qty.toFixed(1)} g</td><td>${percent}%</td><td><button class="danger" onclick="removeRecipeDraftItem('${it.id}')">X</button></td></tr>`;
-    }).join('')}</tbody>`;
+    }).join('');
   }
   function saveRecipe() {
     const rid = document.getElementById('editRecipeId').value;
@@ -729,6 +730,7 @@
   function renderSavedRecipes() {
     const container = document.getElementById('savedRecipesList');
     container.innerHTML = state.recipes.map(r => `<div class="product-item"><strong>${r.name}</strong> (${r.packaging}g) <button onclick="editRecipe('${r.id}')">Bearbeiten</button> <button class="danger" onclick="deleteRecipeById('${r.id}')">Löschen</button></div>`).join('');
+    // Dropdowns aktualisieren
     const prodSelect = document.getElementById('recipeProductSelect');
     prodSelect.innerHTML = '<option value="">Produkt wählen</option>' + state.products.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
     document.getElementById('labelRecipeSelect').innerHTML = '<option value="">Rezept wählen</option>' + state.recipes.map(r=>`<option value="${r.id}">${r.name}</option>`).join('');
