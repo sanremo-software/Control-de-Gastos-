@@ -214,6 +214,7 @@
     .pill.success { background: rgba(46,204,113,0.2); color: #a3e4c0; }
     .pill.warning { background: rgba(243,156,18,0.2); color: #f8c471; }
     .pill.error { background: rgba(231,76,60,0.2); color: #f5b7b1; }
+    .pill.info { background: rgba(52,152,219,0.2); color: #7fb3d5; }
 
     .product-item, .recipe-item {
       background: var(--surface);
@@ -253,6 +254,47 @@
       border: 1px solid #ccc;
     }
 
+    .tech-sheet {
+      background: #fefefe;
+      color: #111;
+      border-radius: 14px;
+      padding: 1.5rem;
+      font-family: 'Segoe UI', 'Inter', sans-serif;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      border: 1px solid #ccc;
+      max-width: 100%;
+      overflow-x: auto;
+    }
+
+    .tech-sheet h2 {
+      color: #1a5276;
+      border-bottom: 2px solid #2ecc71;
+      padding-bottom: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .tech-sheet h3 {
+      color: #2c3e50;
+      margin-top: 1rem;
+    }
+
+    .tech-sheet table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.5rem 0;
+    }
+
+    .tech-sheet th, .tech-sheet td {
+      border: 1px solid #ccc;
+      padding: 0.5rem;
+      text-align: left;
+    }
+
+    .tech-sheet th {
+      background: #e8f0fe;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -279,6 +321,23 @@
       transition: width 0.2s;
     }
 
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      .tech-sheet, .tech-sheet * {
+        visibility: visible;
+      }
+      .tech-sheet {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        margin: 0;
+        padding: 1rem;
+      }
+    }
+
     @media (max-width: 800px) {
       .layout { flex-direction: column; }
       .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); }
@@ -289,13 +348,14 @@
 <body>
 <div class="app-header">
   <h1>🍦 Sanremo LMIV Präzisionssystem</h1>
-  <p>100% gewichtsbasierte Zutatenliste • LMIV-konforme Etiketten • Nährwerte pro 100g • Professionelle Rezeptverwaltung</p>
+  <p>100% gewichtsbasierte Zutatenliste • LMIV-konforme Etiketten • Nährwerte pro 100g • Professionelle Rezeptverwaltung • Fichas Técnicas</p>
 </div>
 <div class="layout">
   <div class="sidebar">
     <button class="nav-btn active" data-screen="dashboard">📊 Dashboard</button>
     <button class="nav-btn" data-screen="products">📦 Produkte & Rohstoffe</button>
     <button class="nav-btn" data-screen="recipes">🍨 Rezepte (grammgenau)</button>
+    <button class="nav-btn" data-screen="techsheets">📄 Fichas Técnicas</button>
     <button class="nav-btn" data-screen="labelgen">🏷️ Etikett Generator</button>
     <button class="nav-btn" data-screen="validation">⚖️ LMIV Konformitätsprüfung</button>
     <button class="nav-btn" data-screen="backup">💾 Backup & Daten</button>
@@ -328,6 +388,7 @@
             <li>Rezept mit Gramm-Mengen erstellen</li>
             <li>LMIV-Prüfung durchführen</li>
             <li>Etikett generieren (fertig für Druck)</li>
+            <li>Ficha Técnica exportieren / drucken</li>
           </ol>
         </div>
         <div class="card col-span-4">
@@ -407,11 +468,35 @@
         </div>
         <div class="card col-span-7">
           <h2>📊 Aktuelle Rezeptpositionen</h2>
-          <div style="max-height: 280px; overflow: auto;"><table id="recipeItemsTable"></table></div>
+          <div style="max-height: 280px; overflow: auto;"><table id="recipeItemsTable"><tr></div>
           <button onclick="saveRecipe()" style="margin-top: 12px;">💾 Rezept speichern</button>
           <hr>
           <h2>📁 Ihre Rezepte</h2>
           <div id="savedRecipesList"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FICHAS TÉCNICAS (NOVA SECÇÃO) -->
+    <section id="techsheets" class="screen">
+      <div class="grid">
+        <div class="card col-span-4">
+          <h2>📄 Ficha Técnica - Produkt</h2>
+          <label>Produkt wählen</label>
+          <select id="techProductSelect"></select>
+          <button onclick="generateProductTechSheet()">📄 Ficha do Produto</button>
+          <button class="secondary" onclick="printTechSheet()">🖨️ Imprimir</button>
+          <hr>
+          <h2>🍨 Ficha Técnica - Rezept</h2>
+          <label>Rezept wählen</label>
+          <select id="techRecipeSelect"></select>
+          <button onclick="generateRecipeTechSheet()">📄 Ficha da Receita</button>
+        </div>
+        <div class="card col-span-8">
+          <h2>📋 Vorschau Ficha Técnica</h2>
+          <div id="techSheetPreview" class="tech-sheet" style="max-height: 70vh; overflow-y: auto;">
+            <p style="color: #666;">Wählen Sie ein Produkt oder Rezept und klicken Sie auf "Ficha do Produto" oder "Ficha da Receita".</p>
+          </div>
         </div>
       </div>
     </section>
@@ -461,13 +546,14 @@
     recipeDraft: []   // temporäre Positionen beim Rezeptbau
   };
 
-  // Beispiel-Produkte mit 100% Struktur
+  // Beispiel-Produkte mit 100% Struktur (incl. YOGHIN GERMANIA)
   const defaultProducts = [
     { id: 'p1', name: 'Frische Vollmilch 3.5%', category: 'Milchprodukt', allergens: 'MILCH', nutrition: { kj:265, kcal:64, fat:3.5, sat:2.3, carb:4.8, sugar:4.8, protein:3.4, salt:0.1 }, composition: [{ id:'c1', name:'Frische Vollmilch', percent:100 }] },
     { id: 'p2', name: 'Weißer Zucker', category: 'Süße', allergens: '', nutrition: { kj:1700, kcal:400, fat:0, sat:0, carb:100, sugar:100, protein:0, salt:0 }, composition: [{ id:'c2', name:'Rohrzucker', percent:100 }] },
     { id: 'p3', name: 'Schlagsahne 30%', category: 'Milchprodukt', allergens: 'MILCH', nutrition: { kj:1250, kcal:300, fat:30, sat:19, carb:3, sugar:3, protein:2, salt:0.08 }, composition: [{ id:'c3', name:'Schlagsahne', percent:100 }] },
     { id: 'p4', name: 'Magermilchpulver', category: 'Pulver', allergens: 'MILCH', nutrition: { kj:1480, kcal:354, fat:0.8, sat:0.5, carb:52, sugar:52, protein:35, salt:1.1 }, composition: [{ id:'c4', name:'Magermilchpulver', percent:100 }] },
-    { id: 'p5', name: 'Amarena Kirschpüree', category: 'Frucht', allergens: '', nutrition: { kj:420, kcal:100, fat:0.2, sat:0, carb:24, sugar:22, protein:0.5, salt:0.01 }, composition: [{ id:'c5a', name:'Amarenakirschen', percent:85 }, { id:'c5b', name:'Zucker', percent:14 }, { id:'c5c', name:'Kirschsaft', percent:1 }] }
+    { id: 'p5', name: 'Amarena Kirschpüree', category: 'Frucht', allergens: '', nutrition: { kj:420, kcal:100, fat:0.2, sat:0, carb:24, sugar:22, protein:0.5, salt:0.01 }, composition: [{ id:'c5a', name:'Amarenakirschen', percent:85 }, { id:'c5b', name:'Zucker', percent:14 }, { id:'c5c', name:'Kirschsaft', percent:1 }] },
+    { id: 'p6', name: 'YOGHIN GERMANIA', category: 'Pulver', allergens: 'MILCH, SOJA, EI, MANDELN, HASELNÜSSE, WALNÜSSE, PISTAZIEN, ERDNÜSSE, SESAMSAMEN', nutrition: { kj:1827.1, kcal:362.9, fat:0.6, sat:0.2, carb:77.6, sugar:40.2, protein:17.9, salt:0.53 }, composition: [] }
   ];
 
   function loadState() {
@@ -533,6 +619,181 @@
     }
     const sorted = Array.from(ingredientMap.entries()).sort((a,b)=>b[1]-a[1]);
     return sorted.map(e=>e[0]);
+  }
+
+  // ---------- FICHAS TÉCNICAS ----------
+  function generateProductTechSheet() {
+    const productId = document.getElementById('techProductSelect').value;
+    const product = state.products.find(p => p.id === productId);
+    const preview = document.getElementById('techSheetPreview');
+    
+    if (!product) {
+      preview.innerHTML = '<p style="color: red;">❌ Bitte wählen Sie ein Produkt.</p>';
+      return;
+    }
+
+    const sumPerc = getProductPercentSum(product);
+    const isComplete = Math.abs(sumPerc - 100) < 0.1;
+    const compRows = product.composition.length ? product.composition.map(c => `
+      <tr>
+        <td>${c.name}</td>
+        <td style="text-align:right">${c.percent.toFixed(2)}%</td>
+      </tr>
+    `).join('') : '<tr><td colspan="2" style="color:orange;">⚠️ Keine Zusammensetzung definiert (100% Regel nicht erfüllt)</td></tr>';
+
+    const formatNumber = (n) => (n || 0).toFixed(1).replace('.', ',');
+    
+    const html = `
+      <div style="font-family: 'Segoe UI', Arial, sans-serif;">
+        <div style="text-align: center; margin-bottom: 20px;">
+          <h1 style="color: #1a5276; margin:0;">📄 FICHA TÉCNICA - PRODUTO</h1>
+          <h2 style="color: #2c3e50; margin:5px 0;">${product.name}</h2>
+          <p style="color: #666;">Categoria: ${product.category} | Status: ${isComplete ? '✅ 100% Completo' : '⚠️ Incompleto (' + sumPerc.toFixed(1) + '%)'}</p>
+        </div>
+
+        <h3>🧪 Composição Exata (Base 100%)</h3>
+        <table style="width:100%; border-collapse:collapse;">
+          <thead><tr style="background:#e8f0fe;"><th>Ingrediente / Matéria-prima</th><th>Percentagem (%)</th></tr></thead>
+          <tbody>${compRows}</tbody>
+        </table>
+
+        <h3>📊 Valores Nutricionais (por 100g de produto)</h3>
+        <table style="width:100%; border-collapse:collapse;">
+          <tr><td style="width:60%"><strong>Energia</strong></td><td style="text-align:right">${formatNumber(product.nutrition.kj)} kJ / ${formatNumber(product.nutrition.kcal)} kcal</td></tr>
+          <tr><td><strong>Lípidos (gorduras)</strong></td><td style="text-align:right">${formatNumber(product.nutrition.fat)} g</td></tr>
+          <tr><td style="padding-left:20px">dos quais saturados</td><td style="text-align:right">${formatNumber(product.nutrition.sat)} g</td></tr>
+          <tr><td><strong>Hidratos de carbono</strong></td><td style="text-align:right">${formatNumber(product.nutrition.carb)} g</td></tr>
+          <tr><td style="padding-left:20px">dos quais açúcares</td><td style="text-align:right">${formatNumber(product.nutrition.sugar)} g</td></tr>
+          <tr><td><strong>Proteínas</strong></td><td style="text-align:right">${formatNumber(product.nutrition.protein)} g</td></tr>
+          <tr><td><strong>Sal</strong></td><td style="text-align:right">${formatNumber(product.nutrition.salt)} g</td></tr>
+        </table>
+
+        <h3>⚠️ Alergénios</h3>
+        <p>${product.allergens ? product.allergens.replace(/,/g, ', ') : 'Nenhum declarado'}</p>
+
+        <h3>🏭 Informações Adicionais</h3>
+        <table style="width:100%">
+          <tr><td style="width:40%"><strong>Categoria LMIV</strong></td><td>${product.category}</td></tr>
+          <tr><td><strong>Validação 100%</strong></td><td>${isComplete ? '✅ Sim (soma = 100%)' : '❌ Não (soma = ' + sumPerc.toFixed(1) + '%) - Corrigir na secção "Produkte"'}</td></tr>
+        </table>
+        <hr>
+        <p style="font-size: 0.7rem; color: #666; text-align: center;">Documento gerado automaticamente por Sanremo LMIV Präzisionssystem • ${new Date().toLocaleDateString('de-DE')}</p>
+      </div>
+    `;
+    preview.innerHTML = html;
+  }
+
+  function generateRecipeTechSheet() {
+    const recipeId = document.getElementById('techRecipeSelect').value;
+    const recipe = state.recipes.find(r => r.id === recipeId);
+    const preview = document.getElementById('techSheetPreview');
+    
+    if (!recipe) {
+      preview.innerHTML = '<p style="color: red;">❌ Bitte wählen Sie ein Rezept.</p>';
+      return;
+    }
+
+    const nutrition = computeRecipeNutrition(recipe);
+    const totalWeight = recipe.items.reduce((s,i)=>s+i.qty,0);
+    const ingredientsList = getWeightSortedIngredients(recipe);
+    const allergensSet = new Set();
+    recipe.items.forEach(item => {
+      const prod = state.products.find(p=>p.id===item.productId);
+      if (prod && prod.allergens) prod.allergens.split(',').forEach(a=>{ let x=a.trim().toUpperCase(); if(x) allergensSet.add(x); });
+    });
+    const allergenText = allergensSet.size ? Array.from(allergensSet).join(', ') : 'Nenhum dos 14 principais alergénios';
+    
+    // Verificar se todos os produtos têm composição 100%
+    let incompleteProducts = [];
+    for (let item of recipe.items) {
+      const prod = state.products.find(p=>p.id===item.productId);
+      if (prod && Math.abs(getProductPercentSum(prod)-100) > 0.1) {
+        incompleteProducts.push(prod.name);
+      }
+    }
+    const isComplete = incompleteProducts.length === 0;
+    
+    const formatNumber = (n) => (n || 0).toFixed(1).replace('.', ',');
+    
+    // Tabela de ingredientes do rezept
+    const itemsTable = recipe.items.map(item => {
+      const prod = state.products.find(p=>p.id===item.productId);
+      const percent = totalWeight ? (item.qty/totalWeight*100).toFixed(1) : 0;
+      return `<tr><td>${prod?.name || '?'}</td><td style="text-align:right">${item.qty.toFixed(1)} g</td><td style="text-align:right">${percent}%</td></tr>`;
+    }).join('');
+    
+    const html = `
+      <div style="font-family: 'Segoe UI', Arial, sans-serif;">
+        <div style="text-align: center; margin-bottom: 20px;">
+          <h1 style="color: #1a5276; margin:0;">🍦 FICHA TÉCNICA - RECEITA</h1>
+          <h2 style="color: #2c3e50; margin:5px 0;">${recipe.name}</h2>
+          <p style="color: #666;">${recipe.legalName} | Embalagem: ${recipe.packaging} g</p>
+          <p style="color: ${isComplete ? 'green' : 'orange'}; font-size:0.85rem;">${isComplete ? '✅ Todos os produtos com composição 100%' : '⚠️ Atenção: Produtos sem composição 100%: ' + incompleteProducts.join(', ')}</p>
+        </div>
+
+        <h3>📦 Lista de Ingredientes (por ordem decrescente de peso)</h3>
+        <p style="font-size:0.9rem;">${ingredientsList.length ? ingredientsList.join(', ') : '❌ Não foi possível gerar lista - verificar composição 100% dos produtos'}</p>
+        <p><strong>Alergénios:</strong> ${allergenText}</p>
+
+        <h3>📊 Composição da Receita (peso total: ${totalWeight.toFixed(1)} g)</h3>
+        <table style="width:100%; border-collapse:collapse;">
+          <thead><tr style="background:#e8f0fe;"><th>Produto</th><th>Quantidade (g)</th><th>Percentagem</th></tr></thead>
+          <tbody>${itemsTable}</tbody>
+        </table>
+
+        <h3>📈 Valores Nutricionais (por 100g de produto final)</h3>
+        ${nutrition ? `
+        <table style="width:100%; border-collapse:collapse;">
+          <tr><td style="width:60%"><strong>Energia</strong></td><td style="text-align:right">${formatNumber(nutrition.kj)} kJ / ${formatNumber(nutrition.kcal)} kcal</td></tr>
+          <tr><td><strong>Lípidos (gorduras)</strong></td><td style="text-align:right">${formatNumber(nutrition.fat)} g</td></tr>
+          <tr><td style="padding-left:20px">dos quais saturados</td><td style="text-align:right">${formatNumber(nutrition.sat)} g</td></tr>
+          <tr><td><strong>Hidratos de carbono</strong></td><td style="text-align:right">${formatNumber(nutrition.carb)} g</td></tr>
+          <tr><td style="padding-left:20px">dos quais açúcares</td><td style="text-align:right">${formatNumber(nutrition.sugar)} g</td></tr>
+          <tr><td><strong>Proteínas</strong></td><td style="text-align:right">${formatNumber(nutrition.protein)} g</td></tr>
+          <tr><td><strong>Sal</strong></td><td style="text-align:right">${formatNumber(nutrition.salt)} g</td></tr>
+        </table>
+        ` : '<p style="color:red;">Erro no cálculo dos valores nutricionais</p>'}
+
+        <h3>🏭 Informações de Rotulagem (LMIV)</h3>
+        <table style="width:100%">
+          <tr><td style="width:40%"><strong>Verkehrsbezeichnung</strong></td><td>${recipe.legalName}</td></tr>
+          <tr><td><strong>Aufbewahrung</strong></td><td>${recipe.storage}</td></tr>
+          <tr><td><strong>Hersteller</strong></td><td>${recipe.manufacturer}</td></tr>
+          <tr><td><strong>MHD / Los</strong></td><td>${recipe.mhd}</td></tr>
+          <tr><td><strong>Inhalt</strong></td><td>${recipe.packaging} g</td></tr>
+        </table>
+
+        <hr>
+        <p style="font-size: 0.7rem; color: #666; text-align: center;">Documento gerado automaticamente por Sanremo LMIV Präzisionssystem • ${new Date().toLocaleDateString('de-DE')}</p>
+        <p style="font-size: 0.7rem; color: #666; text-align: center;">LMIV Art. 18 Abs. 2 – Zutaten nach absteigendem Gewichtsanteil</p>
+      </div>
+    `;
+    preview.innerHTML = html;
+  }
+
+  function printTechSheet() {
+    const content = document.getElementById('techSheetPreview').innerHTML;
+    if (!content || content.includes('Bitte wählen Sie')) {
+      alert('Bitte zuerst eine Ficha Técnica generieren.');
+      return;
+    }
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
+      <html>
+        <head><title>Ficha Técnica</title>
+        <style>
+          body { font-family: 'Segoe UI', Arial, sans-serif; padding: 2rem; margin: 0; }
+          table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+          th, td { border: 1px solid #ccc; padding: 0.5rem; }
+          th { background: #e8f0fe; }
+          hr { margin: 2rem 0; }
+        </style>
+        </head>
+        <body>${content}</body>
+      </html>
+    `);
+    printWindow.document.close();
+    printWindow.print();
   }
 
   // Rezept auf LMIV prüfen
@@ -733,6 +994,9 @@
     prodSelect.innerHTML = '<option value="">Produkt wählen</option>' + state.products.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
     document.getElementById('labelRecipeSelect').innerHTML = '<option value="">Rezept wählen</option>' + state.recipes.map(r=>`<option value="${r.id}">${r.name}</option>`).join('');
     document.getElementById('validationSelect').innerHTML = '<option value="">Rezept wählen</option>' + state.recipes.map(r=>`<option value="${r.id}">${r.name}</option>`).join('');
+    // Fichas Técnicas selects
+    document.getElementById('techProductSelect').innerHTML = '<option value="">Produkt wählen</option>' + state.products.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
+    document.getElementById('techRecipeSelect').innerHTML = '<option value="">Rezept wählen</option>' + state.recipes.map(r=>`<option value="${r.id}">${r.name}</option>`).join('');
   }
   window.editRecipe = (id) => {
     const r = state.recipes.find(rr=>rr.id===id);
