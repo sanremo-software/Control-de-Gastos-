@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Sanremo LMIV Professional – Rezepturen & Etiketten</title>
+  <title>Sanremo LMIV Professional – Ihre Rezepte & Etiketten</title>
   <style>
     * {
       margin: 0;
@@ -348,7 +348,7 @@
 <body>
 <div class="app-header">
   <h1>🍦 Sanremo LMIV Präzisionssystem</h1>
-  <p>100% gewichtsbasierte Zutatenliste • LMIV-konforme Etiketten • Nährwerte pro 100g • Professionelle Rezeptverwaltung • Technische Datenblätter • <span style="color:#2ecc71">✅ AUTOMATISCHE SORTIERUNG (größter % zuerst)</span></p>
+  <p>100% gewichtsbasierte Zutatenliste • LMIV-konforme Etiketten • Nährwerte pro 100g • Professionelle Rezeptverwaltung • <span style="color:#2ecc71">✅ Ihre Produkte & Rezepte</span></p>
 </div>
 <div class="layout">
   <div class="sidebar">
@@ -376,7 +376,7 @@
             <div><span class="pill success">✓ Produkte mit 100% Struktur</span> <span class="pill success">✓ Automatische Allergene</span></div>
             <div><span class="pill success">✓ Nährwerte pro 100g</span> <span class="pill success">✓ Zutaten nach Gewicht</span></div>
           </div>
-          <div class="pill info" style="margin-top: 0.5rem;">🔄 NEU: Zutaten werden automatisch sortiert (größter % zuerst)</div>
+          <div class="pill info" style="margin-top: 0.5rem;">🔄 Zutaten werden automatisch sortiert (größter % zuerst)</div>
         </div>
         <div class="card col-span-4">
           <h3>📊 Statistik</h3>
@@ -461,8 +461,8 @@
         <div class="card col-span-5">
           <h2>🍨 Rezept erstellen</h2>
           <input type="hidden" id="editRecipeId">
-          <label>Rezeptname</label><input id="recipeName" placeholder="z.B. Stracciatella 250g">
-          <label>Verkehrsbezeichnung (LMIV)</label><input id="recipeLegal" placeholder="Milcheis mit Schokolade">
+          <label>Rezeptname</label><input id="recipeName" placeholder="z.B. Milchspeiseeis mit Amarena">
+          <label>Verkehrsbezeichnung (LMIV)</label><input id="recipeLegal" placeholder="Milcheis mit Amarena-Kirschen">
           <label>Verpackungsgröße (g)</label><select id="recipePackaging"><option>170</option><option>250</option><option>500</option><option>750</option><option>1000</option><option>2000</option></select>
           <label>Aufbewahrungshinweis</label><input id="recipeStorage" value="Bei -18°C lagern. Nach Auftauen nicht wieder einfrieren.">
           <label>Hersteller (Adresse)</label><input id="recipeManufacturer" value="Eiscafé Sanremo, Musterstr. 1, 57319 Bad Berleburg">
@@ -558,17 +558,21 @@
     recipeDraft: []
   };
 
-  // Beispiel-Produkte mit 100% Struktur (inkl. YOGHIN GERMANIA)
+  // ============================================================
+  // IHRE PRODUKTE - bereits mit 100% Zusammensetzung
+  // ============================================================
   const defaultProducts = [
-    { id: 'p1', name: 'Frische Vollmilch 3.5%', category: 'Milchprodukt', allergens: 'MILCH', nutrition: { kj:265, kcal:64, fat:3.5, sat:2.3, carb:4.8, sugar:4.8, protein:3.4, salt:0.1 }, composition: [{ id:'c1', name:'Frische Vollmilch', percent:100 }] },
-    { id: 'p2', name: 'Weißer Zucker', category: 'Süße', allergens: '', nutrition: { kj:1700, kcal:400, fat:0, sat:0, carb:100, sugar:100, protein:0, salt:0 }, composition: [{ id:'c2', name:'Rohrzucker', percent:100 }] },
-    { id: 'p3', name: 'Schlagsahne 30%', category: 'Milchprodukt', allergens: 'MILCH', nutrition: { kj:1250, kcal:300, fat:30, sat:19, carb:3, sugar:3, protein:2, salt:0.08 }, composition: [{ id:'c3', name:'Schlagsahne', percent:100 }] },
-    { id: 'p4', name: 'Magermilchpulver', category: 'Pulver', allergens: 'MILCH', nutrition: { kj:1480, kcal:354, fat:0.8, sat:0.5, carb:52, sugar:52, protein:35, salt:1.1 }, composition: [{ id:'c4', name:'Magermilchpulver', percent:100 }] },
-    { id: 'p5', name: 'Amarena Kirschpüree', category: 'Frucht', allergens: '', nutrition: { kj:420, kcal:100, fat:0.2, sat:0, carb:24, sugar:22, protein:0.5, salt:0.01 }, composition: [{ id:'c5a', name:'Amarenakirschen', percent:85 }, { id:'c5b', name:'Zucker', percent:14 }, { id:'c5c', name:'Kirschsaft', percent:1 }] },
-    { id: 'p6', name: 'YOGHIN GERMANIA', category: 'Pulver', allergens: 'MILCH, SOJA, EI, MANDELN, HASELNÜSSE, WALNÜSSE, PISTAZIEN, ERDNÜSSE, SESAMSAMEN', nutrition: { kj:1827.1, kcal:362.9, fat:0.6, sat:0.2, carb:77.6, sugar:40.2, protein:17.9, salt:0.53 }, composition: [] }
+    { id: 'p_milch', name: 'MILCH', category: 'Milchprodukt', allergens: 'MILCH', nutrition: { kj:265, kcal:64, fat:3.5, sat:2.3, carb:4.8, sugar:4.8, protein:3.4, salt:0.1 }, composition: [{ id:'c1', name:'MILCH', percent:100 }] },
+    { id: 'p_dextrose', name: 'Dextrose', category: 'Pulver', allergens: '', nutrition: { kj:1570, kcal:370, fat:0, sat:0, carb:100, sugar:100, protein:0, salt:0 }, composition: [{ id:'c2', name:'Dextrose', percent:100 }] },
+    { id: 'p_sanhe', name: 'SANHE', category: 'Milchprodukt', allergens: 'MILCH', nutrition: { kj:1320, kcal:314, fat:33, sat:20, carb:3, sugar:2, protein:2, salt:0 }, composition: [{ id:'c3', name:'SANHE', percent:100 }] },
+    { id: 'p_magermilch', name: 'MAGERMILCHPULVER', category: 'Pulver', allergens: 'MILCH', nutrition: { kj:1480, kcal:354, fat:0.8, sat:0.5, carb:52, sugar:52, protein:35, salt:1.1 }, composition: [{ id:'c4', name:'MAGERMILCHPULVER', percent:100 }] },
+    { id: 'p_glukosepulver', name: 'Glukosepulver', category: 'Pulver', allergens: '', nutrition: { kj:1570, kcal:370, fat:0, sat:0, carb:100, sugar:100, protein:0, salt:0 }, composition: [{ id:'c5', name:'Glukosepulver', percent:100 }] },
+    { id: 'p_zucker', name: 'Zucker', category: 'Süße', allergens: '', nutrition: { kj:1700, kcal:400, fat:0, sat:0, carb:100, sugar:100, protein:0, salt:0 }, composition: [{ id:'c6', name:'Zucker', percent:100 }] },
+    { id: 'p_glukosesirup', name: 'Glukosesirup', category: 'Süße', allergens: '', nutrition: { kj:1570, kcal:370, fat:0, sat:0, carb:100, sugar:100, protein:0, salt:0 }, composition: [{ id:'c7', name:'Glukosesirup', percent:100 }] },
+    { id: 'p_pflanzenfette', name: 'Pflanzenfette (Palm, Kokos)', category: 'Fett', allergens: '', nutrition: { kj:3700, kcal:900, fat:100, sat:85, carb:0, sugar:0, protein:0, salt:0 }, composition: [{ id:'c8', name:'Pflanzenfette (Palm, Kokos)', percent:100 }] }
   ];
 
-  // ----- NEU: Sortierfunktion für Produkte (größter % zuerst) -----
+  // ----- Sortierfunktion für Produkte (größter % zuerst) -----
   function sortProductComposition(prod) {
     if (prod.composition && prod.composition.length > 0) {
       prod.composition.sort((a, b) => b.percent - a.percent);
@@ -590,20 +594,16 @@
     state.products.forEach(p => { 
       if (!p.composition) p.composition = []; 
       if (!p.nutrition) p.nutrition = { kj:0,kcal:0,fat:0,sat:0,carb:0,sugar:0,protein:0,salt:0 };
-      // Auto-sortiere jedes Produkt beim Laden
       sortProductComposition(p);
     });
+    // KEINE BEISPIEL-RECEITA MEHR!
     if (!state.recipes.length) {
-      state.recipes = [{
-        id: 'rec1', name: 'Amarena Eis 250g', legalName: 'Milchspeiseeis mit Amarena-Kirschen', packaging: '250', storage: 'Bei -18°C lagern', manufacturer: 'Eiscafé Sanremo, Musterstr. 1, 57319 Bad Berleburg', mhd: 'MHD siehe Deckel',
-        items: [{ id:'ri1', productId:'p1', qty:150 }, { id:'ri2', productId:'p2', qty:45 }, { id:'ri3', productId:'p3', qty:40 }, { id:'ri4', productId:'p5', qty:15 }]
-      }];
+      state.recipes = [];
     }
     if (!state.recipeDraft) state.recipeDraft = [];
   }
 
   function saveState() { 
-    // Vor dem Speichern: Alle Produkte sortieren
     state.products.forEach(p => sortProductComposition(p));
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); 
     renderAll(); 
@@ -672,13 +672,12 @@
 
     const sumPerc = getProductPercentSum(product);
     const isComplete = Math.abs(sumPerc - 100) < 0.1;
-    // Sortierte Anzeige (falls nicht schon sortiert)
     const sortedComp = [...product.composition].sort((a,b)=>b.percent - a.percent);
     const compRows = sortedComp.length ? sortedComp.map(c => `
       <tr>
         <td>${c.name}</td>
         <td style="text-align:right">${c.percent.toFixed(2)}%</td>
-      </table>
+      </tr>
     `).join('') : '<tr><td colspan="2" style="color:orange;">⚠️ Keine Zusammensetzung definiert (100% Regel nicht erfüllt)</td></tr>';
 
     const formatNumber = (n) => (n || 0).toFixed(1).replace('.', ',');
@@ -720,7 +719,7 @@
         <h3>🏭 Zusätzliche Informationen</h3>
         <table style="width:100%">
           <tr><td style="width:40%"><strong>LMIV-Kategorie</strong></td><td>${product.category}</td></tr>
-          <tr><td><strong>100% Validierung</strong></td><td>${isComplete ? '✅ Ja (Summe = 100%)' : '❌ Nein (Summe = ' + sumPerc.toFixed(1) + '%) - Korrigieren in der Sektion "Produkte"'}</td></tr>
+          <tr><td><strong>100% Validierung</strong></td><td>${isComplete ? '✅ Ja (Summe = 100%)' : '❌ Nein (Summe = ' + sumPerc.toFixed(1) + '%)'}</td></tr>
         </table>
         <hr>
         <p style="font-size: 0.7rem; color: #666; text-align: center;">Dokument automatisch generiert von Sanremo LMIV Präzisionssystem • ${new Date().toLocaleDateString('de-DE')}</p>
@@ -927,7 +926,6 @@
     if (!prod) { div.innerHTML = ''; document.getElementById('productPercentFill').style.width = '0%'; return; }
     const sum = getProductPercentSum(prod);
     document.getElementById('productPercentFill').style.width = Math.min(100, sum) + '%';
-    // Sortiere für die Anzeige nach Prozent (größte zuerst)
     const sorted = [...prod.composition].sort((a,b) => b.percent - a.percent);
     div.innerHTML = sorted.map(c => `<div style="display:flex; justify-content:space-between; margin:4px 0;"><span>${c.name}</span><span>${c.percent.toFixed(2)}% <button class="danger" style="padding:0 6px; margin:0;" onclick="removeCompFromCurrent('${c.id}')">X</button></span></div>`).join('');
   }
@@ -948,7 +946,6 @@
     if (!name || percent === 0) { alert("Zutat und Prozent eingeben"); return; }
     if (!prod.composition) prod.composition = [];
     prod.composition.push({ id: uid(), name, percent });
-    // Nach dem Hinzufügen: Sortieren
     sortProductComposition(prod);
     document.getElementById('compName').value = '';
     document.getElementById('compPercent').value = '';
@@ -1005,7 +1002,6 @@
     } else {
       state.products.push(prod);
     }
-    // Sortiere das Produkt vor dem Speichern
     sortProductComposition(prod);
     clearProductForm();
     saveState();
