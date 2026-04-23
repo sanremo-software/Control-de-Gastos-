@@ -2,8 +2,8 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Sanremo LMIV Präzisionssystem</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sanremo LMIV Präzisionssystem – Vollversion</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -57,7 +57,7 @@
     }
 
     .sidebar {
-      width: 300px;
+      width: 320px;
       background: var(--surface);
       border-right: 1px solid var(--border);
       padding: 1.5rem 1rem;
@@ -136,7 +136,6 @@
       font-size: 1.35rem;
       font-weight: 600;
       margin-bottom: 1rem;
-      letter-spacing: -0.3px;
     }
 
     h3 {
@@ -179,7 +178,6 @@
       padding: 0.55rem 1.15rem;
       border-radius: 10px;
       cursor: pointer;
-      transition: 0.1s;
       color: #052e16;
       font-size: 0.85rem;
       margin-right: 0.5rem;
@@ -224,6 +222,7 @@
       padding: 0.2rem 0.5rem;
       border-radius: 20px;
       font-size: 0.7rem;
+      margin-left: 4px;
     }
 
     .two-col {
@@ -256,16 +255,20 @@
     }
 
     .preview-box {
-      background: #fefefe;
+      background: #fff;
       color: #111;
       border-radius: 14px;
       padding: 1.2rem;
-      font-family: "Courier New", monospace;
+      font-family: "Segoe UI", Arial, sans-serif;
       white-space: pre-wrap;
-      font-size: 0.85rem;
-      line-height: 1.45;
+      font-size: 0.9rem;
+      line-height: 1.5;
       border: 1px solid #ccc;
-      min-height: 280px;
+      min-height: 320px;
+    }
+
+    .preview-box strong {
+      font-weight: 800;
     }
 
     .tech-sheet {
@@ -279,42 +282,18 @@
       min-height: 350px;
     }
 
-    .tech-sheet h1, .tech-sheet h2, .tech-sheet h3 {
-      color: #1a5276;
-    }
+    .tech-sheet h1, .tech-sheet h2, .tech-sheet h3 { color: #1a5276; }
+    .tech-sheet h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .tech-sheet h2 { font-size: 1.2rem; margin-top: 1rem; border-bottom: 2px solid #2ecc71; padding-bottom: 0.35rem; }
+    .tech-sheet h3 { font-size: 1rem; margin-top: 1rem; }
 
-    .tech-sheet h1 {
-      font-size: 1.5rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .tech-sheet h2 {
-      font-size: 1.2rem;
-      margin-top: 1rem;
-      border-bottom: 2px solid #2ecc71;
-      padding-bottom: 0.35rem;
-    }
-
-    .tech-sheet h3 {
-      font-size: 1rem;
-      margin-top: 1rem;
-    }
-
-    .tech-sheet table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 0.5rem;
-    }
-
+    .tech-sheet table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
     .tech-sheet th, .tech-sheet td {
       border: 1px solid #ccc;
       padding: 0.45rem;
       color: #111;
     }
-
-    .tech-sheet th {
-      background: #e8f0fe;
-    }
+    .tech-sheet th { background: #e8f0fe; }
 
     .progress-bar {
       background: var(--border);
@@ -337,13 +316,21 @@
       margin-top: 0.35rem;
     }
 
+    .muted {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    .printable-label {
+      font-family: Arial, sans-serif;
+      color: #111;
+      line-height: 1.45;
+      font-size: 13px;
+    }
+
     @media print {
-      body * {
-        visibility: hidden;
-      }
-      .printable, .printable * {
-        visibility: visible;
-      }
+      body * { visibility: hidden; }
+      .printable, .printable * { visibility: visible; }
       .printable {
         position: absolute;
         left: 0;
@@ -363,19 +350,15 @@
         border-right: none;
         border-bottom: 1px solid var(--border);
       }
-      .col-span-8, .col-span-7, .col-span-6, .col-span-5, .col-span-4 {
-        grid-column: span 12;
-      }
-      .two-col, .three-col {
-        grid-template-columns: 1fr;
-      }
+      .col-span-8, .col-span-7, .col-span-6, .col-span-5, .col-span-4 { grid-column: span 12; }
+      .two-col, .three-col { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
   <div class="app-header">
     <h1>🍦 Sanremo LMIV Präzisionssystem</h1>
-    <p>Rekursive Zutatenauflösung • automatische Allergene • Technische Datenblätter • LMIV-Ausgabe</p>
+    <p>QUID • Allergene in Zutatenliste • Technische Datenblätter • LMIV Etikett</p>
   </div>
 
   <div class="layout">
@@ -389,52 +372,44 @@
       <button class="nav-btn" data-screen="backup">💾 Backup</button>
 
       <div class="card" style="margin-top:1.5rem;">
-        <div style="font-size:0.8rem;">✅ Lógica corrigida</div>
+        <div style="font-size:0.8rem;">✅ Jetzt enthalten</div>
         <div style="font-size:0.75rem; color:var(--text-muted);">
-          Produtos compostos podem referenciar outros produtos. A etiqueta passa a sair pelo peso real total.
+          QUID, zusammengesetzte Zutaten, separate MHD/Lot/Spuren, Allergene im Zutatenverzeichnis.
         </div>
       </div>
     </div>
 
     <div class="main">
-      <!-- DASHBOARD -->
       <section id="dashboard" class="screen active">
         <div class="grid">
           <div class="card col-span-12">
-            <h2>Estado do sistema</h2>
-            <div class="pill success">Ingredientes compostos</div>
-            <div class="pill success">Alergénios automáticos</div>
+            <h2>Systemstatus</h2>
+            <div class="pill success">QUID automatisch</div>
+            <div class="pill success">Allergene fett in Zutatenliste</div>
+            <div class="pill success">Zusammengesetzte Zutaten mit Klammern</div>
             <div class="pill success">Ficha técnica produto</div>
             <div class="pill success">Ficha técnica receita</div>
             <div class="pill success">Etikett LMIV</div>
-            <p style="margin-top:1rem;">
-              Este sistema separa melhor Rohstoffe simples e produtos compostos. A Zutatenliste deixa de depender apenas de nomes escritos à mão.
-            </p>
+            <p style="margin-top:1rem;">Este sistema está montado para trabalhar melhor com produtos simples e compostos. Quanto mais correta estiver a estrutura dos teus produtos, melhor sai a etiqueta.</p>
           </div>
+          <div class="card col-span-4"><h3>📊 Estatística</h3><div id="statsArea"></div></div>
           <div class="card col-span-4">
-            <h3>📊 Estatística</h3>
-            <div id="statsArea"></div>
-          </div>
-          <div class="card col-span-4">
-            <h3>📌 Fluxo correto</h3>
+            <h3>📌 Fluxo certo</h3>
             <ol style="margin-left:1.2rem;">
-              <li>Criar Rohstoffe</li>
-              <li>Criar produtos compostos</li>
-              <li>Criar receita final em gramas</li>
+              <li>Criar Rohstoffe simples</li>
+              <li>Criar compostos (base, pasta, variegato, glasur)</li>
+              <li>Criar receita final</li>
               <li>Validar</li>
               <li>Gerar ficha técnica ou etiqueta</li>
             </ol>
           </div>
           <div class="card col-span-4">
-            <h3>⚠️ Ponto crítico</h3>
-            <p>
-              Se meteres composições como texto livre sem referência a produtos, a qualidade da etiqueta cai. Continua a funcionar, mas menos sólido.
-            </p>
+            <h3>⚠️ Atenção</h3>
+            <p>Se meteres tudo como texto livre e sem ligações entre produtos, o programa funciona, mas a qualidade legal baixa.</p>
           </div>
         </div>
       </section>
 
-      <!-- PRODUCTS -->
       <section id="products" class="screen">
         <div class="grid">
           <div class="card col-span-5">
@@ -442,7 +417,7 @@
             <input type="hidden" id="editProductId" />
 
             <label>Nome interno</label>
-            <input id="prodName" placeholder="z.B. Base Soave" />
+            <input id="prodName" placeholder="z.B. Base Weiß" />
 
             <label>Nome para declaração</label>
             <input id="prodDeclName" placeholder="z.B. Kakaofettglasur" />
@@ -472,71 +447,60 @@
             </div>
 
             <label>Alergénios diretos</label>
-            <input id="prodAllergens" placeholder="MILCH, EI, GLUTEN" />
+            <input id="prodAllergens" placeholder="MILCH, EI, WEIZEN" />
+
+            <label>Kann Spuren enthalten</label>
+            <input id="prodTraceAllergens" placeholder="SOJA, MANDELN, HASELNÜSSE" />
 
             <div class="three-col">
-              <div>
-                <label>kJ / 100g</label>
-                <input id="prodKj" type="number" step="any" />
-              </div>
-              <div>
-                <label>kcal / 100g</label>
-                <input id="prodKcal" type="number" step="any" />
-              </div>
-              <div>
-                <label>Salz (g)</label>
-                <input id="prodSalt" type="number" step="any" />
-              </div>
+              <div><label>kJ / 100g</label><input id="prodKj" type="number" step="any" /></div>
+              <div><label>kcal / 100g</label><input id="prodKcal" type="number" step="any" /></div>
+              <div><label>Salz (g)</label><input id="prodSalt" type="number" step="any" /></div>
             </div>
 
             <div class="three-col">
-              <div>
-                <label>Fett</label>
-                <input id="prodFat" type="number" step="any" />
-              </div>
-              <div>
-                <label>Gesättigt</label>
-                <input id="prodSat" type="number" step="any" />
-              </div>
-              <div>
-                <label>Eiweiß</label>
-                <input id="prodProtein" type="number" step="any" />
-              </div>
+              <div><label>Fett</label><input id="prodFat" type="number" step="any" /></div>
+              <div><label>Gesättigt</label><input id="prodSat" type="number" step="any" /></div>
+              <div><label>Eiweiß</label><input id="prodProtein" type="number" step="any" /></div>
             </div>
 
             <div class="two-col">
-              <div>
-                <label>Kohlenhydrate</label>
-                <input id="prodCarb" type="number" step="any" />
-              </div>
-              <div>
-                <label>Zucker</label>
-                <input id="prodSugar" type="number" step="any" />
-              </div>
+              <div><label>Kohlenhydrate</label><input id="prodCarb" type="number" step="any" /></div>
+              <div><label>Zucker</label><input id="prodSugar" type="number" step="any" /></div>
             </div>
 
             <hr />
             <h3>🧪 Zusammensetzung (100%)</h3>
 
             <label>Subzutat Name</label>
-            <input id="compName" placeholder="z.B. Zucker oder Vollmilch" />
+            <input id="compName" placeholder="z.B. Zucker" />
 
-            <label>Ou referenciar produto já existente</label>
-            <select id="compRefProduct">
-              <option value="">— Kein Produkt verknüpfen —</option>
-            </select>
+            <label>Oder Produkt verknüpfen</label>
+            <select id="compRefProduct"><option value="">— Kein Produkt verknüpfen —</option></select>
 
-            <label>Anteil (%)</label>
-            <input id="compPercent" type="number" step="0.01" />
+            <div class="three-col">
+              <div>
+                <label>Anteil (%)</label>
+                <input id="compPercent" type="number" step="0.01" />
+              </div>
+              <div>
+                <label>QUID relevant?</label>
+                <select id="compQuid">
+                  <option value="false">Nein</option>
+                  <option value="true">Ja</option>
+                </select>
+              </div>
+              <div>
+                <label>QUID Name</label>
+                <input id="compQuidName" placeholder="z.B. Amarena-Kirschen" />
+              </div>
+            </div>
 
             <button onclick="addIngredientToCurrent()">➕ Zutat hinzufügen</button>
             <button class="secondary" onclick="normalizeCurrentProduct()">↺ Normalisieren</button>
             <button class="secondary" onclick="sortCurrentComposition()">🔄 Sortieren</button>
 
-            <div class="progress-bar">
-              <div class="progress-fill" id="productPercentFill"></div>
-            </div>
-
+            <div class="progress-bar"><div class="progress-fill" id="productPercentFill"></div></div>
             <div id="currentCompositionList"></div>
 
             <hr />
@@ -551,7 +515,6 @@
         </div>
       </section>
 
-      <!-- RECIPES -->
       <section id="recipes" class="screen">
         <div class="grid">
           <div class="card col-span-5">
@@ -559,20 +522,31 @@
             <input type="hidden" id="editRecipeId" />
 
             <label>Rezeptname</label>
-            <input id="recipeName" placeholder="z.B. Milchspeiseeis mit Amarena" />
+            <input id="recipeName" placeholder="z.B. Milchspeiseeis Amarena" />
 
             <label>Verkehrsbezeichnung</label>
             <input id="recipeLegal" placeholder="z.B. Milchspeiseeis mit Amarena-Kirschen" />
 
-            <label>Verpackungsgröße (g)</label>
-            <select id="recipePackaging">
-              <option>170</option>
-              <option>250</option>
-              <option>500</option>
-              <option>750</option>
-              <option>1000</option>
-              <option>2000</option>
-            </select>
+            <div class="two-col">
+              <div>
+                <label>Verpackungsgröße (g)</label>
+                <select id="recipePackaging">
+                  <option>170</option>
+                  <option>250</option>
+                  <option>500</option>
+                  <option>750</option>
+                  <option>1000</option>
+                  <option>2000</option>
+                </select>
+              </div>
+              <div>
+                <label>Nettomenge Einheit</label>
+                <select id="recipeNetUnit">
+                  <option value="g">g</option>
+                  <option value="ml">ml</option>
+                </select>
+              </div>
+            </div>
 
             <label>Aufbewahrung</label>
             <input id="recipeStorage" value="Bei -18°C lagern. Nach Auftauen nicht wieder einfrieren." />
@@ -580,8 +554,19 @@
             <label>Hersteller</label>
             <input id="recipeManufacturer" value="Eiscafé Sanremo, Musterstr. 1, 57319 Bad Berleburg" />
 
-            <label>MHD / Los</label>
-            <input id="recipeMhd" value="Mindestens haltbar bis: siehe Deckel. Lot: siehe Deckel." />
+            <div class="two-col">
+              <div>
+                <label>MHD Text</label>
+                <input id="recipeMhd" value="Mindestens haltbar bis: siehe Deckel." />
+              </div>
+              <div>
+                <label>Lot Text</label>
+                <input id="recipeLot" value="Lot: siehe Deckel." />
+              </div>
+            </div>
+
+            <label>Kann Spuren enthalten (für Endprodukt)</label>
+            <input id="recipeTrace" placeholder="z.B. SOJA, MANDELN, HASELNÜSSE" />
 
             <hr />
             <h3>Zutat hinzufügen</h3>
@@ -604,12 +589,8 @@
 
           <div class="card col-span-7">
             <h2>Aktuelle Rezeptpositionen</h2>
-            <div style="max-height:280px; overflow:auto;">
-              <table id="recipeItemsTable"></table>
-            </div>
-
+            <div style="max-height:280px; overflow:auto;"><table id="recipeItemsTable"></table></div>
             <button onclick="saveRecipe()" style="margin-top:12px;">💾 Rezept speichern</button>
-
             <hr />
             <h2>Gespeicherte Rezepte</h2>
             <div id="savedRecipesList"></div>
@@ -617,22 +598,17 @@
         </div>
       </section>
 
-      <!-- TECH SHEETS -->
       <section id="techsheets" class="screen">
         <div class="grid">
           <div class="card col-span-4">
             <h2>Technische Datenblätter</h2>
-
             <label>Produkt wählen</label>
             <select id="techProductSelect"></select>
             <button onclick="generateProductTechSheet()">📄 Produkt-Ficha</button>
-
             <hr />
-
             <label>Rezept wählen</label>
             <select id="techRecipeSelect"></select>
             <button onclick="generateRecipeTechSheet()">🍨 Rezept-Ficha</button>
-
             <hr />
             <button class="secondary" onclick="printTechSheet()">🖨️ Drucken / PDF</button>
           </div>
@@ -646,7 +622,6 @@
         </div>
       </section>
 
-      <!-- LABEL -->
       <section id="labelgen" class="screen">
         <div class="grid">
           <div class="card col-span-4">
@@ -660,12 +635,11 @@
 
           <div class="card col-span-8">
             <h2>LMIV Vorschau</h2>
-            <div class="preview-box" id="labelPreviewText"></div>
+            <div class="preview-box printable printable-label" id="labelPreviewText"></div>
           </div>
         </div>
       </section>
 
-      <!-- VALIDATION -->
       <section id="validation" class="screen">
         <div class="grid">
           <div class="card col-span-4">
@@ -680,7 +654,6 @@
         </div>
       </section>
 
-      <!-- BACKUP -->
       <section id="backup" class="screen">
         <div class="grid">
           <div class="card col-span-6">
@@ -703,7 +676,7 @@
   </div>
 
   <script>
-    const STORAGE_KEY = 'sanremo_lmiv_complete_v1';
+    const STORAGE_KEY = 'sanremo_lmiv_complete_v2';
 
     let state = {
       products: [],
@@ -715,7 +688,7 @@
       'MILCH','EI','GLUTEN','WEIZEN','ROGGEN','GERSTE','HAFER','DINKEL',
       'KREBSTIERE','FISCH','ERDNUSS','SOJA','SCHALENFRÜCHTE','MANDELN',
       'HASELNÜSSE','WALNÜSSE','PISTAZIEN','SELLERIE','SENF','SESAM',
-      'LUPINE','WEICHTIERE','SULFITE'
+      'LUPINE','WEICHTIERE','SULFITE','LAKTOSE'
     ];
 
     const defaultProducts = [
@@ -726,8 +699,9 @@
         declarationName: 'MILCH',
         category: 'Milchprodukt',
         allergens: 'MILCH',
+        traceAllergens: '',
         nutrition: { kj: 265, kcal: 64, fat: 3.5, sat: 2.3, carb: 4.8, sugar: 4.8, protein: 3.4, salt: 0.1 },
-        composition: [{ id: 'c1', name: 'MILCH', refProductId: '', percent: 100 }]
+        composition: [{ id: 'c1', name: 'MILCH', refProductId: '', percent: 100, quidRelevant: false, quidLabel: '' }]
       },
       {
         id: 'p_dextrose',
@@ -736,8 +710,9 @@
         declarationName: 'Dextrose',
         category: 'Pulver',
         allergens: '',
+        traceAllergens: '',
         nutrition: { kj: 1570, kcal: 370, fat: 0, sat: 0, carb: 100, sugar: 100, protein: 0, salt: 0 },
-        composition: [{ id: 'c2', name: 'Dextrose', refProductId: '', percent: 100 }]
+        composition: [{ id: 'c2', name: 'Dextrose', refProductId: '', percent: 100, quidRelevant: false, quidLabel: '' }]
       },
       {
         id: 'p_sahne',
@@ -746,8 +721,9 @@
         declarationName: 'SAHNE',
         category: 'Milchprodukt',
         allergens: 'MILCH',
+        traceAllergens: '',
         nutrition: { kj: 1320, kcal: 314, fat: 33, sat: 20, carb: 3, sugar: 2, protein: 2, salt: 0 },
-        composition: [{ id: 'c3', name: 'SAHNE', refProductId: '', percent: 100 }]
+        composition: [{ id: 'c3', name: 'SAHNE', refProductId: '', percent: 100, quidRelevant: false, quidLabel: '' }]
       },
       {
         id: 'p_magermilch',
@@ -756,8 +732,9 @@
         declarationName: 'MAGERMILCHPULVER',
         category: 'Pulver',
         allergens: 'MILCH',
+        traceAllergens: '',
         nutrition: { kj: 1480, kcal: 354, fat: 0.8, sat: 0.5, carb: 52, sugar: 52, protein: 35, salt: 1.1 },
-        composition: [{ id: 'c4', name: 'MAGERMILCHPULVER', refProductId: '', percent: 100 }]
+        composition: [{ id: 'c4', name: 'MAGERMILCHPULVER', refProductId: '', percent: 100, quidRelevant: false, quidLabel: '' }]
       },
       {
         id: 'p_glukosepulver',
@@ -766,8 +743,9 @@
         declarationName: 'Glukosepulver',
         category: 'Pulver',
         allergens: '',
+        traceAllergens: '',
         nutrition: { kj: 1570, kcal: 370, fat: 0, sat: 0, carb: 100, sugar: 100, protein: 0, salt: 0 },
-        composition: [{ id: 'c5', name: 'Glukosepulver', refProductId: '', percent: 100 }]
+        composition: [{ id: 'c5', name: 'Glukosepulver', refProductId: '', percent: 100, quidRelevant: false, quidLabel: '' }]
       },
       {
         id: 'p_zucker',
@@ -776,8 +754,9 @@
         declarationName: 'Zucker',
         category: 'Süße',
         allergens: '',
+        traceAllergens: '',
         nutrition: { kj: 1700, kcal: 400, fat: 0, sat: 0, carb: 100, sugar: 100, protein: 0, salt: 0 },
-        composition: [{ id: 'c6', name: 'Zucker', refProductId: '', percent: 100 }]
+        composition: [{ id: 'c6', name: 'Zucker', refProductId: '', percent: 100, quidRelevant: false, quidLabel: '' }]
       },
       {
         id: 'p_glukosesirup',
@@ -786,8 +765,9 @@
         declarationName: 'Glukosesirup',
         category: 'Süße',
         allergens: '',
+        traceAllergens: '',
         nutrition: { kj: 1570, kcal: 370, fat: 0, sat: 0, carb: 100, sugar: 100, protein: 0, salt: 0 },
-        composition: [{ id: 'c7', name: 'Glukosesirup', refProductId: '', percent: 100 }]
+        composition: [{ id: 'c7', name: 'Glukosesirup', refProductId: '', percent: 100, quidRelevant: false, quidLabel: '' }]
       }
     ];
 
@@ -798,7 +778,7 @@
     function parseDecimal(v) {
       if (v === undefined || v === null || v === '') return 0;
       const n = parseFloat(String(v).replace(',', '.'));
-      return isNaN(n) ? 0 : parseFloat(n.toFixed(4));
+      return isNaN(n) ? 0 : parseFloat(n.toFixed(6));
     }
 
     function fmtNumber(n, digits = 1) {
@@ -813,6 +793,13 @@
 
     function normalizeText(s) {
       return String(s || '').trim().toUpperCase();
+    }
+
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
     }
 
     function findProduct(id) {
@@ -835,6 +822,10 @@
         .split(',')
         .map(x => normalizeText(x))
         .filter(Boolean);
+    }
+
+    function getTraceAllergensFromText(text) {
+      return (text || '').split(',').map(x => normalizeText(x)).filter(Boolean);
     }
 
     function extractAllergensFromText(text) {
@@ -860,9 +851,7 @@
     function loadState() {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
-        try {
-          state = JSON.parse(raw);
-        } catch (e) {}
+        try { state = JSON.parse(raw); } catch (e) {}
       }
 
       if (!state.products?.length) state.products = JSON.parse(JSON.stringify(defaultProducts));
@@ -874,14 +863,23 @@
         p.declarationName = p.declarationName || p.name;
         p.category = p.category || 'Sonstiges';
         p.allergens = p.allergens || '';
+        p.traceAllergens = p.traceAllergens || '';
         p.nutrition = p.nutrition || { kj:0, kcal:0, fat:0, sat:0, carb:0, sugar:0, protein:0, salt:0 };
         p.composition = (p.composition || []).map(c => ({
           id: c.id || uid(),
           name: c.name || '',
           refProductId: c.refProductId || '',
-          percent: parseDecimal(c.percent)
+          percent: parseDecimal(c.percent),
+          quidRelevant: !!c.quidRelevant,
+          quidLabel: c.quidLabel || ''
         }));
         sortProductComposition(p);
+      });
+
+      state.recipes.forEach(r => {
+        r.netUnit = r.netUnit || 'g';
+        r.traceAllergens = r.traceAllergens || '';
+        r.lot = r.lot || 'Lot: siehe Deckel.';
       });
     }
 
@@ -891,17 +889,31 @@
       renderAll();
     }
 
+    function highlightAllergens(text, allergens) {
+      let out = escapeHtml(text);
+      const unique = [...new Set((allergens || []).filter(Boolean))].sort((a, b) => b.length - a.length);
+      unique.forEach(a => {
+        const re = new RegExp(a.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+        out = out.replace(re, match => `<strong>${match.toUpperCase()}</strong>`);
+      });
+      return out;
+    }
+
+    function resolveLeafPart(name, grams, allergens = []) {
+      return {
+        name,
+        grams,
+        allergens: [...new Set((allergens || []).filter(Boolean))],
+        source: 'leaf'
+      };
+    }
+
     function resolveProductIngredients(productId, grams, visited = new Set()) {
       const prod = findProduct(productId);
       if (!prod || grams <= 0) return [];
 
       if (visited.has(productId)) {
-        return [{
-          name: `[ZYKLUS:${prod.declarationName || prod.name}]`,
-          grams,
-          allergens: [],
-          source: 'cycle'
-        }];
+        return [resolveLeafPart(`[ZYKLUS:${prod.declarationName || prod.name}]`, grams, [])];
       }
 
       const nextVisited = new Set(visited);
@@ -910,48 +922,30 @@
       const meaningfulCompound = isMeaningfulCompound(prod) && Math.abs(getProductPercentSum(prod) - 100) < 0.1;
 
       if (!meaningfulCompound) {
-        return [{
-          name: prod.declarationName || prod.name,
-          grams,
-          allergens: getDirectAllergens(prod),
-          source: 'leaf',
-          productId
-        }];
+        const allA = [...new Set([...getDirectAllergens(prod), ...extractAllergensFromText(prod.declarationName || prod.name)])];
+        return [resolveLeafPart(prod.declarationName || prod.name, grams, allA)];
       }
 
       const out = [];
-
       for (const comp of prod.composition) {
         const childGrams = grams * (parseDecimal(comp.percent) / 100);
-
         if (comp.refProductId) {
           out.push(...resolveProductIngredients(comp.refProductId, childGrams, nextVisited));
         } else {
-          out.push({
-            name: comp.name,
-            grams: childGrams,
-            allergens: extractAllergensFromText(comp.name),
-            source: 'text'
-          });
+          out.push(resolveLeafPart(comp.name, childGrams, extractAllergensFromText(comp.name)));
         }
       }
-
       return out;
     }
 
     function aggregateRecipeIngredients(recipe) {
       const map = new Map();
-
       for (const item of recipe.items || []) {
         const resolved = resolveProductIngredients(item.productId, parseDecimal(item.qty));
         for (const part of resolved) {
           const key = normalizeText(part.name);
           if (!map.has(key)) {
-            map.set(key, {
-              name: part.name,
-              grams: 0,
-              allergens: new Set()
-            });
+            map.set(key, { name: part.name, grams: 0, allergens: new Set() });
           }
           const slot = map.get(key);
           slot.grams += parseDecimal(part.grams);
@@ -960,24 +954,27 @@
       }
 
       return Array.from(map.values())
-        .map(x => ({
-          name: x.name,
-          grams: parseFloat(x.grams.toFixed(4)),
-          allergens: Array.from(x.allergens)
-        }))
+        .map(x => ({ name: x.name, grams: parseFloat(x.grams.toFixed(6)), allergens: Array.from(x.allergens) }))
         .sort((a, b) => b.grams - a.grams);
     }
 
     function getRecipeAllergens(recipe) {
       const set = new Set();
-
       for (const item of recipe.items || []) {
         const resolved = resolveProductIngredients(item.productId, parseDecimal(item.qty));
-        for (const part of resolved) {
-          (part.allergens || []).forEach(a => set.add(a));
-        }
+        for (const part of resolved) (part.allergens || []).forEach(a => set.add(a));
       }
+      return Array.from(set);
+    }
 
+    function getRecipeTraceAllergens(recipe) {
+      const set = new Set();
+      (recipe.traceAllergens || '').split(',').map(x => normalizeText(x)).filter(Boolean).forEach(x => set.add(x));
+      for (const item of recipe.items || []) {
+        const prod = findProduct(item.productId);
+        if (!prod) continue;
+        (prod.traceAllergens || '').split(',').map(x => normalizeText(x)).filter(Boolean).forEach(x => set.add(x));
+      }
       return Array.from(set);
     }
 
@@ -986,8 +983,7 @@
       if (totalWeight <= 0) return null;
 
       const acc = { kj:0, kcal:0, fat:0, sat:0, carb:0, sugar:0, protein:0, salt:0 };
-
-      for (const item of recipe.items) {
+      for (const item of recipe.items || []) {
         const prod = findProduct(item.productId);
         if (!prod) continue;
         const factor = parseDecimal(item.qty) / totalWeight;
@@ -1000,23 +996,134 @@
         acc.protein += parseDecimal(prod.nutrition.protein) * factor;
         acc.salt += parseDecimal(prod.nutrition.salt) * factor;
       }
-
-      Object.keys(acc).forEach(k => acc[k] = parseFloat(acc[k].toFixed(4)));
+      Object.keys(acc).forEach(k => acc[k] = parseFloat(acc[k].toFixed(6)));
       return acc;
+    }
+
+    function computeRecipeQUID(recipe) {
+      const totalWeight = (recipe.items || []).reduce((s, i) => s + parseDecimal(i.qty), 0);
+      if (totalWeight <= 0) return {};
+
+      const quidMap = new Map();
+
+      for (const item of recipe.items || []) {
+        const prod = findProduct(item.productId);
+        if (!prod || !prod.composition?.length) continue;
+
+        for (const comp of prod.composition) {
+          if (!comp.quidRelevant) continue;
+          const g = parseDecimal(item.qty) * (parseDecimal(comp.percent) / 100);
+          const label = (comp.quidLabel || (comp.refProductId ? (findProduct(comp.refProductId)?.declarationName || findProduct(comp.refProductId)?.name) : comp.name) || '').trim();
+          if (!label) continue;
+          quidMap.set(label, (quidMap.get(label) || 0) + g);
+        }
+      }
+
+      const out = {};
+      for (const [label, grams] of quidMap.entries()) {
+        out[label] = parseFloat(((grams / totalWeight) * 100).toFixed(1));
+      }
+      return out;
+    }
+
+    function buildDeclarationNodeFromProduct(productId, grams, visited = new Set()) {
+      const prod = findProduct(productId);
+      if (!prod) return null;
+
+      if (visited.has(productId)) {
+        return { name: `[ZYKLUS:${prod.declarationName || prod.name}]`, grams, allergens: [], children: [] };
+      }
+
+      const nextVisited = new Set(visited);
+      nextVisited.add(productId);
+
+      const meaningfulCompound = isMeaningfulCompound(prod) && Math.abs(getProductPercentSum(prod) - 100) < 0.1;
+
+      if (!meaningfulCompound) {
+        const name = prod.declarationName || prod.name;
+        const allergens = [...new Set([...getDirectAllergens(prod), ...extractAllergensFromText(name)])];
+        return { name, grams, allergens, children: [] };
+      }
+
+      const children = [];
+      let ownAllergens = new Set([...getDirectAllergens(prod), ...extractAllergensFromText(prod.declarationName || prod.name)]);
+
+      for (const comp of prod.composition) {
+        const childGrams = grams * (parseDecimal(comp.percent) / 100);
+        if (comp.refProductId) {
+          const childNode = buildDeclarationNodeFromProduct(comp.refProductId, childGrams, nextVisited);
+          if (childNode) {
+            children.push(childNode);
+            (childNode.allergens || []).forEach(a => ownAllergens.add(a));
+          }
+        } else {
+          const childAllergens = extractAllergensFromText(comp.name);
+          children.push({
+            name: comp.name,
+            grams: childGrams,
+            allergens: childAllergens,
+            children: []
+          });
+          childAllergens.forEach(a => ownAllergens.add(a));
+        }
+      }
+
+      return {
+        name: prod.declarationName || prod.name,
+        grams,
+        allergens: Array.from(ownAllergens),
+        children: children.sort((a, b) => b.grams - a.grams)
+      };
+    }
+
+    function renderDeclarationNode(node, quidMap, topLevel = false) {
+      if (!node) return '';
+      const ownName = highlightAllergens(node.name, node.allergens || []);
+      let suffix = '';
+
+      if (topLevel) {
+        const q = quidMap[node.name];
+        if (typeof q === 'number') suffix = ` (${fmtNumber(q)} %)`;
+      }
+
+      if (!node.children || !node.children.length) {
+        return `${ownName}${suffix}`;
+      }
+
+      const childrenText = node.children.map(ch => renderDeclarationNode(ch, quidMap, false)).join(', ');
+      return `${ownName}${suffix} (${childrenText})`;
+    }
+
+    function buildIngredientsDeclaration(recipe) {
+      const totalWeight = (recipe.items || []).reduce((s, i) => s + parseDecimal(i.qty), 0);
+      if (totalWeight <= 0) return { html: '', text: '' };
+
+      const topNodes = [];
+      const quidMap = computeRecipeQUID(recipe);
+
+      for (const item of recipe.items || []) {
+        const node = buildDeclarationNodeFromProduct(item.productId, parseDecimal(item.qty));
+        if (node) topNodes.push(node);
+      }
+
+      topNodes.sort((a, b) => b.grams - a.grams);
+
+      const html = topNodes.map(node => renderDeclarationNode(node, quidMap, true)).join(', ');
+      const text = html.replace(/<[^>]+>/g, '');
+
+      return { html, text };
     }
 
     function validateRecipeCompliance(recipe) {
       const issues = [];
-
-      if (!recipe) {
-        issues.push({ level: 'error', text: 'Kein Rezept gefunden' });
-        return issues;
-      }
+      if (!recipe) return [{ level: 'error', text: 'Kein Rezept gefunden' }];
 
       if (!recipe.name) issues.push({ level: 'error', text: 'Rezeptname fehlt' });
       if (!recipe.legalName) issues.push({ level: 'error', text: 'Verkehrsbezeichnung fehlt' });
       if (!recipe.storage) issues.push({ level: 'error', text: 'Aufbewahrungshinweis fehlt' });
       if (!recipe.manufacturer) issues.push({ level: 'error', text: 'Hersteller fehlt' });
+      if (!recipe.mhd) issues.push({ level: 'error', text: 'MHD Text fehlt' });
+      if (!recipe.lot) issues.push({ level: 'error', text: 'Lot Text fehlt' });
       if (!recipe.items || recipe.items.length === 0) issues.push({ level: 'error', text: 'Keine Zutaten im Rezept' });
 
       const incomplete = [];
@@ -1028,93 +1135,64 @@
           incomplete.push('Unbekanntes Produkt');
           continue;
         }
-
         if (isMeaningfulCompound(prod)) {
           const sum = getProductPercentSum(prod);
-          if (Math.abs(sum - 100) > 0.1) {
-            incomplete.push(`${prod.name} (${sum.toFixed(1)}%)`);
-          }
+          if (Math.abs(sum - 100) > 0.1) incomplete.push(`${prod.name} (${sum.toFixed(1)}%)`);
         }
-
         const resolved = resolveProductIngredients(item.productId, parseDecimal(item.qty));
-        if (resolved.some(x => String(x.name).startsWith('[ZYKLUS:'))) {
-          cyclic.push(prod.name);
-        }
+        if (resolved.some(x => String(x.name).startsWith('[ZYKLUS:'))) cyclic.push(prod.name);
       }
 
-      if (incomplete.length) {
-        issues.push({ level: 'error', text: `Produkte ohne 100%-Struktur: ${incomplete.join(', ')}` });
-      }
+      if (incomplete.length) issues.push({ level:'error', text:`Produkte ohne 100%-Struktur: ${incomplete.join(', ')}` });
+      if (cyclic.length) issues.push({ level:'error', text:`Zyklus erkannt: ${[...new Set(cyclic)].join(', ')}` });
 
-      if (cyclic.length) {
-        issues.push({ level: 'error', text: `Zyklus in Produktstruktur erkannt: ${[...new Set(cyclic)].join(', ')}` });
-      }
+      const dec = buildIngredientsDeclaration(recipe);
+      if (!dec.text) issues.push({ level:'error', text:'Zutatenliste konnte nicht erzeugt werden' });
 
-      const ingredients = aggregateRecipeIngredients(recipe);
-      if (!ingredients.length) {
-        issues.push({ level: 'error', text: 'Zutatenliste konnte nicht erzeugt werden' });
-      }
-
-      if (issues.length === 0) {
-        issues.push({ level: 'success', text: '✅ Rezept strukturell freigegeben' });
-      }
-
+      if (issues.length === 0) issues.push({ level:'success', text:'✅ Rezept strukturell freigegeben' });
       return issues;
     }
 
-    function generateLMIVLabel(recipe) {
+    function generateLMIVLabelHtml(recipe) {
       const issues = validateRecipeCompliance(recipe).filter(x => x.level === 'error');
       if (issues.length) {
-        return '❌ Etikettierung blockiert:\n- ' + issues.map(x => x.text).join('\n- ');
+        return `<div style="color:#b00020;"><strong>❌ Etikettierung blockiert:</strong><br>${issues.map(x => '• ' + escapeHtml(x.text)).join('<br>')}</div>`;
       }
 
       const nutrition = computeRecipeNutrition(recipe);
-      if (!nutrition) return 'Fehler bei der Nährwertberechnung.';
-
-      const ingredients = aggregateRecipeIngredients(recipe);
+      const ingredients = buildIngredientsDeclaration(recipe);
       const allergens = getRecipeAllergens(recipe);
+      const traces = getRecipeTraceAllergens(recipe);
+      const net = `${recipe.packaging} ${recipe.netUnit || 'g'}`;
 
-      const ingredientText = ingredients.map(x => x.name).join(', ');
-      const allergenText = allergens.length ? `Allergene: ${allergens.join(', ')}.` : 'Keine der 14 Hauptallergene enthalten.';
-
-      return `${recipe.legalName}
-
-Zutaten: ${ingredientText}. ${allergenText}
-
-Nährwerte pro 100g:
-Energie ${fmtNumber(nutrition.kj)} kJ / ${fmtNumber(nutrition.kcal)} kcal
-Fett ${fmtNumber(nutrition.fat)} g (davon gesättigte Fettsäuren ${fmtNumber(nutrition.sat)} g)
-Kohlenhydrate ${fmtNumber(nutrition.carb)} g (davon Zucker ${fmtNumber(nutrition.sugar)} g)
-Eiweiß ${fmtNumber(nutrition.protein)} g
-Salz ${fmtSalt(nutrition.salt)} g
-
-Inhalt: ${recipe.packaging} g
-${recipe.storage}
-${recipe.mhd}
-Hersteller: ${recipe.manufacturer}`;
-    }
-
-    function productStructureText(prod) {
-      if (!prod || !prod.composition?.length) return 'Keine Zusammensetzung definiert';
-
-      return prod.composition
-        .slice()
-        .sort((a, b) => parseDecimal(b.percent) - parseDecimal(a.percent))
-        .map(c => {
-          if (c.refProductId) {
-            const ref = findProduct(c.refProductId);
-            return `${ref ? ref.declarationName || ref.name : c.name} – ${fmtNumber(c.percent, 2)} %`;
-          }
-          return `${c.name} – ${fmtNumber(c.percent, 2)} %`;
-        })
-        .join('\n');
+      return `
+        <div>
+          <div><strong>${escapeHtml(recipe.legalName)}</strong></div>
+          <br>
+          <div><strong>Zutaten:</strong> ${ingredients.html}.</div>
+          ${traces.length ? `<div><strong>Kann Spuren enthalten:</strong> ${escapeHtml(traces.join(', '))}.</div>` : ''}
+          <br>
+          <div><strong>Nährwerte je 100 g:</strong></div>
+          <div>Energie ${fmtNumber(nutrition.kj)} kJ / ${fmtNumber(nutrition.kcal)} kcal</div>
+          <div>Fett ${fmtNumber(nutrition.fat)} g (davon gesättigte Fettsäuren ${fmtNumber(nutrition.sat)} g)</div>
+          <div>Kohlenhydrate ${fmtNumber(nutrition.carb)} g (davon Zucker ${fmtNumber(nutrition.sugar)} g)</div>
+          <div>Eiweiß ${fmtNumber(nutrition.protein)} g</div>
+          <div>Salz ${fmtSalt(nutrition.salt)} g</div>
+          <br>
+          <div><strong>Inhalt:</strong> ${escapeHtml(net)}</div>
+          <div>${escapeHtml(recipe.storage)}</div>
+          <div>${escapeHtml(recipe.mhd)}</div>
+          <div>${escapeHtml(recipe.lot)}</div>
+          <div><strong>Hersteller:</strong> ${escapeHtml(recipe.manufacturer)}</div>
+          ${allergens.length ? `<div class="muted" style="margin-top:8px;">Hauptallergene im Produkt: ${escapeHtml(allergens.join(', '))}</div>` : ''}
+        </div>
+      `;
     }
 
     function generateProductTechSheet() {
       const productId = document.getElementById('techProductSelect').value;
       const prod = findProduct(productId);
       const preview = document.getElementById('techSheetPreview');
-
       if (!prod) {
         preview.innerHTML = '<p style="color:red;">❌ Bitte ein Produkt wählen.</p>';
         return;
@@ -1123,38 +1201,31 @@ Hersteller: ${recipe.manufacturer}`;
       const sum = getProductPercentSum(prod);
       const complete = !isMeaningfulCompound(prod) || Math.abs(sum - 100) < 0.1;
 
-      const rows = (prod.composition || [])
-        .slice()
-        .sort((a, b) => parseDecimal(b.percent) - parseDecimal(a.percent))
-        .map(c => {
-          const ref = c.refProductId ? findProduct(c.refProductId) : null;
-          return `
-            <tr>
-              <td>${ref ? (ref.declarationName || ref.name) : c.name}</td>
-              <td>${c.refProductId ? 'Referenz' : 'Text'}</td>
-              <td style="text-align:right">${fmtNumber(c.percent, 2)} %</td>
-            </tr>
-          `;
-        }).join('') || '<tr><td colspan="3">Keine Zusammensetzung hinterlegt</td></tr>';
+      const rows = (prod.composition || []).slice().sort((a, b) => parseDecimal(b.percent) - parseDecimal(a.percent)).map(c => {
+        const ref = c.refProductId ? findProduct(c.refProductId) : null;
+        return `
+          <tr>
+            <td>${escapeHtml(ref ? (ref.declarationName || ref.name) : c.name)}</td>
+            <td>${c.refProductId ? 'Referenz' : 'Text'}</td>
+            <td style="text-align:right">${fmtNumber(c.percent, 2)} %</td>
+            <td>${c.quidRelevant ? 'Ja' : 'Nein'}</td>
+            <td>${escapeHtml(c.quidLabel || '')}</td>
+          </tr>
+        `;
+      }).join('') || '<tr><td colspan="5">Keine Zusammensetzung hinterlegt</td></tr>';
 
       preview.innerHTML = `
         <div>
           <h1>📄 Technisches Datenblatt – Produkt</h1>
-          <div><strong>Produkt:</strong> ${prod.name}</div>
-          <div><strong>Deklarationsname:</strong> ${prod.declarationName || prod.name}</div>
-          <div><strong>Typ:</strong> ${prod.type}</div>
-          <div><strong>Kategorie:</strong> ${prod.category}</div>
+          <div><strong>Produkt:</strong> ${escapeHtml(prod.name)}</div>
+          <div><strong>Deklarationsname:</strong> ${escapeHtml(prod.declarationName || prod.name)}</div>
+          <div><strong>Typ:</strong> ${escapeHtml(prod.type)}</div>
+          <div><strong>Kategorie:</strong> ${escapeHtml(prod.category)}</div>
           <div><strong>Status Zusammensetzung:</strong> ${complete ? '✅ OK' : '⚠️ ' + fmtNumber(sum, 1) + ' %'}</div>
 
           <h2>Zusammensetzung</h2>
           <table>
-            <thead>
-              <tr>
-                <th>Bestandteil</th>
-                <th>Art</th>
-                <th>Anteil</th>
-              </tr>
-            </thead>
+            <thead><tr><th>Bestandteil</th><th>Art</th><th>Anteil</th><th>QUID</th><th>QUID Name</th></tr></thead>
             <tbody>${rows}</tbody>
           </table>
 
@@ -1170,11 +1241,10 @@ Hersteller: ${recipe.manufacturer}`;
           </table>
 
           <h2>Allergene</h2>
-          <p>${prod.allergens ? prod.allergens : 'Keine direkt gepflegt'}</p>
+          <p><strong>Direkt:</strong> ${escapeHtml(prod.allergens || 'Keine')}</p>
+          <p><strong>Spuren:</strong> ${escapeHtml(prod.traceAllergens || 'Keine')}</p>
 
-          <p style="margin-top:1rem; font-size:0.75rem; color:#666;">
-            Generiert am ${new Date().toLocaleDateString('de-DE')}
-          </p>
+          <p style="margin-top:1rem; font-size:0.75rem; color:#666;">Generiert am ${new Date().toLocaleDateString('de-DE')}</p>
         </div>
       `;
     }
@@ -1183,7 +1253,6 @@ Hersteller: ${recipe.manufacturer}`;
       const recipeId = document.getElementById('techRecipeSelect').value;
       const recipe = state.recipes.find(r => r.id === recipeId);
       const preview = document.getElementById('techSheetPreview');
-
       if (!recipe) {
         preview.innerHTML = '<p style="color:red;">❌ Bitte ein Rezept wählen.</p>';
         return;
@@ -1191,78 +1260,74 @@ Hersteller: ${recipe.manufacturer}`;
 
       const totalWeight = (recipe.items || []).reduce((s, i) => s + parseDecimal(i.qty), 0);
       const nutrition = computeRecipeNutrition(recipe);
-      const ingredients = aggregateRecipeIngredients(recipe);
+      const dec = buildIngredientsDeclaration(recipe);
       const allergens = getRecipeAllergens(recipe);
+      const traces = getRecipeTraceAllergens(recipe);
       const issues = validateRecipeCompliance(recipe);
+      const quidMap = computeRecipeQUID(recipe);
 
       const rows = (recipe.items || []).map(item => {
         const prod = findProduct(item.productId);
         const percent = totalWeight > 0 ? (parseDecimal(item.qty) / totalWeight * 100) : 0;
         return `
           <tr>
-            <td>${prod ? prod.name : 'Unbekannt'}</td>
+            <td>${escapeHtml(prod ? prod.name : 'Unbekannt')}</td>
             <td style="text-align:right">${fmtNumber(item.qty)} g</td>
             <td style="text-align:right">${fmtNumber(percent)} %</td>
           </tr>
         `;
       }).join('');
 
+      const quidRows = Object.entries(quidMap).map(([k, v]) => `<tr><td>${escapeHtml(k)}</td><td>${fmtNumber(v)} %</td></tr>`).join('') || '<tr><td colspan="2">Keine QUID-Angaben berechnet</td></tr>';
+
       preview.innerHTML = `
         <div>
           <h1>🍨 Technisches Datenblatt – Rezept</h1>
-          <div><strong>Rezept:</strong> ${recipe.name}</div>
-          <div><strong>Verkehrsbezeichnung:</strong> ${recipe.legalName}</div>
-          <div><strong>Verpackung:</strong> ${recipe.packaging} g</div>
+          <div><strong>Rezept:</strong> ${escapeHtml(recipe.name)}</div>
+          <div><strong>Verkehrsbezeichnung:</strong> ${escapeHtml(recipe.legalName)}</div>
+          <div><strong>Verpackung:</strong> ${escapeHtml(recipe.packaging)} ${escapeHtml(recipe.netUnit || 'g')}</div>
           <div><strong>Gesamtgewicht Rezeptur:</strong> ${fmtNumber(totalWeight)} g</div>
 
           <h2>Rezeptpositionen</h2>
           <table>
-            <thead>
-              <tr>
-                <th>Produkt</th>
-                <th>Menge</th>
-                <th>Anteil</th>
-              </tr>
-            </thead>
+            <thead><tr><th>Produkt</th><th>Menge</th><th>Anteil</th></tr></thead>
             <tbody>${rows}</tbody>
           </table>
 
-          <h2>Zutatenliste (gewichtsbezogen)</h2>
-          <p>${ingredients.length ? ingredients.map(x => x.name).join(', ') : 'Keine erzeugbar'}</p>
+          <h2>Zutatenliste</h2>
+          <div>${dec.html || 'Keine erzeugbar'}</div>
+
+          <h2>QUID</h2>
+          <table><thead><tr><th>Bestandteil</th><th>Anteil im Endprodukt</th></tr></thead><tbody>${quidRows}</tbody></table>
 
           <h2>Allergene</h2>
-          <p>${allergens.length ? allergens.join(', ') : 'Keine der 14 Hauptallergene enthalten'}</p>
+          <p><strong>Direkt/Hauptallergene:</strong> ${escapeHtml(allergens.length ? allergens.join(', ') : 'Keine')}</p>
+          <p><strong>Spuren:</strong> ${escapeHtml(traces.length ? traces.join(', ') : 'Keine')}</p>
 
           <h2>Nährwerte je 100 g</h2>
-          ${
-            nutrition ? `
-              <table>
-                <tr><td>Energie</td><td>${fmtNumber(nutrition.kj)} kJ / ${fmtNumber(nutrition.kcal)} kcal</td></tr>
-                <tr><td>Fett</td><td>${fmtNumber(nutrition.fat)} g</td></tr>
-                <tr><td>davon gesättigte Fettsäuren</td><td>${fmtNumber(nutrition.sat)} g</td></tr>
-                <tr><td>Kohlenhydrate</td><td>${fmtNumber(nutrition.carb)} g</td></tr>
-                <tr><td>davon Zucker</td><td>${fmtNumber(nutrition.sugar)} g</td></tr>
-                <tr><td>Eiweiß</td><td>${fmtNumber(nutrition.protein)} g</td></tr>
-                <tr><td>Salz</td><td>${fmtSalt(nutrition.salt)} g</td></tr>
-              </table>
-            ` : '<p>Fehler bei der Nährwertberechnung</p>'
-          }
+          ${nutrition ? `
+            <table>
+              <tr><td>Energie</td><td>${fmtNumber(nutrition.kj)} kJ / ${fmtNumber(nutrition.kcal)} kcal</td></tr>
+              <tr><td>Fett</td><td>${fmtNumber(nutrition.fat)} g</td></tr>
+              <tr><td>davon gesättigte Fettsäuren</td><td>${fmtNumber(nutrition.sat)} g</td></tr>
+              <tr><td>Kohlenhydrate</td><td>${fmtNumber(nutrition.carb)} g</td></tr>
+              <tr><td>davon Zucker</td><td>${fmtNumber(nutrition.sugar)} g</td></tr>
+              <tr><td>Eiweiß</td><td>${fmtNumber(nutrition.protein)} g</td></tr>
+              <tr><td>Salz</td><td>${fmtSalt(nutrition.salt)} g</td></tr>
+            </table>` : '<p>Fehler bei der Nährwertberechnung</p>'}
 
           <h2>LMIV Felder</h2>
           <table>
-            <tr><td>Aufbewahrung</td><td>${recipe.storage}</td></tr>
-            <tr><td>Hersteller</td><td>${recipe.manufacturer}</td></tr>
-            <tr><td>MHD / Los</td><td>${recipe.mhd}</td></tr>
+            <tr><td>Aufbewahrung</td><td>${escapeHtml(recipe.storage)}</td></tr>
+            <tr><td>MHD</td><td>${escapeHtml(recipe.mhd)}</td></tr>
+            <tr><td>Lot</td><td>${escapeHtml(recipe.lot)}</td></tr>
+            <tr><td>Hersteller</td><td>${escapeHtml(recipe.manufacturer)}</td></tr>
           </table>
 
           <h2>Validierung</h2>
-          <div>
-            ${issues.map(i => `<div style="margin-bottom:6px;">${i.level === 'error' ? '❌' : '✅'} ${i.text}</div>`).join('')}
-          </div>
+          <div>${issues.map(i => `<div style="margin-bottom:6px;">${i.level === 'error' ? '❌' : '✅'} ${escapeHtml(i.text)}</div>`).join('')}</div>
 
-          <p style="margin-top:1rem; font-size:0.75rem; color:#666;">
-            Generiert am ${new Date().toLocaleDateString('de-DE')}
-          </p>
+          <p style="margin-top:1rem; font-size:0.75rem; color:#666;">Generiert am ${new Date().toLocaleDateString('de-DE')}</p>
         </div>
       `;
     }
@@ -1286,6 +1351,7 @@ Hersteller: ${recipe.manufacturer}`;
               th { background: #e8f0fe; }
               h1 { color: #1a5276; }
               h2 { color: #1a5276; border-bottom: 2px solid #2ecc71; padding-bottom: 4px; margin-top: 22px; }
+              strong { font-weight: 800; }
             </style>
           </head>
           <body>${content}</body>
@@ -1307,12 +1373,13 @@ Hersteller: ${recipe.manufacturer}`;
       document.getElementById('productPercentFill').style.width = Math.min(100, sum) + '%';
 
       const sorted = [...(prod.composition || [])].sort((a, b) => parseDecimal(b.percent) - parseDecimal(a.percent));
-
       div.innerHTML = sorted.map(c => {
         const ref = c.refProductId ? findProduct(c.refProductId) : null;
+        const label = ref ? `${ref.name} ↦ ${ref.declarationName || ref.name}` : c.name;
+        const quid = c.quidRelevant ? ` | QUID: ${escapeHtml(c.quidLabel || label)}` : '';
         return `
           <div style="display:flex; justify-content:space-between; margin:6px 0; gap:10px;">
-            <span>${ref ? (ref.name + ' ↦ ' + (ref.declarationName || ref.name)) : c.name}</span>
+            <span>${escapeHtml(label)}${quid}</span>
             <span>
               ${fmtNumber(c.percent, 2)}%
               <button class="danger" style="padding:0 6px; margin:0;" onclick="removeCompFromCurrent('${c.id}')">X</button>
@@ -1324,7 +1391,6 @@ Hersteller: ${recipe.manufacturer}`;
 
     function renderProductsList() {
       const container = document.getElementById('productsList');
-
       if (!state.products.length) {
         container.innerHTML = '<div class="product-item">Keine Produkte vorhanden.</div>';
         return;
@@ -1333,16 +1399,16 @@ Hersteller: ${recipe.manufacturer}`;
       container.innerHTML = state.products.map(p => {
         const sum = getProductPercentSum(p);
         const ok = !isMeaningfulCompound(p) || Math.abs(sum - 100) < 0.1;
-
         return `
           <div class="product-item">
-            <strong>${p.name}</strong>
-            <span class="badge">${p.type}</span>
-            <span class="badge">${p.category}</span>
+            <strong>${escapeHtml(p.name)}</strong>
+            <span class="badge">${escapeHtml(p.type)}</span>
+            <span class="badge">${escapeHtml(p.category)}</span>
             <span class="pill ${ok ? 'success' : 'warning'}">${ok ? '✅ Struktur OK' : '⚠️ ' + fmtNumber(sum, 1) + '%'}</span>
             <div style="font-size:0.75rem; margin-top:6px;">
-              Deklaration: ${p.declarationName || '—'}<br>
-              Allergene: ${p.allergens || '—'}<br>
+              Deklaration: ${escapeHtml(p.declarationName || '—')}<br>
+              Allergene: ${escapeHtml(p.allergens || '—')}<br>
+              Spuren: ${escapeHtml(p.traceAllergens || '—')}<br>
               Bestandteile: ${(p.composition || []).length}
             </div>
             <div style="margin-top:8px;">
@@ -1359,23 +1425,15 @@ Hersteller: ${recipe.manufacturer}`;
       document.getElementById('recipeTotalWeight').innerHTML = `<strong>Gesamt: ${fmtNumber(total)} g</strong>`;
 
       const table = document.getElementById('recipeItemsTable');
-
       table.innerHTML = `
-        <thead>
-          <tr>
-            <th>Produkt</th>
-            <th>Menge (g)</th>
-            <th>Anteil</th>
-            <th></th>
-          </tr>
-        </thead>
+        <thead><tr><th>Produkt</th><th>Menge (g)</th><th>Anteil</th><th></th></tr></thead>
         <tbody>
           ${state.recipeDraft.map(it => {
             const prod = findProduct(it.productId);
             const percent = total > 0 ? (parseDecimal(it.qty) / total * 100) : 0;
             return `
               <tr>
-                <td>${prod ? prod.name : '?'}</td>
+                <td>${escapeHtml(prod ? prod.name : '?')}</td>
                 <td>${fmtNumber(it.qty)} g</td>
                 <td>${fmtNumber(percent)} %</td>
                 <td><button class="danger" onclick="removeRecipeDraftItem('${it.id}')">X</button></td>
@@ -1388,11 +1446,10 @@ Hersteller: ${recipe.manufacturer}`;
 
     function renderSavedRecipes() {
       const container = document.getElementById('savedRecipesList');
-
       container.innerHTML = state.recipes.map(r => `
         <div class="recipe-item">
-          <strong>${r.name}</strong> (${r.packaging} g)
-          <div style="font-size:0.75rem; margin-top:4px;">${r.legalName}</div>
+          <strong>${escapeHtml(r.name)}</strong> (${escapeHtml(r.packaging)} ${escapeHtml(r.netUnit || 'g')})
+          <div style="font-size:0.75rem; margin-top:4px;">${escapeHtml(r.legalName)}</div>
           <div style="margin-top:8px;">
             <button onclick="editRecipe('${r.id}')">✏️ Bearbeiten</button>
             <button class="danger" onclick="deleteRecipeById('${r.id}')">Löschen</button>
@@ -1400,26 +1457,16 @@ Hersteller: ${recipe.manufacturer}`;
         </div>
       `).join('');
 
-      const productOptions = '<option value="">Produkt wählen</option>' + state.products.map(p =>
-        `<option value="${p.id}">${p.name}</option>`
-      ).join('');
-
-      const productOptionsForComp = '<option value="">— Kein Produkt verknüpfen —</option>' + state.products.map(p =>
-        `<option value="${p.id}">${p.name}</option>`
-      ).join('');
-
-      const recipeOptions = '<option value="">Rezept wählen</option>' + state.recipes.map(r =>
-        `<option value="${r.id}">${r.name}</option>`
-      ).join('');
+      const productOptions = '<option value="">Produkt wählen</option>' + state.products.map(p => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join('');
+      const productOptionsForComp = '<option value="">— Kein Produkt verknüpfen —</option>' + state.products.map(p => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join('');
+      const recipeOptions = '<option value="">Rezept wählen</option>' + state.recipes.map(r => `<option value="${r.id}">${escapeHtml(r.name)}</option>`).join('');
 
       document.getElementById('recipeProductSelect').innerHTML = productOptions;
       document.getElementById('compRefProduct').innerHTML = productOptionsForComp;
       document.getElementById('labelRecipeSelect').innerHTML = recipeOptions;
       document.getElementById('validationSelect').innerHTML = recipeOptions;
       document.getElementById('techRecipeSelect').innerHTML = recipeOptions;
-      document.getElementById('techProductSelect').innerHTML = '<option value="">Produkt wählen</option>' + state.products.map(p =>
-        `<option value="${p.id}">${p.name}</option>`
-      ).join('');
+      document.getElementById('techProductSelect').innerHTML = '<option value="">Produkt wählen</option>' + state.products.map(p => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join('');
     }
 
     function renderStats() {
@@ -1427,9 +1474,8 @@ Hersteller: ${recipe.manufacturer}`;
         <div>📦 ${state.products.length} Produkte</div>
         <div>🍨 ${state.recipes.length} Rezepte</div>
         <div>🧪 ${state.products.filter(p => p.type === 'compound').length} zusammengesetzte Produkte</div>
-        <div>⚖️ LMIV-Modus aktiv</div>
+        <div>⚖️ QUID / LMIV aktiv</div>
       `;
-
       document.getElementById('rawData').textContent = JSON.stringify(state, null, 2);
     }
 
@@ -1443,7 +1489,6 @@ Hersteller: ${recipe.manufacturer}`;
     function switchScreen(id) {
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
       document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-
       document.getElementById(id).classList.add('active');
       document.querySelector(`[data-screen="${id}"]`).classList.add('active');
     }
@@ -1458,6 +1503,7 @@ Hersteller: ${recipe.manufacturer}`;
       document.getElementById('prodType').value = p.type || 'simple';
       document.getElementById('prodCategory').value = p.category || 'Sonstiges';
       document.getElementById('prodAllergens').value = p.allergens || '';
+      document.getElementById('prodTraceAllergens').value = p.traceAllergens || '';
       document.getElementById('prodKj').value = p.nutrition.kj || '';
       document.getElementById('prodKcal').value = p.nutrition.kcal || '';
       document.getElementById('prodFat').value = p.nutrition.fat || '';
@@ -1475,29 +1521,22 @@ Hersteller: ${recipe.manufacturer}`;
       if (!confirm('Produkt löschen?')) return;
 
       state.products = state.products.filter(p => p.id !== id);
-
-      state.products.forEach(p => {
-        p.composition = (p.composition || []).filter(c => c.refProductId !== id);
-      });
-
-      state.recipes.forEach(r => {
-        r.items = (r.items || []).filter(i => i.productId !== id);
-      });
-
+      state.products.forEach(p => { p.composition = (p.composition || []).filter(c => c.refProductId !== id); });
+      state.recipes.forEach(r => { r.items = (r.items || []).filter(i => i.productId !== id); });
       state.recipeDraft = state.recipeDraft.filter(i => i.productId !== id);
-
       saveState();
     };
 
     function clearProductForm() {
       [
-        'editProductId','prodName','prodDeclName','prodAllergens','prodKj','prodKcal',
-        'prodFat','prodSat','prodCarb','prodSugar','prodProtein','prodSalt','compName','compPercent'
+        'editProductId','prodName','prodDeclName','prodAllergens','prodTraceAllergens','prodKj','prodKcal',
+        'prodFat','prodSat','prodCarb','prodSugar','prodProtein','prodSalt',
+        'compName','compPercent','compQuidName'
       ].forEach(id => document.getElementById(id).value = '');
-
       document.getElementById('prodType').value = 'simple';
       document.getElementById('prodCategory').value = 'Milchprodukt';
       document.getElementById('compRefProduct').value = '';
+      document.getElementById('compQuid').value = 'false';
       document.getElementById('currentCompositionList').innerHTML = '';
       document.getElementById('productPercentFill').style.width = '0%';
     }
@@ -1506,7 +1545,6 @@ Hersteller: ${recipe.manufacturer}`;
       const pid = document.getElementById('editProductId').value;
       const prod = findProduct(pid);
       if (!prod) return;
-
       prod.composition = (prod.composition || []).filter(c => c.id !== compId);
       renderCurrentComposition(prod);
       saveState();
@@ -1514,10 +1552,7 @@ Hersteller: ${recipe.manufacturer}`;
 
     window.addIngredientToCurrent = function() {
       const pid = document.getElementById('editProductId').value;
-      if (!pid) {
-        alert('Primeiro grava ou abre um produto.');
-        return;
-      }
+      if (!pid) { alert('Primeiro grava ou abre um produto.'); return; }
 
       const prod = findProduct(pid);
       if (!prod) return;
@@ -1525,28 +1560,27 @@ Hersteller: ${recipe.manufacturer}`;
       const compName = document.getElementById('compName').value.trim();
       const compRefProduct = document.getElementById('compRefProduct').value;
       const percent = parseDecimal(document.getElementById('compPercent').value);
+      const quidRelevant = document.getElementById('compQuid').value === 'true';
+      const quidLabel = document.getElementById('compQuidName').value.trim();
 
-      if (!compName && !compRefProduct) {
-        alert('Introduz nome ou escolhe um produto.');
-        return;
-      }
-
-      if (percent <= 0) {
-        alert('Percentagem inválida.');
-        return;
-      }
+      if (!compName && !compRefProduct) { alert('Introduz nome ou escolhe um produto.'); return; }
+      if (percent <= 0) { alert('Percentagem inválida.'); return; }
 
       prod.composition.push({
         id: uid(),
         name: compRefProduct ? '' : compName,
         refProductId: compRefProduct || '',
-        percent
+        percent,
+        quidRelevant,
+        quidLabel
       });
 
       sortProductComposition(prod);
       document.getElementById('compName').value = '';
       document.getElementById('compRefProduct').value = '';
       document.getElementById('compPercent').value = '';
+      document.getElementById('compQuid').value = 'false';
+      document.getElementById('compQuidName').value = '';
       renderCurrentComposition(prod);
       saveState();
     };
@@ -1554,17 +1588,14 @@ Hersteller: ${recipe.manufacturer}`;
     window.normalizeCurrentProduct = function() {
       const pid = document.getElementById('editProductId').value;
       const prod = findProduct(pid);
-      if (!prod || !prod.composition?.length) {
-        alert('Sem composição.');
-        return;
-      }
+      if (!prod || !prod.composition?.length) { alert('Sem composição.'); return; }
 
       const sum = getProductPercentSum(prod);
       if (sum <= 0) return;
 
       prod.composition = prod.composition.map(c => ({
         ...c,
-        percent: parseFloat((parseDecimal(c.percent) / sum * 100).toFixed(4))
+        percent: parseFloat((parseDecimal(c.percent) / sum * 100).toFixed(6))
       }));
 
       sortProductComposition(prod);
@@ -1575,11 +1606,7 @@ Hersteller: ${recipe.manufacturer}`;
     window.sortCurrentComposition = function() {
       const pid = document.getElementById('editProductId').value;
       const prod = findProduct(pid);
-      if (!prod) {
-        alert('Kein Produkt gewählt.');
-        return;
-      }
-
+      if (!prod) { alert('Kein Produkt gewählt.'); return; }
       sortProductComposition(prod);
       renderCurrentComposition(prod);
       saveState();
@@ -1595,6 +1622,7 @@ Hersteller: ${recipe.manufacturer}`;
         declarationName: document.getElementById('prodDeclName').value.trim(),
         category: document.getElementById('prodCategory').value,
         allergens: document.getElementById('prodAllergens').value.trim(),
+        traceAllergens: document.getElementById('prodTraceAllergens').value.trim(),
         nutrition: {
           kj: parseDecimal(document.getElementById('prodKj').value),
           kcal: parseDecimal(document.getElementById('prodKcal').value),
@@ -1608,28 +1636,14 @@ Hersteller: ${recipe.manufacturer}`;
         composition: []
       };
 
-      if (!obj.name) {
-        alert('Produktname fehlt.');
-        return;
-      }
-
-      if (!obj.declarationName) {
-        obj.declarationName = obj.name;
-      }
+      if (!obj.name) { alert('Produktname fehlt.'); return; }
+      if (!obj.declarationName) obj.declarationName = obj.name;
 
       const idx = state.products.findIndex(p => p.id === obj.id);
       if (idx >= 0) {
         obj.composition = state.products[idx].composition || [];
         state.products[idx] = obj;
       } else {
-        if (obj.type === 'simple' && obj.composition.length === 0) {
-          obj.composition = [{
-            id: uid(),
-            name: obj.declarationName,
-            refProductId: '',
-            percent: 100
-          }];
-        }
         state.products.push(obj);
       }
 
@@ -1638,7 +1652,9 @@ Hersteller: ${recipe.manufacturer}`;
           id: uid(),
           name: obj.declarationName,
           refProductId: '',
-          percent: 100
+          percent: 100,
+          quidRelevant: false,
+          quidLabel: ''
         }];
       }
 
@@ -1650,18 +1666,8 @@ Hersteller: ${recipe.manufacturer}`;
     window.addRecipeItem = function() {
       const pid = document.getElementById('recipeProductSelect').value;
       const qty = parseDecimal(document.getElementById('recipeItemQty').value);
-
-      if (!pid || qty <= 0) {
-        alert('Produkt und Menge wählen.');
-        return;
-      }
-
-      state.recipeDraft.push({
-        id: uid(),
-        productId: pid,
-        qty
-      });
-
+      if (!pid || qty <= 0) { alert('Produkt und Menge wählen.'); return; }
+      state.recipeDraft.push({ id: uid(), productId: pid, qty });
       document.getElementById('recipeItemQty').value = '';
       renderRecipeDraft();
       saveState();
@@ -1681,27 +1687,22 @@ Hersteller: ${recipe.manufacturer}`;
 
     window.saveRecipe = function() {
       const rid = document.getElementById('editRecipeId').value;
-
       const recipe = {
         id: rid || uid(),
         name: document.getElementById('recipeName').value.trim(),
         legalName: document.getElementById('recipeLegal').value.trim(),
         packaging: document.getElementById('recipePackaging').value,
+        netUnit: document.getElementById('recipeNetUnit').value,
         storage: document.getElementById('recipeStorage').value.trim(),
         manufacturer: document.getElementById('recipeManufacturer').value.trim(),
         mhd: document.getElementById('recipeMhd').value.trim(),
+        lot: document.getElementById('recipeLot').value.trim(),
+        traceAllergens: document.getElementById('recipeTrace').value.trim(),
         items: JSON.parse(JSON.stringify(state.recipeDraft))
       };
 
-      if (!recipe.name || !recipe.legalName) {
-        alert('Rezeptname e Verkehrsbezeichnung são obrigatórios.');
-        return;
-      }
-
-      if (!recipe.items.length) {
-        alert('Falta pelo menos uma posição.');
-        return;
-      }
+      if (!recipe.name || !recipe.legalName) { alert('Rezeptname und Verkehrsbezeichnung sind Pflicht.'); return; }
+      if (!recipe.items.length) { alert('Falta pelo menos uma posição.'); return; }
 
       const idx = state.recipes.findIndex(r => r.id === recipe.id);
       if (idx >= 0) state.recipes[idx] = recipe;
@@ -1723,9 +1724,12 @@ Hersteller: ${recipe.manufacturer}`;
       document.getElementById('recipeName').value = r.name || '';
       document.getElementById('recipeLegal').value = r.legalName || '';
       document.getElementById('recipePackaging').value = r.packaging || '170';
+      document.getElementById('recipeNetUnit').value = r.netUnit || 'g';
       document.getElementById('recipeStorage').value = r.storage || '';
       document.getElementById('recipeManufacturer').value = r.manufacturer || '';
       document.getElementById('recipeMhd').value = r.mhd || '';
+      document.getElementById('recipeLot').value = r.lot || 'Lot: siehe Deckel.';
+      document.getElementById('recipeTrace').value = r.traceAllergens || '';
 
       state.recipeDraft = JSON.parse(JSON.stringify(r.items || []));
       renderRecipeDraft();
@@ -1743,40 +1747,29 @@ Hersteller: ${recipe.manufacturer}`;
       const id = document.getElementById('validationSelect').value;
       const recipe = state.recipes.find(r => r.id === id);
       const out = document.getElementById('validationResult');
-
-      if (!recipe) {
-        out.innerHTML = '<div class="pill error">Rezept wählen</div>';
-        return;
-      }
-
+      if (!recipe) { out.innerHTML = '<div class="pill error">Rezept wählen</div>'; return; }
       const issues = validateRecipeCompliance(recipe);
-      out.innerHTML = issues.map(i => `<div class="pill ${i.level === 'error' ? 'error' : 'success'}">${i.text}</div>`).join('');
+      out.innerHTML = issues.map(i => `<div class="pill ${i.level === 'error' ? 'error' : 'success'}">${escapeHtml(i.text)}</div>`).join('');
     };
 
     window.generateLabel = function() {
       const id = document.getElementById('labelRecipeSelect').value;
       const recipe = state.recipes.find(r => r.id === id);
       const preview = document.getElementById('labelPreviewText');
-
-      if (!recipe) {
-        preview.textContent = 'Rezept wählen.';
-        return;
-      }
-
-      preview.textContent = generateLMIVLabel(recipe);
+      if (!recipe) { preview.innerHTML = 'Rezept wählen.'; return; }
+      preview.innerHTML = generateLMIVLabelHtml(recipe);
     };
 
     window.copyLabel = function() {
-      const txt = document.getElementById('labelPreviewText').textContent;
+      const txt = document.getElementById('labelPreviewText').innerText;
       if (!txt) return;
       navigator.clipboard.writeText(txt);
       alert('Etikett kopiert');
     };
 
     window.downloadLabelTxt = function() {
-      const txt = document.getElementById('labelPreviewText').textContent;
+      const txt = document.getElementById('labelPreviewText').innerText;
       if (!txt) return;
-
       const a = document.createElement('a');
       const blob = new Blob([txt], { type: 'text/plain' });
       a.href = URL.createObjectURL(blob);
@@ -1797,7 +1790,6 @@ Hersteller: ${recipe.manufacturer}`;
     window.importData = function(e) {
       const file = e.target.files[0];
       if (!file) return;
-
       const reader = new FileReader();
       reader.onload = ev => {
         try {
