@@ -468,7 +468,7 @@
         </div>
         <div class="card col-span-7">
           <h2>📊 Aktuelle Rezeptpositionen</h2>
-          <div style="max-height: 280px; overflow: auto;"><table id="recipeItemsTable"><tr></div>
+          <div style="max-height: 280px; overflow: auto;"><table id="recipeItemsTable"></table></div>
           <button onclick="saveRecipe()" style="margin-top: 12px;">💾 Rezept speichern</button>
           <hr>
           <h2>📁 Ihre Rezepte</h2>
@@ -485,12 +485,13 @@
           <label>Produkt wählen</label>
           <select id="techProductSelect"></select>
           <button onclick="generateProductTechSheet()">📄 Ficha do Produto</button>
-          <button class="secondary" onclick="printTechSheet()">🖨️ Imprimir</button>
           <hr>
           <h2>🍨 Ficha Técnica - Rezept</h2>
           <label>Rezept wählen</label>
           <select id="techRecipeSelect"></select>
           <button onclick="generateRecipeTechSheet()">📄 Ficha da Receita</button>
+          <hr>
+          <button class="secondary" onclick="printTechSheet()">🖨️ Imprimir / PDF</button>
         </div>
         <div class="card col-span-8">
           <h2>📋 Vorschau Ficha Técnica</h2>
@@ -543,7 +544,7 @@
   let state = {
     products: [],
     recipes: [],
-    recipeDraft: []   // temporäre Positionen beim Rezeptbau
+    recipeDraft: []
   };
 
   // Beispiel-Produkte mit 100% Struktur (incl. YOGHIN GERMANIA)
@@ -580,10 +581,8 @@
   function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); renderAll(); }
   function uid() { return Date.now() + '-' + Math.random().toString(36).substr(2, 8); }
 
-  // Produkt-Hilfsfunktionen
   function getProductPercentSum(prod) { return (prod.composition || []).reduce((s,c)=>s+c.percent,0); }
 
-  // Rezept Nährwerte pro 100g
   function computeRecipeNutrition(recipe) {
     const totalWeight = recipe.items.reduce((s,i)=>s+i.qty,0);
     if (totalWeight === 0) return null;
@@ -604,14 +603,13 @@
     return accum;
   }
 
-  // Gewichtsbasierte Zutatenliste für ein Rezept
   function getWeightSortedIngredients(recipe) {
-    const ingredientMap = new Map(); // name -> gramm
+    const ingredientMap = new Map();
     for (let item of recipe.items) {
       const prod = state.products.find(p=>p.id===item.productId);
       if (!prod || !prod.composition || prod.composition.length === 0) continue;
       const sumPerc = getProductPercentSum(prod);
-      if (Math.abs(sumPerc - 100) > 0.1) continue; // nicht 100% -> ignorieren für Exaktheit
+      if (Math.abs(sumPerc - 100) > 0.1) continue;
       for (let comp of prod.composition) {
         const gramm = item.qty * (comp.percent / 100);
         ingredientMap.set(comp.name, (ingredientMap.get(comp.name) || 0) + gramm);
@@ -621,8 +619,8 @@
     return sorted.map(e=>e[0]);
   }
 
-  // ---------- FICHAS TÉCNICAS ----------
-  function generateProductTechSheet() {
+  // ---------- FICHAS TÉCNICAS CORRIGIDAS ----------
+  window.generateProductTechSheet = function() {
     const productId = document.getElementById('techProductSelect').value;
     const product = state.products.find(p => p.id === productId);
     const preview = document.getElementById('techSheetPreview');
@@ -674,16 +672,16 @@
         <h3>🏭 Informações Adicionais</h3>
         <table style="width:100%">
           <tr><td style="width:40%"><strong>Categoria LMIV</strong></td><td>${product.category}</td></tr>
-          <tr><td><strong>Validação 100%</strong></td><td>${isComplete ? '✅ Sim (soma = 100%)' : '❌ Não (soma = ' + sumPerc.toFixed(1) + '%) - Corrigir na secção "Produkte"'}</td></tr>
+          <tr><td style="width:40%"><strong>Validação 100%</strong></td><td>${isComplete ? '✅ Sim (soma = 100%)' : '❌ Não (soma = ' + sumPerc.toFixed(1) + '%) - Corrigir na secção "Produkte"'}</td></tr>
         </table>
         <hr>
         <p style="font-size: 0.7rem; color: #666; text-align: center;">Documento gerado automaticamente por Sanremo LMIV Präzisionssystem • ${new Date().toLocaleDateString('de-DE')}</p>
       </div>
     `;
     preview.innerHTML = html;
-  }
+  };
 
-  function generateRecipeTechSheet() {
+  window.generateRecipeTechSheet = function() {
     const recipeId = document.getElementById('techRecipeSelect').value;
     const recipe = state.recipes.find(r => r.id === recipeId);
     const preview = document.getElementById('techSheetPreview');
@@ -703,7 +701,6 @@
     });
     const allergenText = allergensSet.size ? Array.from(allergensSet).join(', ') : 'Nenhum dos 14 principais alergénios';
     
-    // Verificar se todos os produtos têm composição 100%
     let incompleteProducts = [];
     for (let item of recipe.items) {
       const prod = state.products.find(p=>p.id===item.productId);
@@ -715,11 +712,10 @@
     
     const formatNumber = (n) => (n || 0).toFixed(1).replace('.', ',');
     
-    // Tabela de ingredientes do rezept
     const itemsTable = recipe.items.map(item => {
       const prod = state.products.find(p=>p.id===item.productId);
       const percent = totalWeight ? (item.qty/totalWeight*100).toFixed(1) : 0;
-      return `<tr><td>${prod?.name || '?'}</td><td style="text-align:right">${item.qty.toFixed(1)} g</td><td style="text-align:right">${percent}%</td></tr>`;
+      return `<tr><td style="width:40%">${prod?.name || '?'}</td><td style="text-align:right; width:30%">${item.qty.toFixed(1)} g</td><td style="text-align:right; width:30%">${percent}%</td></tr>`;
     }).join('');
     
     const html = `
@@ -769,9 +765,9 @@
       </div>
     `;
     preview.innerHTML = html;
-  }
+  };
 
-  function printTechSheet() {
+  window.printTechSheet = function() {
     const content = document.getElementById('techSheetPreview').innerHTML;
     if (!content || content.includes('Bitte wählen Sie')) {
       alert('Bitte zuerst eine Ficha Técnica generieren.');
@@ -787,6 +783,7 @@
           th, td { border: 1px solid #ccc; padding: 0.5rem; }
           th { background: #e8f0fe; }
           hr { margin: 2rem 0; }
+          h1 { color: #1a5276; }
         </style>
         </head>
         <body>${content}</body>
@@ -794,9 +791,8 @@
     `);
     printWindow.document.close();
     printWindow.print();
-  }
+  };
 
-  // Rezept auf LMIV prüfen
   function validateRecipeCompliance(recipe) {
     const issues = [];
     if (!recipe.legalName) issues.push({ level:'error', text:'Verkehrsbezeichnung fehlt' });
@@ -941,7 +937,7 @@
     document.getElementById('currentCompositionList').innerHTML = '';
     document.getElementById('productPercentFill').style.width = '0%';
   }
-  // Rezept UI
+  
   function addRecipeItem() {
     const pid = document.getElementById('recipeProductSelect').value;
     const qty = parseFloat(document.getElementById('recipeItemQty').value);
@@ -994,7 +990,6 @@
     prodSelect.innerHTML = '<option value="">Produkt wählen</option>' + state.products.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
     document.getElementById('labelRecipeSelect').innerHTML = '<option value="">Rezept wählen</option>' + state.recipes.map(r=>`<option value="${r.id}">${r.name}</option>`).join('');
     document.getElementById('validationSelect').innerHTML = '<option value="">Rezept wählen</option>' + state.recipes.map(r=>`<option value="${r.id}">${r.name}</option>`).join('');
-    // Fichas Técnicas selects
     document.getElementById('techProductSelect').innerHTML = '<option value="">Produkt wählen</option>' + state.products.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
     document.getElementById('techRecipeSelect').innerHTML = '<option value="">Rezept wählen</option>' + state.recipes.map(r=>`<option value="${r.id}">${r.name}</option>`).join('');
   }
