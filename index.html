@@ -348,14 +348,14 @@
 <body>
 <div class="app-header">
   <h1>🍦 Sanremo LMIV Präzisionssystem</h1>
-  <p>100% gewichtsbasierte Zutatenliste • LMIV-konforme Etiketten • Nährwerte pro 100g • Professionelle Rezeptverwaltung • Fichas Técnicas</p>
+  <p>100% gewichtsbasierte Zutatenliste • LMIV-konforme Etiketten • Nährwerte pro 100g • Professionelle Rezeptverwaltung • Technische Datenblätter</p>
 </div>
 <div class="layout">
   <div class="sidebar">
     <button class="nav-btn active" data-screen="dashboard">📊 Dashboard</button>
     <button class="nav-btn" data-screen="products">📦 Produkte & Rohstoffe</button>
     <button class="nav-btn" data-screen="recipes">🍨 Rezepte (grammgenau)</button>
-    <button class="nav-btn" data-screen="techsheets">📄 Fichas Técnicas</button>
+    <button class="nav-btn" data-screen="techsheets">📄 Technische Datenblätter</button>
     <button class="nav-btn" data-screen="labelgen">🏷️ Etikett Generator</button>
     <button class="nav-btn" data-screen="validation">⚖️ LMIV Konformitätsprüfung</button>
     <button class="nav-btn" data-screen="backup">💾 Backup & Daten</button>
@@ -388,7 +388,7 @@
             <li>Rezept mit Gramm-Mengen erstellen</li>
             <li>LMIV-Prüfung durchführen</li>
             <li>Etikett generieren (fertig für Druck)</li>
-            <li>Ficha Técnica exportieren / drucken</li>
+            <li>Technisches Datenblatt exportieren / drucken</li>
           </ol>
         </div>
         <div class="card col-span-4">
@@ -477,26 +477,26 @@
       </div>
     </section>
 
-    <!-- FICHAS TÉCNICAS (NOVA SECÇÃO) -->
+    <!-- TECHNISCHE DATENBLÄTTER -->
     <section id="techsheets" class="screen">
       <div class="grid">
         <div class="card col-span-4">
-          <h2>📄 Ficha Técnica - Produkt</h2>
+          <h2>📄 Technisches Datenblatt - Produkt</h2>
           <label>Produkt wählen</label>
           <select id="techProductSelect"></select>
-          <button onclick="generateProductTechSheet()">📄 Ficha do Produto</button>
+          <button onclick="generateProductTechSheet()">📄 Produkt-Datenblatt</button>
           <hr>
-          <h2>🍨 Ficha Técnica - Rezept</h2>
+          <h2>🍨 Technisches Datenblatt - Rezept</h2>
           <label>Rezept wählen</label>
           <select id="techRecipeSelect"></select>
-          <button onclick="generateRecipeTechSheet()">📄 Ficha da Receita</button>
+          <button onclick="generateRecipeTechSheet()">📄 Rezept-Datenblatt</button>
           <hr>
-          <button class="secondary" onclick="printTechSheet()">🖨️ Imprimir / PDF</button>
+          <button class="secondary" onclick="printTechSheet()">🖨️ Drucken / PDF</button>
         </div>
         <div class="card col-span-8">
-          <h2>📋 Vorschau Ficha Técnica</h2>
+          <h2>📋 Vorschau Technisches Datenblatt</h2>
           <div id="techSheetPreview" class="tech-sheet" style="max-height: 70vh; overflow-y: auto;">
-            <p style="color: #666;">Wählen Sie ein Produkt oder Rezept und klicken Sie auf "Ficha do Produto" oder "Ficha da Receita".</p>
+            <p style="color: #666;">Wählen Sie ein Produkt oder Rezept und klicken Sie auf "Produkt-Datenblatt" oder "Rezept-Datenblatt".</p>
           </div>
         </div>
       </div>
@@ -619,7 +619,7 @@
     return sorted.map(e=>e[0]);
   }
 
-  // ---------- FICHAS TÉCNICAS CORRIGIDAS ----------
+  // ---------- TECHNISCHE DATENBLÄTTER (DEUTSCH) ----------
   window.generateProductTechSheet = function() {
     const productId = document.getElementById('techProductSelect').value;
     const product = state.products.find(p => p.id === productId);
@@ -644,38 +644,38 @@
     const html = `
       <div style="font-family: 'Segoe UI', Arial, sans-serif;">
         <div style="text-align: center; margin-bottom: 20px;">
-          <h1 style="color: #1a5276; margin:0;">📄 FICHA TÉCNICA - PRODUTO</h1>
+          <h1 style="color: #1a5276; margin:0;">📄 TECHNISCHES DATENBLATT - PRODUKT</h1>
           <h2 style="color: #2c3e50; margin:5px 0;">${product.name}</h2>
-          <p style="color: #666;">Categoria: ${product.category} | Status: ${isComplete ? '✅ 100% Completo' : '⚠️ Incompleto (' + sumPerc.toFixed(1) + '%)'}</p>
+          <p style="color: #666;">Kategorie: ${product.category} | Status: ${isComplete ? '✅ 100% Vollständig' : '⚠️ Unvollständig (' + sumPerc.toFixed(1) + '%)'}</p>
         </div>
 
-        <h3>🧪 Composição Exata (Base 100%)</h3>
+        <h3>🧪 Exakte Zusammensetzung (Basis 100%)</h3>
         <table style="width:100%; border-collapse:collapse;">
-          <thead><tr style="background:#e8f0fe;"><th>Ingrediente / Matéria-prima</th><th>Percentagem (%)</th></tr></thead>
+          <thead><tr style="background:#e8f0fe;"><th>Zutat / Rohstoff</th><th>Anteil (%)</th></tr></thead>
           <tbody>${compRows}</tbody>
         </table>
 
-        <h3>📊 Valores Nutricionais (por 100g de produto)</h3>
+        <h3>📊 Nährwerte (pro 100g Produkt)</h3>
         <table style="width:100%; border-collapse:collapse;">
-          <tr><td style="width:60%"><strong>Energia</strong></td><td style="text-align:right">${formatNumber(product.nutrition.kj)} kJ / ${formatNumber(product.nutrition.kcal)} kcal</td></tr>
-          <tr><td><strong>Lípidos (gorduras)</strong></td><td style="text-align:right">${formatNumber(product.nutrition.fat)} g</td></tr>
-          <tr><td style="padding-left:20px">dos quais saturados</td><td style="text-align:right">${formatNumber(product.nutrition.sat)} g</td></tr>
-          <tr><td><strong>Hidratos de carbono</strong></td><td style="text-align:right">${formatNumber(product.nutrition.carb)} g</td></tr>
-          <tr><td style="padding-left:20px">dos quais açúcares</td><td style="text-align:right">${formatNumber(product.nutrition.sugar)} g</td></tr>
-          <tr><td><strong>Proteínas</strong></td><td style="text-align:right">${formatNumber(product.nutrition.protein)} g</td></tr>
-          <tr><td><strong>Sal</strong></td><td style="text-align:right">${formatNumber(product.nutrition.salt)} g</td></tr>
+          <tr><td style="width:60%"><strong>Energie</strong></td><td style="text-align:right">${formatNumber(product.nutrition.kj)} kJ / ${formatNumber(product.nutrition.kcal)} kcal</td></tr>
+          <tr><td><strong>Fett</strong></td><td style="text-align:right">${formatNumber(product.nutrition.fat)} g</td></tr>
+          <tr><td style="padding-left:20px">davon gesättigte Fettsäuren</td><td style="text-align:right">${formatNumber(product.nutrition.sat)} g</td></tr>
+          <tr><td><strong>Kohlenhydrate</strong></td><td style="text-align:right">${formatNumber(product.nutrition.carb)} g</td></tr>
+          <tr><td style="padding-left:20px">davon Zucker</td><td style="text-align:right">${formatNumber(product.nutrition.sugar)} g</td></tr>
+          <tr><td><strong>Eiweiß</strong></td><td style="text-align:right">${formatNumber(product.nutrition.protein)} g</td></tr>
+          <tr><td><strong>Salz</strong></td><td style="text-align:right">${formatNumber(product.nutrition.salt)} g</td></tr>
         </table>
 
-        <h3>⚠️ Alergénios</h3>
-        <p>${product.allergens ? product.allergens.replace(/,/g, ', ') : 'Nenhum declarado'}</p>
+        <h3>⚠️ Allergene</h3>
+        <p>${product.allergens ? product.allergens.replace(/,/g, ', ') : 'Keine deklariert'}</p>
 
-        <h3>🏭 Informações Adicionais</h3>
+        <h3>🏭 Zusätzliche Informationen</h3>
         <table style="width:100%">
-          <tr><td style="width:40%"><strong>Categoria LMIV</strong></td><td>${product.category}</td></tr>
-          <tr><td style="width:40%"><strong>Validação 100%</strong></td><td>${isComplete ? '✅ Sim (soma = 100%)' : '❌ Não (soma = ' + sumPerc.toFixed(1) + '%) - Corrigir na secção "Produkte"'}</td></tr>
+          <tr><td style="width:40%"><strong>LMIV-Kategorie</strong></td><td>${product.category}</td></tr>
+          <tr><td><strong>100% Validierung</strong></td><td>${isComplete ? '✅ Ja (Summe = 100%)' : '❌ Nein (Summe = ' + sumPerc.toFixed(1) + '%) - Korrigieren in der Sektion "Produkte"'}</td></tr>
         </table>
         <hr>
-        <p style="font-size: 0.7rem; color: #666; text-align: center;">Documento gerado automaticamente por Sanremo LMIV Präzisionssystem • ${new Date().toLocaleDateString('de-DE')}</p>
+        <p style="font-size: 0.7rem; color: #666; text-align: center;">Dokument automatisch generiert von Sanremo LMIV Präzisionssystem • ${new Date().toLocaleDateString('de-DE')}</p>
       </div>
     `;
     preview.innerHTML = html;
@@ -699,7 +699,7 @@
       const prod = state.products.find(p=>p.id===item.productId);
       if (prod && prod.allergens) prod.allergens.split(',').forEach(a=>{ let x=a.trim().toUpperCase(); if(x) allergensSet.add(x); });
     });
-    const allergenText = allergensSet.size ? Array.from(allergensSet).join(', ') : 'Nenhum dos 14 principais alergénios';
+    const allergenText = allergensSet.size ? Array.from(allergensSet).join(', ') : 'Keiner der 14 Hauptallergene enthalten';
     
     let incompleteProducts = [];
     for (let item of recipe.items) {
@@ -721,46 +721,46 @@
     const html = `
       <div style="font-family: 'Segoe UI', Arial, sans-serif;">
         <div style="text-align: center; margin-bottom: 20px;">
-          <h1 style="color: #1a5276; margin:0;">🍦 FICHA TÉCNICA - RECEITA</h1>
+          <h1 style="color: #1a5276; margin:0;">🍦 TECHNISCHES DATENBLATT - REZEPT</h1>
           <h2 style="color: #2c3e50; margin:5px 0;">${recipe.name}</h2>
-          <p style="color: #666;">${recipe.legalName} | Embalagem: ${recipe.packaging} g</p>
-          <p style="color: ${isComplete ? 'green' : 'orange'}; font-size:0.85rem;">${isComplete ? '✅ Todos os produtos com composição 100%' : '⚠️ Atenção: Produtos sem composição 100%: ' + incompleteProducts.join(', ')}</p>
+          <p style="color: #666;">${recipe.legalName} | Verpackung: ${recipe.packaging} g</p>
+          <p style="color: ${isComplete ? 'green' : 'orange'}; font-size:0.85rem;">${isComplete ? '✅ Alle Produkte mit 100% Zusammensetzung' : '⚠️ Achtung: Produkte ohne 100% Zusammensetzung: ' + incompleteProducts.join(', ')}</p>
         </div>
 
-        <h3>📦 Lista de Ingredientes (por ordem decrescente de peso)</h3>
-        <p style="font-size:0.9rem;">${ingredientsList.length ? ingredientsList.join(', ') : '❌ Não foi possível gerar lista - verificar composição 100% dos produtos'}</p>
-        <p><strong>Alergénios:</strong> ${allergenText}</p>
+        <h3>📦 Zutatenliste (nach absteigendem Gewicht)</h3>
+        <p style="font-size:0.9rem;">${ingredientsList.length ? ingredientsList.join(', ') : '❌ Zutatenliste konnte nicht generiert werden - bitte 100% Zusammensetzung der Produkte prüfen'}</p>
+        <p><strong>Allergene:</strong> ${allergenText}</p>
 
-        <h3>📊 Composição da Receita (peso total: ${totalWeight.toFixed(1)} g)</h3>
+        <h3>📊 Rezeptzusammensetzung (Gesamtgewicht: ${totalWeight.toFixed(1)} g)</h3>
         <table style="width:100%; border-collapse:collapse;">
-          <thead><tr style="background:#e8f0fe;"><th>Produto</th><th>Quantidade (g)</th><th>Percentagem</th></tr></thead>
+          <thead><tr style="background:#e8f0fe;"><th>Produkt</th><th>Menge (g)</th><th>Anteil</th></tr></thead>
           <tbody>${itemsTable}</tbody>
         </table>
 
-        <h3>📈 Valores Nutricionais (por 100g de produto final)</h3>
+        <h3>📈 Nährwerte (pro 100g Endprodukt)</h3>
         ${nutrition ? `
         <table style="width:100%; border-collapse:collapse;">
-          <tr><td style="width:60%"><strong>Energia</strong></td><td style="text-align:right">${formatNumber(nutrition.kj)} kJ / ${formatNumber(nutrition.kcal)} kcal</td></tr>
-          <tr><td><strong>Lípidos (gorduras)</strong></td><td style="text-align:right">${formatNumber(nutrition.fat)} g</td></tr>
-          <tr><td style="padding-left:20px">dos quais saturados</td><td style="text-align:right">${formatNumber(nutrition.sat)} g</td></tr>
-          <tr><td><strong>Hidratos de carbono</strong></td><td style="text-align:right">${formatNumber(nutrition.carb)} g</td></tr>
-          <tr><td style="padding-left:20px">dos quais açúcares</td><td style="text-align:right">${formatNumber(nutrition.sugar)} g</td></tr>
-          <tr><td><strong>Proteínas</strong></td><td style="text-align:right">${formatNumber(nutrition.protein)} g</td></tr>
-          <tr><td><strong>Sal</strong></td><td style="text-align:right">${formatNumber(nutrition.salt)} g</td></tr>
+          <tr><td style="width:60%"><strong>Energie</strong></td><td style="text-align:right">${formatNumber(nutrition.kj)} kJ / ${formatNumber(nutrition.kcal)} kcal</td></tr>
+          <tr><td><strong>Fett</strong></td><td style="text-align:right">${formatNumber(nutrition.fat)} g</td></tr>
+          <tr><td style="padding-left:20px">davon gesättigte Fettsäuren</td><td style="text-align:right">${formatNumber(nutrition.sat)} g</td></tr>
+          <tr><td><strong>Kohlenhydrate</strong></td><td style="text-align:right">${formatNumber(nutrition.carb)} g</td></tr>
+          <tr><td style="padding-left:20px">davon Zucker</td><td style="text-align:right">${formatNumber(nutrition.sugar)} g</td></tr>
+          <tr><td><strong>Eiweiß</strong></td><td style="text-align:right">${formatNumber(nutrition.protein)} g</td></tr>
+          <tr><td><strong>Salz</strong></td><td style="text-align:right">${formatNumber(nutrition.salt)} g</td></tr>
         </table>
-        ` : '<p style="color:red;">Erro no cálculo dos valores nutricionais</p>'}
+        ` : '<p style="color:red;">Fehler bei der Nährwertberechnung</p>'}
 
-        <h3>🏭 Informações de Rotulagem (LMIV)</h3>
+        <h3>🏭 LMIV-Rotulierung (Kennzeichnungsinformationen)</h3>
         <table style="width:100%">
           <tr><td style="width:40%"><strong>Verkehrsbezeichnung</strong></td><td>${recipe.legalName}</td></tr>
           <tr><td><strong>Aufbewahrung</strong></td><td>${recipe.storage}</td></tr>
           <tr><td><strong>Hersteller</strong></td><td>${recipe.manufacturer}</td></tr>
           <tr><td><strong>MHD / Los</strong></td><td>${recipe.mhd}</td></tr>
-          <tr><td><strong>Inhalt</strong></td><td>${recipe.packaging} g</td></tr>
+          <tr><td><strong>Füllmenge</strong></td><td>${recipe.packaging} g</td></tr>
         </table>
 
         <hr>
-        <p style="font-size: 0.7rem; color: #666; text-align: center;">Documento gerado automaticamente por Sanremo LMIV Präzisionssystem • ${new Date().toLocaleDateString('de-DE')}</p>
+        <p style="font-size: 0.7rem; color: #666; text-align: center;">Dokument automatisch generiert von Sanremo LMIV Präzisionssystem • ${new Date().toLocaleDateString('de-DE')}</p>
         <p style="font-size: 0.7rem; color: #666; text-align: center;">LMIV Art. 18 Abs. 2 – Zutaten nach absteigendem Gewichtsanteil</p>
       </div>
     `;
@@ -770,13 +770,13 @@
   window.printTechSheet = function() {
     const content = document.getElementById('techSheetPreview').innerHTML;
     if (!content || content.includes('Bitte wählen Sie')) {
-      alert('Bitte zuerst eine Ficha Técnica generieren.');
+      alert('Bitte zuerst ein Technisches Datenblatt generieren.');
       return;
     }
     const printWindow = window.open('', '_blank');
     printWindow.document.write(`
       <html>
-        <head><title>Ficha Técnica</title>
+        <head><title>Technisches Datenblatt</title>
         <style>
           body { font-family: 'Segoe UI', Arial, sans-serif; padding: 2rem; margin: 0; }
           table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
