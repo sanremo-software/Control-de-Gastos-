@@ -1,15 +1,11 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Sanremo LMIV Professional – Ihre Rezepte & Etiketten</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Sanremo LMIV Präzisionssystem</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
       --bg: #0c111c;
@@ -28,7 +24,7 @@
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       line-height: 1.5;
     }
 
@@ -61,7 +57,7 @@
     }
 
     .sidebar {
-      width: 280px;
+      width: 300px;
       background: var(--surface);
       border-right: 1px solid var(--border);
       padding: 1.5rem 1rem;
@@ -78,14 +74,14 @@
       border-radius: 12px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: 0.2s;
       margin-bottom: 0.5rem;
       font-size: 0.9rem;
     }
 
     .nav-btn:hover {
       background: var(--border);
-      color: white;
+      color: #fff;
     }
 
     .nav-btn.active {
@@ -110,8 +106,8 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px);}
-      to { opacity: 1; transform: translateY(0);}
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .card {
@@ -130,22 +126,21 @@
     }
 
     .col-span-12 { grid-column: span 12; }
+    .col-span-8 { grid-column: span 8; }
+    .col-span-7 { grid-column: span 7; }
     .col-span-6 { grid-column: span 6; }
     .col-span-5 { grid-column: span 5; }
     .col-span-4 { grid-column: span 4; }
-    .col-span-3 { grid-column: span 3; }
-    .col-span-7 { grid-column: span 7; }
-    .col-span-8 { grid-column: span 8; }
 
     h2 {
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       font-weight: 600;
       margin-bottom: 1rem;
       letter-spacing: -0.3px;
     }
 
     h3 {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 600;
       margin: 0.75rem 0;
     }
@@ -165,7 +160,7 @@
       background: var(--bg);
       border: 1px solid var(--border);
       color: var(--text);
-      padding: 0.6rem 0.8rem;
+      padding: 0.65rem 0.8rem;
       border-radius: 10px;
       font-size: 0.9rem;
       transition: 0.15s;
@@ -181,7 +176,7 @@
       background: var(--primary);
       border: none;
       font-weight: 700;
-      padding: 0.5rem 1.2rem;
+      padding: 0.55rem 1.15rem;
       border-radius: 10px;
       cursor: pointer;
       transition: 0.1s;
@@ -193,12 +188,12 @@
 
     button.secondary {
       background: var(--border);
-      color: white;
+      color: #fff;
     }
 
     button.danger {
       background: var(--danger);
-      color: white;
+      color: #fff;
     }
 
     .pill {
@@ -237,62 +232,15 @@
       gap: 1rem;
     }
 
+    .three-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+    }
+
     hr {
       border-color: var(--border);
       margin: 1rem 0;
-    }
-
-    .preview-box {
-      background: #fefefe;
-      color: #111;
-      border-radius: 14px;
-      padding: 1.2rem;
-      font-family: 'Courier New', monospace;
-      white-space: pre-wrap;
-      font-size: 0.85rem;
-      line-height: 1.4;
-      border: 1px solid #ccc;
-    }
-
-    .tech-sheet {
-      background: #fefefe;
-      color: #111;
-      border-radius: 14px;
-      padding: 1.5rem;
-      font-family: 'Segoe UI', 'Inter', sans-serif;
-      font-size: 0.9rem;
-      line-height: 1.5;
-      border: 1px solid #ccc;
-      max-width: 100%;
-      overflow-x: auto;
-    }
-
-    .tech-sheet h2 {
-      color: #1a5276;
-      border-bottom: 2px solid #2ecc71;
-      padding-bottom: 0.5rem;
-      margin-top: 1rem;
-    }
-
-    .tech-sheet h3 {
-      color: #2c3e50;
-      margin-top: 1rem;
-    }
-
-    .tech-sheet table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 0.5rem 0;
-    }
-
-    .tech-sheet th, .tech-sheet td {
-      border: 1px solid #ccc;
-      padding: 0.5rem;
-      text-align: left;
-    }
-
-    .tech-sheet th {
-      background: #e8f0fe;
     }
 
     table {
@@ -304,6 +252,68 @@
       padding: 0.5rem;
       text-align: left;
       border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    .preview-box {
+      background: #fefefe;
+      color: #111;
+      border-radius: 14px;
+      padding: 1.2rem;
+      font-family: "Courier New", monospace;
+      white-space: pre-wrap;
+      font-size: 0.85rem;
+      line-height: 1.45;
+      border: 1px solid #ccc;
+      min-height: 280px;
+    }
+
+    .tech-sheet {
+      background: #fff;
+      color: #111;
+      border-radius: 14px;
+      padding: 1.5rem;
+      border: 1px solid #ccc;
+      max-width: 100%;
+      overflow-x: auto;
+      min-height: 350px;
+    }
+
+    .tech-sheet h1, .tech-sheet h2, .tech-sheet h3 {
+      color: #1a5276;
+    }
+
+    .tech-sheet h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .tech-sheet h2 {
+      font-size: 1.2rem;
+      margin-top: 1rem;
+      border-bottom: 2px solid #2ecc71;
+      padding-bottom: 0.35rem;
+    }
+
+    .tech-sheet h3 {
+      font-size: 1rem;
+      margin-top: 1rem;
+    }
+
+    .tech-sheet table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.5rem;
+    }
+
+    .tech-sheet th, .tech-sheet td {
+      border: 1px solid #ccc;
+      padding: 0.45rem;
+      color: #111;
+    }
+
+    .tech-sheet th {
+      background: #e8f0fe;
     }
 
     .progress-bar {
@@ -321,791 +331,1503 @@
       transition: width 0.2s;
     }
 
+    .small-note {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+    }
+
     @media print {
       body * {
         visibility: hidden;
       }
-      .tech-sheet, .tech-sheet * {
+      .printable, .printable * {
         visibility: visible;
       }
-      .tech-sheet {
+      .printable {
         position: absolute;
-        top: 0;
         left: 0;
+        top: 0;
         width: 100%;
         margin: 0;
         padding: 1rem;
+        background: #fff;
+        color: #111;
       }
     }
 
-    @media (max-width: 800px) {
+    @media (max-width: 900px) {
       .layout { flex-direction: column; }
-      .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); }
-      .col-span-6, .col-span-5, .col-span-4, .col-span-7, .col-span-8 { grid-column: span 12; }
+      .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .col-span-8, .col-span-7, .col-span-6, .col-span-5, .col-span-4 {
+        grid-column: span 12;
+      }
+      .two-col, .three-col {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
-<div class="app-header">
-  <h1>🍦 Sanremo LMIV Präzisionssystem</h1>
-  <p>100% gewichtsbasierte Zutatenliste • LMIV-konforme Etiketten • Nährwerte pro 100g • Professionelle Rezeptverwaltung • <span style="color:#2ecc71">✅ Ihre Produkte & Rezepte</span></p>
-</div>
-<div class="layout">
-  <div class="sidebar">
-    <button class="nav-btn active" data-screen="dashboard">📊 Dashboard</button>
-    <button class="nav-btn" data-screen="products">📦 Produkte & Rohstoffe</button>
-    <button class="nav-btn" data-screen="recipes">🍨 Rezepte (grammgenau)</button>
-    <button class="nav-btn" data-screen="techsheets">📄 Technische Datenblätter</button>
-    <button class="nav-btn" data-screen="labelgen">🏷️ Etikett Generator</button>
-    <button class="nav-btn" data-screen="validation">⚖️ LMIV Konformitätsprüfung</button>
-    <button class="nav-btn" data-screen="backup">💾 Backup & Daten</button>
-    <div class="card" style="margin-top: 1.5rem;">
-      <div style="font-size:0.8rem;">✅ Automatische Sortierung aktiv</div>
-      <div style="font-size:0.75rem; color:var(--text-muted);">Zutaten werden immer nach Gewicht sortiert (größter Anteil zuerst) – LMIV Art. 18 Abs. 2</div>
+  <div class="app-header">
+    <h1>🍦 Sanremo LMIV Präzisionssystem</h1>
+    <p>Rekursive Zutatenauflösung • automatische Allergene • Technische Datenblätter • LMIV-Ausgabe</p>
+  </div>
+
+  <div class="layout">
+    <div class="sidebar">
+      <button class="nav-btn active" data-screen="dashboard">📊 Dashboard</button>
+      <button class="nav-btn" data-screen="products">📦 Produkte & Rohstoffe</button>
+      <button class="nav-btn" data-screen="recipes">🍨 Rezepte</button>
+      <button class="nav-btn" data-screen="techsheets">📄 Technische Datenblätter</button>
+      <button class="nav-btn" data-screen="labelgen">🏷️ Etikett Generator</button>
+      <button class="nav-btn" data-screen="validation">⚖️ LMIV Prüfung</button>
+      <button class="nav-btn" data-screen="backup">💾 Backup</button>
+
+      <div class="card" style="margin-top:1.5rem;">
+        <div style="font-size:0.8rem;">✅ Lógica corrigida</div>
+        <div style="font-size:0.75rem; color:var(--text-muted);">
+          Produtos compostos podem referenciar outros produtos. A etiqueta passa a sair pelo peso real total.
+        </div>
+      </div>
+    </div>
+
+    <div class="main">
+      <!-- DASHBOARD -->
+      <section id="dashboard" class="screen active">
+        <div class="grid">
+          <div class="card col-span-12">
+            <h2>Estado do sistema</h2>
+            <div class="pill success">Ingredientes compostos</div>
+            <div class="pill success">Alergénios automáticos</div>
+            <div class="pill success">Ficha técnica produto</div>
+            <div class="pill success">Ficha técnica receita</div>
+            <div class="pill success">Etikett LMIV</div>
+            <p style="margin-top:1rem;">
+              Este sistema separa melhor Rohstoffe simples e produtos compostos. A Zutatenliste deixa de depender apenas de nomes escritos à mão.
+            </p>
+          </div>
+          <div class="card col-span-4">
+            <h3>📊 Estatística</h3>
+            <div id="statsArea"></div>
+          </div>
+          <div class="card col-span-4">
+            <h3>📌 Fluxo correto</h3>
+            <ol style="margin-left:1.2rem;">
+              <li>Criar Rohstoffe</li>
+              <li>Criar produtos compostos</li>
+              <li>Criar receita final em gramas</li>
+              <li>Validar</li>
+              <li>Gerar ficha técnica ou etiqueta</li>
+            </ol>
+          </div>
+          <div class="card col-span-4">
+            <h3>⚠️ Ponto crítico</h3>
+            <p>
+              Se meteres composições como texto livre sem referência a produtos, a qualidade da etiqueta cai. Continua a funcionar, mas menos sólido.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- PRODUCTS -->
+      <section id="products" class="screen">
+        <div class="grid">
+          <div class="card col-span-5">
+            <h2>Produto / Rohstoff</h2>
+            <input type="hidden" id="editProductId" />
+
+            <label>Nome interno</label>
+            <input id="prodName" placeholder="z.B. Base Soave" />
+
+            <label>Nome para declaração</label>
+            <input id="prodDeclName" placeholder="z.B. Kakaofettglasur" />
+
+            <div class="two-col">
+              <div>
+                <label>Tipo</label>
+                <select id="prodType">
+                  <option value="simple">Einfacher Rohstoff</option>
+                  <option value="compound">Zusammengesetztes Produkt</option>
+                </select>
+              </div>
+              <div>
+                <label>Kategorie</label>
+                <select id="prodCategory">
+                  <option>Milchprodukt</option>
+                  <option>PASTE</option>
+                  <option>fettglasur</option>
+                  <option>Frucht</option>
+                  <option>Fett</option>
+                  <option>Pulver</option>
+                  <option>Emulgator</option>
+                  <option>Süße</option>
+                  <option>Sonstiges</option>
+                </select>
+              </div>
+            </div>
+
+            <label>Alergénios diretos</label>
+            <input id="prodAllergens" placeholder="MILCH, EI, GLUTEN" />
+
+            <div class="three-col">
+              <div>
+                <label>kJ / 100g</label>
+                <input id="prodKj" type="number" step="any" />
+              </div>
+              <div>
+                <label>kcal / 100g</label>
+                <input id="prodKcal" type="number" step="any" />
+              </div>
+              <div>
+                <label>Salz (g)</label>
+                <input id="prodSalt" type="number" step="any" />
+              </div>
+            </div>
+
+            <div class="three-col">
+              <div>
+                <label>Fett</label>
+                <input id="prodFat" type="number" step="any" />
+              </div>
+              <div>
+                <label>Gesättigt</label>
+                <input id="prodSat" type="number" step="any" />
+              </div>
+              <div>
+                <label>Eiweiß</label>
+                <input id="prodProtein" type="number" step="any" />
+              </div>
+            </div>
+
+            <div class="two-col">
+              <div>
+                <label>Kohlenhydrate</label>
+                <input id="prodCarb" type="number" step="any" />
+              </div>
+              <div>
+                <label>Zucker</label>
+                <input id="prodSugar" type="number" step="any" />
+              </div>
+            </div>
+
+            <hr />
+            <h3>🧪 Zusammensetzung (100%)</h3>
+
+            <label>Subzutat Name</label>
+            <input id="compName" placeholder="z.B. Zucker oder Vollmilch" />
+
+            <label>Ou referenciar produto já existente</label>
+            <select id="compRefProduct">
+              <option value="">— Kein Produkt verknüpfen —</option>
+            </select>
+
+            <label>Anteil (%)</label>
+            <input id="compPercent" type="number" step="0.01" />
+
+            <button onclick="addIngredientToCurrent()">➕ Zutat hinzufügen</button>
+            <button class="secondary" onclick="normalizeCurrentProduct()">↺ Normalisieren</button>
+            <button class="secondary" onclick="sortCurrentComposition()">🔄 Sortieren</button>
+
+            <div class="progress-bar">
+              <div class="progress-fill" id="productPercentFill"></div>
+            </div>
+
+            <div id="currentCompositionList"></div>
+
+            <hr />
+            <button onclick="saveProduct()">💾 Produkt speichern</button>
+            <button class="secondary" onclick="clearProductForm()">🔄 Formular leeren</button>
+          </div>
+
+          <div class="card col-span-7">
+            <h2>Produktbibliothek</h2>
+            <div id="productsList" style="max-height:620px; overflow-y:auto;"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RECIPES -->
+      <section id="recipes" class="screen">
+        <div class="grid">
+          <div class="card col-span-5">
+            <h2>Rezept</h2>
+            <input type="hidden" id="editRecipeId" />
+
+            <label>Rezeptname</label>
+            <input id="recipeName" placeholder="z.B. Milchspeiseeis mit Amarena" />
+
+            <label>Verkehrsbezeichnung</label>
+            <input id="recipeLegal" placeholder="z.B. Milchspeiseeis mit Amarena-Kirschen" />
+
+            <label>Verpackungsgröße (g)</label>
+            <select id="recipePackaging">
+              <option>170</option>
+              <option>250</option>
+              <option>500</option>
+              <option>750</option>
+              <option>1000</option>
+              <option>2000</option>
+            </select>
+
+            <label>Aufbewahrung</label>
+            <input id="recipeStorage" value="Bei -18°C lagern. Nach Auftauen nicht wieder einfrieren." />
+
+            <label>Hersteller</label>
+            <input id="recipeManufacturer" value="Eiscafé Sanremo, Musterstr. 1, 57319 Bad Berleburg" />
+
+            <label>MHD / Los</label>
+            <input id="recipeMhd" value="Mindestens haltbar bis: siehe Deckel. Lot: siehe Deckel." />
+
+            <hr />
+            <h3>Zutat hinzufügen</h3>
+
+            <div class="two-col">
+              <div>
+                <label>Produkt</label>
+                <select id="recipeProductSelect"></select>
+              </div>
+              <div>
+                <label>Menge (g)</label>
+                <input id="recipeItemQty" type="number" step="0.1" />
+              </div>
+            </div>
+
+            <button onclick="addRecipeItem()">➕ Zutat hinzufügen</button>
+            <button class="secondary" onclick="clearRecipeDraft()">Alle entfernen</button>
+            <div id="recipeTotalWeight" class="small-note"></div>
+          </div>
+
+          <div class="card col-span-7">
+            <h2>Aktuelle Rezeptpositionen</h2>
+            <div style="max-height:280px; overflow:auto;">
+              <table id="recipeItemsTable"></table>
+            </div>
+
+            <button onclick="saveRecipe()" style="margin-top:12px;">💾 Rezept speichern</button>
+
+            <hr />
+            <h2>Gespeicherte Rezepte</h2>
+            <div id="savedRecipesList"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TECH SHEETS -->
+      <section id="techsheets" class="screen">
+        <div class="grid">
+          <div class="card col-span-4">
+            <h2>Technische Datenblätter</h2>
+
+            <label>Produkt wählen</label>
+            <select id="techProductSelect"></select>
+            <button onclick="generateProductTechSheet()">📄 Produkt-Ficha</button>
+
+            <hr />
+
+            <label>Rezept wählen</label>
+            <select id="techRecipeSelect"></select>
+            <button onclick="generateRecipeTechSheet()">🍨 Rezept-Ficha</button>
+
+            <hr />
+            <button class="secondary" onclick="printTechSheet()">🖨️ Drucken / PDF</button>
+          </div>
+
+          <div class="card col-span-8">
+            <h2>Vorschau</h2>
+            <div id="techSheetPreview" class="tech-sheet printable">
+              <p style="color:#666;">Wähle ein Produkt oder Rezept und klicke auf die jeweilige Ficha.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LABEL -->
+      <section id="labelgen" class="screen">
+        <div class="grid">
+          <div class="card col-span-4">
+            <h2>Etikett erstellen</h2>
+            <label>Rezept wählen</label>
+            <select id="labelRecipeSelect"></select>
+            <button onclick="generateLabel()">Etikett generieren</button>
+            <button class="secondary" onclick="copyLabel()">Kopieren</button>
+            <button class="secondary" onclick="downloadLabelTxt()">Als TXT speichern</button>
+          </div>
+
+          <div class="card col-span-8">
+            <h2>LMIV Vorschau</h2>
+            <div class="preview-box" id="labelPreviewText"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VALIDATION -->
+      <section id="validation" class="screen">
+        <div class="grid">
+          <div class="card col-span-4">
+            <h2>Rezept prüfen</h2>
+            <select id="validationSelect"></select>
+            <button onclick="validateRecipe()">Prüfung starten</button>
+          </div>
+          <div class="card col-span-8">
+            <h2>Prüfprotokoll</h2>
+            <div id="validationResult"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- BACKUP -->
+      <section id="backup" class="screen">
+        <div class="grid">
+          <div class="card col-span-6">
+            <h2>Backup & Wiederherstellung</h2>
+            <button onclick="exportData()">📁 JSON Export</button>
+            <button class="secondary" onclick="document.getElementById('importFile').click()">📂 Import JSON</button>
+            <input id="importFile" type="file" accept="application/json" style="display:none" onchange="importData(event)" />
+          </div>
+          <div class="card col-span-6">
+            <h2>Gefahrenzone</h2>
+            <button class="danger" onclick="resetAll()">⚠️ Alle Daten löschen</button>
+          </div>
+          <div class="card col-span-12">
+            <h2>Rohdaten</h2>
+            <pre id="rawData" style="background:#0a0f1c; padding:1rem; border-radius:12px; overflow:auto; font-size:11px;"></pre>
+          </div>
+        </div>
+      </section>
     </div>
   </div>
 
-  <div class="main">
-    <!-- DASHBOARD -->
-    <section id="dashboard" class="screen active">
-      <div class="grid">
-        <div class="card col-span-12">
-          <h2>📋 Professionelle LMIV-Steuerung</h2>
-          <p>Dieses System erlaubt Ihnen, <strong>eigene Produkte</strong> mit vollständiger Rezeptur (Zutaten + Prozente) und Nährwerten zu erfassen. Daraus erstellen Sie <strong>Rezepte</strong> in Gramm – die Zutatenliste wird automatisch nach dem tatsächlichen Gewicht sortiert, genau wie die deutsche Lebensmittelinformationsverordnung es vorschreibt.</p>
-          <div class="two-col" style="margin-top: 1rem;">
-            <div><span class="pill success">✓ Produkte mit 100% Struktur</span> <span class="pill success">✓ Automatische Allergene</span></div>
-            <div><span class="pill success">✓ Nährwerte pro 100g</span> <span class="pill success">✓ Zutaten nach Gewicht</span></div>
-          </div>
-          <div class="pill info" style="margin-top: 0.5rem;">🔄 Zutaten werden automatisch sortiert (größter % zuerst)</div>
-        </div>
-        <div class="card col-span-4">
-          <h3>📊 Statistik</h3>
-          <div id="statsArea"></div>
-        </div>
-        <div class="card col-span-4">
-          <h3>📌 Arbeitsablauf</h3>
-          <ol style="margin-left: 1.2rem;">
-            <li>Produkte anlegen + Zusammensetzung 100%</li>
-            <li>Rezept mit Gramm-Mengen erstellen</li>
-            <li>LMIV-Prüfung durchführen</li>
-            <li>Etikett generieren (fertig für Druck)</li>
-            <li>Technisches Datenblatt exportieren / drucken</li>
-          </ol>
-        </div>
-        <div class="card col-span-4">
-          <h3>⚖️ Rechtliche Basis</h3>
-          <p>Die Zutaten werden nach absteigendem Gewichtsanteil in der Gesamtrezeptur sortiert – LMIV Art. 18 Abs. 2. Alle Pflichtangaben sind enthalten.</p>
-        </div>
-      </div>
-    </section>
+  <script>
+    const STORAGE_KEY = 'sanremo_lmiv_complete_v1';
 
-    <!-- PRODUKTE (inkl. Zutaten & Nährwerte) -->
-    <section id="products" class="screen">
-      <div class="grid">
-        <div class="card col-span-5">
-          <h2>➕ Produkt anlegen / bearbeiten</h2>
-          <input type="hidden" id="editProductId">
-          <label>Produktname</label><input id="prodName" placeholder="z.B. Bio-Vollmilch 3.8%">
-          <label>Kategorie</label>
-          <select id="prodCategory">
-            <option>Milchprodukt</option>
-            <option>PASTE</option>
-            <option>fettglasur</option>
-            <option>Frucht</option>
-            <option>Fett</option>
-            <option>Pulver</option>
-            <option>Emulgator</option>
-          </select>
-          <label>Allergene (kommagetrennt, GROSS)</label><input id="prodAllergens" placeholder="MILCH, EI, GLUTEN">
-          <div class="two-col">
-            <div><label>kJ / 100g</label><input id="prodKj" type="number" step="any"></div>
-            <div><label>kcal / 100g</label><input id="prodKcal" type="number" step="any"></div>
-          </div>
-          <div class="two-col">
-            <div><label>Fett (g)</label><input id="prodFat" step="any"></div>
-            <div><label>davon gesättigt</label><input id="prodSat" step="any"></div>
-          </div>
-          <div class="two-col">
-            <div><label>Kohlenhydrate (g)</label><input id="prodCarb" step="any"></div>
-            <div><label>davon Zucker</label><input id="prodSugar" step="any"></div>
-          </div>
-          <div class="two-col">
-            <div><label>Eiweiß (g)</label><input id="prodProtein" step="any"></div>
-            <div><label>Salz (g)</label><input id="prodSalt" step="any" placeholder="z.B. 0.09 oder 0,1"></div>
-          </div>
-          <hr>
-          <h3>🧪 Exakte Zusammensetzung (100% Regel)</h3>
-          <div class="two-col">
-            <div><label>Zutat / Rohstoff</label><input id="compName" placeholder="z.B. Vollmilch, Zucker"></div>
-            <div><label>Anteil (%)</label><input id="compPercent" type="number" step="0.01"></div>
-          </div>
-          <button onclick="addIngredientToCurrent()">➕ Zutat hinzufügen</button>
-          <button class="secondary" onclick="normalizeCurrentProduct()">↺ Auf 100% normalisieren</button>
-          <button class="secondary" onclick="sortCurrentComposition()">🔄 Nach Gewicht sortieren (größte zuerst)</button>
-          <div class="progress-bar"><div class="progress-fill" id="productPercentFill"></div></div>
-          <div style="margin-top: 8px;" id="currentCompositionList"></div>
-          <hr>
-          <button onclick="saveProduct()">💾 Produkt speichern</button>
-          <button class="secondary" onclick="clearProductForm()">🔄 Formular leeren</button>
-        </div>
-        <div class="card col-span-7">
-          <h2>📋 Ihre Produktbibliothek</h2>
-          <div id="productsList" style="max-height: 600px; overflow-y: auto;"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- REZEPTE -->
-    <section id="recipes" class="screen">
-      <div class="grid">
-        <div class="card col-span-5">
-          <h2>🍨 Rezept erstellen</h2>
-          <input type="hidden" id="editRecipeId">
-          <label>Rezeptname</label><input id="recipeName" placeholder="z.B. Milchspeiseeis mit Amarena">
-          <label>Verkehrsbezeichnung (LMIV)</label><input id="recipeLegal" placeholder="Milcheis mit Amarena-Kirschen">
-          <label>Verpackungsgröße (g)</label><select id="recipePackaging"><option>170</option><option>250</option><option>500</option><option>750</option><option>1000</option><option>2000</option></select>
-          <label>Aufbewahrungshinweis</label><input id="recipeStorage" value="Bei -18°C lagern. Nach Auftauen nicht wieder einfrieren.">
-          <label>Hersteller (Adresse)</label><input id="recipeManufacturer" value="Eiscafé Sanremo, Musterstr. 1, 57319 Bad Berleburg">
-          <label>MHD / Los</label><input id="recipeMhd" value="Mindestens haltbar bis: siehe Deckel. Lot: siehe Deckel.">
-          <hr>
-          <h3>➕ Zutat (Produkt + Gramm)</h3>
-          <div class="two-col">
-            <div><label>Produkt</label><select id="recipeProductSelect"></select></div>
-            <div><label>Menge (g)</label><input id="recipeItemQty" type="number" step="0.1"></div>
-          </div>
-          <button onclick="addRecipeItem()">+ Zutat hinzufügen</button>
-          <button class="secondary" onclick="clearRecipeDraft()">Alle entfernen</button>
-          <div id="recipeTotalWeight" style="margin-top: 0.5rem; font-size:0.8rem;"></div>
-        </div>
-        <div class="card col-span-7">
-          <h2>📊 Aktuelle Rezeptpositionen</h2>
-          <div style="max-height: 280px; overflow: auto;"><table id="recipeItemsTable"></table></div>
-          <button onclick="saveRecipe()" style="margin-top: 12px;">💾 Rezept speichern</button>
-          <hr>
-          <h2>📁 Ihre Rezepte</h2>
-          <div id="savedRecipesList"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- TECHNISCHE DATENBLÄTTER -->
-    <section id="techsheets" class="screen">
-      <div class="grid">
-        <div class="card col-span-4">
-          <h2>📄 Technisches Datenblatt - Produkt</h2>
-          <label>Produkt wählen</label>
-          <select id="techProductSelect"></select>
-          <button onclick="generateProductTechSheet()">📄 Produkt-Datenblatt</button>
-          <hr>
-          <h2>🍨 Technisches Datenblatt - Rezept</h2>
-          <label>Rezept wählen</label>
-          <select id="techRecipeSelect"></select>
-          <button onclick="generateRecipeTechSheet()">📄 Rezept-Datenblatt</button>
-          <hr>
-          <button class="secondary" onclick="printTechSheet()">🖨️ Drucken / PDF</button>
-        </div>
-        <div class="card col-span-8">
-          <h2>📋 Vorschau Technisches Datenblatt</h2>
-          <div id="techSheetPreview" class="tech-sheet" style="max-height: 70vh; overflow-y: auto;">
-            <p style="color: #666;">Wählen Sie ein Produkt oder Rezept und klicken Sie auf "Produkt-Datenblatt" oder "Rezept-Datenblatt".</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ETIKETT GENERATOR -->
-    <section id="labelgen" class="screen">
-      <div class="grid">
-        <div class="card col-span-4">
-          <h2>🏷️ Etikett erstellen</h2>
-          <label>Rezept wählen</label><select id="labelRecipeSelect"></select>
-          <button onclick="generateLabel()">Etikett generieren</button>
-          <button class="secondary" onclick="copyLabel()">Kopieren</button>
-          <button class="secondary" onclick="downloadLabelTxt()">Als TXT speichern</button>
-        </div>
-        <div class="card col-span-8">
-          <h2>📄 LMIV-konforme Vorschau</h2>
-          <div class="preview-box" id="labelPreviewText"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- VALIDIERUNG -->
-    <section id="validation" class="screen">
-      <div class="grid">
-        <div class="card col-span-4"><h2>Rezept prüfen</h2><select id="validationSelect"></select><button onclick="validateRecipe()">Prüfung starten</button></div>
-        <div class="card col-span-8"><h2>Prüfprotokoll</h2><div id="validationResult"></div></div>
-      </div>
-    </section>
-
-    <!-- BACKUP -->
-    <section id="backup" class="screen">
-      <div class="grid">
-        <div class="card col-span-6"><h2>Backup & Wiederherstellung</h2><button onclick="exportData()">📁 JSON Export</button><button class="secondary" onclick="document.getElementById('importFile').click()">📂 Import JSON</button><input id="importFile" type="file" accept="application/json" style="display:none" onchange="importData(event)"></div>
-        <div class="card col-span-6"><h2>Gefahrenzone</h2><button class="danger" onclick="resetAll()">⚠️ Alle Daten löschen (Reset)</button></div>
-        <div class="card col-span-12"><h2>Rohdaten</h2><pre id="rawData" style="background:#0a0f1c; padding:1rem; border-radius:12px; overflow:auto; font-size:11px;"></pre></div>
-      </div>
-    </section>
-  </div>
-</div>
-
-<script>
-  // ---------- KERNLOGIK ----------
-  const STORAGE_KEY = 'sanremo_lmiv_pro_v2';
-  let state = {
-    products: [],
-    recipes: [],
-    recipeDraft: []
-  };
-
-  // ============================================================
-  // IHRE PRODUKTE - bereits mit 100% Zusammensetzung
-  // ============================================================
-  const defaultProducts = [
-    { id: 'p_milch', name: 'MILCH', category: 'Milchprodukt', allergens: 'MILCH', nutrition: { kj:265, kcal:64, fat:3.5, sat:2.3, carb:4.8, sugar:4.8, protein:3.4, salt:0.1 }, composition: [{ id:'c1', name:'MILCH', percent:100 }] },
-    { id: 'p_dextrose', name: 'Dextrose', category: 'Pulver', allergens: '', nutrition: { kj:1570, kcal:370, fat:0, sat:0, carb:100, sugar:100, protein:0, salt:0 }, composition: [{ id:'c2', name:'Dextrose', percent:100 }] },
-    { id: 'p_sanhe', name: 'SANHE', category: 'Milchprodukt', allergens: 'MILCH', nutrition: { kj:1320, kcal:314, fat:33, sat:20, carb:3, sugar:2, protein:2, salt:0 }, composition: [{ id:'c3', name:'SANHE', percent:100 }] },
-    { id: 'p_magermilch', name: 'MAGERMILCHPULVER', category: 'Pulver', allergens: 'MILCH', nutrition: { kj:1480, kcal:354, fat:0.8, sat:0.5, carb:52, sugar:52, protein:35, salt:1.1 }, composition: [{ id:'c4', name:'MAGERMILCHPULVER', percent:100 }] },
-    { id: 'p_glukosepulver', name: 'Glukosepulver', category: 'Pulver', allergens: '', nutrition: { kj:1570, kcal:370, fat:0, sat:0, carb:100, sugar:100, protein:0, salt:0 }, composition: [{ id:'c5', name:'Glukosepulver', percent:100 }] },
-    { id: 'p_zucker', name: 'Zucker', category: 'Süße', allergens: '', nutrition: { kj:1700, kcal:400, fat:0, sat:0, carb:100, sugar:100, protein:0, salt:0 }, composition: [{ id:'c6', name:'Zucker', percent:100 }] },
-    { id: 'p_glukosesirup', name: 'Glukosesirup', category: 'Süße', allergens: '', nutrition: { kj:1570, kcal:370, fat:0, sat:0, carb:100, sugar:100, protein:0, salt:0 }, composition: [{ id:'c7', name:'Glukosesirup', percent:100 }] },
-    { id: 'p_pflanzenfette', name: 'Pflanzenfette (Palm, Kokos)', category: 'Fett', allergens: '', nutrition: { kj:3700, kcal:900, fat:100, sat:85, carb:0, sugar:0, protein:0, salt:0 }, composition: [{ id:'c8', name:'Pflanzenfette (Palm, Kokos)', percent:100 }] }
-  ];
-
-  // ----- Sortierfunktion für Produkte (größter % zuerst) -----
-  function sortProductComposition(prod) {
-    if (prod.composition && prod.composition.length > 0) {
-      prod.composition.sort((a, b) => b.percent - a.percent);
-    }
-    return prod;
-  }
-
-  function loadState() {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      try {
-        const data = JSON.parse(raw);
-        state.products = data.products || [];
-        state.recipes = data.recipes || [];
-        state.recipeDraft = data.recipeDraft || [];
-      } catch(e) {}
-    }
-    if (!state.products.length) state.products = JSON.parse(JSON.stringify(defaultProducts));
-    state.products.forEach(p => { 
-      if (!p.composition) p.composition = []; 
-      if (!p.nutrition) p.nutrition = { kj:0,kcal:0,fat:0,sat:0,carb:0,sugar:0,protein:0,salt:0 };
-      sortProductComposition(p);
-    });
-    // KEINE BEISPIEL-RECEITA MEHR!
-    if (!state.recipes.length) {
-      state.recipes = [];
-    }
-    if (!state.recipeDraft) state.recipeDraft = [];
-  }
-
-  function saveState() { 
-    state.products.forEach(p => sortProductComposition(p));
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); 
-    renderAll(); 
-  }
-  function uid() { return Date.now() + '-' + Math.random().toString(36).substr(2, 8); }
-
-  function getProductPercentSum(prod) { return (prod.composition || []).reduce((s,c)=>s+c.percent,0); }
-
-  function parseDecimal(value) {
-    if (value === undefined || value === null || value === '') return 0;
-    let str = String(value).trim();
-    str = str.replace(',', '.');
-    let num = parseFloat(str);
-    return isNaN(num) ? 0 : parseFloat(num.toFixed(2));
-  }
-
-  function computeRecipeNutrition(recipe) {
-    const totalWeight = recipe.items.reduce((s,i)=>s+i.qty,0);
-    if (totalWeight === 0) return null;
-    const accum = { kj:0, kcal:0, fat:0, sat:0, carb:0, sugar:0, protein:0, salt:0 };
-    for (let item of recipe.items) {
-      const prod = state.products.find(p=>p.id===item.productId);
-      if (!prod) continue;
-      const factor = item.qty / totalWeight;
-      accum.kj += prod.nutrition.kj * factor;
-      accum.kcal += prod.nutrition.kcal * factor;
-      accum.fat += prod.nutrition.fat * factor;
-      accum.sat += prod.nutrition.sat * factor;
-      accum.carb += prod.nutrition.carb * factor;
-      accum.sugar += prod.nutrition.sugar * factor;
-      accum.protein += prod.nutrition.protein * factor;
-      accum.salt += prod.nutrition.salt * factor;
-    }
-    for (let key in accum) {
-      accum[key] = parseFloat(accum[key].toFixed(2));
-    }
-    return accum;
-  }
-
-  function getWeightSortedIngredients(recipe) {
-    const ingredientMap = new Map();
-    for (let item of recipe.items) {
-      const prod = state.products.find(p=>p.id===item.productId);
-      if (!prod || !prod.composition || prod.composition.length === 0) continue;
-      const sumPerc = getProductPercentSum(prod);
-      if (Math.abs(sumPerc - 100) > 0.1) continue;
-      for (let comp of prod.composition) {
-        const gramm = item.qty * (comp.percent / 100);
-        ingredientMap.set(comp.name, (ingredientMap.get(comp.name) || 0) + gramm);
-      }
-    }
-    const sorted = Array.from(ingredientMap.entries()).sort((a,b)=>b[1]-a[1]);
-    return sorted.map(e=>e[0]);
-  }
-
-  // ---------- TECHNISCHE DATENBLÄTTER ----------
-  window.generateProductTechSheet = function() {
-    const productId = document.getElementById('techProductSelect').value;
-    const product = state.products.find(p => p.id === productId);
-    const preview = document.getElementById('techSheetPreview');
-    
-    if (!product) {
-      preview.innerHTML = '<p style="color: red;">❌ Bitte wählen Sie ein Produkt.</p>';
-      return;
-    }
-
-    const sumPerc = getProductPercentSum(product);
-    const isComplete = Math.abs(sumPerc - 100) < 0.1;
-    const sortedComp = [...product.composition].sort((a,b)=>b.percent - a.percent);
-    const compRows = sortedComp.length ? sortedComp.map(c => `
-      <tr>
-        <td>${c.name}</td>
-        <td style="text-align:right">${c.percent.toFixed(2)}%</td>
-      </tr>
-    `).join('') : '<tr><td colspan="2" style="color:orange;">⚠️ Keine Zusammensetzung definiert (100% Regel nicht erfüllt)</td></tr>';
-
-    const formatNumber = (n) => (n || 0).toFixed(1).replace('.', ',');
-    const formatSalt = (n) => {
-      let val = n || 0;
-      if (val < 0.05) return '0,0';
-      return val.toFixed(1).replace('.', ',');
+    let state = {
+      products: [],
+      recipes: [],
+      recipeDraft: []
     };
-    
-    const html = `
-      <div style="font-family: 'Segoe UI', Arial, sans-serif;">
-        <div style="text-align: center; margin-bottom: 20px;">
-          <h1 style="color: #1a5276; margin:0;">📄 TECHNISCHES DATENBLATT - PRODUKT</h1>
-          <h2 style="color: #2c3e50; margin:5px 0;">${product.name}</h2>
-          <p style="color: #666;">Kategorie: ${product.category} | Status: ${isComplete ? '✅ 100% Vollständig' : '⚠️ Unvollständig (' + sumPerc.toFixed(1) + '%)'}</p>
-          <p style="color: #2ecc71; font-size:0.8rem;">🔽 Zutaten automatisch sortiert (größter Anteil zuerst) – LMIV konform</p>
-        </div>
 
-        <h3>🧪 Exakte Zusammensetzung (Basis 100%)</h3>
-        <table style="width:100%; border-collapse:collapse;">
-          <thead><tr style="background:#e8f0fe;"><th>Zutat / Rohstoff</th><th>Anteil (%)</th></tr></thead>
-          <tbody>${compRows}</tbody>
-        </table>
+    const ALLERGEN_KEYS = [
+      'MILCH','EI','GLUTEN','WEIZEN','ROGGEN','GERSTE','HAFER','DINKEL',
+      'KREBSTIERE','FISCH','ERDNUSS','SOJA','SCHALENFRÜCHTE','MANDELN',
+      'HASELNÜSSE','WALNÜSSE','PISTAZIEN','SELLERIE','SENF','SESAM',
+      'LUPINE','WEICHTIERE','SULFITE'
+    ];
 
-        <h3>📊 Nährwerte (pro 100g Produkt)</h3>
-        <table style="width:100%; border-collapse:collapse;">
-          <tr><td style="width:60%"><strong>Energie</strong></td><td style="text-align:right">${formatNumber(product.nutrition.kj)} kJ / ${formatNumber(product.nutrition.kcal)} kcal</td></tr>
-          <tr><td><strong>Fett</strong></td><td style="text-align:right">${formatNumber(product.nutrition.fat)} g</td></tr>
-          <tr><td style="padding-left:20px">davon gesättigte Fettsäuren</td><td style="text-align:right">${formatNumber(product.nutrition.sat)} g</td></tr>
-          <tr><td><strong>Kohlenhydrate</strong></td><td style="text-align:right">${formatNumber(product.nutrition.carb)} g</td></tr>
-          <tr><td style="padding-left:20px">davon Zucker</td><td style="text-align:right">${formatNumber(product.nutrition.sugar)} g</td></tr>
-          <tr><td><strong>Eiweiß</strong></td><td style="text-align:right">${formatNumber(product.nutrition.protein)} g</td></tr>
-          <tr><td><strong>Salz</strong></td><td style="text-align:right">${formatSalt(product.nutrition.salt)} g</td></tr>
-        </table>
-
-        <h3>⚠️ Allergene</h3>
-        <p>${product.allergens ? product.allergens.replace(/,/g, ', ') : 'Keine deklariert'}</p>
-
-        <h3>🏭 Zusätzliche Informationen</h3>
-        <table style="width:100%">
-          <tr><td style="width:40%"><strong>LMIV-Kategorie</strong></td><td>${product.category}</td></tr>
-          <tr><td><strong>100% Validierung</strong></td><td>${isComplete ? '✅ Ja (Summe = 100%)' : '❌ Nein (Summe = ' + sumPerc.toFixed(1) + '%)'}</td></tr>
-        </table>
-        <hr>
-        <p style="font-size: 0.7rem; color: #666; text-align: center;">Dokument automatisch generiert von Sanremo LMIV Präzisionssystem • ${new Date().toLocaleDateString('de-DE')}</p>
-      </div>
-    `;
-    preview.innerHTML = html;
-  };
-
-  window.generateRecipeTechSheet = function() {
-    const recipeId = document.getElementById('techRecipeSelect').value;
-    const recipe = state.recipes.find(r => r.id === recipeId);
-    const preview = document.getElementById('techSheetPreview');
-    
-    if (!recipe) {
-      preview.innerHTML = '<p style="color: red;">❌ Bitte wählen Sie ein Rezept.</p>';
-      return;
-    }
-
-    const nutrition = computeRecipeNutrition(recipe);
-    const totalWeight = recipe.items.reduce((s,i)=>s+i.qty,0);
-    const ingredientsList = getWeightSortedIngredients(recipe);
-    const allergensSet = new Set();
-    recipe.items.forEach(item => {
-      const prod = state.products.find(p=>p.id===item.productId);
-      if (prod && prod.allergens) prod.allergens.split(',').forEach(a=>{ let x=a.trim().toUpperCase(); if(x) allergensSet.add(x); });
-    });
-    const allergenText = allergensSet.size ? Array.from(allergensSet).join(', ') : 'Keiner der 14 Hauptallergene enthalten';
-    
-    let incompleteProducts = [];
-    for (let item of recipe.items) {
-      const prod = state.products.find(p=>p.id===item.productId);
-      if (prod && Math.abs(getProductPercentSum(prod)-100) > 0.1) {
-        incompleteProducts.push(prod.name);
-      }
-    }
-    const isComplete = incompleteProducts.length === 0;
-    
-    const formatNumber = (n) => (n || 0).toFixed(1).replace('.', ',');
-    const formatSalt = (n) => {
-      let val = n || 0;
-      if (val < 0.05) return '0,0';
-      return val.toFixed(1).replace('.', ',');
-    };
-    
-    const itemsTable = recipe.items.map(item => {
-      const prod = state.products.find(p=>p.id===item.productId);
-      const percent = totalWeight ? (item.qty/totalWeight*100).toFixed(1) : 0;
-      return `<tr><td style="width:40%">${prod?.name || '?'}</td><td style="text-align:right; width:30%">${item.qty.toFixed(1)} g</td><td style="text-align:right; width:30%">${percent}%</td></tr>`;
-    }).join('');
-    
-    const html = `
-      <div style="font-family: 'Segoe UI', Arial, sans-serif;">
-        <div style="text-align: center; margin-bottom: 20px;">
-          <h1 style="color: #1a5276; margin:0;">🍦 TECHNISCHES DATENBLATT - REZEPT</h1>
-          <h2 style="color: #2c3e50; margin:5px 0;">${recipe.name}</h2>
-          <p style="color: #666;">${recipe.legalName} | Verpackung: ${recipe.packaging} g</p>
-          <p style="color: ${isComplete ? 'green' : 'orange'}; font-size:0.85rem;">${isComplete ? '✅ Alle Produkte mit 100% Zusammensetzung' : '⚠️ Achtung: Produkte ohne 100% Zusammensetzung: ' + incompleteProducts.join(', ')}</p>
-        </div>
-
-        <h3>📦 Zutatenliste (nach absteigendem Gewicht)</h3>
-        <p style="font-size:0.9rem;">${ingredientsList.length ? ingredientsList.join(', ') : '❌ Zutatenliste konnte nicht generiert werden - bitte 100% Zusammensetzung der Produkte prüfen'}</p>
-        <p><strong>Allergene:</strong> ${allergenText}</p>
-
-        <h3>📊 Rezeptzusammensetzung (Gesamtgewicht: ${totalWeight.toFixed(1)} g)</h3>
-        <table style="width:100%; border-collapse:collapse;">
-          <thead><tr style="background:#e8f0fe;"><th>Produkt</th><th>Menge (g)</th><th>Anteil</th></tr></thead>
-          <tbody>${itemsTable}</tbody>
-        </table>
-
-        <h3>📈 Nährwerte (pro 100g Endprodukt)</h3>
-        ${nutrition ? `
-        <table style="width:100%; border-collapse:collapse;">
-          <tr><td style="width:60%"><strong>Energie</strong></td><td style="text-align:right">${formatNumber(nutrition.kj)} kJ / ${formatNumber(nutrition.kcal)} kcal</td></tr>
-          <tr><td><strong>Fett</strong></td><td style="text-align:right">${formatNumber(nutrition.fat)} g</td></tr>
-          <tr><td style="padding-left:20px">davon gesättigte Fettsäuren</td><td style="text-align:right">${formatNumber(nutrition.sat)} g</td></tr>
-          <tr><td><strong>Kohlenhydrate</strong></td><td style="text-align:right">${formatNumber(nutrition.carb)} g</td></tr>
-          <tr><td style="padding-left:20px">davon Zucker</td><td style="text-align:right">${formatNumber(nutrition.sugar)} g</td></tr>
-          <tr><td><strong>Eiweiß</strong></td><td style="text-align:right">${formatNumber(nutrition.protein)} g</td></tr>
-          <tr><td><strong>Salz</strong></td><td style="text-align:right">${formatSalt(nutrition.salt)} g</td></tr>
-        </table>
-        ` : '<p style="color:red;">Fehler bei der Nährwertberechnung</p>'}
-
-        <h3>🏭 LMIV-Rotulierung (Kennzeichnungsinformationen)</h3>
-        <table style="width:100%">
-          <tr><td style="width:40%"><strong>Verkehrsbezeichnung</strong></td><td>${recipe.legalName}</td></tr>
-          <tr><td><strong>Aufbewahrung</strong></td><td>${recipe.storage}</td></tr>
-          <tr><td><strong>Hersteller</strong></td><td>${recipe.manufacturer}</td></tr>
-          <tr><td><strong>MHD / Los</strong></td><td>${recipe.mhd}</td></tr>
-          <tr><td><strong>Füllmenge</strong></td><td>${recipe.packaging} g</td></tr>
-        </table>
-
-        <hr>
-        <p style="font-size: 0.7rem; color: #666; text-align: center;">Dokument automatisch generiert von Sanremo LMIV Präzisionssystem • ${new Date().toLocaleDateString('de-DE')}</p>
-        <p style="font-size: 0.7rem; color: #666; text-align: center;">LMIV Art. 18 Abs. 2 – Zutaten nach absteigendem Gewichtsanteil</p>
-      </div>
-    `;
-    preview.innerHTML = html;
-  };
-
-  window.printTechSheet = function() {
-    const content = document.getElementById('techSheetPreview').innerHTML;
-    if (!content || content.includes('Bitte wählen Sie')) {
-      alert('Bitte zuerst ein Technisches Datenblatt generieren.');
-      return;
-    }
-    const printWindow = window.open('', '_blank');
-    printWindow.document.write(`
-      <html>
-        <head><title>Technisches Datenblatt</title>
-        <style>
-          body { font-family: 'Segoe UI', Arial, sans-serif; padding: 2rem; margin: 0; }
-          table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
-          th, td { border: 1px solid #ccc; padding: 0.5rem; }
-          th { background: #e8f0fe; }
-          hr { margin: 2rem 0; }
-          h1 { color: #1a5276; }
-        </style>
-        </head>
-        <body>${content}</body>
-      </html>
-    `);
-    printWindow.document.close();
-    printWindow.print();
-  };
-
-  function validateRecipeCompliance(recipe) {
-    const issues = [];
-    if (!recipe.legalName) issues.push({ level:'error', text:'Verkehrsbezeichnung fehlt' });
-    if (!recipe.storage) issues.push({ level:'error', text:'Aufbewahrungshinweis fehlt' });
-    if (!recipe.manufacturer) issues.push({ level:'error', text:'Hersteller fehlt' });
-    const incompleteProducts = [];
-    for (let item of recipe.items) {
-      const prod = state.products.find(p=>p.id===item.productId);
-      if (!prod) incompleteProducts.push('unbekannt');
-      else {
-        const sum = getProductPercentSum(prod);
-        if (Math.abs(sum-100) > 0.1) incompleteProducts.push(`${prod.name} (${sum.toFixed(1)}%)`);
-      }
-    }
-    if (incompleteProducts.length) issues.push({ level:'error', text:`Produkte ohne 100%-Zusammensetzung: ${incompleteProducts.join(', ')}` });
-    if (recipe.items.length === 0) issues.push({ level:'error', text:'Keine Zutaten im Rezept' });
-    if (issues.length === 0) issues.push({ level:'success', text:'✅ LMIV konform – Etikett kann erstellt werden' });
-    return issues;
-  }
-
-  function generateLMIVLabel(recipe) {
-    const incomplete = [];
-    for (let item of recipe.items) {
-      const prod = state.products.find(p=>p.id===item.productId);
-      if (prod && Math.abs(getProductPercentSum(prod)-100) > 0.1) incomplete.push(prod.name);
-    }
-    if (incomplete.length) return `❌ Etikettierung blockiert: Die Produkte ${incomplete.join(', ')} haben keine 100%-Zusammensetzung. Bitte unter „Produkte“ die Zusammensetzung auf 100% bringen.`;
-    const nutrition = computeRecipeNutrition(recipe);
-    if (!nutrition) return "Fehler: Nährwertberechnung nicht möglich.";
-    const ingredients = getWeightSortedIngredients(recipe);
-    if (!ingredients.length) return "Keine Zutatenliste generierbar – Produktstrukturen prüfen (100% Regel).";
-    const allergensSet = new Set();
-    recipe.items.forEach(item => {
-      const prod = state.products.find(p=>p.id===item.productId);
-      if (prod && prod.allergens) prod.allergens.split(',').forEach(a=>{ let x=a.trim().toUpperCase(); if(x) allergensSet.add(x); });
-    });
-    const allergenText = allergensSet.size ? `Allergene: ${Array.from(allergensSet).join(', ')}. ` : "Keine der 14 Hauptallergene enthalten. ";
-    const fmt = v => (v || 0).toFixed(1).replace('.',',');
-    const fmtSalt = v => {
-      let val = v || 0;
-      if (val < 0.05) return '0,0';
-      return val.toFixed(1).replace('.',',');
-    };
-    return `${recipe.legalName}\n\nZutaten: ${ingredients.join(', ')}. ${allergenText}\n\nNährwerte pro 100g:\nEnergie ${fmt(nutrition.kj)} kJ / ${fmt(nutrition.kcal)} kcal\nFett ${fmt(nutrition.fat)} g (davon gesättigte Fettsäuren ${fmt(nutrition.sat)} g)\nKohlenhydrate ${fmt(nutrition.carb)} g (davon Zucker ${fmt(nutrition.sugar)} g)\nEiweiß ${fmt(nutrition.protein)} g\nSalz ${fmtSalt(nutrition.salt)} g\n\nInhalt: ${recipe.packaging} g\n${recipe.storage}\n${recipe.mhd}\nHersteller: ${recipe.manufacturer}`;
-  }
-
-  // ---------- UI RENDER ----------
-  function renderProductsList() {
-    const container = document.getElementById('productsList');
-    if (!state.products.length) { container.innerHTML = '<div class="product-item">Keine Produkte. Legen Sie ein neues Produkt an.</div>'; return; }
-    container.innerHTML = state.products.map(p => {
-      const sum = getProductPercentSum(p);
-      const status = Math.abs(sum-100)<0.1 ? '✅ 100%' : `⚠️ ${sum.toFixed(1)}%`;
-      return `<div class="product-item"><strong>${p.name}</strong> <span class="badge">${p.category}</span> <span class="pill ${Math.abs(sum-100)<0.1?'success':'warning'}">${status}</span><div style="font-size:0.75rem;">Allergene: ${p.allergens || '—'} | ${p.composition.length} Bestandteile</div><div style="margin-top:6px;"><button onclick="editProduct('${p.id}')">✏️ Bearbeiten</button> <button class="danger" onclick="deleteProduct('${p.id}')">Löschen</button> <button onclick="openProductComp('${p.id}')">🔬 Zusammensetzung</button></div></div>`;
-    }).join('');
-  }
-
-  window.editProduct = (id) => {
-    const p = state.products.find(x=>x.id===id);
-    if(!p) return;
-    document.getElementById('editProductId').value = p.id;
-    document.getElementById('prodName').value = p.name;
-    document.getElementById('prodCategory').value = p.category;
-    document.getElementById('prodAllergens').value = p.allergens || '';
-    document.getElementById('prodKj').value = p.nutrition.kj;
-    document.getElementById('prodKcal').value = p.nutrition.kcal;
-    document.getElementById('prodFat').value = p.nutrition.fat;
-    document.getElementById('prodSat').value = p.nutrition.sat;
-    document.getElementById('prodCarb').value = p.nutrition.carb;
-    document.getElementById('prodSugar').value = p.nutrition.sugar;
-    document.getElementById('prodProtein').value = p.nutrition.protein;
-    document.getElementById('prodSalt').value = p.nutrition.salt;
-    renderCurrentComposition(p);
-  };
-  window.openProductComp = (id) => { editProduct(id); switchScreen('products'); };
-  
-  function renderCurrentComposition(prod) {
-    const div = document.getElementById('currentCompositionList');
-    if (!prod) { div.innerHTML = ''; document.getElementById('productPercentFill').style.width = '0%'; return; }
-    const sum = getProductPercentSum(prod);
-    document.getElementById('productPercentFill').style.width = Math.min(100, sum) + '%';
-    const sorted = [...prod.composition].sort((a,b) => b.percent - a.percent);
-    div.innerHTML = sorted.map(c => `<div style="display:flex; justify-content:space-between; margin:4px 0;"><span>${c.name}</span><span>${c.percent.toFixed(2)}% <button class="danger" style="padding:0 6px; margin:0;" onclick="removeCompFromCurrent('${c.id}')">X</button></span></div>`).join('');
-  }
-  
-  window.removeCompFromCurrent = (compId) => {
-    const pid = document.getElementById('editProductId').value;
-    const prod = state.products.find(p=>p.id===pid);
-    if(prod) { prod.composition = prod.composition.filter(c=>c.id!==compId); renderCurrentComposition(prod); saveState(); }
-  };
-  
-  window.addIngredientToCurrent = function() {
-    const pid = document.getElementById('editProductId').value;
-    if (!pid) { alert("Bitte zuerst ein Produkt auswählen oder neu anlegen und speichern."); return; }
-    let prod = state.products.find(p=>p.id===pid);
-    if (!prod) { alert("Produkt nicht gefunden"); return; }
-    const name = document.getElementById('compName').value.trim();
-    const percent = parseDecimal(document.getElementById('compPercent').value);
-    if (!name || percent === 0) { alert("Zutat und Prozent eingeben"); return; }
-    if (!prod.composition) prod.composition = [];
-    prod.composition.push({ id: uid(), name, percent });
-    sortProductComposition(prod);
-    document.getElementById('compName').value = '';
-    document.getElementById('compPercent').value = '';
-    renderCurrentComposition(prod);
-    saveState();
-  };
-  
-  window.sortCurrentComposition = function() {
-    const pid = document.getElementById('editProductId').value;
-    const prod = state.products.find(p=>p.id===pid);
-    if (!prod) { alert("Kein Produkt ausgewählt"); return; }
-    sortProductComposition(prod);
-    renderCurrentComposition(prod);
-    saveState();
-    alert("✅ Zutaten wurden nach Gewicht sortiert (größter Anteil zuerst)");
-  };
-  
-  window.normalizeCurrentProduct = function() {
-    const pid = document.getElementById('editProductId').value;
-    const prod = state.products.find(p=>p.id===pid);
-    if (!prod || !prod.composition.length) { alert("Keine Zutaten vorhanden"); return; }
-    let sum = prod.composition.reduce((a,b)=>a+b.percent,0);
-    if (sum === 0) return;
-    prod.composition = prod.composition.map(c => ({ ...c, percent: parseFloat((c.percent / sum * 100).toFixed(2)) }));
-    sortProductComposition(prod);
-    renderCurrentComposition(prod);
-    saveState();
-  };
-  
-  window.saveProduct = function() {
-    let id = document.getElementById('editProductId').value;
-    const prod = {
-      id: id || uid(),
-      name: document.getElementById('prodName').value.trim(),
-      category: document.getElementById('prodCategory').value,
-      allergens: document.getElementById('prodAllergens').value,
-      nutrition: {
-        kj: parseDecimal(document.getElementById('prodKj').value),
-        kcal: parseDecimal(document.getElementById('prodKcal').value),
-        fat: parseDecimal(document.getElementById('prodFat').value),
-        sat: parseDecimal(document.getElementById('prodSat').value),
-        carb: parseDecimal(document.getElementById('prodCarb').value),
-        sugar: parseDecimal(document.getElementById('prodSugar').value),
-        protein: parseDecimal(document.getElementById('prodProtein').value),
-        salt: parseDecimal(document.getElementById('prodSalt').value)
+    const defaultProducts = [
+      {
+        id: 'p_milch',
+        type: 'simple',
+        name: 'MILCH',
+        declarationName: 'MILCH',
+        category: 'Milchprodukt',
+        allergens: 'MILCH',
+        nutrition: { kj: 265, kcal: 64, fat: 3.5, sat: 2.3, carb: 4.8, sugar: 4.8, protein: 3.4, salt: 0.1 },
+        composition: [{ id: 'c1', name: 'MILCH', refProductId: '', percent: 100 }]
       },
-      composition: []
-    };
-    if (!prod.name) { alert("Produktname erforderlich"); return; }
-    const existingIndex = state.products.findIndex(p=>p.id===prod.id);
-    if (existingIndex >= 0) {
-      prod.composition = state.products[existingIndex].composition || [];
-      state.products[existingIndex] = prod;
-    } else {
-      state.products.push(prod);
+      {
+        id: 'p_dextrose',
+        type: 'simple',
+        name: 'Dextrose',
+        declarationName: 'Dextrose',
+        category: 'Pulver',
+        allergens: '',
+        nutrition: { kj: 1570, kcal: 370, fat: 0, sat: 0, carb: 100, sugar: 100, protein: 0, salt: 0 },
+        composition: [{ id: 'c2', name: 'Dextrose', refProductId: '', percent: 100 }]
+      },
+      {
+        id: 'p_sahne',
+        type: 'simple',
+        name: 'SAHNE',
+        declarationName: 'SAHNE',
+        category: 'Milchprodukt',
+        allergens: 'MILCH',
+        nutrition: { kj: 1320, kcal: 314, fat: 33, sat: 20, carb: 3, sugar: 2, protein: 2, salt: 0 },
+        composition: [{ id: 'c3', name: 'SAHNE', refProductId: '', percent: 100 }]
+      },
+      {
+        id: 'p_magermilch',
+        type: 'simple',
+        name: 'MAGERMILCHPULVER',
+        declarationName: 'MAGERMILCHPULVER',
+        category: 'Pulver',
+        allergens: 'MILCH',
+        nutrition: { kj: 1480, kcal: 354, fat: 0.8, sat: 0.5, carb: 52, sugar: 52, protein: 35, salt: 1.1 },
+        composition: [{ id: 'c4', name: 'MAGERMILCHPULVER', refProductId: '', percent: 100 }]
+      },
+      {
+        id: 'p_glukosepulver',
+        type: 'simple',
+        name: 'Glukosepulver',
+        declarationName: 'Glukosepulver',
+        category: 'Pulver',
+        allergens: '',
+        nutrition: { kj: 1570, kcal: 370, fat: 0, sat: 0, carb: 100, sugar: 100, protein: 0, salt: 0 },
+        composition: [{ id: 'c5', name: 'Glukosepulver', refProductId: '', percent: 100 }]
+      },
+      {
+        id: 'p_zucker',
+        type: 'simple',
+        name: 'Zucker',
+        declarationName: 'Zucker',
+        category: 'Süße',
+        allergens: '',
+        nutrition: { kj: 1700, kcal: 400, fat: 0, sat: 0, carb: 100, sugar: 100, protein: 0, salt: 0 },
+        composition: [{ id: 'c6', name: 'Zucker', refProductId: '', percent: 100 }]
+      },
+      {
+        id: 'p_glukosesirup',
+        type: 'simple',
+        name: 'Glukosesirup',
+        declarationName: 'Glukosesirup',
+        category: 'Süße',
+        allergens: '',
+        nutrition: { kj: 1570, kcal: 370, fat: 0, sat: 0, carb: 100, sugar: 100, protein: 0, salt: 0 },
+        composition: [{ id: 'c7', name: 'Glukosesirup', refProductId: '', percent: 100 }]
+      }
+    ];
+
+    function uid() {
+      return Date.now() + '-' + Math.random().toString(36).slice(2, 8);
     }
-    sortProductComposition(prod);
-    clearProductForm();
-    saveState();
-  };
-  
-  window.deleteProduct = (id) => { if(confirm("Produkt unwiderruflich löschen?")) { state.products = state.products.filter(p=>p.id!==id); state.recipes.forEach(r=>r.items=r.items.filter(i=>i.productId!==id)); state.recipeDraft = state.recipeDraft.filter(i=>i.productId!==id); saveState(); } };
-  
-  function clearProductForm() {
-    ['editProductId','prodName','prodAllergens','prodKj','prodKcal','prodFat','prodSat','prodCarb','prodSugar','prodProtein','prodSalt'].forEach(id=>document.getElementById(id).value='');
-    document.getElementById('prodCategory').value='Milchprodukt';
-    document.getElementById('currentCompositionList').innerHTML = '';
-    document.getElementById('productPercentFill').style.width = '0%';
-  }
-  
-  window.addRecipeItem = function() {
-    const pid = document.getElementById('recipeProductSelect').value;
-    const qty = parseFloat(document.getElementById('recipeItemQty').value);
-    if (!pid || qty <= 0) { alert("Produkt und gültige Grammzahl wählen"); return; }
-    state.recipeDraft.push({ id: uid(), productId: pid, qty });
-    document.getElementById('recipeItemQty').value = '';
-    renderRecipeDraft();
-    saveState();
-  };
-  
-  window.removeRecipeDraftItem = (id) => { state.recipeDraft = state.recipeDraft.filter(i=>i.id!==id); renderRecipeDraft(); saveState(); };
-  window.clearRecipeDraft = () => { state.recipeDraft = []; renderRecipeDraft(); saveState(); };
-  
-  function renderRecipeDraft() {
-    const total = state.recipeDraft.reduce((s,i)=>s+i.qty,0);
-    document.getElementById('recipeTotalWeight').innerHTML = `<strong>Gesamt: ${total.toFixed(1)} g</strong>`;
-    const tbody = document.getElementById('recipeItemsTable');
-    tbody.innerHTML = `<thead><tr><th>Produkt</th><th>Menge (g)</th><th>Anteil</th><th></th></tr></thead><tbody>${state.recipeDraft.map(it=>{
-      const prod = state.products.find(p=>p.id===it.productId);
-      const percent = total ? (it.qty/total*100).toFixed(1) : 0;
-      return `<tr><td>${prod?.name||'?'}</td><td>${it.qty.toFixed(1)} g</td><td>${percent}%</td><td><button class="danger" onclick="removeRecipeDraftItem('${it.id}')">X</button></td></tr>`;
-    }).join('')}</tbody>`;
-  }
-  
-  window.saveRecipe = function() {
-    const rid = document.getElementById('editRecipeId').value;
-    const recipe = {
-      id: rid || uid(),
-      name: document.getElementById('recipeName').value.trim(),
-      legalName: document.getElementById('recipeLegal').value.trim(),
-      packaging: document.getElementById('recipePackaging').value,
-      storage: document.getElementById('recipeStorage').value,
-      manufacturer: document.getElementById('recipeManufacturer').value,
-      mhd: document.getElementById('recipeMhd').value,
-      items: [...state.recipeDraft]
+
+    function parseDecimal(v) {
+      if (v === undefined || v === null || v === '') return 0;
+      const n = parseFloat(String(v).replace(',', '.'));
+      return isNaN(n) ? 0 : parseFloat(n.toFixed(4));
+    }
+
+    function fmtNumber(n, digits = 1) {
+      return (Number(n || 0)).toFixed(digits).replace('.', ',');
+    }
+
+    function fmtSalt(n) {
+      const val = Number(n || 0);
+      if (val < 0.05) return '0,0';
+      return val.toFixed(1).replace('.', ',');
+    }
+
+    function normalizeText(s) {
+      return String(s || '').trim().toUpperCase();
+    }
+
+    function findProduct(id) {
+      return state.products.find(p => p.id === id);
+    }
+
+    function getProductPercentSum(prod) {
+      return (prod?.composition || []).reduce((s, c) => s + parseDecimal(c.percent), 0);
+    }
+
+    function sortProductComposition(prod) {
+      if (prod?.composition) {
+        prod.composition.sort((a, b) => parseDecimal(b.percent) - parseDecimal(a.percent));
+      }
+      return prod;
+    }
+
+    function getDirectAllergens(prod) {
+      return (prod?.allergens || '')
+        .split(',')
+        .map(x => normalizeText(x))
+        .filter(Boolean);
+    }
+
+    function extractAllergensFromText(text) {
+      const src = normalizeText(text);
+      const found = [];
+      for (const a of ALLERGEN_KEYS) {
+        if (src.includes(a)) found.push(a);
+      }
+      return [...new Set(found)];
+    }
+
+    function isMeaningfulCompound(prod) {
+      if (!prod || !Array.isArray(prod.composition) || prod.composition.length === 0) return false;
+      if (prod.composition.length === 1) {
+        const c = prod.composition[0];
+        const sameName = normalizeText(c.name) === normalizeText(prod.declarationName || prod.name);
+        const simple100 = !c.refProductId && sameName && Math.abs(parseDecimal(c.percent) - 100) < 0.01;
+        if (simple100) return false;
+      }
+      return true;
+    }
+
+    function loadState() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        try {
+          state = JSON.parse(raw);
+        } catch (e) {}
+      }
+
+      if (!state.products?.length) state.products = JSON.parse(JSON.stringify(defaultProducts));
+      if (!state.recipes) state.recipes = [];
+      if (!state.recipeDraft) state.recipeDraft = [];
+
+      state.products.forEach(p => {
+        p.type = p.type || 'simple';
+        p.declarationName = p.declarationName || p.name;
+        p.category = p.category || 'Sonstiges';
+        p.allergens = p.allergens || '';
+        p.nutrition = p.nutrition || { kj:0, kcal:0, fat:0, sat:0, carb:0, sugar:0, protein:0, salt:0 };
+        p.composition = (p.composition || []).map(c => ({
+          id: c.id || uid(),
+          name: c.name || '',
+          refProductId: c.refProductId || '',
+          percent: parseDecimal(c.percent)
+        }));
+        sortProductComposition(p);
+      });
+    }
+
+    function saveState() {
+      state.products.forEach(sortProductComposition);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      renderAll();
+    }
+
+    function resolveProductIngredients(productId, grams, visited = new Set()) {
+      const prod = findProduct(productId);
+      if (!prod || grams <= 0) return [];
+
+      if (visited.has(productId)) {
+        return [{
+          name: `[ZYKLUS:${prod.declarationName || prod.name}]`,
+          grams,
+          allergens: [],
+          source: 'cycle'
+        }];
+      }
+
+      const nextVisited = new Set(visited);
+      nextVisited.add(productId);
+
+      const meaningfulCompound = isMeaningfulCompound(prod) && Math.abs(getProductPercentSum(prod) - 100) < 0.1;
+
+      if (!meaningfulCompound) {
+        return [{
+          name: prod.declarationName || prod.name,
+          grams,
+          allergens: getDirectAllergens(prod),
+          source: 'leaf',
+          productId
+        }];
+      }
+
+      const out = [];
+
+      for (const comp of prod.composition) {
+        const childGrams = grams * (parseDecimal(comp.percent) / 100);
+
+        if (comp.refProductId) {
+          out.push(...resolveProductIngredients(comp.refProductId, childGrams, nextVisited));
+        } else {
+          out.push({
+            name: comp.name,
+            grams: childGrams,
+            allergens: extractAllergensFromText(comp.name),
+            source: 'text'
+          });
+        }
+      }
+
+      return out;
+    }
+
+    function aggregateRecipeIngredients(recipe) {
+      const map = new Map();
+
+      for (const item of recipe.items || []) {
+        const resolved = resolveProductIngredients(item.productId, parseDecimal(item.qty));
+        for (const part of resolved) {
+          const key = normalizeText(part.name);
+          if (!map.has(key)) {
+            map.set(key, {
+              name: part.name,
+              grams: 0,
+              allergens: new Set()
+            });
+          }
+          const slot = map.get(key);
+          slot.grams += parseDecimal(part.grams);
+          (part.allergens || []).forEach(a => slot.allergens.add(a));
+        }
+      }
+
+      return Array.from(map.values())
+        .map(x => ({
+          name: x.name,
+          grams: parseFloat(x.grams.toFixed(4)),
+          allergens: Array.from(x.allergens)
+        }))
+        .sort((a, b) => b.grams - a.grams);
+    }
+
+    function getRecipeAllergens(recipe) {
+      const set = new Set();
+
+      for (const item of recipe.items || []) {
+        const resolved = resolveProductIngredients(item.productId, parseDecimal(item.qty));
+        for (const part of resolved) {
+          (part.allergens || []).forEach(a => set.add(a));
+        }
+      }
+
+      return Array.from(set);
+    }
+
+    function computeRecipeNutrition(recipe) {
+      const totalWeight = (recipe.items || []).reduce((s, i) => s + parseDecimal(i.qty), 0);
+      if (totalWeight <= 0) return null;
+
+      const acc = { kj:0, kcal:0, fat:0, sat:0, carb:0, sugar:0, protein:0, salt:0 };
+
+      for (const item of recipe.items) {
+        const prod = findProduct(item.productId);
+        if (!prod) continue;
+        const factor = parseDecimal(item.qty) / totalWeight;
+        acc.kj += parseDecimal(prod.nutrition.kj) * factor;
+        acc.kcal += parseDecimal(prod.nutrition.kcal) * factor;
+        acc.fat += parseDecimal(prod.nutrition.fat) * factor;
+        acc.sat += parseDecimal(prod.nutrition.sat) * factor;
+        acc.carb += parseDecimal(prod.nutrition.carb) * factor;
+        acc.sugar += parseDecimal(prod.nutrition.sugar) * factor;
+        acc.protein += parseDecimal(prod.nutrition.protein) * factor;
+        acc.salt += parseDecimal(prod.nutrition.salt) * factor;
+      }
+
+      Object.keys(acc).forEach(k => acc[k] = parseFloat(acc[k].toFixed(4)));
+      return acc;
+    }
+
+    function validateRecipeCompliance(recipe) {
+      const issues = [];
+
+      if (!recipe) {
+        issues.push({ level: 'error', text: 'Kein Rezept gefunden' });
+        return issues;
+      }
+
+      if (!recipe.name) issues.push({ level: 'error', text: 'Rezeptname fehlt' });
+      if (!recipe.legalName) issues.push({ level: 'error', text: 'Verkehrsbezeichnung fehlt' });
+      if (!recipe.storage) issues.push({ level: 'error', text: 'Aufbewahrungshinweis fehlt' });
+      if (!recipe.manufacturer) issues.push({ level: 'error', text: 'Hersteller fehlt' });
+      if (!recipe.items || recipe.items.length === 0) issues.push({ level: 'error', text: 'Keine Zutaten im Rezept' });
+
+      const incomplete = [];
+      const cyclic = [];
+
+      for (const item of recipe.items || []) {
+        const prod = findProduct(item.productId);
+        if (!prod) {
+          incomplete.push('Unbekanntes Produkt');
+          continue;
+        }
+
+        if (isMeaningfulCompound(prod)) {
+          const sum = getProductPercentSum(prod);
+          if (Math.abs(sum - 100) > 0.1) {
+            incomplete.push(`${prod.name} (${sum.toFixed(1)}%)`);
+          }
+        }
+
+        const resolved = resolveProductIngredients(item.productId, parseDecimal(item.qty));
+        if (resolved.some(x => String(x.name).startsWith('[ZYKLUS:'))) {
+          cyclic.push(prod.name);
+        }
+      }
+
+      if (incomplete.length) {
+        issues.push({ level: 'error', text: `Produkte ohne 100%-Struktur: ${incomplete.join(', ')}` });
+      }
+
+      if (cyclic.length) {
+        issues.push({ level: 'error', text: `Zyklus in Produktstruktur erkannt: ${[...new Set(cyclic)].join(', ')}` });
+      }
+
+      const ingredients = aggregateRecipeIngredients(recipe);
+      if (!ingredients.length) {
+        issues.push({ level: 'error', text: 'Zutatenliste konnte nicht erzeugt werden' });
+      }
+
+      if (issues.length === 0) {
+        issues.push({ level: 'success', text: '✅ Rezept strukturell freigegeben' });
+      }
+
+      return issues;
+    }
+
+    function generateLMIVLabel(recipe) {
+      const issues = validateRecipeCompliance(recipe).filter(x => x.level === 'error');
+      if (issues.length) {
+        return '❌ Etikettierung blockiert:\n- ' + issues.map(x => x.text).join('\n- ');
+      }
+
+      const nutrition = computeRecipeNutrition(recipe);
+      if (!nutrition) return 'Fehler bei der Nährwertberechnung.';
+
+      const ingredients = aggregateRecipeIngredients(recipe);
+      const allergens = getRecipeAllergens(recipe);
+
+      const ingredientText = ingredients.map(x => x.name).join(', ');
+      const allergenText = allergens.length ? `Allergene: ${allergens.join(', ')}.` : 'Keine der 14 Hauptallergene enthalten.';
+
+      return `${recipe.legalName}
+
+Zutaten: ${ingredientText}. ${allergenText}
+
+Nährwerte pro 100g:
+Energie ${fmtNumber(nutrition.kj)} kJ / ${fmtNumber(nutrition.kcal)} kcal
+Fett ${fmtNumber(nutrition.fat)} g (davon gesättigte Fettsäuren ${fmtNumber(nutrition.sat)} g)
+Kohlenhydrate ${fmtNumber(nutrition.carb)} g (davon Zucker ${fmtNumber(nutrition.sugar)} g)
+Eiweiß ${fmtNumber(nutrition.protein)} g
+Salz ${fmtSalt(nutrition.salt)} g
+
+Inhalt: ${recipe.packaging} g
+${recipe.storage}
+${recipe.mhd}
+Hersteller: ${recipe.manufacturer}`;
+    }
+
+    function productStructureText(prod) {
+      if (!prod || !prod.composition?.length) return 'Keine Zusammensetzung definiert';
+
+      return prod.composition
+        .slice()
+        .sort((a, b) => parseDecimal(b.percent) - parseDecimal(a.percent))
+        .map(c => {
+          if (c.refProductId) {
+            const ref = findProduct(c.refProductId);
+            return `${ref ? ref.declarationName || ref.name : c.name} – ${fmtNumber(c.percent, 2)} %`;
+          }
+          return `${c.name} – ${fmtNumber(c.percent, 2)} %`;
+        })
+        .join('\n');
+    }
+
+    function generateProductTechSheet() {
+      const productId = document.getElementById('techProductSelect').value;
+      const prod = findProduct(productId);
+      const preview = document.getElementById('techSheetPreview');
+
+      if (!prod) {
+        preview.innerHTML = '<p style="color:red;">❌ Bitte ein Produkt wählen.</p>';
+        return;
+      }
+
+      const sum = getProductPercentSum(prod);
+      const complete = !isMeaningfulCompound(prod) || Math.abs(sum - 100) < 0.1;
+
+      const rows = (prod.composition || [])
+        .slice()
+        .sort((a, b) => parseDecimal(b.percent) - parseDecimal(a.percent))
+        .map(c => {
+          const ref = c.refProductId ? findProduct(c.refProductId) : null;
+          return `
+            <tr>
+              <td>${ref ? (ref.declarationName || ref.name) : c.name}</td>
+              <td>${c.refProductId ? 'Referenz' : 'Text'}</td>
+              <td style="text-align:right">${fmtNumber(c.percent, 2)} %</td>
+            </tr>
+          `;
+        }).join('') || '<tr><td colspan="3">Keine Zusammensetzung hinterlegt</td></tr>';
+
+      preview.innerHTML = `
+        <div>
+          <h1>📄 Technisches Datenblatt – Produkt</h1>
+          <div><strong>Produkt:</strong> ${prod.name}</div>
+          <div><strong>Deklarationsname:</strong> ${prod.declarationName || prod.name}</div>
+          <div><strong>Typ:</strong> ${prod.type}</div>
+          <div><strong>Kategorie:</strong> ${prod.category}</div>
+          <div><strong>Status Zusammensetzung:</strong> ${complete ? '✅ OK' : '⚠️ ' + fmtNumber(sum, 1) + ' %'}</div>
+
+          <h2>Zusammensetzung</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Bestandteil</th>
+                <th>Art</th>
+                <th>Anteil</th>
+              </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+
+          <h2>Nährwerte je 100 g</h2>
+          <table>
+            <tr><td>Energie</td><td>${fmtNumber(prod.nutrition.kj)} kJ / ${fmtNumber(prod.nutrition.kcal)} kcal</td></tr>
+            <tr><td>Fett</td><td>${fmtNumber(prod.nutrition.fat)} g</td></tr>
+            <tr><td>davon gesättigte Fettsäuren</td><td>${fmtNumber(prod.nutrition.sat)} g</td></tr>
+            <tr><td>Kohlenhydrate</td><td>${fmtNumber(prod.nutrition.carb)} g</td></tr>
+            <tr><td>davon Zucker</td><td>${fmtNumber(prod.nutrition.sugar)} g</td></tr>
+            <tr><td>Eiweiß</td><td>${fmtNumber(prod.nutrition.protein)} g</td></tr>
+            <tr><td>Salz</td><td>${fmtSalt(prod.nutrition.salt)} g</td></tr>
+          </table>
+
+          <h2>Allergene</h2>
+          <p>${prod.allergens ? prod.allergens : 'Keine direkt gepflegt'}</p>
+
+          <p style="margin-top:1rem; font-size:0.75rem; color:#666;">
+            Generiert am ${new Date().toLocaleDateString('de-DE')}
+          </p>
+        </div>
+      `;
+    }
+
+    function generateRecipeTechSheet() {
+      const recipeId = document.getElementById('techRecipeSelect').value;
+      const recipe = state.recipes.find(r => r.id === recipeId);
+      const preview = document.getElementById('techSheetPreview');
+
+      if (!recipe) {
+        preview.innerHTML = '<p style="color:red;">❌ Bitte ein Rezept wählen.</p>';
+        return;
+      }
+
+      const totalWeight = (recipe.items || []).reduce((s, i) => s + parseDecimal(i.qty), 0);
+      const nutrition = computeRecipeNutrition(recipe);
+      const ingredients = aggregateRecipeIngredients(recipe);
+      const allergens = getRecipeAllergens(recipe);
+      const issues = validateRecipeCompliance(recipe);
+
+      const rows = (recipe.items || []).map(item => {
+        const prod = findProduct(item.productId);
+        const percent = totalWeight > 0 ? (parseDecimal(item.qty) / totalWeight * 100) : 0;
+        return `
+          <tr>
+            <td>${prod ? prod.name : 'Unbekannt'}</td>
+            <td style="text-align:right">${fmtNumber(item.qty)} g</td>
+            <td style="text-align:right">${fmtNumber(percent)} %</td>
+          </tr>
+        `;
+      }).join('');
+
+      preview.innerHTML = `
+        <div>
+          <h1>🍨 Technisches Datenblatt – Rezept</h1>
+          <div><strong>Rezept:</strong> ${recipe.name}</div>
+          <div><strong>Verkehrsbezeichnung:</strong> ${recipe.legalName}</div>
+          <div><strong>Verpackung:</strong> ${recipe.packaging} g</div>
+          <div><strong>Gesamtgewicht Rezeptur:</strong> ${fmtNumber(totalWeight)} g</div>
+
+          <h2>Rezeptpositionen</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Produkt</th>
+                <th>Menge</th>
+                <th>Anteil</th>
+              </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+
+          <h2>Zutatenliste (gewichtsbezogen)</h2>
+          <p>${ingredients.length ? ingredients.map(x => x.name).join(', ') : 'Keine erzeugbar'}</p>
+
+          <h2>Allergene</h2>
+          <p>${allergens.length ? allergens.join(', ') : 'Keine der 14 Hauptallergene enthalten'}</p>
+
+          <h2>Nährwerte je 100 g</h2>
+          ${
+            nutrition ? `
+              <table>
+                <tr><td>Energie</td><td>${fmtNumber(nutrition.kj)} kJ / ${fmtNumber(nutrition.kcal)} kcal</td></tr>
+                <tr><td>Fett</td><td>${fmtNumber(nutrition.fat)} g</td></tr>
+                <tr><td>davon gesättigte Fettsäuren</td><td>${fmtNumber(nutrition.sat)} g</td></tr>
+                <tr><td>Kohlenhydrate</td><td>${fmtNumber(nutrition.carb)} g</td></tr>
+                <tr><td>davon Zucker</td><td>${fmtNumber(nutrition.sugar)} g</td></tr>
+                <tr><td>Eiweiß</td><td>${fmtNumber(nutrition.protein)} g</td></tr>
+                <tr><td>Salz</td><td>${fmtSalt(nutrition.salt)} g</td></tr>
+              </table>
+            ` : '<p>Fehler bei der Nährwertberechnung</p>'
+          }
+
+          <h2>LMIV Felder</h2>
+          <table>
+            <tr><td>Aufbewahrung</td><td>${recipe.storage}</td></tr>
+            <tr><td>Hersteller</td><td>${recipe.manufacturer}</td></tr>
+            <tr><td>MHD / Los</td><td>${recipe.mhd}</td></tr>
+          </table>
+
+          <h2>Validierung</h2>
+          <div>
+            ${issues.map(i => `<div style="margin-bottom:6px;">${i.level === 'error' ? '❌' : '✅'} ${i.text}</div>`).join('')}
+          </div>
+
+          <p style="margin-top:1rem; font-size:0.75rem; color:#666;">
+            Generiert am ${new Date().toLocaleDateString('de-DE')}
+          </p>
+        </div>
+      `;
+    }
+
+    function printTechSheet() {
+      const content = document.getElementById('techSheetPreview').innerHTML;
+      if (!content || content.includes('Bitte')) {
+        alert('Bitte zuerst eine Ficha generieren.');
+        return;
+      }
+
+      const win = window.open('', '_blank');
+      win.document.write(`
+        <html>
+          <head>
+            <title>Technisches Datenblatt</title>
+            <style>
+              body { font-family: Arial, sans-serif; margin: 0; padding: 24px; color: #111; }
+              table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+              th, td { border: 1px solid #ccc; padding: 8px; text-align: left; vertical-align: top; }
+              th { background: #e8f0fe; }
+              h1 { color: #1a5276; }
+              h2 { color: #1a5276; border-bottom: 2px solid #2ecc71; padding-bottom: 4px; margin-top: 22px; }
+            </style>
+          </head>
+          <body>${content}</body>
+        </html>
+      `);
+      win.document.close();
+      win.print();
+    }
+
+    function renderCurrentComposition(prod) {
+      const div = document.getElementById('currentCompositionList');
+      if (!prod) {
+        div.innerHTML = '';
+        document.getElementById('productPercentFill').style.width = '0%';
+        return;
+      }
+
+      const sum = getProductPercentSum(prod);
+      document.getElementById('productPercentFill').style.width = Math.min(100, sum) + '%';
+
+      const sorted = [...(prod.composition || [])].sort((a, b) => parseDecimal(b.percent) - parseDecimal(a.percent));
+
+      div.innerHTML = sorted.map(c => {
+        const ref = c.refProductId ? findProduct(c.refProductId) : null;
+        return `
+          <div style="display:flex; justify-content:space-between; margin:6px 0; gap:10px;">
+            <span>${ref ? (ref.name + ' ↦ ' + (ref.declarationName || ref.name)) : c.name}</span>
+            <span>
+              ${fmtNumber(c.percent, 2)}%
+              <button class="danger" style="padding:0 6px; margin:0;" onclick="removeCompFromCurrent('${c.id}')">X</button>
+            </span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderProductsList() {
+      const container = document.getElementById('productsList');
+
+      if (!state.products.length) {
+        container.innerHTML = '<div class="product-item">Keine Produkte vorhanden.</div>';
+        return;
+      }
+
+      container.innerHTML = state.products.map(p => {
+        const sum = getProductPercentSum(p);
+        const ok = !isMeaningfulCompound(p) || Math.abs(sum - 100) < 0.1;
+
+        return `
+          <div class="product-item">
+            <strong>${p.name}</strong>
+            <span class="badge">${p.type}</span>
+            <span class="badge">${p.category}</span>
+            <span class="pill ${ok ? 'success' : 'warning'}">${ok ? '✅ Struktur OK' : '⚠️ ' + fmtNumber(sum, 1) + '%'}</span>
+            <div style="font-size:0.75rem; margin-top:6px;">
+              Deklaration: ${p.declarationName || '—'}<br>
+              Allergene: ${p.allergens || '—'}<br>
+              Bestandteile: ${(p.composition || []).length}
+            </div>
+            <div style="margin-top:8px;">
+              <button onclick="editProduct('${p.id}')">✏️ Bearbeiten</button>
+              <button class="danger" onclick="deleteProduct('${p.id}')">Löschen</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderRecipeDraft() {
+      const total = state.recipeDraft.reduce((s, i) => s + parseDecimal(i.qty), 0);
+      document.getElementById('recipeTotalWeight').innerHTML = `<strong>Gesamt: ${fmtNumber(total)} g</strong>`;
+
+      const table = document.getElementById('recipeItemsTable');
+
+      table.innerHTML = `
+        <thead>
+          <tr>
+            <th>Produkt</th>
+            <th>Menge (g)</th>
+            <th>Anteil</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          ${state.recipeDraft.map(it => {
+            const prod = findProduct(it.productId);
+            const percent = total > 0 ? (parseDecimal(it.qty) / total * 100) : 0;
+            return `
+              <tr>
+                <td>${prod ? prod.name : '?'}</td>
+                <td>${fmtNumber(it.qty)} g</td>
+                <td>${fmtNumber(percent)} %</td>
+                <td><button class="danger" onclick="removeRecipeDraftItem('${it.id}')">X</button></td>
+              </tr>
+            `;
+          }).join('')}
+        </tbody>
+      `;
+    }
+
+    function renderSavedRecipes() {
+      const container = document.getElementById('savedRecipesList');
+
+      container.innerHTML = state.recipes.map(r => `
+        <div class="recipe-item">
+          <strong>${r.name}</strong> (${r.packaging} g)
+          <div style="font-size:0.75rem; margin-top:4px;">${r.legalName}</div>
+          <div style="margin-top:8px;">
+            <button onclick="editRecipe('${r.id}')">✏️ Bearbeiten</button>
+            <button class="danger" onclick="deleteRecipeById('${r.id}')">Löschen</button>
+          </div>
+        </div>
+      `).join('');
+
+      const productOptions = '<option value="">Produkt wählen</option>' + state.products.map(p =>
+        `<option value="${p.id}">${p.name}</option>`
+      ).join('');
+
+      const productOptionsForComp = '<option value="">— Kein Produkt verknüpfen —</option>' + state.products.map(p =>
+        `<option value="${p.id}">${p.name}</option>`
+      ).join('');
+
+      const recipeOptions = '<option value="">Rezept wählen</option>' + state.recipes.map(r =>
+        `<option value="${r.id}">${r.name}</option>`
+      ).join('');
+
+      document.getElementById('recipeProductSelect').innerHTML = productOptions;
+      document.getElementById('compRefProduct').innerHTML = productOptionsForComp;
+      document.getElementById('labelRecipeSelect').innerHTML = recipeOptions;
+      document.getElementById('validationSelect').innerHTML = recipeOptions;
+      document.getElementById('techRecipeSelect').innerHTML = recipeOptions;
+      document.getElementById('techProductSelect').innerHTML = '<option value="">Produkt wählen</option>' + state.products.map(p =>
+        `<option value="${p.id}">${p.name}</option>`
+      ).join('');
+    }
+
+    function renderStats() {
+      document.getElementById('statsArea').innerHTML = `
+        <div>📦 ${state.products.length} Produkte</div>
+        <div>🍨 ${state.recipes.length} Rezepte</div>
+        <div>🧪 ${state.products.filter(p => p.type === 'compound').length} zusammengesetzte Produkte</div>
+        <div>⚖️ LMIV-Modus aktiv</div>
+      `;
+
+      document.getElementById('rawData').textContent = JSON.stringify(state, null, 2);
+    }
+
+    function renderAll() {
+      renderProductsList();
+      renderSavedRecipes();
+      renderRecipeDraft();
+      renderStats();
+    }
+
+    function switchScreen(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+      document.getElementById(id).classList.add('active');
+      document.querySelector(`[data-screen="${id}"]`).classList.add('active');
+    }
+
+    window.editProduct = function(id) {
+      const p = findProduct(id);
+      if (!p) return;
+
+      document.getElementById('editProductId').value = p.id;
+      document.getElementById('prodName').value = p.name || '';
+      document.getElementById('prodDeclName').value = p.declarationName || '';
+      document.getElementById('prodType').value = p.type || 'simple';
+      document.getElementById('prodCategory').value = p.category || 'Sonstiges';
+      document.getElementById('prodAllergens').value = p.allergens || '';
+      document.getElementById('prodKj').value = p.nutrition.kj || '';
+      document.getElementById('prodKcal').value = p.nutrition.kcal || '';
+      document.getElementById('prodFat').value = p.nutrition.fat || '';
+      document.getElementById('prodSat').value = p.nutrition.sat || '';
+      document.getElementById('prodCarb').value = p.nutrition.carb || '';
+      document.getElementById('prodSugar').value = p.nutrition.sugar || '';
+      document.getElementById('prodProtein').value = p.nutrition.protein || '';
+      document.getElementById('prodSalt').value = p.nutrition.salt || '';
+
+      renderCurrentComposition(p);
+      switchScreen('products');
     };
-    if (!recipe.name || !recipe.legalName) { alert("Rezeptname und Verkehrsbezeichnung sind Pflicht"); return; }
-    if (recipe.items.length === 0) { alert("Mindestens eine Zutat erforderlich"); return; }
-    const idx = state.recipes.findIndex(r=>r.id===recipe.id);
-    if (idx>=0) state.recipes[idx] = recipe;
-    else state.recipes.push(recipe);
-    state.recipeDraft = [];
-    document.getElementById('editRecipeId').value = '';
-    document.getElementById('recipeName').value = '';
-    document.getElementById('recipeLegal').value = '';
-    renderSavedRecipes();
-    saveState();
-  };
-  
-  function renderSavedRecipes() {
-    const container = document.getElementById('savedRecipesList');
-    container.innerHTML = state.recipes.map(r => `<div class="product-item"><strong>${r.name}</strong> (${r.packaging}g) <button onclick="editRecipe('${r.id}')">Bearbeiten</button> <button class="danger" onclick="deleteRecipeById('${r.id}')">Löschen</button></div>`).join('');
-    const prodSelect = document.getElementById('recipeProductSelect');
-    prodSelect.innerHTML = '<option value="">Produkt wählen</option>' + state.products.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
-    document.getElementById('labelRecipeSelect').innerHTML = '<option value="">Rezept wählen</option>' + state.recipes.map(r=>`<option value="${r.id}">${r.name}</option>`).join('');
-    document.getElementById('validationSelect').innerHTML = '<option value="">Rezept wählen</option>' + state.recipes.map(r=>`<option value="${r.id}">${r.name}</option>`).join('');
-    document.getElementById('techProductSelect').innerHTML = '<option value="">Produkt wählen</option>' + state.products.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
-    document.getElementById('techRecipeSelect').innerHTML = '<option value="">Rezept wählen</option>' + state.recipes.map(r=>`<option value="${r.id}">${r.name}</option>`).join('');
-  }
-  
-  window.editRecipe = (id) => {
-    const r = state.recipes.find(rr=>rr.id===id);
-    if(r) {
-      document.getElementById('editRecipeId').value = r.id;
-      document.getElementById('recipeName').value = r.name;
-      document.getElementById('recipeLegal').value = r.legalName;
-      document.getElementById('recipePackaging').value = r.packaging;
-      document.getElementById('recipeStorage').value = r.storage;
-      document.getElementById('recipeManufacturer').value = r.manufacturer;
-      document.getElementById('recipeMhd').value = r.mhd;
-      state.recipeDraft = JSON.parse(JSON.stringify(r.items));
+
+    window.deleteProduct = function(id) {
+      if (!confirm('Produkt löschen?')) return;
+
+      state.products = state.products.filter(p => p.id !== id);
+
+      state.products.forEach(p => {
+        p.composition = (p.composition || []).filter(c => c.refProductId !== id);
+      });
+
+      state.recipes.forEach(r => {
+        r.items = (r.items || []).filter(i => i.productId !== id);
+      });
+
+      state.recipeDraft = state.recipeDraft.filter(i => i.productId !== id);
+
+      saveState();
+    };
+
+    function clearProductForm() {
+      [
+        'editProductId','prodName','prodDeclName','prodAllergens','prodKj','prodKcal',
+        'prodFat','prodSat','prodCarb','prodSugar','prodProtein','prodSalt','compName','compPercent'
+      ].forEach(id => document.getElementById(id).value = '');
+
+      document.getElementById('prodType').value = 'simple';
+      document.getElementById('prodCategory').value = 'Milchprodukt';
+      document.getElementById('compRefProduct').value = '';
+      document.getElementById('currentCompositionList').innerHTML = '';
+      document.getElementById('productPercentFill').style.width = '0%';
+    }
+
+    window.removeCompFromCurrent = function(compId) {
+      const pid = document.getElementById('editProductId').value;
+      const prod = findProduct(pid);
+      if (!prod) return;
+
+      prod.composition = (prod.composition || []).filter(c => c.id !== compId);
+      renderCurrentComposition(prod);
+      saveState();
+    };
+
+    window.addIngredientToCurrent = function() {
+      const pid = document.getElementById('editProductId').value;
+      if (!pid) {
+        alert('Primeiro grava ou abre um produto.');
+        return;
+      }
+
+      const prod = findProduct(pid);
+      if (!prod) return;
+
+      const compName = document.getElementById('compName').value.trim();
+      const compRefProduct = document.getElementById('compRefProduct').value;
+      const percent = parseDecimal(document.getElementById('compPercent').value);
+
+      if (!compName && !compRefProduct) {
+        alert('Introduz nome ou escolhe um produto.');
+        return;
+      }
+
+      if (percent <= 0) {
+        alert('Percentagem inválida.');
+        return;
+      }
+
+      prod.composition.push({
+        id: uid(),
+        name: compRefProduct ? '' : compName,
+        refProductId: compRefProduct || '',
+        percent
+      });
+
+      sortProductComposition(prod);
+      document.getElementById('compName').value = '';
+      document.getElementById('compRefProduct').value = '';
+      document.getElementById('compPercent').value = '';
+      renderCurrentComposition(prod);
+      saveState();
+    };
+
+    window.normalizeCurrentProduct = function() {
+      const pid = document.getElementById('editProductId').value;
+      const prod = findProduct(pid);
+      if (!prod || !prod.composition?.length) {
+        alert('Sem composição.');
+        return;
+      }
+
+      const sum = getProductPercentSum(prod);
+      if (sum <= 0) return;
+
+      prod.composition = prod.composition.map(c => ({
+        ...c,
+        percent: parseFloat((parseDecimal(c.percent) / sum * 100).toFixed(4))
+      }));
+
+      sortProductComposition(prod);
+      renderCurrentComposition(prod);
+      saveState();
+    };
+
+    window.sortCurrentComposition = function() {
+      const pid = document.getElementById('editProductId').value;
+      const prod = findProduct(pid);
+      if (!prod) {
+        alert('Kein Produkt gewählt.');
+        return;
+      }
+
+      sortProductComposition(prod);
+      renderCurrentComposition(prod);
+      saveState();
+    };
+
+    window.saveProduct = function() {
+      const existingId = document.getElementById('editProductId').value;
+
+      const obj = {
+        id: existingId || uid(),
+        type: document.getElementById('prodType').value,
+        name: document.getElementById('prodName').value.trim(),
+        declarationName: document.getElementById('prodDeclName').value.trim(),
+        category: document.getElementById('prodCategory').value,
+        allergens: document.getElementById('prodAllergens').value.trim(),
+        nutrition: {
+          kj: parseDecimal(document.getElementById('prodKj').value),
+          kcal: parseDecimal(document.getElementById('prodKcal').value),
+          fat: parseDecimal(document.getElementById('prodFat').value),
+          sat: parseDecimal(document.getElementById('prodSat').value),
+          carb: parseDecimal(document.getElementById('prodCarb').value),
+          sugar: parseDecimal(document.getElementById('prodSugar').value),
+          protein: parseDecimal(document.getElementById('prodProtein').value),
+          salt: parseDecimal(document.getElementById('prodSalt').value)
+        },
+        composition: []
+      };
+
+      if (!obj.name) {
+        alert('Produktname fehlt.');
+        return;
+      }
+
+      if (!obj.declarationName) {
+        obj.declarationName = obj.name;
+      }
+
+      const idx = state.products.findIndex(p => p.id === obj.id);
+      if (idx >= 0) {
+        obj.composition = state.products[idx].composition || [];
+        state.products[idx] = obj;
+      } else {
+        if (obj.type === 'simple' && obj.composition.length === 0) {
+          obj.composition = [{
+            id: uid(),
+            name: obj.declarationName,
+            refProductId: '',
+            percent: 100
+          }];
+        }
+        state.products.push(obj);
+      }
+
+      if (obj.type === 'simple' && (!obj.composition || obj.composition.length === 0)) {
+        obj.composition = [{
+          id: uid(),
+          name: obj.declarationName,
+          refProductId: '',
+          percent: 100
+        }];
+      }
+
+      sortProductComposition(obj);
+      clearProductForm();
+      saveState();
+    };
+
+    window.addRecipeItem = function() {
+      const pid = document.getElementById('recipeProductSelect').value;
+      const qty = parseDecimal(document.getElementById('recipeItemQty').value);
+
+      if (!pid || qty <= 0) {
+        alert('Produkt und Menge wählen.');
+        return;
+      }
+
+      state.recipeDraft.push({
+        id: uid(),
+        productId: pid,
+        qty
+      });
+
+      document.getElementById('recipeItemQty').value = '';
       renderRecipeDraft();
       saveState();
-    }
-  };
-  
-  window.deleteRecipeById = (id) => { if(confirm("Rezept löschen?")) { state.recipes = state.recipes.filter(r=>r.id!==id); renderSavedRecipes(); saveState(); } };
-  window.validateRecipe = function() { const rid = document.getElementById('validationSelect').value; const r = state.recipes.find(rr=>rr.id===rid); const out = document.getElementById('validationResult'); if(!r) { out.innerHTML = '<span class="pill error">Rezept auswählen</span>'; return; } const issues = validateRecipeCompliance(r); out.innerHTML = issues.map(i=>`<div class="pill ${i.level === 'error' ? 'error' : 'success'}">${i.text}</div>`).join(''); };
-  window.generateLabel = function() { const rid = document.getElementById('labelRecipeSelect').value; const r = state.recipes.find(rr=>rr.id===rid); const preview = document.getElementById('labelPreviewText'); if(!r) { preview.innerHTML = '<span class="pill error">Rezept wählen</span>'; return; } preview.textContent = generateLMIVLabel(r); };
-  window.copyLabel = function() { const txt = document.getElementById('labelPreviewText').textContent; if(txt) { navigator.clipboard.writeText(txt); alert("Etikett kopiert"); } };
-  window.downloadLabelTxt = function() { const txt = document.getElementById('labelPreviewText').textContent; if(txt){ const a=document.createElement('a'); const blob=new Blob([txt],{type:'text/plain'}); a.href=URL.createObjectURL(blob); a.download='etikett.txt'; a.click(); URL.revokeObjectURL(blob); } };
-  window.exportData = function() { const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(state,null,2)],{type:'application/json'})); a.download='sanremo_backup.json'; a.click(); };
-  window.importData = function(e) { const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=ev=>{ try{ const d=JSON.parse(ev.target.result); state.products=d.products||[]; state.recipes=d.recipes||[]; state.recipeDraft=[]; saveState(); alert("Import erfolgreich"); } catch(e){ alert("Fehler"); } }; r.readAsText(f); };
-  window.resetAll = function() { if(confirm("ALLE DATEN WERDEN GELÖSCHT!")) { localStorage.removeItem(STORAGE_KEY); loadState(); saveState(); location.reload(); } };
-  
-  function renderStats() { document.getElementById('statsArea').innerHTML = `<div>📦 ${state.products.length} Produkte</div><div>🍨 ${state.recipes.length} Rezepte</div><div>⚖️ 100% Modus aktiv</div><div>🔄 Auto-Sortierung: AKTIV</div>`; document.getElementById('rawData').innerHTML = JSON.stringify(state,null,2); }
-  function renderAll() { renderProductsList(); renderSavedRecipes(); renderRecipeDraft(); renderStats(); }
-  function switchScreen(id) { document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active')); document.getElementById(id).classList.add('active'); document.querySelector(`[data-screen="${id}"]`).classList.add('active'); }
-  document.querySelectorAll('.nav-btn').forEach(btn=>btn.addEventListener('click',()=>switchScreen(btn.dataset.screen)));
-  loadState(); renderAll();
-</script>
+    };
+
+    window.removeRecipeDraftItem = function(id) {
+      state.recipeDraft = state.recipeDraft.filter(i => i.id !== id);
+      renderRecipeDraft();
+      saveState();
+    };
+
+    window.clearRecipeDraft = function() {
+      state.recipeDraft = [];
+      renderRecipeDraft();
+      saveState();
+    };
+
+    window.saveRecipe = function() {
+      const rid = document.getElementById('editRecipeId').value;
+
+      const recipe = {
+        id: rid || uid(),
+        name: document.getElementById('recipeName').value.trim(),
+        legalName: document.getElementById('recipeLegal').value.trim(),
+        packaging: document.getElementById('recipePackaging').value,
+        storage: document.getElementById('recipeStorage').value.trim(),
+        manufacturer: document.getElementById('recipeManufacturer').value.trim(),
+        mhd: document.getElementById('recipeMhd').value.trim(),
+        items: JSON.parse(JSON.stringify(state.recipeDraft))
+      };
+
+      if (!recipe.name || !recipe.legalName) {
+        alert('Rezeptname e Verkehrsbezeichnung são obrigatórios.');
+        return;
+      }
+
+      if (!recipe.items.length) {
+        alert('Falta pelo menos uma posição.');
+        return;
+      }
+
+      const idx = state.recipes.findIndex(r => r.id === recipe.id);
+      if (idx >= 0) state.recipes[idx] = recipe;
+      else state.recipes.push(recipe);
+
+      state.recipeDraft = [];
+      document.getElementById('editRecipeId').value = '';
+      document.getElementById('recipeName').value = '';
+      document.getElementById('recipeLegal').value = '';
+      renderSavedRecipes();
+      saveState();
+    };
+
+    window.editRecipe = function(id) {
+      const r = state.recipes.find(x => x.id === id);
+      if (!r) return;
+
+      document.getElementById('editRecipeId').value = r.id;
+      document.getElementById('recipeName').value = r.name || '';
+      document.getElementById('recipeLegal').value = r.legalName || '';
+      document.getElementById('recipePackaging').value = r.packaging || '170';
+      document.getElementById('recipeStorage').value = r.storage || '';
+      document.getElementById('recipeManufacturer').value = r.manufacturer || '';
+      document.getElementById('recipeMhd').value = r.mhd || '';
+
+      state.recipeDraft = JSON.parse(JSON.stringify(r.items || []));
+      renderRecipeDraft();
+      saveState();
+      switchScreen('recipes');
+    };
+
+    window.deleteRecipeById = function(id) {
+      if (!confirm('Rezept löschen?')) return;
+      state.recipes = state.recipes.filter(r => r.id !== id);
+      saveState();
+    };
+
+    window.validateRecipe = function() {
+      const id = document.getElementById('validationSelect').value;
+      const recipe = state.recipes.find(r => r.id === id);
+      const out = document.getElementById('validationResult');
+
+      if (!recipe) {
+        out.innerHTML = '<div class="pill error">Rezept wählen</div>';
+        return;
+      }
+
+      const issues = validateRecipeCompliance(recipe);
+      out.innerHTML = issues.map(i => `<div class="pill ${i.level === 'error' ? 'error' : 'success'}">${i.text}</div>`).join('');
+    };
+
+    window.generateLabel = function() {
+      const id = document.getElementById('labelRecipeSelect').value;
+      const recipe = state.recipes.find(r => r.id === id);
+      const preview = document.getElementById('labelPreviewText');
+
+      if (!recipe) {
+        preview.textContent = 'Rezept wählen.';
+        return;
+      }
+
+      preview.textContent = generateLMIVLabel(recipe);
+    };
+
+    window.copyLabel = function() {
+      const txt = document.getElementById('labelPreviewText').textContent;
+      if (!txt) return;
+      navigator.clipboard.writeText(txt);
+      alert('Etikett kopiert');
+    };
+
+    window.downloadLabelTxt = function() {
+      const txt = document.getElementById('labelPreviewText').textContent;
+      if (!txt) return;
+
+      const a = document.createElement('a');
+      const blob = new Blob([txt], { type: 'text/plain' });
+      a.href = URL.createObjectURL(blob);
+      a.download = 'etikett.txt';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    };
+
+    window.exportData = function() {
+      const a = document.createElement('a');
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+      a.href = URL.createObjectURL(blob);
+      a.download = 'sanremo_backup.json';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    };
+
+    window.importData = function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = ev => {
+        try {
+          const data = JSON.parse(ev.target.result);
+          state.products = data.products || [];
+          state.recipes = data.recipes || [];
+          state.recipeDraft = [];
+          saveState();
+          alert('Import erfolgreich');
+        } catch (err) {
+          alert('Import-Fehler');
+        }
+      };
+      reader.readAsText(file);
+    };
+
+    window.resetAll = function() {
+      if (!confirm('ALLE DATEN WERDEN GELÖSCHT!')) return;
+      localStorage.removeItem(STORAGE_KEY);
+      state = { products: JSON.parse(JSON.stringify(defaultProducts)), recipes: [], recipeDraft: [] };
+      saveState();
+      location.reload();
+    };
+
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => switchScreen(btn.dataset.screen));
+    });
+
+    loadState();
+    renderAll();
+  </script>
 </body>
 </html>
