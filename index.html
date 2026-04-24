@@ -551,7 +551,7 @@
 
 <script>
   // ---------- KERNLOGIK ----------
-  const STORAGE_KEY = 'sanremo_lmiv_pro_v2';
+  const STORAGE_KEY = 'sanremo_lmiv_pro_v2_fixed';
   let state = {
     products: [],
     recipes: [],
@@ -572,7 +572,6 @@
     { id: 'p_pflanzenfette', name: 'Pflanzenfette (Palm, Kokos)', category: 'Fett', allergens: '', nutrition: { kj:3700, kcal:900, fat:100, sat:85, carb:0, sugar:0, protein:0, salt:0 }, composition: [{ id:'c8', name:'Pflanzenfette (Palm, Kokos)', percent:100 }] }
   ];
 
-  // ----- Sortierfunktion für Produkte (größter % zuerst) -----
   function sortProductComposition(prod) {
     if (prod.composition && prod.composition.length > 0) {
       prod.composition.sort((a, b) => b.percent - a.percent);
@@ -596,10 +595,7 @@
       if (!p.nutrition) p.nutrition = { kj:0,kcal:0,fat:0,sat:0,carb:0,sugar:0,protein:0,salt:0 };
       sortProductComposition(p);
     });
-    // KEINE BEISPIEL-RECEITA MEHR!
-    if (!state.recipes.length) {
-      state.recipes = [];
-    }
+    if (!state.recipes.length) state.recipes = [];
     if (!state.recipeDraft) state.recipeDraft = [];
   }
 
@@ -643,8 +639,12 @@
     return accum;
   }
 
+  // ============================================================
+  // KORRIGIERTE ZUTATENLISTE: KEINE ZUSAMMENFASSUNG VON ZUCKERARTEN!
+  // Jeder Bestandteil bleibt getrennt (LMIV Art. 18 Abs. 2)
+  // ============================================================
   function getWeightSortedIngredients(recipe) {
-    const ingredientMap = new Map();
+    const ingredientMap = new Map(); // name -> gramm
     for (let item of recipe.items) {
       const prod = state.products.find(p=>p.id===item.productId);
       if (!prod || !prod.composition || prod.composition.length === 0) continue;
@@ -652,9 +652,12 @@
       if (Math.abs(sumPerc - 100) > 0.1) continue;
       for (let comp of prod.composition) {
         const gramm = item.qty * (comp.percent / 100);
-        ingredientMap.set(comp.name, (ingredientMap.get(comp.name) || 0) + gramm);
+        const current = ingredientMap.get(comp.name) || 0;
+        ingredientMap.set(comp.name, current + gramm);
       }
     }
+    // Wichtig: KEINE Zusammenführung von Dextrose, Zucker, Glucose etc.
+    // Die Map behält die originalen Namen bei -> "Dextrose", "Zucker", "Glukosepulver"
     const sorted = Array.from(ingredientMap.entries()).sort((a,b)=>b[1]-a[1]);
     return sorted.map(e=>e[0]);
   }
@@ -677,8 +680,8 @@
       <tr>
         <td>${c.name}</td>
         <td style="text-align:right">${c.percent.toFixed(2)}%</td>
-      </tr>
-    `).join('') : '<tr><td colspan="2" style="color:orange;">⚠️ Keine Zusammensetzung definiert (100% Regel nicht erfüllt)</td></tr>';
+      </table>
+    `).join('') : '<table><td colspan="2" style="color:orange;">⚠️ Keine Zusammensetzung definiert (100% Regel nicht erfüllt)</td></tr>';
 
     const formatNumber = (n) => (n || 0).toFixed(1).replace('.', ',');
     const formatSalt = (n) => {
@@ -779,7 +782,7 @@
           <p style="color: ${isComplete ? 'green' : 'orange'}; font-size:0.85rem;">${isComplete ? '✅ Alle Produkte mit 100% Zusammensetzung' : '⚠️ Achtung: Produkte ohne 100% Zusammensetzung: ' + incompleteProducts.join(', ')}</p>
         </div>
 
-        <h3>📦 Zutatenliste (nach absteigendem Gewicht)</h3>
+        <h3>📦 Zutatenliste (nach absteigendem Gewicht - LMIV Art. 18)</h3>
         <p style="font-size:0.9rem;">${ingredientsList.length ? ingredientsList.join(', ') : '❌ Zutatenliste konnte nicht generiert werden - bitte 100% Zusammensetzung der Produkte prüfen'}</p>
         <p><strong>Allergene:</strong> ${allergenText}</p>
 
@@ -1101,7 +1104,7 @@
   window.importData = function(e) { const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=ev=>{ try{ const d=JSON.parse(ev.target.result); state.products=d.products||[]; state.recipes=d.recipes||[]; state.recipeDraft=[]; saveState(); alert("Import erfolgreich"); } catch(e){ alert("Fehler"); } }; r.readAsText(f); };
   window.resetAll = function() { if(confirm("ALLE DATEN WERDEN GELÖSCHT!")) { localStorage.removeItem(STORAGE_KEY); loadState(); saveState(); location.reload(); } };
   
-  function renderStats() { document.getElementById('statsArea').innerHTML = `<div>📦 ${state.products.length} Produkte</div><div>🍨 ${state.recipes.length} Rezepte</div><div>⚖️ 100% Modus aktiv</div><div>🔄 Auto-Sortierung: AKTIV</div>`; document.getElementById('rawData').innerHTML = JSON.stringify(state,null,2); }
+  function renderStats() { document.getElementById('statsArea').innerHTML = `<div>📦 ${state.products.length} Produkte</div><div>🍨 ${state.recipes.length} Rezepte</div><div>⚖️ 100% Modus aktiv</div><div>🔄 Auto-Sortierung: AKTIV</div><div>✅ Zucker werden nicht gruppiert (LMIV konform)</div>`; document.getElementById('rawData').innerHTML = JSON.stringify(state,null,2); }
   function renderAll() { renderProductsList(); renderSavedRecipes(); renderRecipeDraft(); renderStats(); }
   function switchScreen(id) { document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active')); document.getElementById(id).classList.add('active'); document.querySelector(`[data-screen="${id}"]`).classList.add('active'); }
   document.querySelectorAll('.nav-btn').forEach(btn=>btn.addEventListener('click',()=>switchScreen(btn.dataset.screen)));
