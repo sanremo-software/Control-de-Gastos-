@@ -463,7 +463,27 @@
           <input type="hidden" id="editRecipeId">
           <label>Rezeptname</label><input id="recipeName" placeholder="z.B. Milchspeiseeis mit Amarena">
           <label>Verkehrsbezeichnung (LMIV)</label><input id="recipeLegal" placeholder="Milcheis mit Amarena-Kirschen">
-          <label>Verpackungsgröße (g)</label><select id="recipePackaging"><option>170</option><option>250</option><option>500</option><option>750</option><option>1000</option><option>2000</option></select>
+          <label>Verpackungsgröße (g oder ml)</label>
+          <select id="recipePackaging">
+            <option value="100">100 g/ml</option>
+            <option value="170">170 g (Becher)</option>
+            <option value="200">200 g/ml</option>
+            <option value="250">250 g/ml</option>
+            <option value="500">500 g/ml</option>
+            <option value="750">750 g/ml</option>
+            <option value="900">900 g/ml</option>
+            <option value="1000">1000 g (1 kg/Liter)</option>
+            <option value="1500">1500 g (1,5 kg/L)</option>
+            <option value="2000">2000 g (2 kg/L)</option>
+            <option value="3000">3000 g (3 kg/L)</option>
+            <option value="5000">5000 g (5 kg/L)</option>
+            <option value="6000">6000 g (6 kg/L)</option>
+            <option value="10000">10000 g (10 kg/L)</option>
+            <option value="custom">🔧 Andere (benutzerdefiniert)</option>
+          </select>
+          <div id="customPackagingContainer" style="display:none; margin-top: 8px;">
+            <input type="number" id="customPackaging" step="1" placeholder="Größe in g oder ml eingeben">
+          </div>
           <label>Aufbewahrungshinweis</label><input id="recipeStorage" value="Bei -18°C lagern. Nach Auftauen nicht wieder einfrieren.">
           <label>Hersteller (Adresse)</label><input id="recipeManufacturer" value="Eiscafé Sanremo, Musterstr. 1, 57319 Bad Berleburg">
           <label>MHD / Los</label><input id="recipeMhd" value="Mindestens haltbar bis: siehe Deckel. Lot: siehe Deckel.">
@@ -680,8 +700,8 @@
       <tr>
         <td>${c.name}</td>
         <td style="text-align:right">${c.percent.toFixed(2)}%</td>
-      </table>
-    `).join('') : '<table><td colspan="2" style="color:orange;">⚠️ Keine Zusammensetzung definiert (100% Regel nicht erfüllt)</td></tr>';
+      </tr>
+    `).join('') : '<tr><td colspan="2" style="color:orange;">⚠️ Keine Zusammensetzung definiert (100% Regel nicht erfüllt)</td></tr>';
 
     const formatNumber = (n) => (n || 0).toFixed(1).replace('.', ',');
     const formatSalt = (n) => {
@@ -1044,12 +1064,22 @@
   }
   
   window.saveRecipe = function() {
+    // Verpackungsgröße auswerten (inkl. benutzerdefiniert)
+    let packagingValue = document.getElementById('recipePackaging').value;
+    if (packagingValue === 'custom') {
+      packagingValue = document.getElementById('customPackaging').value;
+      if (!packagingValue) {
+        alert('Bitte benutzerdefinierte Größe eingeben');
+        return;
+      }
+    }
+    
     const rid = document.getElementById('editRecipeId').value;
     const recipe = {
       id: rid || uid(),
       name: document.getElementById('recipeName').value.trim(),
       legalName: document.getElementById('recipeLegal').value.trim(),
-      packaging: document.getElementById('recipePackaging').value,
+      packaging: packagingValue,
       storage: document.getElementById('recipeStorage').value,
       manufacturer: document.getElementById('recipeManufacturer').value,
       mhd: document.getElementById('recipeMhd').value,
@@ -1085,7 +1115,19 @@
       document.getElementById('editRecipeId').value = r.id;
       document.getElementById('recipeName').value = r.name;
       document.getElementById('recipeLegal').value = r.legalName;
-      document.getElementById('recipePackaging').value = r.packaging;
+      // Verpackungsgröße im Select auswählen (falls vorhanden)
+      const packagingSelect = document.getElementById('recipePackaging');
+      const customContainer = document.getElementById('customPackagingContainer');
+      const customInput = document.getElementById('customPackaging');
+      const optionExists = Array.from(packagingSelect.options).some(opt => opt.value == r.packaging);
+      if (optionExists) {
+        packagingSelect.value = r.packaging;
+        customContainer.style.display = 'none';
+      } else {
+        packagingSelect.value = 'custom';
+        customContainer.style.display = 'block';
+        customInput.value = r.packaging;
+      }
       document.getElementById('recipeStorage').value = r.storage;
       document.getElementById('recipeManufacturer').value = r.manufacturer;
       document.getElementById('recipeMhd').value = r.mhd;
@@ -1104,7 +1146,17 @@
   window.importData = function(e) { const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=ev=>{ try{ const d=JSON.parse(ev.target.result); state.products=d.products||[]; state.recipes=d.recipes||[]; state.recipeDraft=[]; saveState(); alert("Import erfolgreich"); } catch(e){ alert("Fehler"); } }; r.readAsText(f); };
   window.resetAll = function() { if(confirm("ALLE DATEN WERDEN GELÖSCHT!")) { localStorage.removeItem(STORAGE_KEY); loadState(); saveState(); location.reload(); } };
   
-  function renderStats() { document.getElementById('statsArea').innerHTML = `<div>📦 ${state.products.length} Produkte</div><div>🍨 ${state.recipes.length} Rezepte</div><div>⚖️ 100% Modus aktiv</div><div>🔄 Auto-Sortierung: AKTIV</div><div>✅ Zucker werden nicht gruppiert (LMIV konform)</div>`; document.getElementById('rawData').innerHTML = JSON.stringify(state,null,2); }
+  // Event Listener für benutzerdefinierte Verpackungsgröße
+  document.getElementById('recipePackaging')?.addEventListener('change', function() {
+    const customDiv = document.getElementById('customPackagingContainer');
+    if (this.value === 'custom') {
+      customDiv.style.display = 'block';
+    } else {
+      customDiv.style.display = 'none';
+    }
+  });
+  
+  function renderStats() { document.getElementById('statsArea').innerHTML = `<div>📦 ${state.products.length} Produkte</div><div>🍨 ${state.recipes.length} Rezepte</div><div>⚖️ 100% Modus aktiv</div><div>🔄 Auto-Sortierung: AKTIV</div><div>✅ Zucker werden nicht gruppiert (LMIV konform)</div><div>📏 Verpackung: bis 10 kg/L + benutzerdefiniert</div>`; document.getElementById('rawData').innerHTML = JSON.stringify(state,null,2); }
   function renderAll() { renderProductsList(); renderSavedRecipes(); renderRecipeDraft(); renderStats(); }
   function switchScreen(id) { document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active')); document.getElementById(id).classList.add('active'); document.querySelector(`[data-screen="${id}"]`).classList.add('active'); }
   document.querySelectorAll('.nav-btn').forEach(btn=>btn.addEventListener('click',()=>switchScreen(btn.dataset.screen)));
