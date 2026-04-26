@@ -126,15 +126,9 @@
           <label>Produktname</label><input id="prodName" placeholder="z.B. Bio-Vollmilch 3.8%">
           <label>Kategorie</label>
           <select id="prodCategory">
-            <option>Milchprodukt</option>
-            <option>PASTE</option>
-            <option>fettglasur</option>
-            <option>Frucht</option>
-            <option>Fett</option>
-            <option>Pulver</option>
-            <option>Emulgator</option>
-            <option>Zutat</option>
-            <option>Süße</option>
+            <option>Milchprodukt</option><option>PASTE</option><option>fettglasur</option>
+            <option>Frucht</option><option>Fett</option><option>Pulver</option>
+            <option>Emulgator</option><option>Zutat</option><option>Süße</option>
           </select>
           <div class="two-col">
             <div><label>Allergene (INGREDIENTEN - GROSS)</label><input id="prodAllergens" placeholder="SOJA, MILCH, EI, NÜSSE"></div>
@@ -195,9 +189,9 @@
             <option value="6000">6 kg</option><option value="10000">10 kg</option><option value="custom">🔧 Benutzerdefiniert</option>
           </select>
           <div id="customPackagingContainer" style="display:none;"><input type="number" id="customPackaging" placeholder="Größe in g"></div>
-          <label>Aufbewahrung</label><input id="recipeStorage" value="Bei -18°C lagern">
-          <label>Hersteller</label><input id="recipeManufacturer" value="Eiscafé Sanremo">
-          <label>MHD / Los</label><input id="recipeMhd" value="Siehe Verpackung">
+          <label>Aufbewahrung</label><input id="recipeStorage" value="Bei -18°C lagern. Nach Auftauen nicht wieder einfrieren.">
+          <label>Hersteller</label><input id="recipeManufacturer" value="Eiscafé Sanremo, Musterstr. 1, 57319 Bad Berleburg">
+          <label>MHD / Los</label><input id="recipeMhd" value="Mindestens haltbar bis: siehe Deckel. Lot: siehe Deckel.">
           <hr>
           <h3>➕ Zutat (Produkt + Gramm)</h3>
           <div class="two-col">
@@ -210,7 +204,7 @@
         </div>
         <div class="card col-span-7">
           <h2>📊 Aktuelle Rezeptpositionen</h2>
-          <div style="overflow-x:auto;"><table id="recipeItemsTable"><tr></div>
+          <div style="overflow-x:auto;"><table id="recipeItemsTable"></table></div>
           <button onclick="saveRecipe()">💾 Rezept speichern</button>
           <hr>
           <h2>📁 Ihre Rezepte</h2>
@@ -225,17 +219,17 @@
         <div class="card col-span-4">
           <h2>📄 Technisches Datenblatt - Produkt</h2>
           <select id="techProductSelect"></select>
-          <button onclick="generateProductTechSheet()">📄 Datenblatt</button>
+          <button onclick="generateProductTechSheet()">📄 Datenblatt generieren</button>
           <hr>
           <h2>🍨 Technisches Datenblatt - Rezept</h2>
           <select id="techRecipeSelect"></select>
-          <button onclick="generateRecipeTechSheet()">📄 Datenblatt</button>
+          <button onclick="generateRecipeTechSheet()">📄 Datenblatt generieren</button>
           <hr>
           <button class="secondary" onclick="printTechSheet()">🖨️ Drucken / PDF</button>
         </div>
         <div class="card col-span-8">
-          <h2>📋 Vorschau</h2>
-          <div id="techSheetPreview" class="tech-sheet"></div>
+          <h2>📋 Vorschau Technisches Datenblatt</h2>
+          <div id="techSheetPreview" class="tech-sheet"><p style="color:#666;">Wählen Sie ein Produkt oder Rezept und klicken Sie auf "Datenblatt generieren".</p></div>
         </div>
       </div>
     </section>
@@ -246,13 +240,13 @@
         <div class="card col-span-4">
           <h2>🏷️ Etikett erstellen</h2>
           <select id="labelRecipeSelect"></select>
-          <button onclick="generateLabel()">Generieren</button>
-          <button class="secondary" onclick="copyLabel()">Kopieren</button>
-          <button class="secondary" onclick="downloadLabelTxt()">TXT speichern</button>
+          <button onclick="generateLabel()">🏷️ Etikett generieren</button>
+          <button class="secondary" onclick="copyLabel()">📋 Kopieren</button>
+          <button class="secondary" onclick="downloadLabelTxt()">💾 Als TXT speichern</button>
         </div>
         <div class="card col-span-8">
           <h2>📄 LMIV-konforme Vorschau</h2>
-          <div class="preview-box" id="labelPreviewText"></div>
+          <div class="preview-box" id="labelPreviewText">Bitte wählen Sie ein Rezept aus und klicken Sie auf "Etikett generieren".</div>
         </div>
       </div>
     </section>
@@ -260,17 +254,37 @@
     <!-- VALIDIERUNG -->
     <section id="validation" class="screen">
       <div class="grid">
-        <div class="card col-span-4"><h2>Rezept prüfen</h2><select id="validationSelect"></select><button onclick="validateRecipe()">Prüfen</button></div>
-        <div class="card col-span-8"><h2>Prüfprotokoll</h2><div id="validationResult"></div></div>
+        <div class="card col-span-4">
+          <h2>⚖️ Rezept prüfen</h2>
+          <select id="validationSelect"></select>
+          <button onclick="validateRecipe()">Prüfung starten</button>
+        </div>
+        <div class="card col-span-8">
+          <h2>📋 Prüfprotokoll</h2>
+          <div id="validationResult"></div>
+        </div>
       </div>
     </section>
 
-    <!-- BACKUP -->
+    <!-- BACKUP & DATEN -->
     <section id="backup" class="screen">
       <div class="grid">
-        <div class="card col-span-6"><h2>Backup & Wiederherstellung</h2><button onclick="exportData()">📁 JSON Export</button><button class="secondary" onclick="document.getElementById('importFile').click()">📂 Import JSON</button><input id="importFile" type="file" accept="application/json" style="display:none" onchange="importData(event)"></div>
-        <div class="card col-span-6"><h2>Gefahrenzone</h2><button class="danger" onclick="resetAll()">⚠️ Alle Daten löschen</button></div>
-        <div class="card col-span-12"><h2>Rohdaten</h2><pre id="rawData" style="background:#0a0f1c; padding:1rem; border-radius:12px; overflow:auto; font-size:11px;"></pre></div>
+        <div class="card col-span-6">
+          <h2>💾 Backup & Wiederherstellung</h2>
+          <button onclick="exportData()">📁 JSON Export (Backup)</button>
+          <button class="secondary" onclick="document.getElementById('importFile').click()">📂 JSON Import (Wiederherstellen)</button>
+          <input id="importFile" type="file" accept="application/json" style="display:none" onchange="importData(event)">
+          <p style="font-size:0.75rem; margin-top:0.5rem;">Exportiert alle Produkte und Rezepte. Bei Import werden vorhandene Daten überschrieben!</p>
+        </div>
+        <div class="card col-span-6">
+          <h2>⚠️ Gefahrenzone</h2>
+          <button class="danger" onclick="resetAll()">🗑️ Alle Daten löschen (Reset)</button>
+          <p style="font-size:0.75rem; margin-top:0.5rem;">Achtung: Löscht alle Produkte und Rezepte unwiderruflich!</p>
+        </div>
+        <div class="card col-span-12">
+          <h2>📄 Rohdaten (JSON)</h2>
+          <pre id="rawData" style="background:#0a0f1c; padding:1rem; border-radius:12px; overflow:auto; font-size:11px; max-height:300px;"></pre>
+        </div>
       </div>
     </section>
   </div>
@@ -280,7 +294,7 @@
   const STORAGE_KEY = 'sanremo_lmiv_pro_v3_spuren';
   let state = { products: [], recipes: [], recipeDraft: [] };
 
-  // IHR VORHANDENER DATEN (aus sanremo_backup (9).json)
+  // ========== SEUS DADOS COMPLETOS ==========
   const existingProducts = [
     {"id":"p_milch","name":"MILCH","category":"Milchprodukt","allergens":"MILCH","spuren":"","nutrition":{"kj":267,"kcal":64,"fat":3.5,"sat":2.3,"carb":4.8,"sugar":4.8,"protein":3.3,"salt":0.1},"composition":[{"id":"c1","name":"MILCH","percent":100}]},
     {"id":"p_dextrose","name":"Dextrose","category":"Pulver","allergens":"","spuren":"","nutrition":{"kj":1700,"kcal":400,"fat":0,"sat":0,"carb":100,"sugar":100,"protein":0,"salt":0},"composition":[{"id":"1777120569661-phbykna4","name":"Dextrose","percent":100}]},
@@ -322,32 +336,15 @@
   ];
 
   const existingRecipes = [
-    {"id":"1777200319005-ez9f62a3","name":"Erdbeere Eis","legalName":"sorbet","packaging":"3000","storage":"Bei -18°C lagern. Nach Auftauen nicht wieder einfrieren.","manufacturer":"Eiscafé Sanremo, Musterstr. 1, 57319 Bad Berleburg","mhd":"Mindestens haltbar bis: siehe Deckel. Lot: siehe Deckel.","items":[{"id":"1777200270056-li13l0za","productId":"1777144318349-4t3e9qtq","qty":1100},{"id":"1777200288676-8rxh0hfy","productId":"p_zucker","qty":550},{"id":"1777200297860-ffr1su2n","productId":"p_glukosepulver","qty":250},{"id":"1777200314264-amba7uss","productId":"1777144461076-d6lqezto","qty":2000},{"id":"1777200401710-mii2muk3","productId":"1777146011103-b96jqjig","qty":40}]}
+    {"id":"1777200319005-ez9f62a3","name":"Erdbeere Eis","legalName":"Erdbeer Sorbet","packaging":"3000","storage":"Bei -18°C lagern. Nach Auftauen nicht wieder einfrieren.","manufacturer":"Eiscafé Sanremo, Musterstr. 1, 57319 Bad Berleburg","mhd":"Mindestens haltbar bis: siehe Deckel. Lot: siehe Deckel.","items":[{"id":"1777200270056-li13l0za","productId":"1777144318349-4t3e9qtq","qty":1100},{"id":"1777200288676-8rxh0hfy","productId":"p_zucker","qty":550},{"id":"1777200297860-ffr1su2n","productId":"p_glukosepulver","qty":250},{"id":"1777200314264-amba7uss","productId":"1777144461076-d6lqezto","qty":2000},{"id":"1777200401710-mii2muk3","productId":"1777146011103-b96jqjig","qty":40}]}
   ];
 
+  // ========== HILFSFUNKTIONEN ==========
   function sortProductComposition(p) { if (p.composition) p.composition.sort((a,b)=>b.percent-a.percent); return p; }
-  function loadState() {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      try {
-        const data = JSON.parse(saved);
-        state.products = data.products || [];
-        state.recipes = data.recipes || [];
-        state.recipeDraft = data.recipeDraft || [];
-      } catch(e) {}
-    }
-    if (!state.products.length) {
-      state.products = JSON.parse(JSON.stringify(existingProducts));
-      state.recipes = JSON.parse(JSON.stringify(existingRecipes));
-    }
-    state.products.forEach(p => { if (p.spuren === undefined) p.spuren = ''; sortProductComposition(p); });
-    state.recipeDraft = state.recipeDraft || [];
-    saveState();
-  }
-  function saveState() { state.products.forEach(p=>sortProductComposition(p)); localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); renderAll(); }
   function uid() { return Date.now() + '-' + Math.random().toString(36).substr(2,8); }
   function getProductPercentSum(p) { return (p.composition||[]).reduce((s,c)=>s+c.percent,0); }
   function parseDecimal(v) { if (!v && v!==0) return 0; let s=String(v).trim().replace(',','.'); let n=parseFloat(s); return isNaN(n)?0:parseFloat(n.toFixed(2)); }
+
   function computeRecipeNutrition(recipe) {
     const total = recipe.items.reduce((s,i)=>s+i.qty,0);
     if (!total) return null;
@@ -368,6 +365,7 @@
     for (let k in acc) acc[k] = parseFloat(acc[k].toFixed(2));
     return acc;
   }
+
   function getWeightSortedIngredients(recipe) {
     const map = new Map();
     for (let it of recipe.items) {
@@ -381,6 +379,7 @@
     }
     return Array.from(map.entries()).sort((a,b)=>b[1]-a[1]).map(e=>e[0]);
   }
+
   function getAllergensAndSpurenForRecipe(recipe) {
     const intentional = new Set(), traces = new Set();
     for (let it of recipe.items) {
@@ -393,7 +392,28 @@
     return { intentional: Array.from(intentional), traces: Array.from(traces) };
   }
 
-  // UI Functions
+  // ========== LOAD & SAVE ==========
+  function loadState() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        const data = JSON.parse(saved);
+        state.products = data.products || [];
+        state.recipes = data.recipes || [];
+        state.recipeDraft = data.recipeDraft || [];
+      } catch(e) {}
+    }
+    if (!state.products.length) {
+      state.products = JSON.parse(JSON.stringify(existingProducts));
+      state.recipes = JSON.parse(JSON.stringify(existingRecipes));
+    }
+    state.products.forEach(p => { if (p.spuren === undefined) p.spuren = ''; sortProductComposition(p); });
+    state.recipeDraft = state.recipeDraft || [];
+    saveState();
+  }
+  function saveState() { state.products.forEach(p=>sortProductComposition(p)); localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); renderAll(); }
+
+  // ========== PRODUKTE UI ==========
   function renderProductsList() {
     const cont = document.getElementById('productsList');
     if (!state.products.length) { cont.innerHTML='<div class="product-item">Keine Produkte</div>'; return; }
@@ -483,7 +503,7 @@
     document.getElementById('productPercentFill').style.width='0%';
   }
 
-  // Recipe Functions
+  // ========== REZEPTE UI ==========
   window.addRecipeItem = () => {
     const pid=document.getElementById('recipeProductSelect').value;
     const qty=parseFloat(document.getElementById('recipeItemQty').value);
@@ -499,10 +519,10 @@
     const total=state.recipeDraft.reduce((s,i)=>s+i.qty,0);
     document.getElementById('recipeTotalWeight').innerHTML=`<strong>Gesamt: ${total.toFixed(1)} g</strong>`;
     const tbody=document.getElementById('recipeItemsTable');
-    tbody.innerHTML=`<thead><tr><th>Produkt</th><th>Menge (g)</th><th>Anteil</th><th></th></thead><tbody>${state.recipeDraft.map(it=>{
+    tbody.innerHTML=`<thead><tr><th>Produkt</th><th>Menge (g)</th><th>Anteil</th><th></th></tr></thead><tbody>${state.recipeDraft.map(it=>{
       const p=state.products.find(x=>x.id===it.productId);
       const percent=total?(it.qty/total*100).toFixed(1):0;
-      return `<tr><td>${p?.name||'?'}</td><td>${it.qty.toFixed(1)} g</td><td>${percent}%</td><td><button class="danger" onclick="removeRecipeDraftItem('${it.id}')">X</button></td></tr>`;
+      return `<tr><td>${p?.name||'?'}</td><td style="text-align:right">${it.qty.toFixed(1)} g</td><td style="text-align:right">${percent}%</td><td><button class="danger" onclick="removeRecipeDraftItem('${it.id}')">X</button></td></tr>`;
     }).join('')}</tbody>`;
   }
   window.saveRecipe = () => {
@@ -534,7 +554,7 @@
   };
   function renderSavedRecipes() {
     const cont=document.getElementById('savedRecipesList');
-    cont.innerHTML=state.recipes.map(r=>`<div class="product-item"><strong>${r.name}</strong> (${r.packaging}g) <button onclick="editRecipe('${r.id}')">Bearbeiten</button> <button class="danger" onclick="deleteRecipe('${r.id}')">Löschen</button></div>`).join('');
+    cont.innerHTML=state.recipes.map(r=>`<div class="recipe-item"><strong>${r.name}</strong> (${r.packaging}g) <button onclick="editRecipe('${r.id}')">✏️ Bearbeiten</button> <button class="danger" onclick="deleteRecipe('${r.id}')">Löschen</button></div>`).join('');
     const prodSel=document.getElementById('recipeProductSelect');
     prodSel.innerHTML='<option value="">Produkt wählen</option>'+state.products.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
     document.getElementById('labelRecipeSelect').innerHTML='<option value="">Rezept wählen</option>'+state.recipes.map(r=>`<option value="${r.id}">${r.name}</option>`).join('');
@@ -563,64 +583,120 @@
     }
   };
   window.deleteRecipe = (id) => { if(confirm("Rezept löschen?")){ state.recipes=state.recipes.filter(r=>r.id!==id); renderSavedRecipes(); saveState(); } };
-  window.validateRecipe = () => {
-    const rid=document.getElementById('validationSelect').value;
-    const r=state.recipes.find(x=>x.id===rid);
-    const out=document.getElementById('validationResult');
-    if(!r){ out.innerHTML='<span class="pill error">Rezept wählen</span>'; return; }
-    const issues=[];
-    if(!r.legalName) issues.push({level:'error',text:'Verkehrsbezeichnung fehlt'});
-    for(let it of r.items){
-      const p=state.products.find(x=>x.id===it.productId);
-      if(p && Math.abs(getProductPercentSum(p)-100)>0.1) issues.push({level:'error',text:`${p.name} hat keine 100% Zusammensetzung`});
-    }
-    if(!r.items.length) issues.push({level:'error',text:'Keine Zutaten'});
-    if(!issues.length) issues.push({level:'success',text:'✅ LMIV konform'});
-    out.innerHTML=issues.map(i=>`<div class="pill ${i.level==='error'?'error':'success'}">${i.text}</div>`).join('');
-  };
-  window.generateLabel = () => {
-    const rid=document.getElementById('labelRecipeSelect').value;
-    const r=state.recipes.find(x=>x.id===rid);
-    const preview=document.getElementById('labelPreviewText');
-    if(!r){ preview.innerHTML='<span class="pill error">Rezept wählen</span>'; return; }
-    const nutrition=computeRecipeNutrition(r);
-    const ingredients=getWeightSortedIngredients(r);
-    const {intentional,traces}=getAllergensAndSpurenForRecipe(r);
-    let allergenText=intentional.length?`Allergene: ${intentional.join(', ')}. `:'Keine Allergene als Zutat. ';
-    let spurenText=traces.length?`Kann Spuren enthalten von: ${traces.join(', ')}. `:'';
-    const fmt=v=>(v||0).toFixed(1).replace('.',',');
-    const saltFmt=v=>{ let val=v||0; if(val<0.05)return'0,0'; return val.toFixed(1).replace('.',','); };
-    preview.textContent=`${r.legalName}\n\nZutaten: ${ingredients.join(', ')}. ${allergenText}${spurenText}\n\nNährwerte pro 100g:\nEnergie ${fmt(nutrition.kj)} kJ / ${fmt(nutrition.kcal)} kcal\nFett ${fmt(nutrition.fat)} g (davon gesättigte Fettsäuren ${fmt(nutrition.sat)} g)\nKohlenhydrate ${fmt(nutrition.carb)} g (davon Zucker ${fmt(nutrition.sugar)} g)\nEiweiß ${fmt(nutrition.protein)} g\nSalz ${saltFmt(nutrition.salt)} g\n\nInhalt: ${r.packaging} g\n${r.storage}\n${r.mhd}\nHersteller: ${r.manufacturer}`;
-  };
-  window.copyLabel = () => { const txt=document.getElementById('labelPreviewText').textContent; if(txt){ navigator.clipboard.writeText(txt); alert("Kopiert"); } };
-  window.downloadLabelTxt = () => { const txt=document.getElementById('labelPreviewText').textContent; if(txt){ const a=document.createElement('a'); const b=new Blob([txt],{type:'text/plain'}); a.href=URL.createObjectURL(b); a.download='etikett.txt'; a.click(); URL.revokeObjectURL(b); } };
+
+  // ========== TECHNISCHE DATENBLÄTTER ==========
   window.generateProductTechSheet = () => {
     const pid=document.getElementById('techProductSelect').value;
     const p=state.products.find(x=>x.id===pid);
     const preview=document.getElementById('techSheetPreview');
-    if(!p){ preview.innerHTML='<p>Produkt wählen</p>'; return; }
+    if(!p){ preview.innerHTML='<p style="color:red;">❌ Bitte wählen Sie ein Produkt.</p>'; return; }
     const sum=getProductPercentSum(p);
     const sorted=[...p.composition].sort((a,b)=>b.percent-a.percent);
-    preview.innerHTML=`<h2>${p.name}</h2><p>Kategorie: ${p.category}</p><h3>Zutaten (${sum.toFixed(1)}%)</h3><ul>${sorted.map(c=>`<li>${c.name} (${c.percent.toFixed(2)}%)</li>`).join('')}</ul><h3>Allergene (intentional)</h3><p>${p.allergens||'Keine'}</p><h3>Spuren (Kann enthalten)</h3><p>${p.spuren||'Keine'}</p><h3>Nährwerte pro 100g</h3><table>${Object.entries(p.nutrition).map(([k,v])=>`<tr><td>${k}</td><td>${v}</td></tr>`).join('')}</table>`;
+    preview.innerHTML=`
+      <div style="font-family:'Segoe UI',Arial,sans-serif;">
+        <h2>📄 ${p.name}</h2>
+        <p><strong>Kategorie:</strong> ${p.category}</p>
+        <p><strong>100% Status:</strong> ${Math.abs(sum-100)<0.1?'✅ Vollständig ('+sum.toFixed(1)+'%)':'⚠️ Unvollständig ('+sum.toFixed(1)+'%)'}</p>
+        <h3>🧪 Exakte Zusammensetzung</h3>
+        <ul>${sorted.map(c=>`<li>${c.name}: ${c.percent.toFixed(2)}%</li>`).join('')}</ul>
+        <h3>⚠️ Allergene (intentional)</h3>
+        <p>${p.allergens||'Keine'}</p>
+        <h3>🔄 Spuren (Kann enthalten)</h3>
+        <p>${p.spuren||'Keine'}</p>
+        <h3>📊 Nährwerte pro 100g</h3>
+        <tr><tr><th>Energie</th><td>${p.nutrition.kj} kJ / ${p.nutrition.kcal} kcal</td></tr>
+        <tr><th>Fett</th><td>${p.nutrition.fat} g (davon gesättigt: ${p.nutrition.sat} g)</td></tr>
+        <tr><th>Kohlenhydrate</th><td>${p.nutrition.carb} g (davon Zucker: ${p.nutrition.sugar} g)</td></tr>
+        <tr><th>Eiweiß</th><td>${p.nutrition.protein} g</td></tr>
+        <tr><th>Salz</th><td>${p.nutrition.salt} g</td></tr></table>
+        <hr><p style="font-size:0.7rem;">Generiert von Sanremo LMIV System • ${new Date().toLocaleDateString('de-DE')}</p>
+      </div>`;
   };
   window.generateRecipeTechSheet = () => {
     const rid=document.getElementById('techRecipeSelect').value;
     const r=state.recipes.find(x=>x.id===rid);
     const preview=document.getElementById('techSheetPreview');
-    if(!r){ preview.innerHTML='<p>Rezept wählen</p>'; return; }
+    if(!r){ preview.innerHTML='<p style="color:red;">❌ Bitte wählen Sie ein Rezept.</p>'; return; }
     const nutrition=computeRecipeNutrition(r);
     const {intentional,traces}=getAllergensAndSpurenForRecipe(r);
-    preview.innerHTML=`<h2>${r.name}</h2><h3>Allergene</h3><p>${intentional.join(', ')||'Keine'}</p><h3>Spuren</h3><p>${traces.join(', ')||'Keine'}</p><h3>Nährwerte pro 100g</h3><table>${Object.entries(nutrition||{}).map(([k,v])=>`<tr><td>${k}</td><td>${v}</td></tr>`).join('')}</table>`;
+    const total=r.items.reduce((s,i)=>s+i.qty,0);
+    preview.innerHTML=`
+      <div style="font-family:'Segoe UI',Arial,sans-serif;">
+        <h2>🍨 ${r.name}</h2>
+        <p><strong>Verkehrsbezeichnung:</strong> ${r.legalName}</p>
+        <p><strong>Füllmenge:</strong> ${r.packaging} g</p>
+        <h3>⚠️ Allergene (intentional)</h3>
+        <p>${intentional.length?intentional.join(', '):'Keine'}</p>
+        <h3>🔄 Spuren (Kann enthalten)</h3>
+        <p>${traces.length?traces.join(', '):'Keine'}</p>
+        <h3>📊 Nährwerte pro 100g Endprodukt</h3>
+        <table><tr><th>Energie</th><td>${nutrition?.kj||0} kJ / ${nutrition?.kcal||0} kcal</td></tr>
+        <tr><th>Fett</th><td>${nutrition?.fat||0} g (davon gesättigt: ${nutrition?.sat||0} g)</td></tr>
+        <tr><th>Kohlenhydrate</th><td>${nutrition?.carb||0} g (davon Zucker: ${nutrition?.sugar||0} g)</td></tr>
+        <tr><th>Eiweiß</th><td>${nutrition?.protein||0} g</td></tr>
+        <tr><th>Salz</th><td>${nutrition?.salt||0} g</td></tr></table>
+        <h3>📦 Rezeptur (Gesamt: ${total.toFixed(1)} g)</h3>
+        <ul>${r.items.map(it=>{const p=state.products.find(x=>x.id===it.productId); return `<li>${p?.name||'?'}: ${it.qty} g (${(it.qty/total*100).toFixed(1)}%)</li>`;}).join('')}</ul>
+        <h3>🏭 Hersteller</h3>
+        <p>${r.manufacturer}</p>
+        <p><strong>Aufbewahrung:</strong> ${r.storage}</p>
+        <p><strong>MHD/Lot:</strong> ${r.mhd}</p>
+        <hr><p style="font-size:0.7rem;">Generiert von Sanremo LMIV System • ${new Date().toLocaleDateString('de-DE')}</p>
+      </div>`;
   };
-  window.printTechSheet = () => { const html=document.getElementById('techSheetPreview').innerHTML; if(html){ const w=window.open('','_blank'); w.document.write(`<html><head><title>Datenblatt</title><style>body{font-family:sans-serif;padding:2rem;}</style></head><body>${html}</body></html>`); w.document.close(); w.print(); } };
-  window.exportData = () => { const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(state,null,2)],{type:'application/json'})); a.download='sanremo_backup.json'; a.click(); };
-  window.importData = (e) => { const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=ev=>{ try{ const d=JSON.parse(ev.target.result); state.products=d.products||[]; state.recipes=d.recipes||[]; state.recipeDraft=[]; saveState(); alert("Importiert"); } catch(e){ alert("Fehler"); } }; r.readAsText(f); };
-  window.resetAll = () => { if(confirm("ALLE DATEN LÖSCHEN?")){ localStorage.removeItem(STORAGE_KEY); loadState(); location.reload(); } };
-  document.getElementById('recipePackaging')?.addEventListener('change',function(){ document.getElementById('customPackagingContainer').style.display=this.value==='custom'?'block':'none'; });
-  function renderStats() { document.getElementById('statsArea').innerHTML=`<div>📦 ${state.products.length} Produkte</div><div>🍨 ${state.recipes.length} Rezepte</div><div>🆕 SPUREN-Feld aktiv</div><div>✅ LMIV konform</div>`; document.getElementById('rawData').innerHTML=JSON.stringify(state,null,2); }
+  window.printTechSheet = () => { const html=document.getElementById('techSheetPreview').innerHTML; if(html && !html.includes('Bitte wählen')){ const w=window.open('','_blank'); w.document.write(`<html><head><title>Technisches Datenblatt</title><style>body{font-family:sans-serif;padding:2rem;} table{border-collapse:collapse;width:100%;} th,td{border:1px solid #ccc;padding:0.5rem;}</style></head><body>${html}</body></html>`); w.document.close(); w.print(); } else{ alert("Bitte zuerst ein Datenblatt generieren."); } };
+
+  // ========== ETIKETT GENERATOR ==========
+  window.generateLabel = () => {
+    const rid=document.getElementById('labelRecipeSelect').value;
+    const r=state.recipes.find(x=>x.id===rid);
+    const preview=document.getElementById('labelPreviewText');
+    if(!r){ preview.innerHTML='❌ Bitte wählen Sie ein Rezept.'; return; }
+    const ingredients=getWeightSortedIngredients(r);
+    if(!ingredients.length){ preview.innerHTML='❌ Keine Zutatenliste generierbar – Produkte auf 100% prüfen.'; return; }
+    const nutrition=computeRecipeNutrition(r);
+    const {intentional,traces}=getAllergensAndSpurenForRecipe(r);
+    const allergenText=intentional.length?`Allergene: ${intentional.join(', ')}. `:'Keine der 14 Hauptallergene als Zutat enthalten. ';
+    const spurenText=traces.length?`Kann Spuren enthalten von: ${traces.join(', ')}. `:'';
+    const fmt=v=>(v||0).toFixed(1).replace('.',',');
+    const saltFmt=v=>{ let val=v||0; if(val<0.05)return'0,0'; return val.toFixed(1).replace('.',','); };
+    preview.textContent = `${r.legalName}\n\nZutaten: ${ingredients.join(', ')}. ${allergenText}${spurenText}\n\nNährwerte pro 100g:\nEnergie ${fmt(nutrition.kj)} kJ / ${fmt(nutrition.kcal)} kcal\nFett ${fmt(nutrition.fat)} g (davon gesättigte Fettsäuren ${fmt(nutrition.sat)} g)\nKohlenhydrate ${fmt(nutrition.carb)} g (davon Zucker ${fmt(nutrition.sugar)} g)\nEiweiß ${fmt(nutrition.protein)} g\nSalz ${saltFmt(nutrition.salt)} g\n\nInhalt: ${r.packaging} g\n${r.storage}\n${r.mhd}\nHersteller: ${r.manufacturer}`;
+  };
+  window.copyLabel = () => { const txt=document.getElementById('labelPreviewText').textContent; if(txt && txt!='❌ Bitte wählen Sie ein Rezept.'){ navigator.clipboard.writeText(txt); alert("Etikett wurde kopiert!"); } else{ alert("Kein gültiges Etikett zum Kopieren."); } };
+  window.downloadLabelTxt = () => { const txt=document.getElementById('labelPreviewText').textContent; if(txt && txt!='❌ Bitte wählen Sie ein Rezept.'){ const a=document.createElement('a'); const b=new Blob([txt],{type:'text/plain'}); a.href=URL.createObjectURL(b); a.download='etikett.txt'; a.click(); URL.revokeObjectURL(b); } else{ alert("Kein gültiges Etikett zum Speichern."); } };
+
+  // ========== VALIDIERUNG ==========
+  window.validateRecipe = () => {
+    const rid=document.getElementById('validationSelect').value;
+    const r=state.recipes.find(x=>x.id===rid);
+    const out=document.getElementById('validationResult');
+    if(!r){ out.innerHTML='<div class="pill error">❌ Bitte wählen Sie ein Rezept.</div>'; return; }
+    const issues=[];
+    if(!r.legalName) issues.push({level:'error',text:'❌ Verkehrsbezeichnung fehlt'});
+    if(!r.storage) issues.push({level:'error',text:'❌ Aufbewahrungshinweis fehlt'});
+    if(!r.manufacturer) issues.push({level:'error',text:'❌ Hersteller fehlt'});
+    let incomplete=[];
+    for(let it of r.items){
+      const p=state.products.find(x=>x.id===it.productId);
+      if(p && Math.abs(getProductPercentSum(p)-100)>0.1) incomplete.push(`${p.name} (${getProductPercentSum(p).toFixed(1)}%)`);
+    }
+    if(incomplete.length) issues.push({level:'error',text:`❌ Produkte ohne 100%: ${incomplete.join(', ')}`});
+    if(!r.items.length) issues.push({level:'error',text:'❌ Keine Zutaten im Rezept'});
+    if(issues.length===0) issues.push({level:'success',text:'✅ LMIV konform – Etikett kann erstellt werden'});
+    out.innerHTML=issues.map(i=>`<div class="pill ${i.level==='error'?'error':'success'}">${i.text}</div>`).join('');
+  };
+
+  // ========== BACKUP & DATEN ==========
+  window.exportData = () => { const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify({products:state.products, recipes:state.recipes},null,2)],{type:'application/json'})); a.download='sanremo_backup.json'; a.click(); };
+  window.importData = (e) => { const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=ev=>{ try{ const d=JSON.parse(ev.target.result); state.products=d.products||[]; state.recipes=d.recipes||[]; state.recipeDraft=[]; state.products.forEach(p=>{ if(p.spuren===undefined) p.spuren=''; }); saveState(); alert("✅ Import erfolgreich!"); } catch(e){ alert("❌ Fehler beim Import: Ungültiges JSON"); } }; r.readAsText(f); };
+  window.resetAll = () => { if(confirm("⚠️ ALLE DATEN WERDEN UNWIEDERUFLICH GELÖSCHT! Fortfahren?")){ localStorage.removeItem(STORAGE_KEY); loadState(); location.reload(); } };
+
+  // ========== RENDER ALLES ==========
+  function renderStats() { document.getElementById('statsArea').innerHTML=`<div>📦 ${state.products.length} Produkte</div><div>🍨 ${state.recipes.length} Rezepte</div><div>🆕 SPUREN-Feld aktiv</div><div>✅ LMIV konform</div><div>🔄 Auto-Sortierung aktiv</div>`; document.getElementById('rawData').innerHTML=JSON.stringify({products:state.products, recipes:state.recipes},null,2); }
   function renderAll() { renderProductsList(); renderSavedRecipes(); renderRecipeDraft(); renderStats(); }
   function switchScreen(id) { document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active')); document.getElementById(id).classList.add('active'); document.querySelector(`[data-screen="${id}"]`).classList.add('active'); }
   document.querySelectorAll('.nav-btn').forEach(btn=>btn.addEventListener('click',()=>switchScreen(btn.dataset.screen)));
+  document.getElementById('recipePackaging')?.addEventListener('change',function(){ document.getElementById('customPackagingContainer').style.display=this.value==='custom'?'block':'none'; });
   loadState(); renderAll();
 </script>
 </body>
