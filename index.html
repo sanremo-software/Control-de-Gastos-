@@ -42,14 +42,134 @@
     .btn.light{background:#fff;color:var(--red);border:1px solid var(--red)}
     .btn.gray{background:#666}.btn.gold{background:#c89b52;color:var(--dark)}.btn.danger{background:#b91c1c}.btn.small{font-size:13px;padding:7px 11px}
 
-    .hero{background:linear-gradient(180deg,#fffaf4 0%,#fbf6ef 100%);border-bottom:1px solid var(--line)}
-    .heroWrap{max-width:1240px;margin:auto;padding:44px 20px;display:grid;grid-template-columns:.92fr 1.08fr;gap:34px;align-items:center}
-    .heroText h1{font-family:Georgia,serif;font-size:68px;line-height:.98;color:var(--dark);margin-bottom:8px}
-    .script{font-family:Georgia,serif;font-size:42px;font-style:italic;color:var(--red);margin-bottom:18px}
-    .heroText p{font-size:20px;font-weight:700;max-width:590px;margin-bottom:22px;color:#4b352b}
-    .heroBtns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:26px}
-    .heroImg{border-radius:30px;overflow:hidden;box-shadow:var(--shadow);background:#fff;border:1px solid var(--line)}
-    .heroImg img{width:100%;height:520px;object-fit:cover;object-position:center}
+    .hero{
+      background:
+        radial-gradient(circle at 78% 35%,rgba(155,17,22,.10),transparent 34%),
+        linear-gradient(135deg,#fffaf4 0%,#fbf1e7 55%,#f4dfce 100%);
+      border-bottom:1px solid var(--line);
+      position:relative;
+      overflow:hidden;
+    }
+    .hero::after{
+      content:"";
+      position:absolute;
+      right:-120px;
+      top:-120px;
+      width:420px;
+      height:420px;
+      background:rgba(155,17,22,.08);
+      border-radius:50%;
+      pointer-events:none;
+    }
+    .heroWrap{
+      max-width:1240px;
+      margin:auto;
+      padding:56px 20px 64px;
+      display:grid;
+      grid-template-columns:.9fr 1.1fr;
+      gap:42px;
+      align-items:center;
+      position:relative;
+      z-index:2;
+    }
+    .heroText{
+      background:rgba(255,255,255,.58);
+      border:1px solid rgba(234,217,201,.8);
+      border-radius:30px;
+      padding:34px;
+      box-shadow:0 16px 45px rgba(43,20,13,.08);
+      backdrop-filter:blur(8px);
+    }
+    .heroText .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:8px 13px;
+      margin-bottom:18px;
+      font-size:13px;
+      font-weight:900;
+      color:var(--red);
+      text-transform:uppercase;
+      letter-spacing:.6px;
+    }
+    .heroText h1{
+      font-family:Georgia,serif;
+      font-size:66px;
+      line-height:.98;
+      color:var(--dark);
+      margin-bottom:8px;
+      letter-spacing:-1px;
+    }
+    .script{
+      font-family:Georgia,serif;
+      font-size:42px;
+      font-style:italic;
+      color:var(--red);
+      margin-bottom:18px;
+    }
+    .heroText p{
+      font-size:20px;
+      font-weight:800;
+      max-width:590px;
+      margin-bottom:22px;
+      color:#4b352b;
+    }
+    .heroBtns{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom:26px;
+    }
+    .heroImg{
+      position:relative;
+      border-radius:34px;
+      overflow:hidden;
+      box-shadow:0 28px 70px rgba(43,20,13,.20);
+      background:
+        linear-gradient(135deg,#fff 0%,#f3e2d3 100%);
+      border:8px solid rgba(255,255,255,.72);
+      min-height:540px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .heroImg::before{
+      content:"Eistorten nach Wunsch";
+      position:absolute;
+      right:22px;
+      top:22px;
+      z-index:3;
+      background:rgba(255,255,255,.92);
+      color:var(--red);
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:12px 18px;
+      font-weight:900;
+      box-shadow:0 8px 20px rgba(43,20,13,.10);
+    }
+    .heroImg::after{
+      content:"18 cm ab 28 € · 24 cm 42,90 €";
+      position:absolute;
+      left:22px;
+      bottom:22px;
+      z-index:3;
+      background:rgba(43,20,13,.92);
+      color:#fff;
+      border-radius:18px;
+      padding:14px 18px;
+      font-weight:900;
+      box-shadow:0 8px 20px rgba(43,20,13,.18);
+    }
+    .heroImg img{
+      width:100%;
+      height:540px;
+      object-fit:cover;
+      object-position:center;
+      display:block;
+    }
     .features{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:650px}
     .feature{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px 10px;text-align:center;font-weight:900;box-shadow:0 8px 20px rgba(43,20,13,.06)}
     .feature span{display:block;font-size:24px;margin-bottom:5px}
@@ -131,6 +251,7 @@
     <section class="hero">
       <div class="heroWrap">
         <div class="heroText">
+          <div class="eyebrow">🇮🇹 Handgemacht in Bad Berleburg</div>
           <h1>Handgemachte<br>Eistorten & Gelato</h1>
           <div class="script">mit Liebe gemacht</div>
           <p>Eistorten, Familienbecher und Gelateria-Klassiker online auswählen. Bestellung per WhatsApp senden. Zahlung bei Lieferung oder Abholung.</p>
@@ -145,7 +266,9 @@
             <div class="feature"><span>🚚</span>Lieferung möglich</div>
           </div>
         </div>
-        <div class="heroImg"><img src="img/27913.jpg" onerror="this.onerror=null;this.src='27913.jpg'" alt="San Remo Eistorte"></div>
+        <div class="heroImg">
+          <img src="img/hero.jpg" onerror="this.onerror=null;this.src='img/27913.jpg';" alt="San Remo Eistorte">
+        </div>
       </div>
     </section>
 
