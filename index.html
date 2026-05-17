@@ -14,7 +14,7 @@
 
     :root {
       --cream: #fff8ef;
-      --cream-dark: #f5e7d5;
+      --cream-dark: #f1dfca;
       --white: #ffffff;
       --brown: #32180d;
       --brown-soft: #5b3825;
@@ -23,9 +23,9 @@
       --gold: #c89b52;
       --green: #25d366;
       --line: #ead6bf;
-      --text-muted: #6f5849;
-      --shadow: 0 14px 35px rgba(50, 24, 13, 0.10);
-      --radius: 24px;
+      --muted: #6f5849;
+      --shadow: 0 12px 28px rgba(50, 24, 13, 0.10);
+      --radius: 22px;
     }
 
     html {
@@ -40,8 +40,8 @@
     }
 
     a {
-      color: inherit;
       text-decoration: none;
+      color: inherit;
     }
 
     button,
@@ -68,9 +68,9 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      background: rgba(255, 248, 239, 0.97);
+      background: rgba(255, 248, 239, 0.98);
       border-bottom: 1px solid var(--line);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(8px);
     }
 
     .nav {
@@ -90,6 +90,7 @@
       font-weight: 700;
       line-height: 0.9;
       letter-spacing: -1px;
+      white-space: nowrap;
     }
 
     .logo small {
@@ -133,63 +134,48 @@
       transform: translateY(-1px);
     }
 
-    .btn.green {
-      background: var(--green);
-    }
+    .btn.green { background: var(--green); }
+    .btn.dark { background: var(--brown); }
+    .btn.light { background: var(--white); color: var(--red); border: 1px solid var(--red); }
+    .btn.gray { background: #666; }
+    .btn.gold { background: var(--gold); color: var(--brown); }
+    .btn.danger { background: #b91c1c; }
+    .btn.small { padding: 7px 11px; font-size: 13px; }
 
-    .btn.dark {
-      background: var(--brown);
-    }
-
-    .btn.light {
-      background: var(--white);
-      color: var(--red);
-      border: 1px solid var(--red);
-    }
-
-    .btn.gray {
-      background: #666;
-    }
-
-    .btn.gold {
-      background: var(--gold);
-      color: var(--brown);
-    }
-
-    .btn.danger {
-      background: #b91c1c;
-    }
-
-    .btn.small {
-      padding: 7px 11px;
-      font-size: 13px;
-    }
-
+    /* HERO SEM SOBREPOSIÇÃO */
     .hero {
+      width: 100%;
+      min-height: 620px;
       background:
         linear-gradient(
           90deg,
-          rgba(255, 248, 239, 0.96) 0%,
-          rgba(255, 248, 239, 0.84) 43%,
-          rgba(255, 248, 239, 0.18) 68%
+          rgba(255, 248, 239, 0.98) 0%,
+          rgba(255, 248, 239, 0.90) 42%,
+          rgba(255, 248, 239, 0.28) 68%,
+          rgba(255, 248, 239, 0.10) 100%
         ),
         url('img/27935.png');
       background-size: cover;
       background-position: center right;
+      background-repeat: no-repeat;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
     }
 
     .hero-inner {
+      width: 100%;
       max-width: 1180px;
       margin: 0 auto;
-      padding: 88px 18px 90px;
+      padding: 70px 18px;
     }
 
     .hero h1 {
-      max-width: 720px;
+      max-width: 690px;
       margin-bottom: 10px;
       font-family: Georgia, serif;
-      font-size: 56px;
-      line-height: 1.03;
+      font-size: 54px;
+      line-height: 1.06;
     }
 
     .hero .script {
@@ -201,7 +187,7 @@
     }
 
     .hero p {
-      max-width: 650px;
+      max-width: 630px;
       margin-bottom: 22px;
       font-size: 19px;
       font-weight: 700;
@@ -212,24 +198,25 @@
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
+      margin-bottom: 24px;
     }
 
     .trust-row {
       max-width: 650px;
-      margin-top: 24px;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 12px;
     }
 
     .trust-box {
-      background: rgba(255, 255, 255, 0.88);
+      background: rgba(255, 255, 255, 0.90);
       border: 1px solid var(--line);
       border-radius: 16px;
       padding: 13px;
       text-align: center;
       font-size: 13px;
       font-weight: 900;
+      min-height: 88px;
     }
 
     .trust-box span {
@@ -241,7 +228,10 @@
     section {
       max-width: 1180px;
       margin: 0 auto;
-      padding: 50px 18px;
+      padding: 52px 18px;
+      clear: both;
+      position: relative;
+      z-index: 1;
     }
 
     .section-head {
@@ -256,20 +246,22 @@
     }
 
     .section-head p {
-      color: var(--text-muted);
+      color: var(--muted);
       font-size: 17px;
     }
 
     .grid-3 {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 18px;
+      align-items: stretch;
     }
 
     .grid-4 {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 14px;
+      align-items: stretch;
     }
 
     .card,
@@ -281,21 +273,31 @@
       border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
     }
 
     .card {
-      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
     }
 
     .image-box {
-      height: 215px;
+      width: 100%;
+      height: 225px;
       background-color: var(--cream-dark);
       background-size: cover;
       background-position: center;
+      background-repeat: no-repeat;
+      flex: 0 0 auto;
     }
 
     .card-body {
       padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
     }
 
     .card-body h3,
@@ -308,11 +310,16 @@
     .card-body p,
     .product-card p {
       margin-bottom: 12px;
-      color: var(--text-muted);
+      color: var(--muted);
+    }
+
+    .card-body .btn {
+      margin-top: auto;
+      align-self: flex-start;
     }
 
     .price {
-      margin: 10px 0;
+      margin: 10px 0 14px;
       font-size: 24px;
       font-weight: 900;
       color: var(--red);
@@ -332,11 +339,13 @@
 
     .product-card {
       padding: 17px;
+      min-height: 190px;
+      display: flex;
+      flex-direction: column;
     }
 
-    .product-card h3 {
-      font-size: 20px;
-    }
+    .product-card h3 { font-size: 20px; }
+    .product-card .btn { margin-top: auto; }
 
     .builder {
       background: var(--white);
@@ -344,12 +353,14 @@
       border-radius: 30px;
       padding: 24px;
       box-shadow: var(--shadow);
+      overflow: hidden;
     }
 
     .builder-grid {
       display: grid;
       grid-template-columns: 0.9fr 1.1fr;
       gap: 24px;
+      align-items: stretch;
     }
 
     .builder-photo {
@@ -358,6 +369,7 @@
       background: url('img/27915.jpg');
       background-size: cover;
       background-position: center;
+      background-repeat: no-repeat;
     }
 
     .steps {
@@ -420,9 +432,7 @@
       resize: vertical;
     }
 
-    .full {
-      grid-column: 1 / -1;
-    }
+    .full { grid-column: 1 / -1; }
 
     .about-box {
       display: grid;
@@ -430,6 +440,7 @@
       gap: 22px;
       align-items: center;
       padding: 24px;
+      overflow: hidden;
     }
 
     .about-photo {
@@ -438,6 +449,7 @@
       background: url('img/27915.jpg');
       background-size: cover;
       background-position: center;
+      background-repeat: no-repeat;
     }
 
     .about-box h2 {
@@ -448,24 +460,23 @@
 
     .about-box p {
       margin-bottom: 12px;
-      color: var(--text-muted);
+      color: var(--muted);
       font-size: 17px;
     }
 
     .delivery-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 16px;
     }
 
     .delivery-box {
       text-align: center;
       padding: 22px;
+      min-height: 170px;
     }
 
-    .delivery-box .icon {
-      font-size: 38px;
-    }
+    .delivery-box .icon { font-size: 38px; }
 
     .delivery-box h3 {
       color: var(--red);
@@ -505,18 +516,9 @@
       gap: 10px;
     }
 
-    .admin-content {
-      display: none;
-      margin-top: 14px;
-    }
-
-    .admin-box.open .admin-content {
-      display: block;
-    }
-
-    .admin-box.open .login-area {
-      display: none;
-    }
+    .admin-content { display: none; margin-top: 14px; }
+    .admin-box.open .admin-content { display: block; }
+    .admin-box.open .login-area { display: none; }
 
     .admin-list {
       display: grid;
@@ -541,14 +543,8 @@
       gap: 8px;
     }
 
-    .faded {
-      opacity: 0.45;
-    }
-
-    .small-text {
-      font-size: 13px;
-      color: var(--text-muted);
-    }
+    .faded { opacity: 0.45; }
+    .small-text { font-size: 13px; color: var(--muted); }
 
     .cart-button {
       position: fixed;
@@ -557,6 +553,7 @@
       z-index: 90;
       background: var(--brown);
       color: var(--white);
+      border: none;
       border-radius: 999px;
       padding: 15px 20px;
       font-weight: 900;
@@ -580,9 +577,7 @@
       display: none;
     }
 
-    .cart-panel.open {
-      display: block;
-    }
+    .cart-panel.open { display: block; }
 
     .cart-panel h3 {
       margin-bottom: 10px;
@@ -595,14 +590,8 @@
       padding: 10px 0;
     }
 
-    .cart-item b {
-      display: block;
-    }
-
-    .cart-item span {
-      color: var(--text-muted);
-      font-size: 14px;
-    }
+    .cart-item b { display: block; }
+    .cart-item span { color: var(--muted); font-size: 14px; }
 
     .cart-total {
       margin: 14px 0;
@@ -641,91 +630,36 @@
     }
 
     @media (max-width: 980px) {
-      .nav-links {
-        display: none;
-      }
-
-      .grid-3,
-      .delivery-grid,
-      .about-box,
-      .builder-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .grid-4 {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .hero h1 {
-        font-size: 42px;
-      }
-
-      .hero-inner {
-        padding: 68px 18px;
-      }
-
-      .trust-row {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .builder-photo {
-        min-height: 360px;
-      }
+      .nav-links { display: none; }
+      .grid-3, .delivery-grid, .about-box, .builder-grid { grid-template-columns: 1fr; }
+      .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .hero { min-height: auto; background-position: center right; }
+      .hero h1 { font-size: 42px; }
+      .hero-inner { padding: 68px 18px; }
+      .trust-row { grid-template-columns: repeat(2, 1fr); }
+      .builder-photo { min-height: 360px; }
     }
 
     @media (max-width: 560px) {
-      .logo {
-        font-size: 32px;
-      }
-
-      .hero h1 {
-        font-size: 36px;
-      }
-
-      .hero .script {
-        font-size: 27px;
-      }
-
-      .grid-4,
-      .form-grid,
-      .steps {
-        grid-template-columns: 1fr;
-      }
-
-      .cart-button {
-        left: 14px;
-        right: 14px;
-        text-align: center;
-      }
-
-      .cart-panel {
-        left: 12px;
-        right: 12px;
-        width: auto;
-      }
-
-      .section-head h2 {
-        font-size: 31px;
-      }
-
-      .hero-inner {
-        padding: 55px 18px;
-      }
+      .logo { font-size: 32px; }
+      .hero h1 { font-size: 36px; }
+      .hero .script { font-size: 27px; }
+      .grid-4, .form-grid, .steps { grid-template-columns: 1fr; }
+      .cart-button { left: 14px; right: 14px; text-align: center; }
+      .cart-panel { left: 12px; right: 12px; width: auto; }
+      .section-head h2 { font-size: 31px; }
+      .hero-inner { padding: 55px 18px; }
+      .image-box { height: 210px; }
     }
   </style>
 </head>
 
 <body>
-  <div class="topbar">
-    🍨 San Remo Gelato – Eistorten, Eisbecher, Familienbecher & Lieferung
-  </div>
+  <div class="topbar">🍨 San Remo Gelato – Eistorten, Eisbecher, Familienbecher & Lieferung</div>
 
   <header>
     <div class="nav">
-      <a class="logo" href="#top">
-        San Remo
-        <small>Eiscafé & Gelato</small>
-      </a>
+      <a class="logo" href="#top">San Remo<small>Eiscafé & Gelato</small></a>
 
       <nav class="nav-links">
         <a href="#torten">Eistorten</a>
@@ -735,9 +669,7 @@
         <a href="#lieferung">Lieferung</a>
       </nav>
 
-      <button class="btn dark" onclick="toggleCart()">
-        🛒 Warenkorb <span id="cartCount">0</span>
-      </button>
+      <button class="btn dark" onclick="toggleCart()">🛒 Warenkorb <span id="cartCount">0</span></button>
     </div>
   </header>
 
@@ -746,9 +678,7 @@
       <div class="hero-inner">
         <h1>Handgemachte Eistorten & Gelato</h1>
         <div class="script">mit Liebe gemacht</div>
-        <p>
-          Wähle Eistorte, Familienbecher oder Gelateria-Klassiker. Bestellung im Warenkorb sammeln und per WhatsApp senden. Zahlung bei Lieferung oder Abholung.
-        </p>
+        <p>Wähle Eistorte, Familienbecher oder Gelateria-Klassiker. Bestellung im Warenkorb sammeln und per WhatsApp senden. Zahlung bei Lieferung oder Abholung.</p>
 
         <div class="hero-buttons">
           <a class="btn green" href="#torten">Jetzt auswählen</a>
@@ -822,51 +752,18 @@
             </div>
 
             <form class="form-grid" onsubmit="addCakeConfig(event)">
-              <div>
-                <label>Größe</label>
-                <select id="cakeSize">
-                  <option value="18 cm|28">18 cm – 28,00 €</option>
-                  <option value="24 cm|42.90">24 cm – 42,90 €</option>
-                </select>
-              </div>
-
-              <div>
-                <label>Abholung / Lieferung</label>
-                <select id="cakeDelivery">
-                  <option>Abholung</option>
-                  <option>Lieferung</option>
-                </select>
-              </div>
-
+              <div><label>Größe</label><select id="cakeSize"><option value="18 cm|28">18 cm – 28,00 €</option><option value="24 cm|42.90">24 cm – 42,90 €</option></select></div>
+              <div><label>Abholung / Lieferung</label><select id="cakeDelivery"><option>Abholung</option><option>Lieferung</option></select></div>
               <div><label>1. Eissorte</label><select id="cakeFlavor1"></select></div>
               <div><label>2. Eissorte</label><select id="cakeFlavor2"></select></div>
               <div><label>3. Eissorte</label><select id="cakeFlavor3"></select></div>
               <div><label>4. Eissorte</label><select id="cakeFlavor4"></select></div>
               <div><label>5. Eissorte</label><select id="cakeFlavor5"></select></div>
-
-              <div>
-                <label>Datum</label>
-                <input id="cakeDate" type="date" />
-              </div>
-
-              <div>
-                <label>Uhrzeit</label>
-                <input id="cakeTime" type="time" />
-              </div>
-
-              <div class="full">
-                <label>Text auf der Torte</label>
-                <input id="cakeText" placeholder="z. B. Alles Gute Luca" />
-              </div>
-
-              <div class="full">
-                <label>Extras / Wunsch</label>
-                <textarea id="cakeNotes" placeholder="z. B. Kinderschokolade, Erdbeeren, Oreo..."></textarea>
-              </div>
-
-              <div class="full">
-                <button class="btn" type="submit">🎂 Torte in den Warenkorb</button>
-              </div>
+              <div><label>Datum</label><input id="cakeDate" type="date" /></div>
+              <div><label>Uhrzeit</label><input id="cakeTime" type="time" /></div>
+              <div class="full"><label>Text auf der Torte</label><input id="cakeText" placeholder="z. B. Alles Gute Luca" /></div>
+              <div class="full"><label>Extras / Wunsch</label><textarea id="cakeNotes" placeholder="z. B. Kinderschokolade, Erdbeeren, Oreo..."></textarea></div>
+              <div class="full"><button class="btn" type="submit">🎂 Torte in den Warenkorb</button></div>
             </form>
           </div>
         </div>
@@ -948,46 +845,13 @@
         <div class="admin-content">
           <div class="form-grid">
             <input type="hidden" id="editIndex" />
-
-            <div>
-              <label>Produktname</label>
-              <input id="pName" placeholder="z. B. Neuer Becher" />
-            </div>
-
-            <div>
-              <label>Preis €</label>
-              <input id="pPrice" type="number" step="0.01" placeholder="9.50" />
-            </div>
-
-            <div>
-              <label>Kategorie</label>
-              <select id="pCat">
-                <option value="becher">Eisbecher</option>
-                <option value="neuheit">Neuheit / Angebot</option>
-              </select>
-            </div>
-
-            <div>
-              <label>Status</label>
-              <select id="pVisible">
-                <option value="yes">Sichtbar</option>
-                <option value="no">Ausblenden</option>
-              </select>
-            </div>
-
-            <div class="full">
-              <label>Beschreibung</label>
-              <input id="pDesc" placeholder="kurze Beschreibung" />
-            </div>
-
-            <div class="full">
-              <button class="btn" onclick="saveProduct()">Produkt speichern</button>
-              <button class="btn gray" onclick="clearProductForm()">Leeren</button>
-              <button class="btn gold" onclick="exportProducts()">Backup Export</button>
-              <button class="btn danger" onclick="resetProducts()">Standard wiederherstellen</button>
-            </div>
+            <div><label>Produktname</label><input id="pName" placeholder="z. B. Neuer Becher" /></div>
+            <div><label>Preis €</label><input id="pPrice" type="number" step="0.01" placeholder="9.50" /></div>
+            <div><label>Kategorie</label><select id="pCat"><option value="becher">Eisbecher</option><option value="neuheit">Neuheit / Angebot</option></select></div>
+            <div><label>Status</label><select id="pVisible"><option value="yes">Sichtbar</option><option value="no">Ausblenden</option></select></div>
+            <div class="full"><label>Beschreibung</label><input id="pDesc" placeholder="kurze Beschreibung" /></div>
+            <div class="full"><button class="btn" onclick="saveProduct()">Produkt speichern</button> <button class="btn gray" onclick="clearProductForm()">Leeren</button> <button class="btn gold" onclick="exportProducts()">Backup Export</button> <button class="btn danger" onclick="resetProducts()">Standard wiederherstellen</button></div>
           </div>
-
           <div class="admin-list" id="adminList"></div>
         </div>
       </div>
@@ -1010,75 +874,29 @@
         <h2>Lieferung & Zahlung</h2>
         <p>Der Kunde bestellt, San Remo bestätigt per WhatsApp. Zahlung erst bei Lieferung oder Abholung.</p>
       </div>
-
       <div class="delivery-grid">
-        <div class="delivery-box">
-          <div class="icon">📍</div>
-          <h3>Bad Berleburg</h3>
-          <p>Mindestbestellung ab <strong>20 €</strong>.</p>
-        </div>
-
-        <div class="delivery-box">
-          <div class="icon">🚚</div>
-          <h3>Umgebung</h3>
-          <p>Nach Absprache, empfohlen ab <strong>35 €</strong>.</p>
-        </div>
-
-        <div class="delivery-box">
-          <div class="icon">💳</div>
-          <h3>Zahlung</h3>
-          <p>Bar, EC-Karte oder PayPal bei Lieferung/Abholung.</p>
-        </div>
+        <div class="delivery-box"><div class="icon">📍</div><h3>Bad Berleburg</h3><p>Mindestbestellung ab <strong>20 €</strong>.</p></div>
+        <div class="delivery-box"><div class="icon">🚚</div><h3>Umgebung</h3><p>Nach Absprache, empfohlen ab <strong>35 €</strong>.</p></div>
+        <div class="delivery-box"><div class="icon">💳</div><h3>Zahlung</h3><p>Bar, EC-Karte oder PayPal bei Lieferung/Abholung.</p></div>
       </div>
-
       <div class="notice">Wichtig: Die Bestellung ist erst bestätigt, wenn San Remo per WhatsApp antwortet.</div>
     </section>
   </main>
 
-  <button class="cart-button" onclick="toggleCart()">
-    🛒 Warenkorb: <span id="cartTotalSmall">0,00 €</span>
-  </button>
+  <button class="cart-button" onclick="toggleCart()">🛒 Warenkorb: <span id="cartTotalSmall">0,00 €</span></button>
 
   <aside class="cart-panel" id="cartPanel">
     <h3>Warenkorb</h3>
     <div id="cartItems"></div>
     <div class="cart-total" id="cartTotal">0,00 €</div>
-
     <div class="form-grid">
-      <div>
-        <label>Name</label>
-        <input id="custName" placeholder="Ihr Name" />
-      </div>
-
-      <div>
-        <label>Telefon</label>
-        <input id="custPhone" placeholder="Telefonnummer" />
-      </div>
-
-      <div>
-        <label>Datum</label>
-        <input id="orderDate" type="date" />
-      </div>
-
-      <div>
-        <label>Uhrzeit</label>
-        <input id="orderTime" type="time" />
-      </div>
-
-      <div class="full">
-        <label>Lieferung oder Abholung</label>
-        <select id="orderType">
-          <option>Abholung</option>
-          <option>Lieferung</option>
-        </select>
-      </div>
-
-      <div class="full">
-        <label>Adresse / Sorten / Notizen</label>
-        <textarea id="orderNotes" placeholder="Adresse bei Lieferung, gewünschte Sorten, Hinweise..."></textarea>
-      </div>
+      <div><label>Name</label><input id="custName" placeholder="Ihr Name" /></div>
+      <div><label>Telefon</label><input id="custPhone" placeholder="Telefonnummer" /></div>
+      <div><label>Datum</label><input id="orderDate" type="date" /></div>
+      <div><label>Uhrzeit</label><input id="orderTime" type="time" /></div>
+      <div class="full"><label>Lieferung oder Abholung</label><select id="orderType"><option>Abholung</option><option>Lieferung</option></select></div>
+      <div class="full"><label>Adresse / Sorten / Notizen</label><textarea id="orderNotes" placeholder="Adresse bei Lieferung, gewünschte Sorten, Hinweise..."></textarea></div>
     </div>
-
     <button class="btn green" style="width:100%;margin-top:12px" onclick="sendWhatsAppOrder()">📲 Bestellung per WhatsApp senden</button>
     <button class="btn light" style="width:100%;margin-top:8px" onclick="clearCart()">Warenkorb leeren</button>
   </aside>
@@ -1092,7 +910,7 @@
 
   <script>
     const PHONE_NUMBER = '4917672809926';
-    const STORAGE_KEY = 'sanremo_products_v4';
+    const STORAGE_KEY = 'sanremo_products_v5';
     const ADMIN_PIN = '1234';
 
     let cart = [];
@@ -1109,42 +927,15 @@
 
     let products = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || defaultProducts;
 
-    const flavors = [
-      '',
-      'Vanille',
-      'Schokolade',
-      'Stracciatella',
-      'Amarena',
-      'Cookies',
-      'Spaghetti',
-      'Kinder',
-      'Toffifee',
-      'Erdbeer',
-      'Mango',
-      'Joghurt Orange',
-      'Pistazie',
-      'Haselnuss',
-      'Dubai Schokolade'
-    ];
+    const flavors = ['', 'Vanille', 'Schokolade', 'Stracciatella', 'Amarena', 'Cookies', 'Spaghetti', 'Kinder', 'Toffifee', 'Erdbeer', 'Mango', 'Joghurt Orange', 'Pistazie', 'Haselnuss', 'Dubai Schokolade'];
 
-    function getValue(id) {
-      return document.getElementById(id).value;
-    }
-
-    function formatMoney(value) {
-      return Number(value).toFixed(2).replace('.', ',') + ' €';
-    }
-
-    function escapeText(text) {
-      return String(text).replace(/'/g, "\'");
-    }
+    function getValue(id) { return document.getElementById(id).value; }
+    function formatMoney(value) { return Number(value).toFixed(2).replace('.', ',') + ' €'; }
+    function escapeText(text) { return String(text).replace(/'/g, "\'"); }
 
     function fillFlavorOptions() {
-      const flavorSelectIds = ['cakeFlavor1', 'cakeFlavor2', 'cakeFlavor3', 'cakeFlavor4', 'cakeFlavor5'];
-
-      flavorSelectIds.forEach((id, index) => {
+      ['cakeFlavor1', 'cakeFlavor2', 'cakeFlavor3', 'cakeFlavor4', 'cakeFlavor5'].forEach((id, index) => {
         const select = document.getElementById(id);
-
         select.innerHTML = flavors.map(flavor => {
           const label = flavor || (index === 0 ? 'Bitte wählen' : 'Keine weitere Sorte');
           return `<option value="${flavor}">${label}</option>`;
@@ -1155,7 +946,6 @@
     function productCard(product) {
       const tag = product.category === 'neuheit' ? '<span class="tag">Neuheit</span>' : '';
       const note = product.category === 'neuheit' ? 'Neuheit / Angebot' : 'Gelateria Eisbecher';
-
       return `
         <div class="product-card">
           ${tag}
@@ -1172,32 +962,23 @@
       const becher = visibleProducts.filter(product => product.category === 'becher');
       const neuheiten = visibleProducts.filter(product => product.category === 'neuheit');
 
-      document.getElementById('becherGrid').innerHTML = becher.length
-        ? becher.map(productCard).join('')
-        : '<p>Keine Eisbecher sichtbar.</p>';
-
-      document.getElementById('newGrid').innerHTML = neuheiten.length
-        ? neuheiten.map(productCard).join('')
-        : '<p>Aktuell keine Neuheiten.</p>';
+      document.getElementById('becherGrid').innerHTML = becher.length ? becher.map(productCard).join('') : '<p>Keine Eisbecher sichtbar.</p>';
+      document.getElementById('newGrid').innerHTML = neuheiten.length ? neuheiten.map(productCard).join('') : '<p>Aktuell keine Neuheiten.</p>';
     }
 
     function loginAdmin() {
       if (getValue('adminPin') === ADMIN_PIN) {
         document.getElementById('adminBox').classList.add('open');
         renderAdmin();
-        return;
+      } else {
+        alert('Falscher PIN');
       }
-
-      alert('Falscher PIN');
     }
 
     function renderAdmin() {
-      const adminList = document.getElementById('adminList');
-
-      adminList.innerHTML = products.map((product, index) => {
+      document.getElementById('adminList').innerHTML = products.map((product, index) => {
         const visibleText = product.visible === false ? 'ausgeblendet' : 'sichtbar';
         const fadeClass = product.visible === false ? 'faded' : '';
-
         return `
           <div class="admin-item ${fadeClass}">
             <div>
@@ -1205,7 +986,6 @@
               <div>${formatMoney(product.price)} • ${product.category} • ${visibleText}</div>
               <div class="small-text">${product.description || ''}</div>
             </div>
-
             <div class="admin-actions">
               <button class="btn small gray" onclick="editProduct(${index})">Ändern</button>
               <button class="btn small gold" onclick="toggleVisible(${index})">${product.visible === false ? 'Einblenden' : 'Ausblenden'}</button>
@@ -1237,11 +1017,8 @@
 
       const product = { name, price, category, description, visible };
 
-      if (editIndex === '') {
-        products.push(product);
-      } else {
-        products[Number(editIndex)] = product;
-      }
+      if (editIndex === '') products.push(product);
+      else products[Number(editIndex)] = product;
 
       clearProductForm();
       saveAllProducts();
@@ -1249,7 +1026,6 @@
 
     function editProduct(index) {
       const product = products[index];
-
       document.getElementById('editIndex').value = index;
       document.getElementById('pName').value = product.name;
       document.getElementById('pPrice').value = product.price;
@@ -1260,7 +1036,6 @@
 
     function deleteProduct(index) {
       if (!confirm('Produkt löschen?')) return;
-
       products.splice(index, 1);
       saveAllProducts();
     }
@@ -1281,7 +1056,6 @@
 
     function resetProducts() {
       if (!confirm('Standard wiederherstellen?')) return;
-
       products = JSON.parse(JSON.stringify(defaultProducts));
       saveAllProducts();
     }
@@ -1302,11 +1076,8 @@
 
     function addCakeConfig(event) {
       event.preventDefault();
-
       const [size, price] = getValue('cakeSize').split('|');
-      const selectedFlavors = ['cakeFlavor1', 'cakeFlavor2', 'cakeFlavor3', 'cakeFlavor4', 'cakeFlavor5']
-        .map(getValue)
-        .filter(Boolean);
+      const selectedFlavors = ['cakeFlavor1', 'cakeFlavor2', 'cakeFlavor3', 'cakeFlavor4', 'cakeFlavor5'].map(getValue).filter(Boolean);
 
       if (!selectedFlavors.length) {
         alert('Bitte mindestens eine Eissorte wählen');
@@ -1326,7 +1097,6 @@
 
     function renderCart() {
       const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
       document.getElementById('cartCount').textContent = cart.length;
       document.getElementById('cartTotal').textContent = formatMoney(total);
       document.getElementById('cartTotalSmall').textContent = formatMoney(total);
@@ -1364,14 +1134,12 @@
       }
 
       const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
       const itemLines = cart.map(item => {
         const note = item.note ? ' => ' + item.note : '';
         return `- ${item.quantity}x ${item.name} (${formatMoney(item.price * item.quantity)})${note}`;
       }).join('%0A');
 
       const message = `Hallo San Remo, ich möchte gerne bestellen:%0A%0A${itemLines}%0A%0AGesamt: ${formatMoney(total)}%0A%0AName: ${getValue('custName') || ''}%0ATelefon: ${getValue('custPhone') || ''}%0ADatum: ${getValue('orderDate') || ''}%0AUhrzeit: ${getValue('orderTime') || ''}%0AArt: ${getValue('orderType')}%0ANotizen/Adresse/Sorten: ${getValue('orderNotes') || ''}%0A%0AZahlung bei Lieferung/Abholung. Bitte bestätigen Sie die Bestellung.`;
-
       window.open(`https://wa.me/${PHONE_NUMBER}?text=${message}`, '_blank');
     }
 
