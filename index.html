@@ -3,263 +3,114 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sanremo Gelato – Eistorten & Gelato aus Bad Berleburg</title>
+  <title>Sanremo Gelato – Eistorten & Gelato bestellen</title>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     :root{
-      --cream:#fbf3e8;
-      --cream2:#fffaf3;
-      --brown:#3b1d11;
-      --red:#9b1116;
-      --red2:#7f0d12;
-      --gold:#c79b52;
-      --muted:#6b584c;
-      --line:#ead8c4;
-      --green:#198754;
-      --shadow:0 18px 50px rgba(59,29,17,.13);
-      --radius:24px;
+      --cream:#fbf4ea;--cream2:#fffaf4;--brown:#32180d;--brown2:#4a2515;
+      --red:#9b1116;--red2:#7f0d12;--gold:#c89b52;--muted:#735846;
+      --line:#ead6bf;--green:#198754;--whatsapp:#25D366;
+      --shadow:0 18px 50px rgba(50,24,13,.13);--radius:24px;
     }
     body{font-family:Arial,Helvetica,sans-serif;background:var(--cream2);color:var(--brown);line-height:1.45}
-    a{text-decoration:none;color:inherit}
-    img{max-width:100%;display:block}
+    a{text-decoration:none;color:inherit} button{font-family:inherit} img{max-width:100%;display:block}
 
-    /* TOP */
-    .topbar{background:var(--brown);color:#fff;text-align:center;padding:9px 14px;font-size:14px;font-weight:700}
-    header{position:sticky;top:0;background:rgba(255,250,243,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);z-index:50}
-    .nav{max-width:1240px;margin:auto;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-    .logo{font-family:Georgia,serif;font-size:42px;font-style:italic;letter-spacing:-1.5px;color:var(--brown);line-height:.9}
-    .logo small{display:block;font-family:Arial,sans-serif;font-size:12px;letter-spacing:4px;font-style:normal;margin-top:10px;color:#5c3a29;text-transform:uppercase}
-    .navlinks{display:flex;gap:28px;font-weight:800;font-size:15px;color:#2e1a10}
-    .navlinks a.active,.navlinks a:hover{color:var(--red)}
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:999px;background:var(--red);color:#fff;padding:13px 20px;font-weight:900;cursor:pointer;box-shadow:0 10px 22px rgba(155,17,22,.2)}
-    .btn:hover{background:var(--red2)}
-    .btn.outline{background:transparent;color:var(--red);border:1px solid var(--red);box-shadow:none}
-    .btn.green{background:#25D366;color:#fff}
+    .topbar{background:var(--brown);color:#fff;text-align:center;padding:9px 14px;font-size:14px;font-weight:800}
+    header{position:sticky;top:0;z-index:50;background:rgba(255,250,244,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .nav{max-width:1180px;margin:auto;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+    .logo{font-family:Georgia,serif;font-size:38px;font-style:italic;font-weight:700;letter-spacing:-1px;line-height:.9}
+    .logo small{display:block;font-family:Arial,Helvetica,sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;font-style:normal;color:#694633;margin-top:10px}
+    .navlinks{display:flex;gap:20px;font-weight:900;font-size:15px}.navlinks a:hover{color:var(--red)}
+    .btn{border:0;border-radius:999px;background:var(--red);color:#fff;padding:12px 18px;font-weight:900;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 10px 24px rgba(155,17,22,.18)}
+    .btn:hover{background:var(--red2)}.btn.green{background:var(--whatsapp)}.btn.dark{background:var(--brown)}.btn.light{background:#fff;color:var(--red);border:1px solid var(--red);box-shadow:none}
 
-    /* HERO */
-    .hero{background:radial-gradient(circle at 70% 20%,#fff 0,#f8ebdd 42%,#f6e3cf 100%);overflow:hidden}
-    .heroInner{max-width:1240px;margin:auto;min-height:650px;padding:54px 20px 40px;display:grid;grid-template-columns:1fr 1.15fr;align-items:center;gap:30px}
-    .kicker{display:inline-flex;align-items:center;gap:8px;color:var(--red);font-weight:900;margin-bottom:18px;letter-spacing:.4px}
-    .hero h1{font-family:Georgia,serif;font-size:58px;line-height:1.02;letter-spacing:-1.8px;margin-bottom:8px}
-    .script{font-family:Georgia,serif;font-size:34px;font-style:italic;color:var(--red);margin-bottom:20px}
-    .hero p{font-size:18px;color:#4d372b;max-width:540px;margin-bottom:24px}
-    .heroBtns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:26px}
-    .trust{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:610px}
-    .trustItem{text-align:center;font-size:13px;font-weight:700;color:#3d271c}
-    .trustIcon{font-size:28px;margin-bottom:7px}
-    .heroPhoto{position:relative;min-height:520px;border-radius:36px;background:linear-gradient(160deg,rgba(255,255,255,.1),rgba(255,255,255,.6)),url('27909.jpg');background-size:cover;background-position:center;box-shadow:var(--shadow);border:8px solid rgba(255,255,255,.7)}
-    .heroPhoto:before{content:"Eistorten nach Wunsch";position:absolute;right:24px;top:24px;background:rgba(255,255,255,.93);color:var(--red);font-weight:900;border-radius:999px;padding:12px 18px;box-shadow:0 10px 25px rgba(0,0,0,.12)}
-    .priceBubble{position:absolute;left:24px;bottom:24px;background:var(--brown);color:#fff;border-radius:22px;padding:18px 20px;box-shadow:0 12px 25px rgba(0,0,0,.22)}
-    .priceBubble b{display:block;font-size:26px;color:#ffd89b}
+    .hero{background:linear-gradient(110deg,rgba(50,24,13,.82),rgba(155,17,22,.52)),url('img/27935.png');background-size:cover;background-position:center;color:#fff}
+    .heroInner{max-width:1180px;margin:auto;padding:98px 18px 95px}.hero h1{font-family:Georgia,serif;font-size:58px;line-height:1.05;margin-bottom:12px;max-width:720px}.script{font-family:Georgia,serif;font-size:34px;font-style:italic;color:#ffd1d1;margin-bottom:16px}.hero p{font-size:20px;max-width:650px;color:#ffe8d0;margin-bottom:24px}.heroBtns{display:flex;gap:12px;flex-wrap:wrap}.trust{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:640px;margin-top:26px}.trustItem{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(4px);border-radius:16px;padding:13px;text-align:center;font-size:13px;font-weight:900}.trustItem span{display:block;font-size:25px;margin-bottom:5px}
 
-    /* SECTIONS */
-    section{max-width:1240px;margin:auto;padding:58px 20px}
-    .sectionHead{text-align:center;margin-bottom:28px}
-    .sectionHead h2{font-family:Georgia,serif;font-size:36px;letter-spacing:-.5px;margin-bottom:8px}
-    .sectionHead p{color:var(--muted);font-size:17px}
+    section{max-width:1180px;margin:auto;padding:54px 18px}.head{text-align:center;margin-bottom:28px}.head h2{font-family:Georgia,serif;font-size:37px;margin-bottom:8px}.head p{color:var(--muted);font-size:17px}
 
-    .cakeStrip{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
-    .miniCard{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 8px 20px rgba(59,29,17,.08)}
-    .miniImg{height:140px;background:#ddd;background-size:cover;background-position:center}
-    .miniCard p{text-align:center;font-weight:800;padding:10px 6px;font-size:13px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:#fff;border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:var(--shadow)}.img{height:210px;background:#ead6bf;background-size:cover;background-position:center}.body{padding:20px}.body h3{font-family:Georgia,serif;font-size:26px;margin-bottom:8px}.body p{color:var(--muted);margin-bottom:12px}.price{font-size:25px;font-weight:900;color:var(--red);margin:12px 0}.small{font-size:13px;color:var(--muted)}
 
-    .featureGrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
-    .feature{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
-    .featureImg{height:230px;background:#eee;background-size:cover;background-position:center}
-    .featureBody{padding:24px}
-    .feature h3{font-family:Georgia,serif;font-size:27px;margin-bottom:10px}
-    .feature p{color:var(--muted);margin-bottom:16px}
-    .list{display:grid;gap:8px;margin:14px 0}
-    .list div{font-weight:800;color:#4b2b1b}.list div:before{content:"✓";color:var(--green);font-weight:900;margin-right:8px}
+    .productGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.product{background:#fff;border:1px solid var(--line);border-radius:20px;padding:17px;box-shadow:0 8px 24px rgba(50,24,13,.07)}.product h3{font-size:18px;margin-bottom:6px}.product .price{font-size:22px;margin:8px 0}
 
-    /* BUILDER */
-    .builder{background:linear-gradient(135deg,#fff,#fff7ed);border:2px solid var(--red);border-radius:34px;padding:28px;box-shadow:var(--shadow)}
-    .builderTop{display:grid;grid-template-columns:.85fr 1.15fr;gap:24px;align-items:stretch}
-    .builderPhoto{border-radius:26px;background:url('27907.jpg');background-size:cover;background-position:center;min-height:430px;box-shadow:inset 0 0 0 999px rgba(0,0,0,.02)}
-    .steps{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:18px}
-    .step{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;font-weight:800;color:#4a2d18}
-    .step b{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--red);color:#fff;margin-right:8px}
-    .formGrid{display:grid;grid-template-columns:1fr 1fr;gap:13px}
-    label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.6px;color:#7a5a44;font-weight:900;margin-bottom:6px}
-    input,select,textarea{width:100%;border:1px solid #d8c3ad;background:#fff;border-radius:14px;padding:12px 13px;font-size:15px;color:#2b170d}
-    textarea{min-height:88px;resize:vertical}.full{grid-column:1/-1}
+    .builder{background:#fff;border:2px solid var(--red);border-radius:30px;padding:24px;box-shadow:var(--shadow)}.builderGrid{display:grid;grid-template-columns:.9fr 1.1fr;gap:24px;align-items:stretch}.builderPhoto{min-height:520px;border-radius:24px;background:url('img/27915.jpg');background-size:cover;background-position:center;box-shadow:inset 0 0 0 999px rgba(0,0,0,.04)}.steps{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px}.step{background:#fff8ef;border:1px solid var(--line);border-radius:16px;padding:13px;font-weight:900}.step b{display:inline-flex;width:27px;height:27px;align-items:center;justify-content:center;border-radius:50%;background:var(--red);color:#fff;margin-right:7px}.form{display:grid;grid-template-columns:1fr 1fr;gap:13px}label{font-size:12px;text-transform:uppercase;font-weight:900;letter-spacing:.5px;color:#735846;display:block;margin-bottom:6px}input,select,textarea{width:100%;border:1px solid #d8c1a8;border-radius:13px;padding:12px;font-size:15px;background:#fff;color:var(--brown)}textarea{min-height:84px;resize:vertical}.full{grid-column:1/-1}
 
-    /* DELIVERY */
-    .deliveryGrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
-    .deliveryBox{background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px;text-align:center;box-shadow:0 10px 25px rgba(59,29,17,.08)}
-    .deliveryBox .icon{font-size:42px;margin-bottom:10px}.deliveryBox h3{color:var(--red);font-size:22px;margin-bottom:8px}
-    .warning{background:#fff2d7;border:1px solid #f1c56d;color:#5a3300;border-radius:18px;padding:18px;margin-top:18px;font-weight:800}
+    .about{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:30px;padding:24px;box-shadow:var(--shadow)}.aboutPhoto{min-height:360px;border-radius:24px;background:url('img/27915.jpg');background-size:cover;background-position:center}.about h2{font-family:Georgia,serif;font-size:38px;margin-bottom:12px}.about p{color:var(--muted);font-size:17px;margin-bottom:12px}
+    .delivery{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.deliveryBox{text-align:center;background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:0 10px 25px rgba(50,24,13,.07)}.deliveryBox .icon{font-size:38px;margin-bottom:8px}.deliveryBox h3{color:var(--red);font-size:22px;margin-bottom:7px}.notice{background:#fff0d2;border:1px solid #edc36d;border-radius:18px;padding:16px;font-weight:800;color:#5c3500;margin-top:18px;text-align:center}
 
-    /* ABOUT */
-    .about{display:grid;grid-template-columns:.85fr 1.15fr;gap:20px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:32px;padding:24px;box-shadow:var(--shadow)}
-    .aboutImg{min-height:360px;border-radius:24px;background:url('27915.jpg');background-size:cover;background-position:center}
-    .about h2{font-family:Georgia,serif;font-size:38px;margin-bottom:12px}.about p{color:var(--muted);font-size:17px;margin-bottom:15px}
+    .cartPanel{position:fixed;right:18px;top:88px;width:380px;max-width:calc(100vw - 36px);background:#fff;border:1px solid var(--line);border-radius:24px;box-shadow:0 20px 60px rgba(0,0,0,.24);z-index:100;padding:18px;display:none;max-height:calc(100vh - 110px);overflow:auto}.cartPanel.open{display:block}.cartPanel h3{font-family:Georgia,serif;font-size:27px;margin-bottom:10px}.cartItem{border-bottom:1px solid var(--line);padding:10px 0}.cartItem b{display:block}.cartItem span{color:var(--muted);font-size:14px}.cartTotal{font-size:25px;font-weight:900;text-align:right;margin:15px 0;color:var(--red)}.remove{background:#eee;color:#333;border:none;border-radius:8px;padding:5px 8px;margin-top:6px;cursor:pointer}.cartBtn{position:fixed;right:18px;bottom:18px;background:var(--brown);color:#fff;border-radius:999px;padding:15px 20px;font-weight:900;z-index:90;box-shadow:0 12px 28px rgba(0,0,0,.25);cursor:pointer}
 
-    .whatsappFixed{position:fixed;right:18px;bottom:18px;z-index:90;background:#25D366;color:#fff;border-radius:999px;padding:15px 20px;font-weight:900;box-shadow:0 10px 25px rgba(0,0,0,.25)}
-    footer{background:var(--brown);color:#fff;margin-top:40px;padding:34px 20px;text-align:center}footer p{color:#ead8c4;margin-top:6px}
-
-    @media(max-width:980px){
-      .heroInner,.builderTop,.about{grid-template-columns:1fr}.hero h1{font-size:45px}.heroPhoto{min-height:430px}.cakeStrip{grid-template-columns:repeat(3,1fr)}.featureGrid,.deliveryGrid{grid-template-columns:1fr}.navlinks{display:none}.trust{grid-template-columns:repeat(2,1fr)}
-    }
-    @media(max-width:560px){
-      .logo{font-size:34px}.heroInner{padding-top:35px}.hero h1{font-size:37px}.script{font-size:27px}.cakeStrip{grid-template-columns:1fr 1fr}.formGrid,.steps{grid-template-columns:1fr}.whatsappFixed{left:14px;right:14px;text-align:center}.heroPhoto{min-height:360px}
-    }
+    footer{background:var(--brown);color:#fff;text-align:center;padding:34px 18px;margin-top:40px}footer p{color:#ead6bf;margin-top:6px}.legal{font-size:12px;opacity:.85;margin-top:12px}
+    @media(max-width:980px){.grid,.delivery,.about,.builderGrid{grid-template-columns:1fr}.productGrid{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:43px}.heroInner{padding:72px 18px}.navlinks{display:none}.trust{grid-template-columns:repeat(2,1fr)}.builderPhoto{min-height:360px}}
+    @media(max-width:560px){.logo{font-size:32px}.hero h1{font-size:36px}.script{font-size:27px}.productGrid{grid-template-columns:1fr}.form,.steps{grid-template-columns:1fr}.cartBtn{left:14px;right:14px;text-align:center}.cartPanel{left:12px;right:12px;width:auto}.head h2{font-size:31px}.heroInner{padding:58px 18px}}
   </style>
 </head>
 <body>
-  <div class="topbar">🍨 Sanremo Gelato – Eistorten, Familienbecher & Lieferung in Bad Berleburg</div>
+  <div class="topbar">🍨 Sanremo Gelato – Eistorten, Becher & Lieferung in Bad Berleburg</div>
   <header>
     <div class="nav">
       <a class="logo" href="#top">San Remo<small>Eiscafé & Gelato</small></a>
       <nav class="navlinks">
-        <a class="active" href="#top">Startseite</a>
-        <a href="#eistorten">Eistorten</a>
-        <a href="#becher">Gelato & Becher</a>
-        <a href="#lieferung">Lieferung</a>
-        <a href="#kontakt">Kontakt</a>
+        <a href="#torten">Eistorten</a><a href="#familien">Familienbecher</a><a href="#becher">Eisbecher</a><a href="#lieferung">Lieferung</a>
       </nav>
-      <a class="btn" href="https://wa.me/4917672809926?text=Hallo%20Sanremo%2C%20ich%20m%C3%B6chte%20gerne%20bestellen." target="_blank">📲 Jetzt bestellen</a>
+      <button class="btn dark" onclick="toggleCart()">🛒 Warenkorb <span id="cartCount">0</span></button>
     </div>
   </header>
 
   <main id="top">
     <div class="hero">
       <div class="heroInner">
-        <div>
-          <div class="kicker">🇮🇹 Handgemacht in Bad Berleburg</div>
-          <h1>Handgemachte Eistorten & Gelato</h1>
-          <div class="script">mit Liebe gemacht</div>
-          <p>Feinste Eistorten nach Wunsch, cremige Familienbecher und Gelateria-Klassiker. Einfach online auswählen, Datum setzen und per WhatsApp bestellen.</p>
-          <div class="heroBtns">
-            <a class="btn green" href="https://wa.me/4917672809926?text=Hallo%20Sanremo%2C%20ich%20m%C3%B6chte%20gerne%20eine%20Eistorte%20bestellen." target="_blank">📲 Per WhatsApp bestellen</a>
-            <a class="btn outline" href="#torten-konfigurator">Eistorte konfigurieren ›</a>
-          </div>
-          <div class="trust">
-            <div class="trustItem"><div class="trustIcon">🌿</div>Beste Zutaten</div>
-            <div class="trustItem"><div class="trustIcon">🍦</div>Frisch & cremig</div>
-            <div class="trustItem"><div class="trustIcon">🤎</div>Mit Liebe gemacht</div>
-            <div class="trustItem"><div class="trustIcon">🚚</div>Lieferung möglich</div>
-          </div>
-        </div>
-        <div class="heroPhoto">
-          <div class="priceBubble"><span>Familienbecher</span><b>750 g</b><span>auch zum Mitnehmen</span></div>
-        </div>
+        <h1>Handgemachte Eistorten & Gelato</h1>
+        <div class="script">mit Liebe gemacht</div>
+        <p>Wähle Eistorte, Familienbecher oder Gelateria-Klassiker. Bestellung im Warenkorb sammeln und per WhatsApp senden. Zahlung bei Lieferung oder Abholung.</p>
+        <div class="heroBtns"><a class="btn green" href="#torten">Jetzt auswählen</a><button class="btn light" onclick="toggleCart()">Warenkorb öffnen</button></div>
+        <div class="trust"><div class="trustItem"><span>🌿</span>Beste Zutaten</div><div class="trustItem"><span>🍦</span>Frisch & cremig</div><div class="trustItem"><span>🤎</span>Handgemacht</div><div class="trustItem"><span>🚚</span>Lieferung möglich</div></div>
       </div>
     </div>
 
-    <section id="eistorten">
-      <div class="sectionHead">
-        <h2>Unsere Eistorten – für jeden Anlass</h2>
-        <p>Geburtstag, Kommunion, Konfirmation, Familie oder Firmenfeier.</p>
-      </div>
-      <div class="cakeStrip">
-        <div class="miniCard"><div class="miniImg" style="background-image:url('27921.jpg')"></div><p>Fruchtig & frisch</p></div>
-        <div class="miniCard"><div class="miniImg" style="background-image:url('27925.jpg')"></div><p>Schokoladenträume</p></div>
-        <div class="miniCard"><div class="miniImg" style="background-image:url('27923.jpg')"></div><p>Schokoladenliebhaber</p></div>
-        <div class="miniCard"><div class="miniImg" style="background-image:url('27907.jpg')"></div><p>Geburtstag</p></div>
-        <div class="miniCard"><div class="miniImg" style="background-image:url('27905.jpg')"></div><p>Kommunion</p></div>
-        <div class="miniCard"><div class="miniImg" style="background-image:url('27901.jpg')"></div><p>Individuelle Wünsche</p></div>
-      </div>
-    </section>
+    <section id="torten"><div class="head"><h2>Eistorten nach Wunsch</h2><p>Preis inklusive Dekoration. Sonderwünsche werden per WhatsApp bestätigt.</p></div><div class="grid">
+      <div class="card"><div class="img" style="background-image:url('img/27935.png')"></div><div class="body"><h3>Eistorte 18 cm</h3><p>ca. 1,3 kg Gelato + Dekoration.</p><div class="price">28,00 €</div><button class="btn" onclick="addCart('Eistorte 18 cm',28,1,'ca. 1,3 kg inkl. Dekoration')">In den Warenkorb</button></div></div>
+      <div class="card"><div class="img" style="background-image:url('img/27935.png')"></div><div class="body"><h3>Eistorte 24 cm</h3><p>Große Eistorte inklusive Dekoration.</p><div class="price">42,90 €</div><button class="btn" onclick="addCart('Eistorte 24 cm',42.90,1,'inkl. Dekoration')">In den Warenkorb</button></div></div>
+      <div class="card"><div class="img" style="background-image:url('img/27915.jpg')"></div><div class="body"><h3>Wunschtorte</h3><p>Sorten, Text, Extras, Datum und Uhrzeit auswählen.</p><div class="price">ab 28,00 €</div><a class="btn light" href="#konfigurator">Konfigurieren</a></div></div>
+    </div></section>
 
-    <section id="becher">
-      <div class="sectionHead">
-        <h2>Gelato, Becher & Boxen</h2>
-        <p>Für Zuhause, Wochenende, Gäste oder als Geschenk.</p>
-      </div>
-      <div class="featureGrid">
-        <div class="feature">
-          <div class="featureImg" style="background-image:url('27929.jpg')"></div>
-          <div class="featureBody"><h3>Familienbecher</h3><p>Viele Sorten im 750 g Becher für die ganze Familie.</p><div class="list"><div>Vanille, Schokolade, Cookies</div><div>Amarena, Stracciatella, Toffifee</div><div>Auch als Wochenend-Box</div></div><a href="#" class="btn">Sorten ansehen</a></div>
-        </div>
-        <div class="feature">
-          <div class="featureImg" style="background-image:url('27913.jpg')"></div>
-          <div class="featureBody"><h3>Gelateria Klassiker</h3><p>Spaghetti Eis, Cookies, Kinder, Amarena und weitere Klassiker.</p><div class="list"><div>Frisch vorbereitet</div><div>Perfekt zum Abholen</div><div>Auch für Lieferung</div></div><a href="#" class="btn">Becher wählen</a></div>
-        </div>
-        <div class="feature">
-          <div class="featureImg" style="background-image:url('27911.jpg')"></div>
-          <div class="featureBody"><h3>Boxen & Sets</h3><p>Stelle dir eine Eisbox zusammen – ideal für Familie, Besuch oder Firmenpause.</p><div class="list"><div>6er / 12er / Familienbox</div><div>Sorten frei wählbar</div><div>Termin auswählen</div></div><a href="#" class="btn">Box zusammenstellen</a></div>
-        </div>
-      </div>
-    </section>
+    <section id="konfigurator"><div class="head"><h2>Eistorte konfigurieren</h2><p>Alle Angaben landen sauber im WhatsApp-Auftrag.</p></div><div class="builder"><div class="builderGrid"><div class="builderPhoto"></div><div><div class="steps"><div class="step"><b>1</b>Größe wählen</div><div class="step"><b>2</b>Sorten wählen</div><div class="step"><b>3</b>Text & Extras</div><div class="step"><b>4</b>Datum & Uhrzeit</div></div><form class="form" onsubmit="addCakeConfig(event)">
+      <div><label>Größe</label><select id="cakeSize"><option value="18 cm|28">18 cm – 28,00 €</option><option value="24 cm|42.90">24 cm – 42,90 €</option></select></div><div><label>Abholung / Lieferung</label><select id="cakeDelivery"><option>Abholung</option><option>Lieferung</option></select></div>
+      <div><label>1. Eissorte</label><select id="cakeFlavor1"><option>Vanille</option><option>Schokolade</option><option>Stracciatella</option><option>Amarena</option><option>Cookies</option><option>Spaghetti</option><option>Kinder</option><option>Toffifee</option></select></div><div><label>2. Eissorte</label><select id="cakeFlavor2"><option>Schokolade</option><option>Vanille</option><option>Stracciatella</option><option>Amarena</option><option>Cookies</option><option>Spaghetti</option><option>Kinder</option><option>Toffifee</option></select></div>
+      <div><label>Datum</label><input id="cakeDate" type="date"></div><div><label>Uhrzeit</label><input id="cakeTime" type="time"></div><div class="full"><label>Text auf der Torte</label><input id="cakeText" placeholder="z.B. Alles Gute Luca"></div><div class="full"><label>Extras / Wunsch</label><textarea id="cakeNotes" placeholder="z.B. Kinderschokolade, Erdbeeren, Oreo..."></textarea></div><div class="full"><button class="btn" type="submit">🎂 Torte in den Warenkorb</button></div>
+    </form></div></div></div></section>
 
-    <section id="torten-konfigurator">
-      <div class="sectionHead">
-        <h2>Eistorte selbst gestalten</h2>
-        <p>Der Kunde wählt aus – du bestätigst Preis und Verfügbarkeit per WhatsApp.</p>
-      </div>
-      <div class="builder">
-        <div class="builderTop">
-          <div class="builderPhoto"></div>
-          <div>
-            <div class="steps">
-              <div class="step"><b>1</b>Größe wählen</div>
-              <div class="step"><b>2</b>Sorten wählen</div>
-              <div class="step"><b>3</b>Text & Extras</div>
-              <div class="step"><b>4</b>Datum & Uhrzeit</div>
-            </div>
-            <form class="formGrid" onsubmit="sendCakeOrder(event)">
-              <div><label>Größe</label><select id="cakeSize"><option>Klein</option><option>Mittel</option><option>Groß</option></select></div>
-              <div><label>Abholung / Lieferung</label><select id="cakeDelivery"><option>Abholung</option><option>Lieferung</option></select></div>
-              <div><label>1. Eissorte</label><select id="cakeFlavor1"><option>Vanille</option><option>Schokolade</option><option>Stracciatella</option><option>Amarena</option><option>Cookies</option><option>Spaghetti</option><option>Kinder</option><option>Toffifee</option></select></div>
-              <div><label>2. Eissorte</label><select id="cakeFlavor2"><option>Schokolade</option><option>Vanille</option><option>Stracciatella</option><option>Amarena</option><option>Cookies</option><option>Spaghetti</option><option>Kinder</option><option>Toffifee</option></select></div>
-              <div><label>Datum</label><input id="cakeDate" type="date"></div>
-              <div><label>Uhrzeit</label><input id="cakeTime" type="time"></div>
-              <div class="full"><label>Text auf der Torte</label><input id="cakeText" placeholder="z. B. Alles Gute Luca"></div>
-              <div class="full"><label>Extras / Wunsch</label><textarea id="cakeNotes" placeholder="z. B. Kinderschokolade, Erdbeeren, Pistazie, Oreo..."></textarea></div>
-              <div class="full"><button class="btn green" type="submit">📲 Bestellung per WhatsApp senden</button></div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </section>
+    <section id="familien"><div class="head"><h2>Familienbecher & Angebote</h2><p>Für Zuhause, Wochenende und Familie.</p></div><div class="grid">
+      <div class="card"><div class="img" style="background-image:url('img/27930.png')"></div><div class="body"><h3>Familienbecher 750 g</h3><p>Sorte im Warenkorb/WhatsApp angeben.</p><div class="price">8,90 €</div><button class="btn" onclick="addCart('Familienbecher 750 g',8.90,1,'Sorte bitte angeben')">In den Warenkorb</button></div></div>
+      <div class="card"><div class="img" style="background-image:url('img/27930.png')"></div><div class="body"><h3>Gelato Becher 270 g</h3><p>Kleiner Becher, verschiedene Sorten.</p><div class="price">3,60 €</div><button class="btn" onclick="addCart('Gelato Becher 270 g',3.60,1,'Sorte bitte angeben')">In den Warenkorb</button></div></div>
+      <div class="card"><div class="img" style="background-image:url('img/27930.png')"></div><div class="body"><h3>10er Box 270 g</h3><p>10 Becher mit verschiedenen Sorten.</p><div class="price">29,90 €</div><button class="btn" onclick="addCart('10er Box 270 g',29.90,1,'10 Becher, gemischt oder Wunschsorten')">In den Warenkorb</button></div></div>
+    </div></section>
 
-    <section>
-      <div class="about">
-        <div class="aboutImg"></div>
-        <div>
-          <h2>Über Sanremo</h2>
-          <p>Seit vielen Jahren stehen wir für handgemachte Eisspezialitäten und Eistorten in bester Qualität.</p>
-          <p>Jede Torte wird individuell vorbereitet – mit cremigem Eis, frischen Früchten, Schokolade und viel Liebe zum Detail.</p>
-          <a class="btn" href="https://wa.me/4917672809926?text=Hallo%20Sanremo%2C%20ich%20habe%20eine%20Frage%20zu%20Eistorten." target="_blank">Mehr erfahren</a>
-        </div>
-      </div>
-    </section>
+    <section id="becher"><div class="head"><h2>Gelateria Eisbecher</h2><p>Direkt wie in der Gelateria – zum Abholen oder Liefern.</p></div><div class="productGrid" id="becherGrid"></div></section>
 
-    <section id="lieferung">
-      <div class="sectionHead"><h2>Lieferung & Zahlung</h2><p>Klare Regeln, damit es für Kunden einfach und für dich rentabel bleibt.</p></div>
-      <div class="deliveryGrid">
-        <div class="deliveryBox"><div class="icon">📍</div><h3>Bad Berleburg</h3><p>Mindestbestellung ab <strong>20 €</strong>.</p></div>
-        <div class="deliveryBox"><div class="icon">🚚</div><h3>Umgebung</h3><p>Außerhalb nach Absprache, empfohlen ab <strong>35 €</strong>.</p></div>
-        <div class="deliveryBox"><div class="icon">💳</div><h3>Zahlung</h3><p>Bar, EC-Karte oder PayPal. Zahlung bei Lieferung möglich.</p></div>
-      </div>
-      <div class="warning">Hinweis: Eistorten bitte rechtzeitig vorbestellen. Bei personalisierten Torten bestätigen wir Preis, Termin und Verfügbarkeit immer per WhatsApp.</div>
-    </section>
+    <section><div class="about"><div class="aboutPhoto"></div><div><h2>Über Sanremo</h2><p>Handgemachte Eisspezialitäten und Eistorten aus Bad Berleburg – mit Erfahrung, Liebe zum Detail und hochwertigen Zutaten.</p><p>Jede Bestellung wird frisch vorbereitet. Sonderwünsche bestätigen wir persönlich per WhatsApp.</p><a class="btn green" href="https://wa.me/4917672809926?text=Hallo%20Sanremo%2C%20ich%20habe%20eine%20Frage%20zu%20Eistorten." target="_blank">📲 Frage stellen</a></div></div></section>
+
+    <section id="lieferung"><div class="head"><h2>Lieferung & Zahlung</h2><p>Der Kunde bestellt, Sanremo bestätigt per WhatsApp. Zahlung erst bei Lieferung oder Abholung.</p></div><div class="delivery"><div class="deliveryBox"><div class="icon">📍</div><h3>Bad Berleburg</h3><p>Mindestbestellung ab <strong>20 €</strong>.</p></div><div class="deliveryBox"><div class="icon">🚚</div><h3>Umgebung</h3><p>Nach Absprache, empfohlen ab <strong>35 €</strong>.</p></div><div class="deliveryBox"><div class="icon">💳</div><h3>Zahlung</h3><p>Bar, EC-Karte oder PayPal bei Lieferung/Abholung.</p></div></div><div class="notice">Wichtig: Die Bestellung ist erst bestätigt, wenn Sanremo per WhatsApp antwortet.</div></section>
   </main>
 
-  <a class="whatsappFixed" href="https://wa.me/4917672809926?text=Hallo%20Sanremo%2C%20ich%20m%C3%B6chte%20gerne%20bestellen." target="_blank">📲 WhatsApp Bestellung</a>
+  <div class="cartBtn" onclick="toggleCart()">🛒 Warenkorb: <span id="cartTotalSmall">0,00 €</span></div>
+  <div class="cartPanel" id="cartPanel"><h3>Warenkorb</h3><div id="cartItems"></div><div class="cartTotal" id="cartTotal">0,00 €</div><div class="form"><div><label>Name</label><input id="custName" placeholder="Ihr Name"></div><div><label>Telefon</label><input id="custPhone" placeholder="Telefonnummer"></div><div><label>Datum</label><input id="orderDate" type="date"></div><div><label>Uhrzeit</label><input id="orderTime" type="time"></div><div class="full"><label>Lieferung oder Abholung</label><select id="orderType"><option>Abholung</option><option>Lieferung</option></select></div><div class="full"><label>Adresse / Sorten / Notizen</label><textarea id="orderNotes" placeholder="Adresse bei Lieferung, gewünschte Sorten, Hinweise..."></textarea></div></div><button class="btn green" style="width:100%;margin-top:12px" onclick="sendWhatsAppOrder()">📲 Bestellung per WhatsApp senden</button><button class="btn light" style="width:100%;margin-top:8px" onclick="clearCart()">Warenkorb leeren</button></div>
 
-  <footer id="kontakt">
-    <h3>Eiscafé Sanremo – Bad Berleburg</h3>
-    <p>Handgemachtes Gelato • Eistorten • Familienbecher • Lieferung & Abholung</p>
-    <p>Öffnungszeiten: täglich 12:00 – 20:30 Uhr • Freitag Ruhetag</p>
-  </footer>
+  <footer><h3>Eiscafé Sanremo – Bad Berleburg</h3><p>Handgemachtes Gelato • Eistorten • Familienbecher • Lieferung & Abholung</p><p>Täglich 12:00 – 20:30 Uhr • Freitag Ruhetag</p><div class="legal">Impressum und Datenschutz müssen vor Veröffentlichung ergänzt werden.</div></footer>
 
   <script>
-    const phone = '4917672809926';
-    function sendCakeOrder(event){
-      event.preventDefault();
-      const size = document.getElementById('cakeSize').value;
-      const delivery = document.getElementById('cakeDelivery').value;
-      const flavor1 = document.getElementById('cakeFlavor1').value;
-      const flavor2 = document.getElementById('cakeFlavor2').value;
-      const date = document.getElementById('cakeDate').value || 'nicht ausgewählt';
-      const time = document.getElementById('cakeTime').value || 'nicht ausgewählt';
-      const text = document.getElementById('cakeText').value || 'kein Text';
-      const notes = document.getElementById('cakeNotes').value || 'keine Extras';
-      const msg = `Hallo Sanremo, ich möchte gerne eine Eistorte bestellen:%0A%0AGröße: ${size}%0ASorten: ${flavor1} / ${flavor2}%0AText: ${text}%0AExtras: ${notes}%0ADatum: ${date}%0AUhrzeit: ${time}%0AArt: ${delivery}%0A%0ABitte bestätigen Sie mir den Preis und die Verfügbarkeit.`;
-      window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
-    }
+    const phone='4917672809926';
+    let cart=[];
+    const becher=[['Spaghetti Bambini',5.90],['Spaghetti Choco',6.00],['Spaghetti Gummy Becher',6.00],['Kiwi Becher',9.90],['Fruit Becher',9.50],['Erdbeer Becher',9.50],['Amarena Becher',9.50]];
+    function money(n){return n.toFixed(2).replace('.',',')+' €'}
+    function renderBecher(){document.getElementById('becherGrid').innerHTML=becher.map(([n,p])=>`<div class="product"><h3>${n}</h3><p class="small">Frisch zubereiteter Eisbecher.</p><div class="price">${money(p)}</div><button class="btn" onclick="addCart('${n}',${p},1,'Gelateria Eisbecher')">In den Warenkorb</button></div>`).join('')}
+    function addCart(name,price,qty=1,note=''){cart.push({name,price,qty,note});renderCart();document.getElementById('cartPanel').classList.add('open')}
+    function addCakeConfig(e){e.preventDefault();let [size,price]=document.getElementById('cakeSize').value.split('|');price=parseFloat(price);let note=`Sorten: ${val('cakeFlavor1')}/${val('cakeFlavor2')}; Text: ${val('cakeText')||'kein Text'}; Extras: ${val('cakeNotes')||'keine Extras'}; Termin: ${val('cakeDate')||'kein Datum'} ${val('cakeTime')||'keine Uhrzeit'}; ${val('cakeDelivery')}`;addCart('Eistorte '+size,price,1,note)}
+    function val(id){return document.getElementById(id).value}
+    function renderCart(){let total=cart.reduce((s,i)=>s+i.price*i.qty,0);document.getElementById('cartCount').textContent=cart.length;document.getElementById('cartTotal').textContent=money(total);document.getElementById('cartTotalSmall').textContent=money(total);document.getElementById('cartItems').innerHTML=cart.length?cart.map((i,idx)=>`<div class="cartItem"><b>${i.qty}x ${i.name}</b><span>${i.note||''}</span><div>${money(i.price*i.qty)}</div><button class="remove" onclick="removeItem(${idx})">Entfernen</button></div>`).join(''):'<p>Noch keine Produkte im Warenkorb.</p>'}
+    function removeItem(i){cart.splice(i,1);renderCart()}function clearCart(){cart=[];renderCart()}function toggleCart(){document.getElementById('cartPanel').classList.toggle('open')}
+    function sendWhatsAppOrder(){if(!cart.length){alert('Warenkorb ist leer');return}let total=cart.reduce((s,i)=>s+i.price*i.qty,0);let items=cart.map(i=>`- ${i.qty}x ${i.name} (${money(i.price*i.qty)}) ${i.note?'=> '+i.note:''}`).join('%0A');let msg=`Hallo Sanremo, ich möchte gerne bestellen:%0A%0A${items}%0A%0AGesamt: ${money(total)}%0A%0AName: ${val('custName')||''}%0ATelefon: ${val('custPhone')||''}%0ADatum: ${val('orderDate')||''}%0AUhrzeit: ${val('orderTime')||''}%0AArt: ${val('orderType')}%0ANotizen/Adresse/Sorten: ${val('orderNotes')||''}%0A%0AZahlung bei Lieferung/Abholung. Bitte bestätigen Sie die Bestellung.`;window.open(`https://wa.me/${phone}?text=${msg}`,'_blank')}
+    renderBecher();renderCart();
   </script>
 </body>
 </html>
